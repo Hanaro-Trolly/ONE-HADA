@@ -2,15 +2,19 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
+const scDreamFont = localFont({
+  src: [
+    { path: './fonts/S-Core_Dream/SCDream1.otf', weight: '100' },
+    { path: './fonts/S-Core_Dream/SCDream2.otf', weight: '200' },
+    { path: './fonts/S-Core_Dream/SCDream3.otf', weight: '300' },
+    { path: './fonts/S-Core_Dream/SCDream4.otf', weight: '400' },
+    { path: './fonts/S-Core_Dream/SCDream5.otf', weight: '500' },
+    { path: './fonts/S-Core_Dream/SCDream6.otf', weight: '600' },
+    { path: './fonts/S-Core_Dream/SCDream7.otf', weight: '700' },
+    { path: './fonts/S-Core_Dream/SCDream8.otf', weight: '800' },
+    { path: './fonts/S-Core_Dream/SCDream9.otf', weight: '900' },
+  ],
+  variable: '--font-dream',
 });
 
 export const metadata: Metadata = {
@@ -26,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${scDreamFont.variable} ${scDreamFont.variable} antialiased`}
       >
         {children}
       </body>
