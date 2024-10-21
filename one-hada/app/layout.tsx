@@ -19,7 +19,16 @@ const scDreamFont = localFont({
 });
 
 export const metadata = {
-  title: 'ONE-HADA',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'ONE-HADA',
+  },
+};
+
+export const viewport = {
+  themeColor: '#FFFFFF',
 };
 
 export default function RootLayout({
