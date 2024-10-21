@@ -1,5 +1,6 @@
 import Header from '@/components/layout/Header';
 import { SessionProvider } from 'next-auth/react';
+import localFont from 'next/font/local';
 import './globals.css';
 
 const scDreamFont = localFont({
