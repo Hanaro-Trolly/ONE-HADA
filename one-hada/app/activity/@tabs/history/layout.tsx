@@ -3,5 +3,5 @@ export default function HistoryLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>History Layout {children}</>;
+  return <>{children}</>;
 }

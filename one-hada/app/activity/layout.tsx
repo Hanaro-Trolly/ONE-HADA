@@ -73,7 +73,6 @@ export default function ActivityLayout({
       </ul>
       <div className='h-10'>{tabs}</div>
       {children}
-      {position + '입니다'}
     </div>
   );
 }
