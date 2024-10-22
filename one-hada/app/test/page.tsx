@@ -1,4 +1,5 @@
 import HistoryCard from '@/components/molecules/HistoryCard';
+import ShortCutCard from '@/components/molecules/ShortCutCard';
 
 export default function ComponentTest() {
   return (
@@ -17,6 +18,18 @@ export default function ComponentTest() {
           date='2024.10.22'
           isConsulting={false}
         ></HistoryCard>
+        <ShortCutCard
+          id='1'
+          name='바로가기카드'
+          isEdit={false}
+          isFavorite={true}
+        ></ShortCutCard>
+        <ShortCutCard
+          id='2'
+          name='바로가기 편집'
+          isEdit={true}
+          isFavorite={true}
+        ></ShortCutCard>
       </div>
     </>
   );
