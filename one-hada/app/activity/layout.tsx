@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 export default function ActivityLayout({
@@ -9,7 +11,6 @@ export default function ActivityLayout({
 }) {
   return (
     <div>
-      <div>여기여기</div>
       <ul className='flex justify-between'>
         <li>
           <Link href='/activity/history'>활동내역</Link>
