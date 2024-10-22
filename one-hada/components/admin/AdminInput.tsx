@@ -9,7 +9,12 @@ interface AdminInputProps {
   inputType: 'text' | 'textarea';
 }
 
-const AdminInput = ({ label, value, onChange, inputType }: AdminInputProps) => {
+export default function AdminInput({
+  label,
+  value,
+  onChange,
+  inputType,
+}: AdminInputProps) {
   return (
     <div>
       <label>{label}</label>
@@ -29,6 +34,4 @@ const AdminInput = ({ label, value, onChange, inputType }: AdminInputProps) => {
       )}
     </div>
   );
-};
-
-export default AdminInput;
+}

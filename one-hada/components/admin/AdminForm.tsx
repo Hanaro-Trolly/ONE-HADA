@@ -4,7 +4,7 @@ import { useState } from 'react';
 import AdminInput from './AdminInput';
 import AdminSubmitButton from './AdminSubmitButton';
 
-const AdminForm = () => {
+export default function AdminForm() {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
 
@@ -37,6 +37,4 @@ const AdminForm = () => {
       <AdminSubmitButton onClick={handleSubmit} />
     </div>
   );
-};
-
-export default AdminForm;
+}
