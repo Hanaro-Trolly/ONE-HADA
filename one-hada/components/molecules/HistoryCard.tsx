@@ -1,4 +1,5 @@
 import { ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '../ui/button';
 
 type HistoryCardProps = {
@@ -30,12 +31,14 @@ export default function HistoryCard({
           <label className='font-light text-gray-500 text-sm'>{date}</label>
         </div>
         <div>
-          <Button
-            id={id}
-            className='rounded-full bg-[#61B89F] hover:bg-[#377b68]'
-          >
-            등록 <ChevronRight />
-          </Button>
+          <Link href={`/activity/history/create`}>
+            <Button
+              id={id}
+              className='rounded-full bg-[#61B89F] hover:bg-[#377b68]'
+            >
+              등록 <ChevronRight />
+            </Button>
+          </Link>
         </div>
       </div>
     </>
