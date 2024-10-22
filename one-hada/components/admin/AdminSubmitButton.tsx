@@ -1,7 +1,9 @@
 interface AdminSubmitButtonProps {
-  onclick: () => void;
+  onClick: () => void;
 }
 
-const AdminSubmitButton = ({ onclick }: SubmitButtonProps) => {
-  return;
+const AdminSubmitButton = ({ onClick }: AdminSubmitButtonProps) => {
+  return <button onClick={onClick}>등록</button>;
 };
+
+export default AdminSubmitButton;
