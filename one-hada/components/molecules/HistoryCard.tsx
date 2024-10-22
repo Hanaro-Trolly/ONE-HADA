@@ -1,9 +1,15 @@
 import { ChevronRight } from 'lucide-react';
 import { Button } from '../ui/button';
 
-type HistoryCardProps = { name: string; date: string; isConsulting: boolean };
+type HistoryCardProps = {
+  key: string;
+  name: string;
+  date: string;
+  isConsulting: boolean;
+};
 
 export default function HistoryCard({
+  key,
   name,
   date,
   isConsulting = false,
@@ -14,7 +20,10 @@ export default function HistoryCard({
 
   return (
     <>
-      <div className='bg-white shadow-md rounded-lg border-l-[10px] border-[#AEDBCE] m-4 mx-6 p-4 px-5 h-20 flex justify-between'>
+      <div
+        key={key}
+        className='bg-white shadow-md rounded-lg border-l-[10px] border-[#AEDBCE] m-4 mx-6 p-4 px-5 h-20 flex justify-between'
+      >
         <div className='flex flex-col gap-1'>
           <h1 className='font-medium text-lg'>{name}</h1>
           <label className='font-light text-gray-500 text-sm'>{date}</label>
