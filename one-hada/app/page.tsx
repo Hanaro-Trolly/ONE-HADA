@@ -5,7 +5,7 @@ export default function Home() {
     <div>
       <h1>메인 페이지</h1>
       <Link href='/activity'>내 활동보기</Link>
-      <Link href='/inquiry'>조회하기</Link>
+      <Link href='/check'>조회하기</Link>
       <Link href='/transfer'>이체하기</Link>
     </div>
   );
