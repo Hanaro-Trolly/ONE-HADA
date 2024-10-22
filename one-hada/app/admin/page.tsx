@@ -1,3 +1,9 @@
+import AdminForm from '@/components/admin/AdminForm';
+
 export default function Admin() {
-  return <div>Admin</div>;
+  return (
+    <div>
+      <AdminForm />
+    </div>
+  );
 }
