@@ -2,18 +2,19 @@ import { ChevronRight } from 'lucide-react';
 import { Button } from '../ui/button';
 
 type HistoryCardProps = {
-  key: string;
+  id: string;
   name: string;
   date: string;
   isConsulting: boolean;
 };
 
 export default function HistoryCard({
-  key,
+  id,
   name,
   date,
   isConsulting = false,
 }: HistoryCardProps) {
+  console.log(`🚀 ~ key:`, id);
   console.log('🚀 ~ isConsulting:', isConsulting);
   console.log('🚀 ~ date:', date);
   console.log('🚀 ~ name:', name);
@@ -21,7 +22,7 @@ export default function HistoryCard({
   return (
     <>
       <div
-        key={key}
+        key={id}
         className='bg-white shadow-md rounded-lg border-l-[10px] border-[#AEDBCE] m-4 mx-6 p-4 px-5 h-20 flex justify-between'
       >
         <div className='flex flex-col gap-1'>
@@ -29,7 +30,10 @@ export default function HistoryCard({
           <label className='font-light text-gray-500 text-sm'>{date}</label>
         </div>
         <div>
-          <Button className='rounded-full bg-[#61B89F] hover:bg-[#377b68]'>
+          <Button
+            id={id}
+            className='rounded-full bg-[#61B89F] hover:bg-[#377b68]'
+          >
             등록 <ChevronRight />
           </Button>
         </div>
