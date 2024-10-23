@@ -11,14 +11,14 @@ const TempTable: Temp[] = [
   {
     historyId: 1,
     memberId: 2000,
-    title: '메가커피 결제내역 확인',
+    title: '메가커피 결제내역 조회',
     date: '2024.10.22',
     isConsulting: false,
   },
   {
     historyId: 2,
     memberId: 2000,
-    title: '오늘 입금내역 확인',
+    title: '오늘 입금내역 조회',
     date: '2024.10.22',
     isConsulting: false,
   },
@@ -32,7 +32,7 @@ const TempTable: Temp[] = [
   {
     historyId: 4,
     memberId: 2000,
-    title: '한달간 출금 내역 확인',
+    title: '한달간 출금 내역 조회',
     date: '2024.10.18',
     isConsulting: false,
   },
