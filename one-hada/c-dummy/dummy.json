@@ -6,7 +6,8 @@
       "account_number": 1002153876539,
       "balance": 1848890,
       "account_type": "입출금",
-      "bank": "하나은행"
+      "bank": "하나은행",
+      "account_name": "하나은행 주거래 통장"
     },
     {
       "account_id": "A002",
@@ -14,7 +15,8 @@
       "account_number": 10021537524301,
       "balance": 2358890,
       "account_type": "저축",
-      "bank": "하나은행"
+      "bank": "하나은행",
+      "account_name": "달달 하나 통장"
     }
   ]
 }
