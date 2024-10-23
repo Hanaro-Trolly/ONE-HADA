@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import animate from 'tailwindcss-animate';
 
 const config: Config = {
   darkMode: ['class'],
@@ -8,9 +9,19 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      mobile: '360px',
+      tablet: '768px',
+      desktop: '1024px',
+    },
     extend: {
+      maxWidth: {
+        mobile: '480px',
+        tablet: '768px',
+      },
       colors: {
-        background: 'rgb(var(--background) / <alpha-value>)',
+        background: 'hsl(var(--background))',
+        'main-background': 'rgb(var(--main-background) / <alpha-value>)',
         foreground: 'hsl(var(--foreground))',
         'main-green': 'rgb(var(--main-green) / <alpha-value>)',
         'sub-green': 'rgb(var(--sub-green) / <alpha-value>)',
@@ -61,6 +72,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [animate],
 };
 export default config;
