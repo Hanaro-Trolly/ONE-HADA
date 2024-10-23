@@ -1,3 +1,3 @@
 export default function DefaultActivity() {
-  return <></>;
+  return <>기본페이지</>;
 }
