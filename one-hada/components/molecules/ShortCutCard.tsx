@@ -18,7 +18,7 @@ export default function ShortCutCard({
     <>
       <div
         key={id}
-        className='bg-white shadow-md rounded-lg border-l-[10px] border-[#AEDBCE] m-4 mx-6 p-4 px-5 h-15 flex justify-between'
+        className='bg-white shadow-md rounded-lg border-l-[10px] border-[#AEDBCE] m-4 mx-6 p-4 px-5 h-16 flex justify-between'
       >
         <div className='flex items-center gap-1'>
           <label className='font-medium text-lg'>{name}</label>

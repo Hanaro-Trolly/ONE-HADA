@@ -25,7 +25,7 @@ const TempConsultation: Temp[] = [
 export default function ConsultationsPage() {
   return (
     <>
-      <div className='h-10 text-left flex items-center w-full pl-4'>
+      <div className='h-10 flex items-center w-full pl-4'>
         총<div className='font-semibold text-lg'>{TempConsultation.length}</div>
         건
       </div>
