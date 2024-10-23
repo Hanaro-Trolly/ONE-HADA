@@ -26,12 +26,12 @@ export default function AccountCard({
   return (
     <div
       key={id}
-      className="bg-white shadow-md rounded-lg m-4 p-4 flex items-start justify-between flex-col"
+      className="bg-white w-full shadow-md rounded-lg m-4 p-4 flex items-start justify-between flex-col"
     >
       <div className="flex items-center gap-4">
         {/* Bank icon */}
         <h1>아이콘</h1>
-        <div className="flex flex-col">
+        <div className="flex flex-col text-left">
           <h1 className="font-medium text-lg">{name}</h1>
           <label className="font-light text-gray-500 text-sm">
             {`${accountType} • ${accountNumber}`}
