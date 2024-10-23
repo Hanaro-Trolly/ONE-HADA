@@ -1,4 +1,5 @@
 import { StarFilledIcon } from '@radix-ui/react-icons';
+import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 
 type ShortCutCardProps = {
@@ -34,11 +35,9 @@ export default function ShortCutCard({
               variant='ghost'
               className='bg-opacity-0 hover:bg-white [&_svg]:size-6'
             >
-              {isFavorite ? (
-                <StarFilledIcon className='text-yellow-300' />
-              ) : (
-                <StarFilledIcon className='text-gray-400' />
-              )}
+              <StarFilledIcon
+                className={cn(isFavorite ? 'text-yellow-300' : 'text-gray-400')}
+              />
             </Button>
           </div>
         )}
