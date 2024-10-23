@@ -10,8 +10,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: 'hsl(var(--background))',
+        background: 'rgb(var(--background) / <alpha-value>)',
         foreground: 'hsl(var(--foreground))',
+        'main-green': 'rgb(var(--main-green) / <alpha-value>)',
+        'sub-green': 'rgb(var(--sub-green) / <alpha-value>)',
+        register: 'rgb(var(--register) / <alpha-value>)',
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
