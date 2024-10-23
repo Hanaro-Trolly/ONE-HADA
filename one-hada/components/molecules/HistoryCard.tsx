@@ -31,7 +31,7 @@ export default function HistoryCard({
           <label className='font-light text-gray-500 text-sm'>{date}</label>
         </div>
         <div>
-          <Link href={`/activity/history/create`}>
+          <Link href={`/activity/history/${id}`}>
             <Button
               id={id}
               className='rounded-full bg-[#61B89F] hover:bg-[#377b68]'

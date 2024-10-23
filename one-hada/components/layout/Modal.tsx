@@ -43,7 +43,7 @@ export default function Modal({ children }: { children: React.ReactNode }) {
         ref={wrapper}
         className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10/12 p-6'
       >
-        <div className='bg-white p-5 rounded-md'>{children}</div>
+        <div className='bg-white p-5 rounded-2xl'>{children}</div>
       </div>
     </div>
   );
