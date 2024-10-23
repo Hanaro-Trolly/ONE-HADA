@@ -39,6 +39,10 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --main-background: 248 248 248; /* F8F8F8 */
+    --main-green: 97 184 159; /* 61B89F */
+    --sub-green: 220 239 234; /* DCEFEA */
+    --register: 82 120 135; /* 527887 */
   }
   .dark {
     --background: 0 0% 3.9%;
