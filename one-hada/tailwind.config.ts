@@ -9,16 +9,7 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    screens: {
-      mobile: '360px',
-      tablet: '768px',
-      desktop: '1024px',
-    },
     extend: {
-      maxWidth: {
-        mobile: '480px',
-        tablet: '768px',
-      },
       colors: {
         background: 'hsl(var(--background))',
         'main-background': 'rgb(var(--main-background) / <alpha-value>)',
