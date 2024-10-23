@@ -1,4 +1,3 @@
-import { SessionProvider } from 'next-auth/react';
 import localFont from 'next/font/local';
 import './globals.css';
 
@@ -37,9 +36,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='ko'>
-      <body className={`${scDreamFont.variable} antialiased`}>
-        <SessionProvider>{children}</SessionProvider>
-      </body>
+      <body className={`${scDreamFont.variable} antialiased`}>{children}</body>
     </html>
   );
 }
