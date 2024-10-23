@@ -15,10 +15,10 @@ export default function ActivityLayout({
   const [position, setPosition] = useState(0);
   return (
     <div>
-      <ul className='flex justify-between'>
+      <ul className='flex justify-between fixed w-full'>
         <li
           className={cn(
-            'w-full',
+            'w-full bg-main-background',
             position === 0
               ? 'border-b-[3px] border-[#AEDBCE] text-[#3F8D77]'
               : 'border-b'
@@ -27,7 +27,7 @@ export default function ActivityLayout({
           <Link href='/activity/history' className='h-10'>
             <Button
               variant='ghost'
-              className='w-full rounded-none hover:bg-white hover:text-[#3F8D77]'
+              className='w-full rounded-none hover:bg-main-background hover:text-[#3F8D77]'
               onClick={() => setPosition(0)}
             >
               활동내역
@@ -36,7 +36,7 @@ export default function ActivityLayout({
         </li>
         <li
           className={cn(
-            'w-full',
+            'w-full bg-main-background',
             position === 1
               ? 'border-b-[3px] border-[#AEDBCE] text-[#3F8D77]'
               : 'border-b'
@@ -45,7 +45,7 @@ export default function ActivityLayout({
           <Link href='/activity/shortcut' className='h-10'>
             <Button
               variant='ghost'
-              className='w-full rounded-none hover:bg-white hover:text-[#3F8D77]'
+              className='w-full rounded-none hover:bg-main-background hover:text-[#3F8D77]'
               onClick={() => setPosition(1)}
             >
               바로가기
@@ -54,7 +54,7 @@ export default function ActivityLayout({
         </li>
         <li
           className={cn(
-            'w-full',
+            'w-full bg-main-background',
             position === 2
               ? 'border-b-[3px] border-[#AEDBCE] text-[#3F8D77]'
               : 'border-b'
@@ -63,7 +63,7 @@ export default function ActivityLayout({
           <Link href='/activity/consultations' className='h-10'>
             <Button
               variant='ghost'
-              className='w-full rounded-none hover:bg-white hover:text-[#3F8D77]'
+              className='w-full rounded-none hover:bg-main-background hover:text-[#3F8D77]'
               onClick={() => setPosition(2)}
             >
               상담내역
@@ -72,7 +72,7 @@ export default function ActivityLayout({
         </li>
       </ul>
       <div className='h-10'>{tabs}</div>
-      {children}
+      <div>{children}</div>
     </div>
   );
 }

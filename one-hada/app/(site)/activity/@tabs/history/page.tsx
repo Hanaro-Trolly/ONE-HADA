@@ -36,6 +36,41 @@ const TempTable: Temp[] = [
     date: '2024.10.18',
     isConsulting: false,
   },
+  {
+    historyId: 5,
+    memberId: 2000,
+    title: '한달간 출금 내역 조회',
+    date: '2024.10.18',
+    isConsulting: false,
+  },
+  {
+    historyId: 6,
+    memberId: 2000,
+    title: '한달간 출금 내역 조회',
+    date: '2024.10.18',
+    isConsulting: false,
+  },
+  {
+    historyId: 7,
+    memberId: 2000,
+    title: '한달간 출금 내역 조회',
+    date: '2024.10.18',
+    isConsulting: false,
+  },
+  {
+    historyId: 8,
+    memberId: 2000,
+    title: '한달간 출금 내역 조회',
+    date: '2024.10.18',
+    isConsulting: false,
+  },
+  {
+    historyId: 9,
+    memberId: 2000,
+    title: '한달간 출금 내역 조회',
+    date: '2024.10.18',
+    isConsulting: false,
+  },
 ];
 export default function HistoryPage() {
   return (
