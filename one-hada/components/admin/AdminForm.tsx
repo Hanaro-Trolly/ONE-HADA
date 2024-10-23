@@ -1,5 +1,6 @@
 'use client';
 
+import { useAdminSession } from '@/context/admin/SessionContext';
 import { useState } from 'react';
 import AdminInput from './AdminInput';
 import AdminSubmitButton from './AdminSubmitButton';
@@ -7,11 +8,17 @@ import AdminSubmitButton from './AdminSubmitButton';
 export default function AdminForm() {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const { session } = useAdminSession();
 
   const handleSubmit = () => {
+    const currentTime = new Date().toLocaleString();
+    const userId = session.loginUser?.id;
+
     const data = {
       title,
       content,
+      time: currentTime,
+      userId,
     };
     console.log('전송된 데이터:', data);
     alert('상담 정보가 등록되었습니다.');
