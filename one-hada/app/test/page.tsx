@@ -1,5 +1,7 @@
 import HistoryCard from '@/components/molecules/HistoryCard';
 import ShortCutCard from '@/components/molecules/ShortCutCard';
+import SmallButton from '@/components/molecules/SmallButton';
+import { Edit2Icon, RotateCcwIcon, Trash2Icon } from 'lucide-react';
 
 export default function ComponentTest() {
   return (
@@ -30,6 +32,18 @@ export default function ComponentTest() {
           isEdit={true}
           isFavorite={true}
         ></ShortCutCard>
+        <SmallButton classNames='bg-[#E44B5B] hover:bg-[#B61C2B]'>
+          <Trash2Icon />
+          삭제
+        </SmallButton>
+        <SmallButton classNames='bg-[#5e7887] hover:bg-[#3f505a]'>
+          <Edit2Icon />
+          편집
+        </SmallButton>
+        <SmallButton classNames='text-[#666666] bg-white hover:bg-gray-200'>
+          <RotateCcwIcon />
+          취소
+        </SmallButton>
       </div>
     </>
   );
