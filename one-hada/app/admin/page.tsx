@@ -3,6 +3,7 @@
 import AdminForm from '@/components/admin/AdminForm';
 import Login from '@/components/admin/Login';
 import Profile from '@/components/admin/Profile';
+import UserList from '@/components/admin/UserList';
 import { useAdminSession } from '@/context/admin/SessionContext';
 
 export default function Admin() {
@@ -14,6 +15,10 @@ export default function Admin() {
       {session.loginUser ? <Profile /> : <Login />}
       <div>
         <AdminForm />
+      </div>
+
+      <div>
+        <UserList />
       </div>
     </div>
   );
