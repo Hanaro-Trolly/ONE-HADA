@@ -1,4 +1,3 @@
-import Header from '@/components/layout/Header';
 import { SessionProvider } from 'next-auth/react';
 import localFont from 'next/font/local';
 import './globals.css';
@@ -37,14 +36,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
-      <body
-        className={`${scDreamFont.variable} ${scDreamFont.variable} antialiased`}
-      >
-        <SessionProvider>
-          <Header />
-          <main>{children}</main>
-        </SessionProvider>
+    <html lang='ko'>
+      <body className={`${scDreamFont.variable} antialiased`}>
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );
