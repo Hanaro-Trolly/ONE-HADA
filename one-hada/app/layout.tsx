@@ -1,6 +1,3 @@
-import Header from '@/components/layout/Header';
-import { AdminSessionProvider } from '@/context/admin/SessionContext';
-import { SessionProvider } from 'next-auth/react';
 import localFont from 'next/font/local';
 import './globals.css';
 
@@ -38,17 +35,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
-      <body
-        className={`${scDreamFont.variable} ${scDreamFont.variable} antialiased`}
-      >
-        <SessionProvider>
-          <AdminSessionProvider>
-            <Header />
-            <main>{children}</main>
-          </AdminSessionProvider>
-        </SessionProvider>
-      </body>
+    <html lang='ko'>
+      <body className={`${scDreamFont.variable} antialiased`}>{children}</body>
     </html>
   );
 }

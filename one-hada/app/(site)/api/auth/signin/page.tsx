@@ -13,6 +13,7 @@ export default async function SignInPage() {
 
   return (
     <>
+      <div>로그인 페이지입니다</div>
       <div className='m-4'>
         {providers && <AuthButton providers={providers} />}
       </div>
