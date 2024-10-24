@@ -1,26 +1,21 @@
 'use client';
 
 import adminData from '@/app/admin/data/AdminData.json';
+import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
+import { useRouter } from 'next/navigation';
+// navigation으로 변경
 import { useEffect, useState } from 'react';
 
-interface Counsel {
-  id: number;
-  agentid: string;
-  userid: string;
-  title: string;
-  content: string;
-  date: string;
-}
-
 export default function AdminHeader() {
-  const [counselData, setCounselData] = useState<Counsel[]>([]);
+  const router = useRouter();
+  const { setCounselData, counselData, setSelectedUserId } = useCounsel();
   const [uniqueUsers, setUniqueUsers] = useState<string[]>([]);
   const { session } = useAdminSession();
 
   useEffect(() => {
     setCounselData(adminData.counsel);
-  }, []);
+  }, [setCounselData]); // 의존성 배열에 setCounselData 추가
 
   useEffect(() => {
     if (counselData.length > 0 && session.loginUser?.id) {
@@ -41,6 +36,14 @@ export default function AdminHeader() {
     );
   }
 
+  // components/admin/AdminHeader.tsx
+  const handleUserClick = (userid: string) => {
+    setSelectedUserId(userid);
+    // URL 인코딩 처리
+    const encodedUserId = encodeURIComponent(userid);
+    router.push(`/admin/${encodedUserId}`, { scroll: false });
+  };
+
   return (
     <div className='p-4 bg-gray-50'>
       <h2 className='text-xl font-bold mb-4'>목록</h2>
@@ -56,7 +59,11 @@ export default function AdminHeader() {
             )[0];
 
           return (
-            <button key={userid} className='py-4'>
+            <button
+              key={userid}
+              onClick={() => handleUserClick(userid)}
+              className='py-4 w-full text-left hover:bg-gray-100 transition-colors duration-200'
+            >
               <div className='flex justify-start items-center'>
                 <div>
                   <h3 className='font-semibold'>{userid}</h3>
@@ -67,17 +74,6 @@ export default function AdminHeader() {
                     제목: {latestCounsel?.title}
                   </p>
                 </div>
-                {/*                 <div className='text-sm text-gray-500'>
-                  상담 건수:{' '}
-                  {
-                    counselData.filter(
-                      (item) =>
-                        item.agentid === session.loginUser?.id &&
-                        item.userid === userid
-                    ).length
-                  }
-                  건
-                </div> */}
               </div>
             </button>
           );
