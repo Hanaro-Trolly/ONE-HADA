@@ -31,7 +31,7 @@ export default function Home() {
               </Link>
             </div>
             <div className='w-1/2 p-2'>
-              <Link href='/transfer'>
+              <Link href='/transfer/my'>
                 <Button className='w-full h-full bg-[#AEDBCE] text-[#635666] text-lg'>
                   이체하기
                 </Button>
