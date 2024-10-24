@@ -74,7 +74,10 @@ const TempTable: Temp[] = [
 ];
 export default function HistoryPage() {
   return (
-    <div>
+    <div
+      style={{ maxHeight: 'calc(100vh - 110px)' }}
+      className='w-full py-2 overflow-y-scroll'
+    >
       <ul>
         {TempTable.map((item) => (
           <li key={item.historyId}>

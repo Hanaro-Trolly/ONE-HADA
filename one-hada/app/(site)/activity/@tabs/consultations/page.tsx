@@ -29,7 +29,10 @@ export default function ConsultationsPage() {
         총<div className='font-semibold text-lg'>{TempConsultation.length}</div>
         건
       </div>
-      <ul className='rounded-t-md'>
+      <ul
+        style={{ maxHeight: 'calc(100vh - 150px)' }}
+        className='w-full py-2 overflow-y-scroll rounded-t-md'
+      >
         {TempConsultation.map(({ title, date, content }, idx) => (
           <li key={idx}>
             <ConsultationCard title={title} date={date} content={content} />

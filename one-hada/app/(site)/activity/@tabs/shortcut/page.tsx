@@ -49,38 +49,41 @@ export default function ShortCutPage() {
 
   return (
     <>
-      <ul>
-        <li className='h-10 flex items-center w-full justify-between pr-4 pt-2'>
-          <div></div>
-          <div className='mx-2'>
-            {isDelete ? (
-              <div className='flex gap-2'>
-                <SmallButton
-                  classNames='text-[#666666] bg-white hover:bg-gray-200'
-                  onClick={toggle}
-                >
-                  <RotateCcwIcon />
-                  취소
-                </SmallButton>
-                <SmallButton
-                  classNames='bg-[#E44B5B] hover:bg-[#B61C2B]'
-                  onClick={deleteHandler}
-                >
-                  <Trash2Icon />
-                  삭제
-                </SmallButton>
-              </div>
-            ) : (
+      <li className='h-10 flex items-center w-full justify-between pr-4 py-1'>
+        <div></div>
+        <div className='mx-2'>
+          {isDelete ? (
+            <div className='flex gap-2'>
               <SmallButton
-                classNames='bg-[#5e7887] hover:bg-[#3f505a]'
+                classNames='text-[#666666] bg-white hover:bg-gray-200'
                 onClick={toggle}
               >
-                <Edit2Icon />
-                편집
+                <RotateCcwIcon />
+                취소
               </SmallButton>
-            )}
-          </div>
-        </li>
+              <SmallButton
+                classNames='bg-[#E44B5B] hover:bg-[#B61C2B]'
+                onClick={deleteHandler}
+              >
+                <Trash2Icon />
+                삭제
+              </SmallButton>
+            </div>
+          ) : (
+            <SmallButton
+              classNames='bg-[#5e7887] hover:bg-[#3f505a]'
+              onClick={toggle}
+            >
+              <Edit2Icon />
+              편집
+            </SmallButton>
+          )}
+        </div>
+      </li>
+      <ul
+        style={{ maxHeight: 'calc(100vh - 150px)' }}
+        className='w-full py-2 overflow-y-scroll'
+      >
         {favoriteList.map((item) => (
           <li key={item.id}>
             <ShortCutCard
