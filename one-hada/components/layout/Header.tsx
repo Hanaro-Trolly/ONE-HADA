@@ -2,7 +2,7 @@
 
 import { ChevronLeftIcon } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
-import AuthButton from '../molecules/AuthButton';
+import LoginButton from '../molecules/LoginButton';
 import { Button } from '../ui/button';
 
 export default function Header() {
@@ -22,7 +22,7 @@ export default function Header() {
       <nav className='w-full flex justify-between items-center'>
         <div>
           {pathname === '/' ? (
-            <AuthButton />
+            <LoginButton />
           ) : (
             <Button
               variant='ghost'
