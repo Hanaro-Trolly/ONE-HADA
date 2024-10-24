@@ -16,12 +16,12 @@ export default function AccountCard({
   accountType,
   bank,
 }: AccountCardProps) {
-  console.log(`🚀 ~ key:`, id);
-  console.log('🚀 ~ name:', name);
-  console.log('🚀 ~ bank:', bank);
-  console.log('🚀 ~ accountType:', accountType);
-  console.log('🚀 ~ accountNumer:', accountNumber);
-  console.log('🚀 ~ balance:', balance);
+  // console.log(`🚀 ~ key:`, id);
+  // console.log('🚀 ~ name:', name);
+  // console.log('🚀 ~ bank:', bank);
+  // console.log('🚀 ~ accountType:', accountType);
+  // console.log('🚀 ~ accountNumer:', accountNumber);
+  // console.log('🚀 ~ balance:', balance);
 
   return (
     <div
