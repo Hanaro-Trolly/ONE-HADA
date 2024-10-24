@@ -29,7 +29,7 @@ export default function TransferPage() {
       <h1 className='text-center font-medium text-2xl mb-6'>
         보낼 계좌를 선택해주세요
       </h1>
-      <div className='w-[700px] h-[150px]'>
+      <div className='w-full h-[150px]'>
         {/* {todo} 받아오는 map이나 리스트 크기로 button 만들어야함*/}
         {accounts.map((account) => (
           <Button

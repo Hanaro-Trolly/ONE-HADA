@@ -19,11 +19,26 @@ export default function AmountInput() {
     logo_url: string;
   };
 
+  type Account = {
+    account_id: string;
+    user_id: string;
+    account_number: number;
+    balance: number;
+    account_type: string;
+    bank: string;
+    account_name: string;
+  };
+
   const banks: Bank[] = dummy.banks;
+  const accounts: Account[] = dummy.accounts;
 
   const bankName =
     banks.find((bank) => bank.bank_id === bankId)?.bank_name ||
     '은행 정보 없음';
+
+  const balance =
+    accounts.find((account) => account.account_id === accountId)?.balance ||
+    '정보 확인되지 않음';
 
   const handleNumberClick = (num: string) => {
     setAmount((prev) => prev + num);
@@ -38,7 +53,7 @@ export default function AmountInput() {
   };
 
   const handleMaxAmount = () => {
-    setAmount('5500500'); // 예시로 계좌의 최대 잔액을 사용
+    setAmount(balance.toString()); // 예시로 계좌의 최대 잔액을 사용
   };
 
   const handleNext = () => {
@@ -47,21 +62,29 @@ export default function AmountInput() {
 
   return (
     <div className='container mx-auto p-6'>
-      <h1 className='text-center font-bold text-2xl mb-6'>얼마를 보낼까요?</h1>
       <div className='bg-gray-100 p-6 rounded-lg mb-6 text-center'>
         <div className='mb-6'>
           <p className='font-bold text-xl mb-2'>{accountId}</p>
-          <p className='text-gray-600'>
+          <p className='text-gray-400'>
             {bankName} {recipientNumber}
           </p>
           <hr className='border-t border-gray-600 mx-auto w-3/4' />
+          <p
+            className={`text-xl mb-2 mt-8 ${amount ? 'font-bold text-black' : 'font-bold text-gray-400'}`}
+          >
+            {amount ? (
+              <span>{`${Number(amount).toLocaleString()} 원`}</span>
+            ) : (
+              <span>얼마를 보낼까요?</span>
+            )}
+          </p>
         </div>
 
         <div className='bg-white p-4 rounded-lg shadow mb-4'>
           <div className='flex justify-between items-center'>
             <span className='font-bold'>내 계좌</span>
             <span className='font-bold'>
-              {Number(amount).toLocaleString()} 원
+              {Number(balance).toLocaleString()} 원
             </span>
           </div>
         </div>
