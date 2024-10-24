@@ -18,5 +18,57 @@
       "bank": "하나은행",
       "account_name": "달달 하나 통장"
     }
+  ],
+  "recipent_accounts": [
+    {
+      "account_id": "B001",
+      "user_id": "U002",
+      "account_number": 1003153876539,
+      "balance": 5000000,
+      "account_type": "입출금",
+      "bank": "신한은행",
+      "account_name": "신한 주거래 통장"
+    },
+    {
+      "account_id": "B002",
+      "user_id": "U002",
+      "account_number": 10031537524301,
+      "balance": 3200000,
+      "account_type": "저축",
+      "bank": "신한은행",
+      "account_name": "신한 저축 통장"
+    }
+  ],
+  "banks": [
+    {
+      "bank_id": "bank1",
+      "bank_name": "하나은행",
+      "bank_code": "081",
+      "logo_url": "/images/hana-bank-logo.png"
+    },
+    {
+      "bank_id": "bank2",
+      "bank_name": "국민은행",
+      "bank_code": "004",
+      "logo_url": "/images/kb-bank-logo.png"
+    },
+    {
+      "bank_id": "bank3",
+      "bank_name": "신한은행",
+      "bank_code": "088",
+      "logo_url": "/images/shinhan-bank-logo.png"
+    },
+    {
+      "bank_id": "bank4",
+      "bank_name": "우리은행",
+      "bank_code": "020",
+      "logo_url": "/images/woori-bank-logo.png"
+    },
+    {
+      "bank_id": "bank5",
+      "bank_name": "농협은행",
+      "bank_code": "011",
+      "logo_url": "/images/nonghyup-bank-logo.png"
+    }
   ]
 }
