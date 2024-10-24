@@ -35,6 +35,12 @@ export default function UserList() {
     }
   }, [counselData, session.loginUser?.id]);
 
+  if (!session.loginUser) {
+    return (
+      <p className='text-center text-gray-500 py-4'>로그인 상태가 아닙니다.</p>
+    );
+  }
+
   return (
     <div className='p-4'>
       <h2 className='text-xl font-bold mb-4'>상담 고객 목록</h2>
