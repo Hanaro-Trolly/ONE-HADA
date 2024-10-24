@@ -45,8 +45,7 @@ export default function AdminHeader() {
   };
 
   return (
-    <div className='p-4 bg-gray-50'>
-      <h2 className='text-xl font-bold mb-4'>목록</h2>
+    <div className='p-4 bg-gray-100'>
       <div className='divide-y divide-gray-200'>
         {uniqueUsers.map((userid) => {
           const latestCounsel = counselData
@@ -58,20 +57,26 @@ export default function AdminHeader() {
               (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
             )[0];
 
+          const formattedDate = latestCounsel
+            ? latestCounsel.date
+                .split(' ')
+                .slice(0, 3)
+                .join(' ')
+                .replace(/\.$/, '')
+            : '';
+
           return (
             <button
               key={userid}
               onClick={() => handleUserClick(userid)}
-              className='py-4 w-full text-left hover:bg-gray-100 transition-colors duration-200'
+              className='py-4 w-full text-left hover:bg-gray-200 transition-colors duration-200'
             >
               <div className='flex justify-start items-center'>
                 <div>
                   <h3 className='font-semibold'>{userid}</h3>
-                  <p className='text-sm text-gray-400'>
-                    최근 상담: {latestCounsel?.date}
-                  </p>
+                  <p className='text-sm text-gray-400'>{formattedDate}</p>
                   <p className='text-sm font-semibold text-gray-600'>
-                    제목: {latestCounsel?.title}
+                    {latestCounsel?.title}
                   </p>
                 </div>
               </div>

@@ -5,6 +5,8 @@ export interface Counsel {
   title: string;
   content: string;
   date: string;
+  birth: string;
+  phone: string;
 }
 
 export interface CounselContextType {

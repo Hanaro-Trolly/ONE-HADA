@@ -1,13 +1,9 @@
-// components/admin/CounselDetail.tsx
 'use client';
 
 import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
 import { useEffect } from 'react';
-
-// components/admin/CounselDetail.tsx
-
-// components/admin/CounselDetail.tsx
+import AdminCard from './AdminCard';
 
 export default function CounselDetail({ userId }: { userId: string }) {
   const { counselData, setSelectedUserId } = useCounsel();
@@ -32,7 +28,15 @@ export default function CounselDetail({ userId }: { userId: string }) {
       <h2 className='text-2xl font-bold mb-6'>{decodedUserId}님의 상담 내역</h2>
       <div className='space-y-4'>
         {userCounsels.map((counsel) => (
-          <div
+          <AdminCard
+            key={counsel.id}
+            title={counsel.title}
+            content={counsel.content}
+            date={counsel.date}
+            birth={counsel.birth}
+            phone={counsel.phone}
+          />
+          /*           <div
             key={counsel.id}
             className='bg-white p-6 rounded-lg shadow-sm border'
           >
@@ -41,7 +45,7 @@ export default function CounselDetail({ userId }: { userId: string }) {
               <span className='text-sm text-gray-500'>{counsel.date}</span>
             </div>
             <p className='text-gray-700'>{counsel.content}</p>
-          </div>
+          </div> */
         ))}
       </div>
     </div>
