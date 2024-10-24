@@ -18,7 +18,7 @@ const buttonVariants = cva(
           'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
         secondary:
           'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        ghost: 'hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
@@ -43,12 +43,14 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, id, ...props }, ref) => {
+  (
+    { className, variant, size, asChild = false, onClick, id, ...props },
+    ref
+  ) => {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       console.log(`Button ID: ${id}`);
-
-      if (props.onClick) {
-        props.onClick(event);
+      if (onClick) {
+        onClick(event);
       }
     };
 
