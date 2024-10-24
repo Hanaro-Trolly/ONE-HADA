@@ -1,5 +1,4 @@
 import { StarFilledIcon } from '@radix-ui/react-icons';
-import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 
 type ShortCutCardProps = {
@@ -7,6 +6,7 @@ type ShortCutCardProps = {
   name: string;
   isEdit: boolean;
   isFavorite: boolean;
+  onCheckboxChange?: (id: string) => void;
 };
 
 export default function ShortCutCard({
@@ -14,6 +14,7 @@ export default function ShortCutCard({
   name,
   isEdit = false,
   isFavorite = false,
+  onCheckboxChange,
 }: ShortCutCardProps) {
   return (
     <>
@@ -27,19 +28,34 @@ export default function ShortCutCard({
 
         {isEdit ? (
           <div className='px-6 py-2'>
-            <input type='checkbox'></input>
+            <input
+              type='checkbox'
+              id={'chk' + id}
+              onChange={() => onCheckboxChange?.(id)}
+            ></input>
           </div>
+        ) : isFavorite ? (
+          <Button
+            id='deleteFavorite'
+            variant='ghost'
+            className='[&_svg]:size-6'
+            onClick={() =>
+              console.log(`id : ${id}, name: ${name} 즐겨찾기 삭제!`)
+            }
+          >
+            <StarFilledIcon className='text-yellow-300' />
+          </Button>
         ) : (
-          <div>
-            <Button
-              variant='ghost'
-              className='bg-opacity-0 hover:bg-white [&_svg]:size-6'
-            >
-              <StarFilledIcon
-                className={cn(isFavorite ? 'text-yellow-300' : 'text-gray-400')}
-              />
-            </Button>
-          </div>
+          <Button
+            id='addFavorite'
+            variant='ghost'
+            className='[&_svg]:size-6'
+            onClick={() =>
+              console.log(`id : ${id}, name: ${name} 즐겨찾기 추가!`)
+            }
+          >
+            <StarFilledIcon className='text-gray-400' />
+          </Button>
         )}
       </div>
     </>
