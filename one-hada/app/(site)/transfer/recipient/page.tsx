@@ -1,20 +1,24 @@
 'use client';
 
 import { useState } from 'react';
-import dummy from '@/c-dummy/account_d.json'; // 더미 데이터 불러오기
+import dummy from '@/c-dummy/account_d.json';
 import BankOption from '@/components/molecules/BankOption';
 import { Button } from '@/components/ui/button';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export default function RecipientPage({
-  searchParams: { account_id },
+  searchParams,
 }: {
   searchParams: { account_id: string };
 }) {
 
+  const router = useRouter();
+
   const [selectedBank, setSelectedBank] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
   const [isBankOptionsOpen, setIsBankOptionsOpen] = useState(false);
+
+  const { account_id } = searchParams;
 
   const handleBankChange = (bankId: string) => {
     setSelectedBank(bankId);
@@ -27,8 +31,12 @@ export default function RecipientPage({
     setAccountNumber(event.target.value);
   };
 
-  const handleClick = (account: Account) => {
-    router.push(`/transfer/recipient?account_id=${account.account_id}&dsaafafId=${dsad}`);
+  const handleClick = () => {
+    if (selectedBank && accountNumber) {
+      router.push(`/transfer/amount?account_id=${account_id}&bank=${selectedBank}&recipient_number=${accountNumber}`);
+    } else {
+      alert('은행과 계좌번호를 모두 입력해주세요.');
+    }
   };
 
   type Account = {
@@ -47,7 +55,6 @@ export default function RecipientPage({
     bank_code: string;
     logo_url: string;
   };
-
 
   const recipientAccounts: Account[] = dummy.recipent_accounts;
   const banks: Bank[] = dummy.banks;
@@ -72,7 +79,7 @@ export default function RecipientPage({
             <div className='flex flex-col gap-2'>
               {banks.map((bank) => (
                 <BankOption
-                  key={bank.id}
+                  key={bank.bank_id}
                   bankId={bank.bank_id}
                   bankName={bank.bank_name}
                   selected={selectedBank === bank.bank_id}
@@ -91,7 +98,7 @@ export default function RecipientPage({
           className='w-full mb-4 p-2 border border-gray-300 rounded'
         />
 
-        <Button id='223' onClick={() => handleClick(account)} >다음</Button>
+        <Button id='223' onClick={handleClick}>다음</Button>
 
         {/* 수취인 목록 */}
         <div className='flex flex-col gap-4'>
