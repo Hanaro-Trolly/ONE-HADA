@@ -1,20 +1,27 @@
 'use client';
 
-import React, { createContext, useContext, useReducer } from 'react';
+import adminData from '@/app/admin/data/AdminData.json';
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useState,
+} from 'react';
 
 type LoginUser = { id: string; name: string };
 type Session = { loginUser: LoginUser | null };
+type AdminData = {
+  id: string;
+  password: string;
+  name: string;
+};
 
 type Action = { type: 'LOGIN'; payload: LoginUser } | { type: 'LOGOUT' };
 
 const initialSession: Session = {
   loginUser: null,
 };
-
-const dummyAdmins = [
-  { id: 'admin1', password: 'password123', name: 'Admin One' },
-  { id: 'admin2', password: 'securepass', name: 'Admin Two' },
-];
 
 const sessionReducer = (state: Session, action: Action): Session => {
   switch (action.type) {
@@ -39,9 +46,14 @@ export const AdminSessionProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [session, dispatch] = useReducer(sessionReducer, initialSession);
+  const [admins, setAdmins] = useState<AdminData[]>([]);
+
+  useEffect(() => {
+    setAdmins(adminData.dummyadmins);
+  }, []);
 
   const login = (id: string, password: string): boolean => {
-    const admin = dummyAdmins.find(
+    const admin = admins.find(
       (admin) => admin.id === id && admin.password === password
     );
     if (admin) {
