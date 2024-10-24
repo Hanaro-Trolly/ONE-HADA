@@ -10,7 +10,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className='sticky top-0 h-14 bg-main-background flex justify-center'>
+    <header className='w-full fixed h-14 bg-main-background flex justify-center'>
       <nav className='w-full flex justify-between items-center'>
         <div>
           {pathname === '/' ? (
@@ -36,7 +36,7 @@ export default function Header() {
           {pathname === '/' ? (
             <Button
               variant='ghost'
-              className='rounded-none hover:bg-main-background'
+              className='rounded-none hover:bg-main-background w-14'
               onClick={() => router.push('/settings')}
             >
               설정
@@ -44,7 +44,7 @@ export default function Header() {
           ) : (
             <Button
               variant='ghost'
-              className='rounded-none hover:bg-main-background'
+              className='rounded-none hover:bg-main-background w-14'
               onClick={() => router.push('/')}
             >
               홈

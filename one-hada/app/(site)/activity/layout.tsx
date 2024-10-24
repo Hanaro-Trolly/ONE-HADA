@@ -71,7 +71,7 @@ export default function ActivityLayout({
           </Link>
         </li>
       </ul>
-      <div className='pt-12'></div>
+      <div className='pt-11'></div>
       <div>{tabs}</div>
       <div>{children}</div>
     </div>
