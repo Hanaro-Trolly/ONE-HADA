@@ -3,6 +3,7 @@
 import AccountCard from '@/components/molecules/AccountCard';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import dummy from '@/c-dummy/account_d.json'
 
 export default function TransferPage() {
   const router = useRouter();
@@ -17,26 +18,7 @@ export default function TransferPage() {
     account_name: string;
   };
 
-  const accounts: Account[] = [
-    {
-      account_id: 'A001',
-      user_id: 'U001',
-      account_number: 1002153876539,
-      balance: 1848890,
-      account_type: '입출금',
-      bank: '하나은행',
-      account_name: '하나은행 주거래 통장',
-    },
-    {
-      account_id: 'A002',
-      user_id: 'U001',
-      account_number: 10021537524301,
-      balance: 2358890,
-      account_type: '저축',
-      bank: '하나은행',
-      account_name: '달달 하나 통장',
-    },
-  ];
+  const accounts: Account[] = dummy.accounts;
 
   const handleClick = (account: Account) => {
     router.push(`/transfer/recipient?account_id=${account.account_id}`);
@@ -45,7 +27,7 @@ export default function TransferPage() {
   return (
     <div className='container'>
       <h1 className='text-center font-medium text-2xl mb-6'>
-        보낼 계좌를 선택해주세요요
+        보낼 계좌를 선택해주세요
       </h1>
       <div className='w-[700px] h-[150px]'>
         {/* {todo} 받아오는 map이나 리스트 크기로 button 만들어야함*/}

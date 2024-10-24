@@ -1,10 +1,7 @@
-//app/component/layout/Modal.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
 import { useCallback, useRef, useEffect, MouseEventHandler } from 'react';
-
-//app/component/layout/Modal.tsx
 
 export default function Modal({ children }: { children: React.ReactNode }) {
   const overlay = useRef(null);
