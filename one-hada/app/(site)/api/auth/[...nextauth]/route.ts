@@ -1,3 +1,4 @@
+// app/(site)/api/auth/[...nextauth]/route.ts
 import NextAuth, { DefaultSession, NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import KakaoProvider from 'next-auth/providers/kakao';
@@ -7,7 +8,12 @@ declare module 'next-auth' {
   interface Session {
     user: {
       id: string;
+      isNewUser: boolean; // isNewUser 속성 추가
     } & DefaultSession['user'];
+  }
+
+  interface User {
+    isNewUser: boolean; // User 인터페이스에 isNewUser 추가
   }
 }
 
@@ -26,6 +32,35 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.AUTH_KAKAO_SECRET!,
     }),
   ],
+  callbacks: {
+    async signIn({ user, account }) {
+      const provider = account?.provider;
+      const useId = user.id;
+      const isFirstLogin = true;
+
+      // 최초 로그인인지 아닌지 구분하는 api 요청
+
+      // 만약 최초 로그인일 경우
+
+      user.isNewUser = isFirstLogin;
+
+      return true;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.sub = user.id;
+        token.isNewUser = user.isNewUser;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub as string;
+        session.user.isNewUser = token.isNewUser as boolean;
+      }
+      return session;
+    },
+  },
   pages: {
     signIn: '/auth/signin',
   },

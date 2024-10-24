@@ -1,3 +1,4 @@
+// app/(site)/api/auth/signin/page.tsx
 import AuthButton from '@/components/ui/AuthButton';
 import { getServerSession } from 'next-auth/next';
 import { getProviders } from 'next-auth/react';
