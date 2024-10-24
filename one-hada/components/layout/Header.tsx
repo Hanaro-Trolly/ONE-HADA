@@ -9,6 +9,14 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
 
+  const handleBack = () => {
+    if (pathname.startsWith('/activity')) {
+      router.push('/');
+    } else {
+      router.back();
+    }
+  };
+
   return (
     <header className='w-full fixed h-14 bg-main-background flex justify-center'>
       <nav className='w-full flex justify-between items-center'>
@@ -19,7 +27,7 @@ export default function Header() {
             <Button
               variant='ghost'
               className='rounded-none hover:bg-main-background'
-              onClick={() => router.back()}
+              onClick={handleBack}
             >
               <ChevronLeftIcon /> 뒤로
             </Button>
@@ -51,19 +59,7 @@ export default function Header() {
             </Button>
           )}
         </div>
-
-        {/* <Link href='/'>메인(임시)</Link>
-        <Link href='/menu'>메뉴</Link>
-        <Link href='/settings'>설정or홈</Link>
-        <AuthButton /> */}
       </nav>
     </header>
   );
 }
-
-/**
- * 
-        <Link href={isHome ? '/settings' : '/'} className='text-main-color hover:underline'>
-          {isHome ? '설정' : '메인화면'}
-        </Link>
- */
