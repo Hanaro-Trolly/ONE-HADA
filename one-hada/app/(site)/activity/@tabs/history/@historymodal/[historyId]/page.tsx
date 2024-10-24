@@ -51,7 +51,7 @@ export default function HistoryModalPage({
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const item = TempTable.find((item) => item.historyId === parseInt(historyId));
-  if (!item) return <> History Not Found</>;
+  if (!item) return <></>;
 
   const handleSave = () => {
     const inputValue = inputRef.current?.value;
