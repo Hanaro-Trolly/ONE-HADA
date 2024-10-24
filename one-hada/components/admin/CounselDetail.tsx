@@ -9,6 +9,8 @@ import { useEffect } from 'react';
 
 // components/admin/CounselDetail.tsx
 
+// components/admin/CounselDetail.tsx
+
 export default function CounselDetail({ userId }: { userId: string }) {
   const { counselData, setSelectedUserId } = useCounsel();
   const { session } = useAdminSession();
