@@ -1,8 +1,8 @@
 ---
 name: "\bFix template"
 about: Describe this issue template's purpose here.
-title: 'Fix: 00 기능 수정 요청'
-labels: fix
+title: 'fix: 00 기능 수정 요청'
+labels: feature, fix
 assignees: ''
 
 ---
