@@ -70,7 +70,13 @@ export default function Home() {
             즐겨찾기
           </div>
           <div className='flex justify-center text-black'>
-            <Carousel className='h-16 mx-8 w-full'>
+            <Carousel
+              opts={{
+                align: 'start',
+                loop: true,
+              }}
+              className='h-16 mx-8 w-full'
+            >
               <CarouselContent className=''>
                 {favoriteList.map((item, idx) => (
                   <CarouselItem key={idx}>

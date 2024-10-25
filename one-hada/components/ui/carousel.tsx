@@ -154,10 +154,21 @@ const CarouselContent = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
   const { carouselRef, orientation, api } = useCarousel();
+  const [currentIndex, setCurrentIndex] = React.useState(0);
 
   const itemCount = api ? api.scrollSnapList().length : 0;
-  const currentIndex = api ? api.selectedScrollSnap() : 0;
 
+  React.useEffect(() => {
+    if (api) {
+      const handleSelect = () => {
+        setCurrentIndex(api.selectedScrollSnap());
+      };
+      api.on('select', handleSelect);
+      return () => {
+        api.off('select', handleSelect);
+      };
+    }
+  }, [api]);
   return (
     <div ref={carouselRef} className='overflow-hidden'>
       <div
