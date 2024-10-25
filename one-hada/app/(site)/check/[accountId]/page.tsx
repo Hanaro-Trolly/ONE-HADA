@@ -23,20 +23,21 @@ export default function AccountDetailPage({
   const { accountId } = params;
   const [selectedPeriod, setSelectedPeriod] = useState<string>('전체');
   const [selectedType, setSelectedType] = useState<string>('전체');
-
-  // 더미 데이터에서 account_id에 맞는 계좌를 찾음
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
   const account: AccountData | undefined = dummy.accounts.find((acc) => {
     return acc.account_id === accountId;
   });
 
-  // 계좌를 찾지 못한 경우
   if (!account) {
     return <div>계좌를 찾을 수 없습니다.</div>;
   }
 
-  // TypeButton 클릭 시 실행될 함수
   const handlePeriodClick = (period: string) => {
     setSelectedPeriod(period);
+    setStartDate('');
+    setEndDate('');
   };
 
   const handleTypeClick = (type: string) => {
@@ -45,21 +46,13 @@ export default function AccountDetailPage({
 
   return (
     <div className='bg-white shadow-md rounded-lg m-4 p-4'>
-      <h1>
-        {account.account_name} ({account.account_number})
-      </h1>
+      <h1>{account.account_name}</h1>
 
-      <div className='mt-4'>
-        <p>잔액: {account.balance.toLocaleString()} 원</p>
-        <p>은행: {account.bank}</p>
-        <p>계좌 종류: {account.account_type}</p>
-      </div>
+      <div className='mt-4'>{account.account_number}</div>
 
-      {/* 조회 옵션 박스 */}
       <div className='bg-gray-100 shadow-md rounded-lg mt-8 p-4'>
         <h2 className='text-lg font-bold mb-4'>조회 옵션</h2>
 
-        {/* 조회 기간 */}
         <div className='mb-4'>
           <p className='text-md font-semibold'>조회기간</p>
           <div className='flex gap-2 mt-2'>
@@ -121,6 +114,31 @@ export default function AccountDetailPage({
           </div>
         </div>
 
+        <div className='mb-4'>
+          <div className='flex gap-4 mt-2'>
+            <input
+              type='date'
+              value={startDate}
+              onChange={(e) => {
+                setStartDate(e.target.value);
+                setSelectedPeriod('');
+              }}
+              className='border rounded-md px-4 py-2'
+              placeholder='시작 날짜'
+            />
+            <input
+              type='date'
+              value={endDate}
+              onChange={(e) => {
+                setEndDate(e.target.value);
+                setSelectedPeriod('');
+              }}
+              className='border rounded-md px-4 py-2'
+              placeholder='종료 날짜'
+            />
+          </div>
+        </div>
+
         {/* 거래 구분 */}
         <div className='mb-4'>
           <p className='text-md font-semibold'>거래 구분</p>
@@ -160,10 +178,20 @@ export default function AccountDetailPage({
             </TypeButton>
           </div>
         </div>
+        <div className='mb-4'>
+          <p className='text-md font-semibold'>검색어</p>
+          <input
+            type='text'
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            className='border rounded-md px-4 py-2 w-full'
+            placeholder='검색어 입력'
+          />
+        </div>
 
         {/* 조회하기 버튼 */}
         <Link
-          href={`/check/${account.account_id}/detail?period=${selectedPeriod}&type=${selectedType}&accountId=${account.account_id}`}
+          href={`/check/${account.account_id}/detail?period=${selectedPeriod}&type=${selectedType}&accountId=${account.account_id}&startDate=${startDate}&endDate=${endDate}&search=${searchKeyword}`}
         >
           <div className='flex justify-end'>
             <button className='px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600'>

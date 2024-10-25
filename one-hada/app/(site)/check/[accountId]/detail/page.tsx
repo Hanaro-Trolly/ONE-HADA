@@ -7,102 +7,120 @@ import { useEffect, useState } from 'react';
 
 type Transaction = {
   transaction_id: string;
-  user_id: string;
-  account_id: string;
-  transaction_type: string;
+  sender_account_id: string;
+  receiver_account_id: string;
   amount: number;
-  counteraccountnumber: number;
-  transaction_date: string; // 거래 일시 추가
+  sender_view: string;
+  receiver_view: string;
+  transaction_date: string;
 };
 
-export default function DetailPage() {
+export default function DetailPage({
+  params,
+}: {
+  params: { accountId: string };
+}) {
   const [filteredTransactions, setFilteredTransactions] = useState<
     Transaction[]
   >([]);
+  // 예시로 특정 계좌 ID를 넣음, 실제로는 URL 파라미터 등을 통해 받아올 수 있음
+  const { accountId } = params;
 
   useEffect(() => {
     // URL의 파라미터 값을 가져옴
     const searchParams = new URLSearchParams(window.location.search);
     const period = searchParams.get('period');
     const type = searchParams.get('type');
-    const accountId = searchParams.get('accountId');
+    const startDate = searchParams.get('startDate');
+    const endDate = searchParams.get('endDate');
+    const searchKeyword = searchParams.get('search'); // 검색어 추가
 
-    if (period && type && accountId) {
+    if ((period || (startDate && endDate)) && type) {
       const transactions = dummy.transactions.filter((transaction) => {
+        let transactionType = '';
+
         // 계좌에 맞는 거래만 필터링
-        if (transaction.account_id !== accountId) return false;
-
-        // 거래 구분 필터링
-        if (type !== '전체' && transaction.transaction_type !== type)
+        if (transaction.sender_account_id === accountId) {
+          transactionType = '출금';
+        } else if (transaction.receiver_account_id === accountId) {
+          transactionType = '입금';
+        } else {
           return false;
-
-        // 조회 기간 필터링
-        const now = new Date();
-        const transactionDate = new Date(transaction.transaction_date);
-
-        let periodCondition = true;
-        if (period === '1개월') {
-          periodCondition =
-            transactionDate >= new Date(now.setMonth(now.getMonth() - 1));
-        } else if (period === '3개월') {
-          periodCondition =
-            transactionDate >= new Date(now.setMonth(now.getMonth() - 3));
-        } else if (period === '6개월') {
-          periodCondition =
-            transactionDate >= new Date(now.setMonth(now.getMonth() - 6));
-        } else if (period === '1년') {
-          periodCondition =
-            transactionDate >= new Date(now.setFullYear(now.getFullYear() - 1));
         }
 
-        return periodCondition;
+        // 거래 구분 필터링
+        if (type !== '전체' && transactionType !== type) return false;
+
+        // 조회 기간 필터링 (기본 기간 필터링과 날짜 입력 필터링 추가)
+        const now = new Date();
+        const transactionDate = new Date(transaction.transaction_date);
+        let periodCondition = true;
+
+        if (startDate && endDate) {
+          const start = new Date(startDate);
+          const end = new Date(endDate);
+          periodCondition = transactionDate >= start && transactionDate <= end;
+        } else {
+          switch (period) {
+            case '1개월':
+              periodCondition =
+                transactionDate >= new Date(now.setMonth(now.getMonth() - 1));
+              break;
+            case '3개월':
+              periodCondition =
+                transactionDate >= new Date(now.setMonth(now.getMonth() - 3));
+              break;
+            case '6개월':
+              periodCondition =
+                transactionDate >= new Date(now.setMonth(now.getMonth() - 6));
+              break;
+            case '1년':
+              periodCondition =
+                transactionDate >=
+                new Date(now.setFullYear(now.getFullYear() - 1));
+              break;
+            default:
+              periodCondition = true;
+              break;
+          }
+        }
+
+        // 검색어 필터링: 송신자/수신자에 검색어가 포함된 경우만 필터링
+        const keywordCondition = searchKeyword
+          ? transaction.sender_view.includes(searchKeyword) ||
+            transaction.receiver_view.includes(searchKeyword)
+          : true;
+
+        return periodCondition && keywordCondition;
       });
 
       setFilteredTransactions(transactions);
     }
-  }, []); // 컴포넌트가 처음 렌더링될 때만 실행
+  }, []);
 
   return (
-    <div className='bg-white shadow-md rounded-lg m-4 p-4'>
-      <h1 className='text-lg font-bold mb-4'>거래 내역</h1>
+    <div>
+      <h1>거래 내역</h1>
 
       {filteredTransactions.length === 0 ? (
-        <p>해당 조건에 맞는 거래 내역이 없습니다.</p>
+        <p>거래 내역이 없습니다.</p>
       ) : (
-        <ul className='space-y-4'>
-          {filteredTransactions.map((transaction) => (
-            <li
-              key={transaction.transaction_id}
-              className='bg-gray-100 p-4 shadow rounded-lg'
-            >
-              <div className='mb-2'>
-                <p className='text-md font-bold'>
-                  거래 ID: {transaction.transaction_id}
-                </p>
-              </div>
-              <div className='mb-2'>
-                <p className='text-md'>
-                  거래 유형: {transaction.transaction_type}
-                </p>
-              </div>
-              <div className='mb-2'>
-                <p className='text-md'>
-                  거래 금액: {transaction.amount.toLocaleString()} 원
-                </p>
-              </div>
-              <div className='mb-2'>
-                <p className='text-md'>
-                  거래 일시: {transaction.transaction_date}
-                </p>
-              </div>
-              <div>
-                <p className='text-md'>
-                  상대방 계좌 번호: {transaction.counteraccountnumber}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
+        filteredTransactions.map((transaction) => (
+          <div key={transaction.transaction_id}>
+            <p>
+              거래 타입:{' '}
+              {transaction.sender_account_id === accountId ? '출금' : '입금'}
+            </p>
+            <p>금액: {transaction.amount.toLocaleString()} 원</p>
+            <p>
+              {transaction.sender_account_id === accountId
+                ? `받는 사람: ${transaction.receiver_view}`
+                : `보낸 사람: ${transaction.sender_view}`}
+            </p>
+            <p>거래 날짜: {transaction.transaction_date}</p>
+            <hr />
+          </div>
+        ))
       )}
     </div>
   );
