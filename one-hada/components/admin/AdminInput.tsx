@@ -28,7 +28,7 @@ export default function AdminInput({
         />
       ) : (
         <textarea
-          className='h-80 resize-none py-2 px-2'
+          className='h-72 resize-none py-2 px-2'
           value={value}
           onChange={onChange}
           placeholder={`${label}을 입력하세요`}

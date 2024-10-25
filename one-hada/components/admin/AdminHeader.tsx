@@ -4,7 +4,6 @@ import adminData from '@/app/admin/data/AdminData.json';
 import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
 import { useRouter } from 'next/navigation';
-// navigation으로 변경
 import { useEffect, useState } from 'react';
 import Title from './AdminTitle';
 
@@ -12,11 +11,11 @@ export default function AdminHeader() {
   const router = useRouter();
   const { setCounselData, counselData, setSelectedUserId } = useCounsel();
   const [uniqueUsers, setUniqueUsers] = useState<string[]>([]);
-  const { session } = useAdminSession();
+  const { session, logout } = useAdminSession();
 
   useEffect(() => {
     setCounselData(adminData.counsel);
-  }, [setCounselData]); // 의존성 배열에 setCounselData 추가
+  }, [setCounselData]);
 
   useEffect(() => {
     if (counselData.length > 0 && session.loginUser?.id) {
@@ -47,9 +46,22 @@ export default function AdminHeader() {
     router.push(`/admin/${encodedUserId}`, { scroll: false });
   };
 
+  const handleLogout = () => {
+    logout(); // 로그아웃 처리
+    router.push('/admin'); // page.tsx로 리디렉션
+  };
+
   return (
     <div className='p-4 bg-gray-100'>
-      <Title text='목록' />
+      <div className='flex justify-between items-center'>
+        <Title text='목록' />
+        <button
+          onClick={handleLogout}
+          className='px-4 py-2 text-sm font-semibold text-white bg-red-500 rounded hover:bg-red-600 transition-colors duration-200'
+        >
+          Logout
+        </button>
+      </div>
       <div>
         {uniqueUsers.map((userid) => {
           const latestCounsel = counselData
