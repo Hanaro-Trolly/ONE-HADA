@@ -50,7 +50,7 @@ export default function AccountDetailPage({
           <div className='flex gap-2 mt-2'>
             <TypeButton
               button_type='조회기간'
-              onClicks={() => handlePeriodClick('전체')}
+              onClick={() => handlePeriodClick('전체')}
               className={
                 selectedPeriod === '전체'
                   ? 'bg-[#377B68] text-white'
@@ -61,7 +61,7 @@ export default function AccountDetailPage({
             </TypeButton>
             <TypeButton
               button_type='조회기간'
-              onClicks={() => handlePeriodClick('1개월')}
+              onClick={() => handlePeriodClick('1개월')}
               className={
                 selectedPeriod === '1개월'
                   ? 'bg-[#377B68] text-white'
@@ -72,7 +72,7 @@ export default function AccountDetailPage({
             </TypeButton>
             <TypeButton
               button_type='조회기간'
-              onClicks={() => handlePeriodClick('3개월')}
+              onClick={() => handlePeriodClick('3개월')}
               className={
                 selectedPeriod === '3개월'
                   ? 'bg-[#377B68] text-white'
@@ -83,7 +83,7 @@ export default function AccountDetailPage({
             </TypeButton>
             <TypeButton
               button_type='조회기간'
-              onClicks={() => handlePeriodClick('6개월')}
+              onClick={() => handlePeriodClick('6개월')}
               className={
                 selectedPeriod === '6개월'
                   ? 'bg-[#377B68] text-white'
@@ -94,7 +94,7 @@ export default function AccountDetailPage({
             </TypeButton>
             <TypeButton
               button_type='조회기간'
-              onClicks={() => handlePeriodClick('1년')}
+              onClick={() => handlePeriodClick('1년')}
               className={
                 selectedPeriod === '1년'
                   ? 'bg-[#377B68] text-white'
@@ -135,7 +135,7 @@ export default function AccountDetailPage({
           <div className='flex gap-2 mt-2'>
             <TypeButton
               button_type='거래구분'
-              onClicks={() => handleTypeClick('전체')}
+              onClick={() => handleTypeClick('전체')}
               className={
                 selectedType === '전체'
                   ? 'bg-[#377B68] text-white'
@@ -146,7 +146,7 @@ export default function AccountDetailPage({
             </TypeButton>
             <TypeButton
               button_type='거래구분'
-              onClicks={() => handleTypeClick('입금')}
+              onClick={() => handleTypeClick('입금')}
               className={
                 selectedType === '입금'
                   ? 'bg-[#377B68] text-white'
@@ -157,7 +157,7 @@ export default function AccountDetailPage({
             </TypeButton>
             <TypeButton
               button_type='거래구분'
-              onClicks={() => handleTypeClick('출금')}
+              onClick={() => handleTypeClick('출금')}
               className={
                 selectedType === '출금'
                   ? 'bg-[#377B68] text-white'

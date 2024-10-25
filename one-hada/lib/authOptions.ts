@@ -32,6 +32,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.AUTH_KAKAO_SECRET!,
     }),
   ],
+  secret: process.env.AUTH_SECRET,
   callbacks: {
     async signIn({ user }) {
       //   const provider = account?.provider;
@@ -61,6 +62,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
+
   pages: {
     signIn: '/auth/signin',
   },
