@@ -1,12 +1,14 @@
 'use client';
 
 import dummy from '@/c-dummy/account_d.json';
-import { useSearchParams } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function AmountInput() {
   const [amount, setAmount] = useState('');
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const accountId = searchParams.get('account_id');
   const recipientNumber = searchParams.get('recipient_number');
@@ -53,12 +55,17 @@ export default function AmountInput() {
   };
 
   const handleMaxAmount = () => {
-    setAmount(balance.toString()); // 예시로 계좌의 최대 잔액을 사용
+    setAmount(balance.toString());
   };
 
-  const handleNext = () => {
-    alert(`입력한 금액: ${amount}`);
+  const handleClick = () => {
+    if (accountId && recipientNumber && bankId && amount) {
+      router.push(`/transfer/validation?account_id=${accountId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`);
+    } else {
+      alert('은행과 계좌번호를 모두 입력해주세요.');
+    }
   };
+
 
   return (
     <div className='container mx-auto p-6'>
@@ -133,19 +140,15 @@ export default function AmountInput() {
           ))}
           <button
             onClick={handleBackspace}
-            className='p-4 bg-red-200 rounded text-xl shadow'
+            className='p-4 bg-gray-100 rounded text-xl shadow'
           >
             ⌫
           </button>
         </div>
 
-        {/* 다음 버튼 */}
-        <button
-          onClick={handleNext}
-          className='w-full p-4 bg-green-500 text-white font-bold rounded'
-        >
+        <Button id='231' onClick={() => handleClick()}>
           다음
-        </button>
+        </Button>
       </div>
     </div>
   );
