@@ -2,7 +2,7 @@
 
 import SwitchCard from '@/components/molecules/SwitchCard';
 import { Button } from '@/components/ui/button';
-import { PencilIcon } from 'lucide-react';
+import { ChevronRightIcon, PencilIcon } from 'lucide-react';
 import { useState } from 'react';
 
 export default function SettingsPage() {
@@ -18,18 +18,25 @@ export default function SettingsPage() {
   return (
     <>
       <div className='bg-[#DCEFEA] pb-4'>
-        <div className='w-2/5 h-[14%] mb-4 mx-6 px-5 pt-4'>
+        <div className='h-[14%] mb-2 mx-6 px-5 pt-4'>
           <div className='text=[#635666}'>
             <label className='text-xl text-[#698596] font-semibold'>
               {name}
             </label>
             님{' '}
           </div>
-          <div>
-            내정보 변경
-            <Button variant='ghost' className='[&_svg]:size-4'>
-              <PencilIcon />
-            </Button>
+          <div className='w-full flex justify-between text-sm'>
+            <div className='flex items-center h-5'>
+              <Button variant='ghost' className='px-0 py-0 gap-0 font-normal'>
+                내정보 변경 <PencilIcon />
+              </Button>
+            </div>
+            <div className='flex items-center h-5 text-gray-500'>
+              <Button variant='ghost' className='px-0 py-0 gap-0 font-normal'>
+                회원탈퇴
+                <ChevronRightIcon />
+              </Button>
+            </div>
           </div>
         </div>
         <div className='flex flex-col justify-between bg-white shadow-md rounded-xl mx-6 p-4 px-5'>
