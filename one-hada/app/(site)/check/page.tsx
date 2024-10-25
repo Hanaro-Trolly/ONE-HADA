@@ -44,25 +44,25 @@ export default function CheckPage() {
       <div className='flex justify-center space-x-4'>
         <AccountTypeButton
           account_type='입출금'
-          onClicks={() => setSelectedType('입출금')}
+          onClick={() => setSelectedType('입출금')}
         >
           입출금
         </AccountTypeButton>
         <AccountTypeButton
           account_type='예적금'
-          onClicks={() => setSelectedType('예적금')}
+          onClick={() => setSelectedType('예적금')}
         >
           예적금
         </AccountTypeButton>
         <AccountTypeButton
           account_type='대출'
-          onClicks={() => setSelectedType('대출')}
+          onClick={() => setSelectedType('대출')}
         >
           대출
         </AccountTypeButton>
         <AccountTypeButton
           account_type='펀드'
-          onClicks={() => setSelectedType('펀드')}
+          onClick={() => setSelectedType('펀드')}
         >
           펀드
         </AccountTypeButton>
