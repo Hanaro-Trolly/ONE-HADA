@@ -14,7 +14,6 @@ export default function AccountCard({
   accountNumber,
   balance,
   accountType,
-  bank,
 }: AccountCardProps) {
   // console.log(`🚀 ~ key:`, id);
   // console.log('🚀 ~ name:', name);

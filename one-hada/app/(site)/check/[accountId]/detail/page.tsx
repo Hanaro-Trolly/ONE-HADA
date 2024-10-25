@@ -2,7 +2,6 @@
 
 import dummi from '@/c-dummy/account_d.json';
 import dummy from '@/c-dummy/transaction_d.json';
-import { useRouter } from 'next/navigation';
 // 더미 데이터를 가져옴
 import { useEffect, useState } from 'react';
 
