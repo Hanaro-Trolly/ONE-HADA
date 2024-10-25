@@ -6,6 +6,7 @@ import { useAdminSession } from '@/context/admin/SessionContext';
 import { useRouter } from 'next/navigation';
 // navigation으로 변경
 import { useEffect, useState } from 'react';
+import Title from './AdminTitle';
 
 export default function AdminHeader() {
   const router = useRouter();
@@ -30,9 +31,11 @@ export default function AdminHeader() {
 
   if (!session.loginUser) {
     return (
-      <p className='align-middle text-center text-gray-500 py-4'>
-        로그인 하세요.
-      </p>
+      <div className='flex items-center justify-center h-screen'>
+        <p className='align-middle text-center text-gray-500 py-4'>
+          로그인 하세요.
+        </p>
+      </div>
     );
   }
 
@@ -46,7 +49,8 @@ export default function AdminHeader() {
 
   return (
     <div className='p-4 bg-gray-100'>
-      <div className='divide-y divide-gray-200'>
+      <Title text='목록' />
+      <div>
         {uniqueUsers.map((userid) => {
           const latestCounsel = counselData
             .filter(
@@ -69,10 +73,10 @@ export default function AdminHeader() {
             <button
               key={userid}
               onClick={() => handleUserClick(userid)}
-              className='py-4 w-full text-left hover:bg-gray-200 transition-colors duration-200'
+              className='mt-5 py-4 rounded-2xl w-full text-left bg-white hover:bg-gray-300 transition-colors duration-200'
             >
-              <div className='flex justify-start items-center'>
-                <div>
+              <div className='pl-3 items-center'>
+                <div className='flex flex-col space-y-1'>
                   <h3 className='font-semibold'>{userid}</h3>
                   <p className='text-sm text-gray-400'>{formattedDate}</p>
                   <p className='text-sm font-semibold text-gray-600'>
