@@ -11,7 +11,7 @@ const BankOption: React.FC<BankOptionProps> = ({ bankId, bankName, selected, onC
   return (
     <button
       onClick={() => onClick(bankId)}
-      className={`p-4 rounded-lg flex items-center justify-center border ${
+      className={`flex p-4 rounded-lg items-center justify-center border ${
         selected ? 'bg-blue-500 text-white' : 'bg-gray-100 text-black'
       } hover:bg-blue-200 transition`}
       style={{ width: '120px', height: '120px' }}

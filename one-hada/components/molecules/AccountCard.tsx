@@ -16,29 +16,29 @@ export default function AccountCard({
   accountType,
   bank,
 }: AccountCardProps) {
-  console.log(`🚀 ~ key:`, id);
-  console.log('🚀 ~ name:', name);
-  console.log('🚀 ~ bank:', bank);
-  console.log('🚀 ~ accountType:', accountType);
-  console.log('🚀 ~ accountNumer:', accountNumber);
-  console.log('🚀 ~ balance:', balance);
+  // console.log(`🚀 ~ key:`, id);
+  // console.log('🚀 ~ name:', name);
+  // console.log('🚀 ~ bank:', bank);
+  // console.log('🚀 ~ accountType:', accountType);
+  // console.log('🚀 ~ accountNumer:', accountNumber);
+  // console.log('🚀 ~ balance:', balance);
 
   return (
     <div
       key={id}
-      className='bg-white shadow-md rounded-lg w-full h-full flex items-start justify-between flex-col'
+      className='bg-white shadow-md rounded-lg w-full h-full flex items-start justify-between flex-col p-5'
     >
       <div className='flex items-center gap-4'>
         {/* Bank icon */}
         <h1>아이콘</h1>
         <div className='flex flex-col'>
-          <h1 className='font-medium text-lg'>{name}</h1>
-          <label className='font-light text-gray-500 text-sm'>
+          <h1 className='font-medium text-left text-lg'>{name}</h1>
+          <label className='font-light text-gray-500 text-left text-xs'>
             {`${accountType} • ${accountNumber}`}
           </label>
         </div>
       </div>
-      <h2 className='font-medium text-lg text-right self-end mb-2'>
+      <h2 className='font-medium text-lg text-right self-end'>
         {balance.toLocaleString()} 원
       </h2>
     </div>
