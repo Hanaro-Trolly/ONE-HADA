@@ -12,7 +12,6 @@ export default function Admin() {
     <div>
       <div>Admin Page</div>
       {session.loginUser ? <Profile /> : <Login />}
-
       <div>
         <AdminForm />
       </div>

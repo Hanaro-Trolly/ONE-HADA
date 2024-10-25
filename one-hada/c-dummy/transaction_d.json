@@ -7,7 +7,7 @@
       "transaction_type": "입금",
       "amount": 500000,
       "counteraccountnumber": 12345678,
-      "transaction_date": "2024-10-01T10:15:00"
+      "transaction_date": "2024-10-01"
     },
     {
       "transaction_id": "T002",
@@ -38,8 +38,8 @@
     },
     {
       "transaction_id": "T005",
-      "user_id": "U789",
-      "account_id": "A003",
+      "user_id": "U001",
+      "account_id": "A001",
       "transaction_type": "입금",
       "amount": 700000,
       "counteraccountnumber": 66778899,

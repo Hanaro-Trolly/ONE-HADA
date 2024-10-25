@@ -26,7 +26,7 @@ export default function AccountCard({
   return (
     <div
       key={id}
-      className='bg-white shadow-md rounded-lg m-4 p-4 flex items-start justify-between flex-col'
+      className='bg-white shadow-md rounded-lg w-full h-full flex items-start justify-between flex-col'
     >
       <div className='flex items-center gap-4'>
         {/* Bank icon */}
@@ -38,7 +38,7 @@ export default function AccountCard({
           </label>
         </div>
       </div>
-      <h2 className='font-medium text-lg text-right self-end mt-8'>
+      <h2 className='font-medium text-lg text-right self-end mb-2'>
         {balance.toLocaleString()} 원
       </h2>
     </div>

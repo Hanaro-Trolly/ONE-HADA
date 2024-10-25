@@ -163,7 +163,7 @@ export default function AccountDetailPage({
 
         {/* 조회하기 버튼 */}
         <Link
-          href={`/check/${account.account_id}/detail?period=${selectedPeriod}&type=${selectedType}`}
+          href={`/check/${account.account_id}/detail?period=${selectedPeriod}&type=${selectedType}&accountId=${account.account_id}`}
         >
           <div className='flex justify-end'>
             <button className='px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600'>
