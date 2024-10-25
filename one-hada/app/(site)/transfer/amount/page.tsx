@@ -60,12 +60,13 @@ export default function AmountInput() {
 
   const handleClick = () => {
     if (accountId && recipientNumber && bankId && amount) {
-      router.push(`/transfer/validation?account_id=${accountId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`);
+      router.push(
+        `/transfer/validation?account_id=${accountId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`
+      );
     } else {
       alert('은행과 계좌번호를 모두 입력해주세요.');
     }
   };
-
 
   return (
     <div className='container mx-auto p-6'>
@@ -97,32 +98,35 @@ export default function AmountInput() {
         </div>
 
         {/* 금액 추가 버튼들 */}
-        <div className='flex justify-between mb-4'>
+        <div className='flex justify-between mb-4 space-x-2'>
           <button
             onClick={() => handleSpecialAmount(10000)}
-            className='p-2 bg-gray-200 rounded'
+            className='w-16 h-16 bg-[#61B89F] text-white rounded-full hover:bg-[#377b68] shadow-md text-sm'
           >
             +1만
           </button>
           <button
             onClick={() => handleSpecialAmount(50000)}
-            className='p-2 bg-gray-200 rounded'
+            className='px-4 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377b68]'
           >
             +5만
           </button>
           <button
             onClick={() => handleSpecialAmount(100000)}
-            className='p-2 bg-gray-200 rounded'
+            className='px-4 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377b68]'
           >
             +10만
           </button>
           <button
             onClick={() => handleSpecialAmount(1000000)}
-            className='p-2 bg-gray-200 rounded'
+            className='px-4 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377b68]'
           >
             +100만
           </button>
-          <button onClick={handleMaxAmount} className='p-2 bg-gray-200 rounded'>
+          <button
+            onClick={handleMaxAmount}
+            className='px-4 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377b68]'
+          >
             전액
           </button>
         </div>
