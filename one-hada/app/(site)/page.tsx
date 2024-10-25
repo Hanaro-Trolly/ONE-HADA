@@ -104,13 +104,15 @@ export default function Home() {
         <div className='flex-grow'></div>
         <footer>
           <div className='h-14 w-ful'>
-            <Button
-              id='callBtn'
-              variant='ghost'
-              className='w-full h-full text-[#635666] text-xl'
-            >
-              전화상담
-            </Button>
+            <Link href='tel:010-2905-5905'>
+              <Button
+                id='callBtn'
+                variant='ghost'
+                className='w-full h-full text-[#635666] text-xl'
+              >
+                전화상담
+              </Button>
+            </Link>
           </div>
         </footer>
       </div>
