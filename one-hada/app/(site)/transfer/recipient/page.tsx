@@ -76,7 +76,7 @@ export default function RecipientPage({
 
         {isBankOptionsOpen && (
           <div className='absolute bg-white border border-gray-300 rounded shadow-lg p-4 mt-2 w-80'>
-            <div className='flex flex-col gap-2'>
+            <div className='grid grid-cols-3 gap-2 mb-6 w-full'>
               {banks.map((bank) => (
                 <BankOption
                   key={bank.bank_id}
