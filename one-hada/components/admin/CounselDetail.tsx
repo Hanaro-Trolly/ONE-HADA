@@ -26,10 +26,10 @@ export default function CounselDetail({ userId }: { userId: string }) {
 
   return (
     <>
-      <div className='p-6'>
+      <div>
         <div className='space-y-4'>
           <div className='flex justify-between'>
-            <h2 className='text-2xl font-bold'>{decodedUserId} 님</h2>
+            <h2 className='text-2xl font-medium'>{decodedUserId} 님</h2>
             <button
               onClick={() => setIsPreviewOpen(true)}
               className='flex items-center gap-2 rounded-lg bg-[#61B89F] px-4 py-2 text-white hover:bg-[#377b68] transition-colors'

@@ -26,7 +26,7 @@ export default function AdminInputForm() {
     setContent('');
   };
   return (
-    <div className='p-6'>
+    <div>
       <AdminInput
         label='상담 제목'
         value={title}

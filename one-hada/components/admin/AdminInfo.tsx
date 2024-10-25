@@ -12,11 +12,11 @@ export default function AdminInfo({ birth, phone }: AdminInfoProps) {
 
   return (
     <div className='mt-4'>
-      <div className='text-m font-semibold'>전화번호</div>
+      <div className='text-m font-medium'>전화번호</div>
       <div className='bg-gray-100 p-2 rounded-md flex justify-center items-center'>
         {formatPhone(phone)}
       </div>{' '}
-      <div className='text-m font-semibold mt-2'>생년월일</div>
+      <div className='text-m font-medium mt-2'>생년월일</div>
       <div className='bg-gray-100 p-2 rounded-md flex justify-center items-center'>
         {birth}
       </div>{' '}

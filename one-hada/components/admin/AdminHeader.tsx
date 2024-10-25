@@ -53,11 +53,11 @@ export default function AdminHeader() {
 
   return (
     <div className='p-4 bg-gray-100'>
-      <div className='flex justify-between items-center'>
+      <div className='flex justify-between items-center pb-4'>
         <Title text='목록' />
         <button
           onClick={handleLogout}
-          className='px-4 py-2 text-sm font-semibold text-white bg-red-500 rounded hover:bg-red-600 transition-colors duration-200'
+          className='px-3 py-2 text-sm font-semibold text-white bg-red-500 rounded hover:bg-red-600 transition-colors duration-200'
         >
           Logout
         </button>
@@ -89,9 +89,9 @@ export default function AdminHeader() {
             >
               <div className='pl-3 items-center'>
                 <div className='flex flex-col space-y-1'>
-                  <h3 className='font-semibold'>{userid}</h3>
+                  <h3 className='font-medium'>{userid}</h3>
                   <p className='text-sm text-gray-400'>{formattedDate}</p>
-                  <p className='text-sm font-semibold text-gray-600'>
+                  <p className='text-sm font-medium text-gray-600'>
                     {latestCounsel?.title}
                   </p>
                 </div>

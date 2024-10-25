@@ -15,7 +15,7 @@ export default function AdminLayout({
           <div className='w-1/5 min-h-screen bg-gray-100 border-r'>
             <AdminHeader />
           </div>
-          <main className='flex-1 p-8'>{children}</main>
+          <main className='flex-1 p-4'>{children}</main>
         </div>
       </CounselProvider>
     </AdminSessionProvider>
