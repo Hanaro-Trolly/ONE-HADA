@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useRef } from 'react';
 
 export default function Register() {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const router = useRouter();
 
   const nameRef = useRef<HTMLInputElement>(null);
@@ -26,18 +26,18 @@ export default function Register() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = {
-      name: nameRef.current?.value,
-      gender: genderRef.current?.value,
-      birthDate: birthDateRef.current?.value,
-      phone: [
-        phone1Ref.current?.value,
-        phone2Ref.current?.value,
-        phone3Ref.current?.value,
-      ].join('-'),
-      address: addressRef.current?.value,
-      email: session?.user?.email,
-    };
+    // const formData = {
+    //   name: nameRef.current?.value,
+    //   gender: genderRef.current?.value,
+    //   birthDate: birthDateRef.current?.value,
+    //   phone: [
+    //     phone1Ref.current?.value,
+    //     phone2Ref.current?.value,
+    //     phone3Ref.current?.value,
+    //   ].join('-'),
+    //   address: addressRef.current?.value,
+    //   email: session?.user?.email,
+    // };
 
     // 사용자가 입력한 정보 DB로 전송
     console.log('사용자 정보를 전송했습니다!');
