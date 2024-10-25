@@ -3,17 +3,49 @@
 import SwitchCard from '@/components/molecules/SwitchCard';
 import { Button } from '@/components/ui/button';
 import { ChevronRightIcon, PencilIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function SettingsPage() {
+  const initialPhoneNumber = '010-1234-5678';
+  const initialAddress = '서울특별시 성동구 아차산로111 우행빌딩 2층';
+  const phoneNumberRef = useRef<HTMLInputElement>(null);
+  const addressRef = useRef<HTMLTextAreaElement>(null);
+
   const [name] = useState('홍길동');
   const [birthDate] = useState('2000-01-01');
-  const [phoneNumber, setPhoneNumber] = useState('010-1234-5678');
-  const [address, setAddress] = useState(
-    '서울특별시 성동구 아차산로111 우행빌딩 2층'
-  );
+  const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber);
+  const [address, setAddress] = useState(initialAddress);
   const [isLargeTextMode, setIsLargeTextMode] = useState(false);
   const [isColorBlindMode, setIsColorBlindMode] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleSave = () => {
+    const phoneInputValue = phoneNumberRef.current?.value;
+    const addressInputValue = addressRef.current?.value;
+
+    if (!phoneInputValue || !addressInputValue) {
+      if (!phoneInputValue) {
+        phoneNumberRef.current?.focus();
+      } else {
+        addressRef.current?.focus();
+      }
+      return;
+    }
+    console.log('🚀 ~ handleSave ~ phoneInputValue:', phoneInputValue);
+    console.log('🚀 ~ handleSave ~ addressInputValue:', addressInputValue);
+
+    //데이터 전송 로직 추가
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setPhoneNumber(initialPhoneNumber);
+    setAddress(initialAddress);
+    setIsEditing(false);
+  };
+  const handleEditMode = () => {
+    setIsEditing(true);
+  };
 
   return (
     <>
@@ -25,11 +57,32 @@ export default function SettingsPage() {
             </label>
             님{' '}
           </div>
-          <div className='w-full flex justify-between text-sm'>
+          <div className='w-full flex justify-between text-sm pt-1'>
             <div className='flex items-center h-5'>
-              <Button variant='ghost' className='px-0 py-0 gap-0 font-normal'>
-                내정보 변경 <PencilIcon />
-              </Button>
+              {isEditing ? (
+                <div className='flex gap-1 items-center'>
+                  <Button
+                    className='px-2 py-1 gap-0  h-5 bg-[#E44B5B] hover:bg-[#B61C2B]'
+                    onClick={handleCancel}
+                  >
+                    취소
+                  </Button>
+                  <Button
+                    className='px-2 py-1 gap-0 h-5 bg-[#5E7887] hover:bg-[#3f505a]'
+                    onClick={handleSave}
+                  >
+                    완료
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  variant='ghost'
+                  className='px-0 py-0 gap-0 font-normal'
+                  onClick={handleEditMode}
+                >
+                  내정보 변경 <PencilIcon />
+                </Button>
+              )}
             </div>
             <div className='flex items-center h-5 text-gray-500'>
               <Button variant='ghost' className='px-0 py-0 gap-0 font-normal'>
@@ -47,21 +100,31 @@ export default function SettingsPage() {
 
           <div className='mt-4'>
             <label>전화번호</label>
-            <input
-              type='text'
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              className='w-full border p-2 rounded-lg'
-            />
+            {isEditing ? (
+              <input
+                ref={phoneNumberRef}
+                type='tel'
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className='w-full border p-2 rounded-lg'
+              />
+            ) : (
+              <p className='w-full border p-2 rounded-lg'>{phoneNumber}</p>
+            )}
           </div>
 
           <div className='mt-4'>
             <label>주소</label>
-            <textarea
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              className='w-full border p-2 rounded-lg'
-            />
+            {isEditing ? (
+              <textarea
+                ref={addressRef}
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className='w-full border p-2 rounded-lg'
+              />
+            ) : (
+              <p className='w-full border p-2 rounded-lg'>{address}</p>
+            )}
           </div>
         </div>
       </div>
