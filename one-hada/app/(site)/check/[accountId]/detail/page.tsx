@@ -1,5 +1,6 @@
 'use client';
 
+import dummi from '@/c-dummy/account_d.json';
 import dummy from '@/c-dummy/transaction_d.json';
 import { useRouter } from 'next/navigation';
 // 더미 데이터를 가져옴
@@ -15,6 +16,13 @@ type Transaction = {
   transaction_date: string;
 };
 
+type Account = {
+  account_id: string;
+  account_name: string; // 계좌 소유자 이름
+  account_number: number; // 계좌 번호
+  balance: number;
+};
+
 export default function DetailPage({
   params,
 }: {
@@ -23,10 +31,18 @@ export default function DetailPage({
   const [filteredTransactions, setFilteredTransactions] = useState<
     Transaction[]
   >([]);
-  // 예시로 특정 계좌 ID를 넣음, 실제로는 URL 파라미터 등을 통해 받아올 수 있음
+  const [accountInfo, setAccountInfo] = useState<Account | null>(null); // 계좌 정보 상태 추가
   const { accountId } = params;
 
   useEffect(() => {
+    // 계좌 정보를 찾아서 상태에 저장
+    const account = dummi.accounts.find(
+      (acc: Account) => acc.account_id === accountId
+    );
+    if (account) {
+      setAccountInfo(account);
+    }
+
     // URL의 파라미터 값을 가져옴
     const searchParams = new URLSearchParams(window.location.search);
     const period = searchParams.get('period');
@@ -96,10 +112,19 @@ export default function DetailPage({
 
       setFilteredTransactions(transactions);
     }
-  }, []);
+  }, [accountId]);
 
   return (
     <div>
+      {/* 계좌 정보가 있을 경우 상단에 이름과 계좌번호 출력 */}
+      {accountInfo && (
+        <div className='bg-white shadow-md rounded-lg w-full h-full flex items-start justify-between flex-col'>
+          <h1>계좌 이름: {accountInfo.account_name}</h1>
+          <h2>계좌 번호: {accountInfo.account_number}</h2>
+          <h3>{accountInfo.balance.toLocaleString()}원</h3>
+        </div>
+      )}
+
       <h1>거래 내역</h1>
 
       {filteredTransactions.length === 0 ? (
