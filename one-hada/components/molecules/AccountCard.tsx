@@ -1,4 +1,4 @@
-import BankIcon from "./BankIcon";
+import BankIcon from './BankIcon';
 
 type AccountCardProps = {
   id: string;
@@ -16,6 +16,7 @@ export default function AccountCard({
   accountNumber,
   balance,
   accountType,
+  bank,
 }: AccountCardProps) {
   // console.log(`🚀 ~ key:`, id);
   // console.log('🚀 ~ name:', name);
