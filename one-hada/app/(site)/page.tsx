@@ -33,7 +33,7 @@ export default function Home() {
                 variant='home'
                 className='w-full h-full bg-[#D2DAE0] hover:bg-[#AAB8C1]'
               >
-                내 활동 보기
+                <div className='tossface-icon text-[2rem]'>📥</div>내 활동 보기
               </Button>
             </Link>
           </div>
@@ -45,7 +45,10 @@ export default function Home() {
                   variant='home'
                   className='w-full h-full bg-[#D3EBCD] hover:bg-[#B8E3C7]'
                 >
-                  조회하기
+                  <div className='flex flex-col justify-center gap-3 items-center pt-6'>
+                    <div className='tossface-icon text-[3rem]'>💰</div>
+                    조회하기
+                  </div>
                 </Button>
               </Link>
             </div>
@@ -56,7 +59,10 @@ export default function Home() {
                   variant='home'
                   className='w-full h-full bg-[#AEDBCE] hover:bg-[#8CCFC2]'
                 >
-                  이체하기
+                  <div className='flex flex-col justify-center gap-3 items-center pt-6'>
+                    <div className='tossface-icon text-[3rem]'>💸</div>
+                    이체하기
+                  </div>
                 </Button>
               </Link>
             </div>
