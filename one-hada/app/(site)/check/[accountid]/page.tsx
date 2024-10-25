@@ -1,5 +1,4 @@
 import dummy from '@/c-dummy/account_d.json';
-import AccountCard from '@/components/molecules/AccountCard';
 
 type AccountData = {
   account_id: string;
