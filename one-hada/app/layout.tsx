@@ -1,4 +1,5 @@
 import localFont from 'next/font/local';
+import { Suspense } from 'react';
 import './globals.css';
 
 const scDreamFont = localFont({
@@ -36,7 +37,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='ko'>
-      <body className={`${scDreamFont.variable} antialiased`}>{children}</body>
+      <body className={`${scDreamFont.variable} antialiased`}>
+        <Suspense>{children}</Suspense>
+      </body>
     </html>
   );
 }
