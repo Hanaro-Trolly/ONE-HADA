@@ -1,3 +1,5 @@
+import BankIcon from "./BankIcon";
+
 type AccountCardProps = {
   id: string;
   name: string;
@@ -30,7 +32,7 @@ export default function AccountCard({
     >
       <div className='flex items-center gap-4'>
         {/* Bank icon */}
-        <h1>아이콘</h1>
+        <BankIcon bankId={bank} />
         <div className='flex flex-col'>
           <h1 className='font-medium text-left text-lg'>{name}</h1>
           <label className='font-light text-gray-500 text-left text-xs'>
