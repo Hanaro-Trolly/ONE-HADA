@@ -11,7 +11,7 @@ export default function SettingsPage() {
   const phoneNumberRef = useRef<HTMLInputElement>(null);
   const addressRef = useRef<HTMLTextAreaElement>(null);
 
-  const [isLogined, _] = useState(false);
+  const [isLogined] = useState(false);
   const name = '홍길동';
   const birthDate = '2000-01-01';
   const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber);

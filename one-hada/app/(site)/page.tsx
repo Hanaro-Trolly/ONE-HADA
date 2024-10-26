@@ -104,7 +104,7 @@ export default function Home() {
         <div className='flex-grow'></div>
         <footer>
           <div className='h-14 w-ful'>
-            <Link href='tel:010-2905-5905'>
+            <Link href='tel:010-9178-8484'>
               <Button
                 id='callBtn'
                 variant='ghost'
