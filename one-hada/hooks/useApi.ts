@@ -49,16 +49,10 @@ const useApi = <T extends { id: string }>(
 
   const updateData = async (id: string, updatedData: Partial<T>) => {
     try {
-      const existingData = await getData(id);
-      if (!existingData) {
-        throw new Error('Data not found');
-      }
-
-      const response = await axios.put<T>(
+      const response = await axios.patch<T>(
         `http://localhost:3001/${resource}/${id}`,
-        { ...existingData, ...updatedData }
+        updatedData
       );
-
       setData((prev) =>
         prev.map((item) =>
           item.id === id ? { ...item, ...response.data } : item
