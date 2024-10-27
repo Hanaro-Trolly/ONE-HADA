@@ -1,18 +1,29 @@
 'use client';
 
-import { IoCheckbox } from "react-icons/io5";
-import { useSearchParams } from 'next/navigation';
+import { IoCheckbox } from 'react-icons/io5';
 import { useState } from 'react';
 
-export default function Checking() {
-  const searchParams = useSearchParams();
-
-  const accountId = searchParams.get('account_id');
-  const recipientNumber = searchParams.get('recipient_number');
-  const bankName = searchParams.get('bank');
-  const amount = searchParams.get('amount');
-  const [recipientName, setRecipientName] = useState('김하나');
-  const [senderName, setSenderName] = useState('김율리');
+export default function Checking({
+  searchParams: {
+    account_id: accountId,
+    recipient_number: recipientNumber,
+    bank: bankName,
+    amount,
+  },
+}: {
+  searchParams: {
+    account_id: string;
+    recipient_number: string;
+    bank: string;
+    amount: string;
+  };
+}) {
+  // const accountId = searchParams.get('account_id');
+  // const recipientNumber = searchParams.get('recipient_number');
+  // const bankName = searchParams.get('bank');
+  // const amount = searchParams.get('amount');
+  const [recipientName] = useState('김하나');
+  const [senderName] = useState('김율리');
 
   return (
     <div className='container mx-auto p-4'>

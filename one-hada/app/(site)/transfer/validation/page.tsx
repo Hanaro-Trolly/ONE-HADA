@@ -1,9 +1,9 @@
 'use client';
 
-import { MdOutlineQuestionMark } from 'react-icons/md';
-import { useSearchParams , useRouter} from 'next/navigation';
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { MdOutlineQuestionMark } from 'react-icons/md';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function TransferConfirmation() {
   const searchParams = useSearchParams();
@@ -13,18 +13,19 @@ export default function TransferConfirmation() {
   const recipientNumber = searchParams.get('recipient_number');
   const bankName = searchParams.get('bank');
   const amount = searchParams.get('amount');
-  const [recipientName, setRecipientName] = useState('김하나');
-  const [senderName, setSenderName] = useState('김율리');
+  const [recipientName] = useState('김하나');
+  const [senderName] = useState('김율리');
   const bankId = searchParams.get('bank');
-  
+
   const handleClick = () => {
     if (accountId && recipientNumber && bankId && amount) {
-      router.push(`/transfer/checking?account_id=${accountId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`);
+      router.push(
+        `/transfer/checking?account_id=${accountId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`
+      );
     } else {
       alert('은행과 계좌번호를 모두 입력해주세요.');
     }
   };
-  
 
   return (
     <div className='container mx-auto p-4'>
@@ -66,9 +67,13 @@ export default function TransferConfirmation() {
           </div>
         </div>
       </div>
-      <Button id='241' onClick={() => handleClick()} className='w-full bg-green-400 text-white font-bold py-3 rounded mt-6 hover:bg-green-500 transition'>
-      {recipientName}님께 송금
-        </Button>
+      <Button
+        id='241'
+        onClick={() => handleClick()}
+        className='w-full bg-green-400 text-white font-bold py-3 rounded mt-6 hover:bg-green-500 transition'
+      >
+        {recipientName}님께 송금
+      </Button>
     </div>
   );
 }

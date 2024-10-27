@@ -7,7 +7,7 @@ type TypeButtonProps = {
   children: React.ReactNode; // children 속성 추가
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export default function AccountTypeButton({
+export default function TypeButton({
   button_type,
   onClicks,
   children,
@@ -16,7 +16,7 @@ export default function AccountTypeButton({
   return (
     <Button
       id={button_type}
-      className='px-4 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377b68]'
+      className='px-3 py-2 bg-[#61B89F] text-xs text-white rounded-3xl hover:bg-[#377b68] w-12 h-8'
       onClick={onClicks}
       {...rest}
     >

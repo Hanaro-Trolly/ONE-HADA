@@ -1,6 +1,7 @@
 'use client';
 
 import dummy from '@/c-dummy/account_d.json';
+import TypeButton from '@/components/molecules/TypeButton';
 import { Button } from '@/components/ui/button';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -88,7 +89,7 @@ export default function AmountInput() {
           </p>
         </div>
 
-        <div className='bg-white p-4 rounded-lg shadow mb-4'>
+        <div className='bg-[#61B89F] hover:bg-[#377b68] text-white p-4 rounded-lg shadow mb-4'>
           <div className='flex justify-between items-center'>
             <span className='font-bold'>내 계좌</span>
             <span className='font-bold'>
@@ -96,39 +97,34 @@ export default function AmountInput() {
             </span>
           </div>
         </div>
-
-        {/* 금액 추가 버튼들 */}
         <div className='flex justify-between mb-4 space-x-2'>
-          <button
-            onClick={() => handleSpecialAmount(10000)}
-            className='w-16 h-16 bg-[#61B89F] text-white rounded-full hover:bg-[#377b68] shadow-md text-sm'
+          <TypeButton
+            onClicks={() => handleSpecialAmount(10000)}
+            button_type={'231'}
           >
             +1만
-          </button>
-          <button
-            onClick={() => handleSpecialAmount(50000)}
-            className='px-4 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377b68]'
+          </TypeButton>
+          <TypeButton
+            onClicks={() => handleSpecialAmount(50000)}
+            button_type={'231'}
           >
             +5만
-          </button>
-          <button
-            onClick={() => handleSpecialAmount(100000)}
-            className='px-4 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377b68]'
+          </TypeButton>
+          <TypeButton
+            onClicks={() => handleSpecialAmount(100000)}
+            button_type={'231'}
           >
             +10만
-          </button>
-          <button
-            onClick={() => handleSpecialAmount(1000000)}
-            className='px-4 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377b68]'
+          </TypeButton>
+          <TypeButton
+            onClicks={() => handleSpecialAmount(1000000)}
+            button_type={'231'}
           >
             +100만
-          </button>
-          <button
-            onClick={handleMaxAmount}
-            className='px-4 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377b68]'
-          >
+          </TypeButton>
+          <TypeButton onClicks={handleMaxAmount} button_type={'231'}>
             전액
-          </button>
+          </TypeButton>
         </div>
 
         {/* 숫자 키패드 */}
@@ -150,7 +146,11 @@ export default function AmountInput() {
           </button>
         </div>
 
-        <Button id='231' onClick={() => handleClick()}>
+        <Button
+          id='231'
+          className='w-full  text-white bg-[#61B89F] font-bold py-3 rounded mt-6 hover:bg-[#377b68] transition'
+          onClick={() => handleClick()}
+        >
           다음
         </Button>
       </div>
