@@ -1,12 +1,18 @@
+'use client';
+
 import HistoryCard from '@/components/molecules/HistoryCard';
 import ShortCutCard from '@/components/molecules/ShortCutCard';
 import SmallButton from '@/components/molecules/SmallButton';
 import { Edit2Icon, RotateCcwIcon, Trash2Icon } from 'lucide-react';
+import UserList from './UserList';
 
 export default function ComponentTest() {
   return (
     <>
       <div className='font-bold'>폰트 테스트</div>
+      <div>
+        <UserList />
+      </div>
       <div>
         <HistoryCard
           id='1'
