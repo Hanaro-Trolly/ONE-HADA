@@ -3,13 +3,13 @@ import { Button } from '../ui/button';
 
 type TypeButtonProps = {
   button_type: string;
-  onClicks: () => void;
+  onClick: () => void;
   children: React.ReactNode; // children 속성 추가
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function TypeButton({
   button_type,
-  onClicks,
+  onClick,
   children,
   ...rest
 }: TypeButtonProps) {

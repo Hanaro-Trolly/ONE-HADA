@@ -13,12 +13,12 @@ export default function HistoryCard({
   id,
   name,
   date,
-  isConsulting = false,
+  // isConsulting = false,
 }: HistoryCardProps) {
-  console.log(`🚀 ~ key:`, id);
-  console.log('🚀 ~ isConsulting:', isConsulting);
-  console.log('🚀 ~ date:', date);
-  console.log('🚀 ~ name:', name);
+  // console.log(`🚀 ~ key:`, id);
+  // console.log('🚀 ~ isConsulting:', isConsulting);
+  // console.log('🚀 ~ date:', date);
+  // console.log('🚀 ~ name:', name);
 
   return (
     <>

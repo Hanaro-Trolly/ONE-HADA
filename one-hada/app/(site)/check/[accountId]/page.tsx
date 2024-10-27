@@ -14,7 +14,6 @@ type AccountData = {
   bank: string;
   account_name: string;
 };
-
 export default function AccountDetailPage({
   params,
 }: {
@@ -29,39 +28,32 @@ export default function AccountDetailPage({
   const account: AccountData | undefined = dummy.accounts.find((acc) => {
     return acc.account_id === accountId;
   });
-
   if (!account) {
     return <div>계좌를 찾을 수 없습니다.</div>;
   }
-
   const handlePeriodClick = (period: string) => {
     setSelectedPeriod(period);
     setStartDate('');
     setEndDate('');
   };
-
   const handleTypeClick = (type: string) => {
     setSelectedType(type);
   };
-
   return (
     <div className='bg-white shadow-md rounded-lg m-4 p-4'>
       <h1>{account.account_name}</h1>
-
       <div className='mt-4'>{account.account_number}</div>
-
       <div className='bg-gray-100 shadow-md rounded-lg mt-8 p-4'>
         <h2 className='text-lg font-bold mb-4'>조회 옵션</h2>
-
         <div className='mb-4'>
           <p className='text-md font-semibold'>조회기간</p>
           <div className='flex gap-2 mt-2'>
             <TypeButton
               button_type='조회기간'
-              onClicks={() => handlePeriodClick('전체')}
+              onClick={() => handlePeriodClick('전체')}
               className={
                 selectedPeriod === '전체'
-                  ? 'bg-[#377b68] text-white'
+                  ? 'bg-[#377B68] text-white'
                   : 'bg-[#61B89F] text-white'
               }
             >
@@ -69,10 +61,10 @@ export default function AccountDetailPage({
             </TypeButton>
             <TypeButton
               button_type='조회기간'
-              onClicks={() => handlePeriodClick('1개월')}
+              onClick={() => handlePeriodClick('1개월')}
               className={
                 selectedPeriod === '1개월'
-                  ? 'bg-[#377b68] text-white'
+                  ? 'bg-[#377B68] text-white'
                   : 'bg-[#61B89F] text-white'
               }
             >
@@ -80,10 +72,10 @@ export default function AccountDetailPage({
             </TypeButton>
             <TypeButton
               button_type='조회기간'
-              onClicks={() => handlePeriodClick('3개월')}
+              onClick={() => handlePeriodClick('3개월')}
               className={
                 selectedPeriod === '3개월'
-                  ? 'bg-[#377b68] text-white'
+                  ? 'bg-[#377B68] text-white'
                   : 'bg-[#61B89F] text-white'
               }
             >
@@ -91,10 +83,10 @@ export default function AccountDetailPage({
             </TypeButton>
             <TypeButton
               button_type='조회기간'
-              onClicks={() => handlePeriodClick('6개월')}
+              onClick={() => handlePeriodClick('6개월')}
               className={
                 selectedPeriod === '6개월'
-                  ? 'bg-[#377b68] text-white'
+                  ? 'bg-[#377B68] text-white'
                   : 'bg-[#61B89F] text-white'
               }
             >
@@ -102,10 +94,10 @@ export default function AccountDetailPage({
             </TypeButton>
             <TypeButton
               button_type='조회기간'
-              onClicks={() => handlePeriodClick('1년')}
+              onClick={() => handlePeriodClick('1년')}
               className={
                 selectedPeriod === '1년'
-                  ? 'bg-[#377b68] text-white'
+                  ? 'bg-[#377B68] text-white'
                   : 'bg-[#61B89F] text-white'
               }
             >
@@ -113,7 +105,6 @@ export default function AccountDetailPage({
             </TypeButton>
           </div>
         </div>
-
         <div className='mb-4'>
           <div className='flex gap-4 mt-2'>
             <input
@@ -138,17 +129,16 @@ export default function AccountDetailPage({
             />
           </div>
         </div>
-
         {/* 거래 구분 */}
         <div className='mb-4'>
           <p className='text-md font-semibold'>거래 구분</p>
           <div className='flex gap-2 mt-2'>
             <TypeButton
               button_type='거래구분'
-              onClicks={() => handleTypeClick('전체')}
+              onClick={() => handleTypeClick('전체')}
               className={
                 selectedType === '전체'
-                  ? 'bg-[#377b68] text-white'
+                  ? 'bg-[#377B68] text-white'
                   : 'bg-[#61B89F] text-white'
               }
             >
@@ -156,10 +146,10 @@ export default function AccountDetailPage({
             </TypeButton>
             <TypeButton
               button_type='거래구분'
-              onClicks={() => handleTypeClick('입금')}
+              onClick={() => handleTypeClick('입금')}
               className={
                 selectedType === '입금'
-                  ? 'bg-[#377b68] text-white'
+                  ? 'bg-[#377B68] text-white'
                   : 'bg-[#61B89F] text-white'
               }
             >
@@ -167,10 +157,10 @@ export default function AccountDetailPage({
             </TypeButton>
             <TypeButton
               button_type='거래구분'
-              onClicks={() => handleTypeClick('출금')}
+              onClick={() => handleTypeClick('출금')}
               className={
                 selectedType === '출금'
-                  ? 'bg-[#377b68] text-white'
+                  ? 'bg-[#377B68] text-white'
                   : 'bg-[#61B89F] text-white'
               }
             >
@@ -188,7 +178,6 @@ export default function AccountDetailPage({
             placeholder='검색어 입력'
           />
         </div>
-
         {/* 조회하기 버튼 */}
         <Link
           href={`/check/${account.account_id}/detail?period=${selectedPeriod}&type=${selectedType}&accountId=${account.account_id}&startDate=${startDate}&endDate=${endDate}&search=${searchKeyword}`}

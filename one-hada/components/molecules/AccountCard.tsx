@@ -1,4 +1,4 @@
-import BankIcon from "./BankIcon";
+import BankIcon from './BankIcon';
 
 type AccountCardProps = {
   id: string;
