@@ -7,11 +7,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import useApi from '@/hooks/useApi';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useRef } from 'react';
+import { User } from '@/lib/datatypes';
 
 export default function Register() {
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
 
   const nameRef = useRef<HTMLInputElement>(null);
@@ -22,26 +25,68 @@ export default function Register() {
   const phone3Ref = useRef<HTMLInputElement>(null);
   const addressRef = useRef<HTMLTextAreaElement>(null);
 
+  const {
+    data: users,
+    loading,
+    error,
+    updateData,
+    addData,
+  } = useApi<User>('user');
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // const formData = {
-    //   name: nameRef.current?.value,
-    //   gender: genderRef.current?.value,
-    //   birthDate: birthDateRef.current?.value,
-    //   phone: [
-    //     phone1Ref.current?.value,
-    //     phone2Ref.current?.value,
-    //     phone3Ref.current?.value,
-    //   ].join('-'),
-    //   address: addressRef.current?.value,
-    //   email: session?.user?.email,
-    // };
+    const formData = {
+      id: Date.now().toString(),
+      user_name: nameRef.current!.value,
+      user_gender: genderRef.current!.value,
+      user_birth: birthDateRef.current!.value,
+      user_phone: [
+        phone1Ref.current!.value,
+        phone2Ref.current!.value,
+        phone3Ref.current!.value,
+      ].join('-'),
+      user_address: addressRef.current!.value,
+      user_email: session?.user?.email || '',
+      user_register: new Date(),
+      user_google: session?.user.provider === 'google' ? session.user.id : null,
+      user_kakao: session?.user.provider === 'kakao' ? session.user.id : null,
+      user_naver: session?.user.provider === 'naver' ? session.user.id : null,
+      simple_password: undefined,
+    };
 
-    // 사용자가 입력한 정보 DB로 전송
-    console.log('사용자 정보를 전송했습니다!');
-    router.push('/');
+    const existingUser = users.find(
+      (user) =>
+        user.user_name === formData.user_name &&
+        user.user_gender === formData.user_gender &&
+        user.user_birth === formData.user_birth &&
+        user.user_phone === formData.user_phone
+    );
+
+    if (existingUser) {
+      try {
+        await updateData(existingUser.id, {
+          [`user_${session?.user.provider}`]: session?.user.id,
+        });
+        alert('기존 계정과 연동하였습니다');
+        router.push('/');
+      } catch (err) {
+        console.error('Error updating user:', err);
+      }
+    } else {
+      // 유저가 존재하지 않으면 추가
+      try {
+        await addData(formData);
+        alert('회원등록에 성공하였습니다');
+        router.push('/');
+      } catch (err) {
+        console.error('Error updating user:', err);
+      }
+    }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div
@@ -151,7 +196,7 @@ export default function Register() {
               id='address'
               ref={addressRef}
               required
-              rows={2} // 기본 줄 수 설정
+              rows={2}
               className='flex-1 px-3 py-2 rounded-xl shadow-sm focus:outline-none resize-none  overflow-hidden'
             />
           </div>
