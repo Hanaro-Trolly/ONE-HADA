@@ -4,12 +4,15 @@ import AccountCard from '@/components/molecules/AccountCard';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import dummy from '@/c-dummy/account_d.json'
+import useApi from '@/hooks/useApi';
 
 export default function TransferPage() {
   const router = useRouter();
 
+  const { data: accounts, loading, error } = useApi<Account>('account');
+
   type Account = {
-    account_id: string;
+    id: string;
     user_id: string;
     account_number: number;
     balance: number;
@@ -18,10 +21,9 @@ export default function TransferPage() {
     account_name: string;
   };
 
-  const accounts: Account[] = dummy.accounts;
 
   const handleClick = (account: Account) => {
-    router.push(`/transfer/recipient?account_id=${account.account_id}`);
+    router.push(`/transfer/recipient?account_id=${account.id}`);
   };
 
   return (
@@ -33,14 +35,14 @@ export default function TransferPage() {
         {/* {todo} 받아오는 map이나 리스트 크기로 button 만들어야함*/}
         {accounts.map((account) => (
           <Button
-            key={account.account_id}
+            key={account.id}
             id='211'
             variant={'ghost'}
             className='w-full h-full'
             onClick={() => handleClick(account)}
           >
             <AccountCard
-              id={account.account_id}
+              id={account.id}
               name={account.account_name}
               accountType={account.account_type}
               accountNumber={account.account_number}
