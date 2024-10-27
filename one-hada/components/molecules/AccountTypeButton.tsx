@@ -8,6 +8,7 @@ type AccountTypeButtonProps = {
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function AccountTypeButton({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   account_type,
   onClicks,
   children,
