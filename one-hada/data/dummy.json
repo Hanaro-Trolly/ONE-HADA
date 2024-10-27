@@ -49,14 +49,14 @@
       "user_naver": "naver@naver.com"
     },
     {
-      "id": "1730023073870",
+      "id": "1730036044583",
       "user_name": "조서현",
-      "user_gender": "",
+      "user_gender": "female",
       "user_birth": "1999-07-20",
       "user_phone": "010-2905-5905",
       "user_address": "서울특별시 중구",
       "user_email": "csh990720@gmail.com",
-      "user_register": "2024-10-27T09:57:53.870Z",
+      "user_register": "2024-10-27T13:34:04.583Z",
       "user_google": "112287508448169046665",
       "user_kakao": "3762386136",
       "user_naver": null
