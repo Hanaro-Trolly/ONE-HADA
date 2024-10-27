@@ -99,30 +99,30 @@ export default function AmountInput() {
         </div>
         <div className='flex justify-between mb-4 space-x-2'>
           <TypeButton
-            onClicks={() => handleSpecialAmount(10000)}
+            onClick={() => handleSpecialAmount(10000)}
             button_type={'231'}
           >
             +1만
           </TypeButton>
           <TypeButton
-            onClicks={() => handleSpecialAmount(50000)}
+            onClick={() => handleSpecialAmount(50000)}
             button_type={'231'}
           >
             +5만
           </TypeButton>
           <TypeButton
-            onClicks={() => handleSpecialAmount(100000)}
+            onClick={() => handleSpecialAmount(100000)}
             button_type={'231'}
           >
             +10만
           </TypeButton>
           <TypeButton
-            onClicks={() => handleSpecialAmount(1000000)}
+            onClick={() => handleSpecialAmount(1000000)}
             button_type={'231'}
           >
             +100만
           </TypeButton>
-          <TypeButton onClicks={handleMaxAmount} button_type={'231'}>
+          <TypeButton onClick={handleMaxAmount} button_type={'231'}>
             전액
           </TypeButton>
         </div>
