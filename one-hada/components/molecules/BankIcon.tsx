@@ -12,9 +12,9 @@ const BankIcon: React.FC<BankIconProps> = ({ bankId }) => {
       case '하나은행':
         return '/icons/icon-hana.png';
       case '국민은행':
-        return '/icons/bank2.png';
+        return '/icons/icon-kb.png';
       case '신한은행':
-        return '/icons/bank3.png';
+        return '/icons/icon-shinhan.png';
       // 기본 아이콘 설정
       default:
         return '/icons/icon-192x192.png';
