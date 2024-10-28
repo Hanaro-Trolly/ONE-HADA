@@ -16,11 +16,10 @@ export default function AdminHeader() {
   useEffect(() => {
     console.log(counselData);
     fetchCounselData();
-  }, []);
+  }, [fetchCounselData, counselData]); // counselData 추가
 
   useEffect(() => {
     if (counselData.length > 0 && session.loginUser?.id) {
-      // 각 사용자의 가장 최근 상담 데이터만 필터링
       const userLatestCounsels = new Map<string, Counsel>();
 
       counselData

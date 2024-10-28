@@ -50,14 +50,18 @@ export default function AmountInput() {
   const handleNumberClick = (num: string) => {
     setAmount((prev) => {
       const newAmount = String(prev) + num;
-      return Number(newAmount) > Number(balance) ? balance.toString() : newAmount.toString();
+      return Number(newAmount) > Number(balance)
+        ? balance.toString()
+        : newAmount.toString();
     });
   };
 
   const handleSpecialAmount = (value: number) => {
     setAmount((prev) => {
       const newAmount = Number(prev) + value;
-      return newAmount > Number(balance) ? balance.toString() : newAmount.toString();
+      return newAmount > Number(balance)
+        ? balance.toString()
+        : newAmount.toString();
     });
   };
 

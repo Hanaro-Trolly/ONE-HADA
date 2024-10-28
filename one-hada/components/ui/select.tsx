@@ -13,6 +13,8 @@ import { cn } from '@/lib/utils';
 
 /* eslint-disable react/prop-types */
 
+/* eslint-disable react/prop-types */
+
 const Select = SelectPrimitive.Root;
 
 const SelectGroup = SelectPrimitive.Group;
