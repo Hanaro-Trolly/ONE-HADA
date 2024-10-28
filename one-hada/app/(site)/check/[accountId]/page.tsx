@@ -1,6 +1,7 @@
 'use client';
 
 import dummy from '@/c-dummy/account_d.json';
+import BankIcon from '@/components/molecules/BankIcon';
 import TypeButton from '@/components/molecules/TypeButton';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -41,8 +42,26 @@ export default function AccountDetailPage({
   };
   return (
     <div className='bg-[#DCEFEA] min-h-screen flex flex-col'>
-      <h1>{account.account_name}</h1>
-      <div className='mt-4'>{account.account_number}</div>
+      <div className='flex items-center ml-4 mt-4'>
+        <div className='w-12 h-12 bg-white rounded-full flex items-center justify-center'>
+          <BankIcon bankId={account.bank} />
+        </div>
+        <div className='ml-4'>
+          <h1 className='text-xl font-medium'>{account.account_name}</h1>
+          <h2 className='text-xl font-medium'>{account.account_number}</h2>
+        </div>
+      </div>
+
+      {/* <AccountCard 
+        id={account.account_id}
+        user_id={account.user_id}
+        accountNumber={account.account_number}
+        balance={account.balance}
+        accountType={account.account_type}
+        bank={account.bank}
+        name={account.account_name}
+      /> */}
+
       <div className='bg-white shadow-md rounded-lg mt-8 p-8 flex-grow'>
         {/* flex-grow 추가 */}
         <h2 className='text-lg font-bold mb-4'>조회 옵션</h2>

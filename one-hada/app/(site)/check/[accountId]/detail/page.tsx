@@ -96,9 +96,11 @@ export default function DetailPage({
           }
         }
 
+        // 출금일 경우 받는 사람 정보만, 입금일 경우 보낸 사람 정보만 확인
         const keywordCondition = searchKeyword
-          ? transaction.sender_view.includes(searchKeyword) ||
-            transaction.receiver_view.includes(searchKeyword)
+          ? transaction.sender_account_id === accountId
+            ? transaction.receiver_view.includes(searchKeyword)
+            : transaction.sender_view.includes(searchKeyword)
           : true;
 
         return periodCondition && keywordCondition;
