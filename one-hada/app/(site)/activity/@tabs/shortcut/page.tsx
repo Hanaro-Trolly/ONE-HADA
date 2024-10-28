@@ -4,31 +4,14 @@ import ShortCutCard from '@/components/molecules/ShortCutCard';
 import SmallButton from '@/components/molecules/SmallButton';
 import { Edit2Icon, RotateCcwIcon, Trash2Icon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { deleteData, getDataByUserId } from '@/lib/api';
+import { deleteData, getDataByUserId, updateData } from '@/lib/api';
 import { Shortcut } from '@/lib/datatypes';
 
 export default function ShortCutPage() {
   const [isDelete, setIsDelete] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [shortCuts, setShortCuts] = useState<Shortcut[]>([]);
-  const userId = '1'; // 여기서 사용자 ID를 설정하세요.
-
-  useEffect(() => {
-    const loadShortCuts = async () => {
-      try {
-        const data = await getDataByUserId<Shortcut>('shortcut', userId);
-        if (data) {
-          setShortCuts(data);
-        } else {
-          console.error('No shortcuts found for the user.');
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    loadShortCuts();
-  }, [userId]);
+  const userId = '1';
 
   const toggle = () => setIsDelete((prev) => !prev);
 
@@ -58,8 +41,40 @@ export default function ShortCutPage() {
     }
   };
 
+  const favoriteToggle = async (id: string) => {
+    setShortCuts((prev) => {
+      return prev.map((item) => {
+        if (item.id === id) {
+          const updatedItem = { ...item, is_Favorite: !item.is_Favorite };
+          updateData('shortcut', id, updatedItem);
+          return updatedItem;
+        }
+        return item;
+      });
+    });
+  };
+
   const favoriteList = shortCuts.filter(({ is_Favorite }) => is_Favorite);
   const normalList = shortCuts.filter(({ is_Favorite }) => !is_Favorite);
+
+  useEffect(() => {
+    const loadShortCuts = async () => {
+      try {
+        const data = await getDataByUserId<Shortcut>('shortcut', userId);
+        if (data) {
+          setShortCuts(data);
+        } else {
+          console.error('No shortcuts found for the user.');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadShortCuts();
+  }, [userId]);
+
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -106,6 +121,7 @@ export default function ShortCutPage() {
               isEdit={isDelete}
               isFavorite={true}
               onCheckboxChange={handleCheckboxChange}
+              favoriteToggle={favoriteToggle}
             />
           </li>
         ))}
@@ -117,6 +133,7 @@ export default function ShortCutPage() {
               isEdit={isDelete}
               isFavorite={false}
               onCheckboxChange={handleCheckboxChange}
+              favoriteToggle={favoriteToggle}
             />
           </li>
         ))}

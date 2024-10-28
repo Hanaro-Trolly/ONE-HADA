@@ -7,6 +7,7 @@ type ShortCutCardProps = {
   isEdit: boolean;
   isFavorite: boolean;
   onCheckboxChange?: (id: string) => void;
+  favoriteToggle: (id: string) => void;
 };
 
 export default function ShortCutCard({
@@ -15,6 +16,7 @@ export default function ShortCutCard({
   isEdit = false,
   isFavorite = false,
   onCheckboxChange,
+  favoriteToggle,
 }: ShortCutCardProps) {
   return (
     <>
@@ -39,9 +41,7 @@ export default function ShortCutCard({
             id='deleteFavorite'
             variant='ghost'
             className='[&_svg]:size-6'
-            onClick={() =>
-              console.log(`id : ${id}, name: ${name} 즐겨찾기 삭제!`)
-            }
+            onClick={() => favoriteToggle(id)}
           >
             <StarFilledIcon className='text-yellow-300' />
           </Button>
@@ -50,9 +50,7 @@ export default function ShortCutCard({
             id='addFavorite'
             variant='ghost'
             className='[&_svg]:size-6'
-            onClick={() =>
-              console.log(`id : ${id}, name: ${name} 즐겨찾기 추가!`)
-            }
+            onClick={() => favoriteToggle(id)}
           >
             <StarFilledIcon className='text-gray-400' />
           </Button>
