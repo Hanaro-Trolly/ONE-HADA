@@ -41,7 +41,7 @@ export default function CheckPage() {
       </div>
 
       {/* 버튼 클릭 시 account_type을 설정 */}
-      <div className='flex justify-center space-x-4'>
+      <div className='flex justify-center space-x-4 mb-4'>
         <AccountTypeButton
           account_type='입출금'
           onClick={() => setSelectedType('입출금')}
