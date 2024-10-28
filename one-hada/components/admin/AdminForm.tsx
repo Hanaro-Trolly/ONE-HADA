@@ -17,7 +17,7 @@ export default function AdminForm() {
       </div>
       <div className='w-1/2 px-6 space-y-6'>
         <Title text='상담 정보' />
-        <AdminInputForm />
+        <AdminInputForm userId={userId} />
       </div>
     </div>
   );
