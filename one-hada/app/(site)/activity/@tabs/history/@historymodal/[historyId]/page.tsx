@@ -16,14 +16,14 @@ const TempTable: Temp[] = [
   {
     historyId: 1,
     memberId: 2000,
-    title: '메가커피 결제내역 확인',
+    title: '메가커피 결제내역 조회',
     date: '2024.10.22',
     isConsulting: false,
   },
   {
     historyId: 2,
     memberId: 2000,
-    title: '오늘 입금내역 확인',
+    title: '오늘 입금내역 조회',
     date: '2024.10.22',
     isConsulting: false,
   },
@@ -38,6 +38,41 @@ const TempTable: Temp[] = [
     historyId: 4,
     memberId: 2000,
     title: '한달간 출금 내역 확인',
+    date: '2024.10.18',
+    isConsulting: false,
+  },
+  {
+    historyId: 5,
+    memberId: 2000,
+    title: '한달간 출금 내역 조회',
+    date: '2024.10.18',
+    isConsulting: false,
+  },
+  {
+    historyId: 6,
+    memberId: 2000,
+    title: '한달간 출금 내역 조회',
+    date: '2024.10.18',
+    isConsulting: false,
+  },
+  {
+    historyId: 7,
+    memberId: 2000,
+    title: '한달간 출금 내역 조회',
+    date: '2024.10.18',
+    isConsulting: false,
+  },
+  {
+    historyId: 8,
+    memberId: 2000,
+    title: '한달간 출금 내역 조회',
+    date: '2024.10.18',
+    isConsulting: false,
+  },
+  {
+    historyId: 9,
+    memberId: 2000,
+    title: '한달간 출금 내역 조회',
     date: '2024.10.18',
     isConsulting: false,
   },
@@ -65,6 +100,36 @@ export default function HistoryModalPage({
     router.back();
   };
 
+  const renderCheckboxes = () => {
+    if (item.title.includes('조회')) {
+      return (
+        <>
+          <label>
+            <input type='checkbox' /> 필터링 조건 1
+          </label>
+          <label>
+            <input type='checkbox' /> 필터링 조건 2
+          </label>
+          <label>
+            <input type='checkbox' /> 필터링 조건 3
+          </label>
+        </>
+      );
+    } else if (item.title.includes('송금')) {
+      return (
+        <>
+          <label>
+            <input type='checkbox' /> 누구에게 송금
+          </label>
+          <label>
+            <input type='checkbox' /> 얼마 송금
+          </label>
+        </>
+      );
+    }
+    return null; // 조건에 맞지 않는 경우 null 반환
+  };
+
   return (
     <Modal>
       <div className='flex flex-col gap-3 w-full'>
@@ -79,6 +144,7 @@ export default function HistoryModalPage({
             ></input>
           </div>
         </div>
+        <div>{renderCheckboxes()}</div>
         <div className='flex justify-between gap-4'>
           <Button
             id='cancle_historymodal'
