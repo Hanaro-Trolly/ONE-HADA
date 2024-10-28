@@ -1,5 +1,7 @@
 'use client';
 
+import PhoneField from '@/components/ui/PhoneInput';
+import InputField from '@/components/ui/labelInput';
 import {
   Select,
   SelectContent,
@@ -10,20 +12,24 @@ import {
 import useApi from '@/hooks/useApi';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
+import React from 'react';
 import { User } from '@/lib/datatypes';
 
 export default function Register() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const router = useRouter();
 
+  const newId = Date.now().toString();
   const nameRef = useRef<HTMLInputElement>(null);
-  const genderRef = useRef<HTMLButtonElement>(null);
   const birthDateRef = useRef<HTMLInputElement>(null);
-  const phone1Ref = useRef<HTMLInputElement>(null);
-  const phone2Ref = useRef<HTMLInputElement>(null);
-  const phone3Ref = useRef<HTMLInputElement>(null);
+  const phoneRefs = [
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+  ];
   const addressRef = useRef<HTMLTextAreaElement>(null);
+  const [userGender, setUserGender] = useState<string>('');
 
   const {
     data: users,
@@ -33,27 +39,24 @@ export default function Register() {
     addData,
   } = useApi<User>('user');
 
+  const createFormData = () => ({
+    id: newId,
+    user_name: nameRef.current!.value,
+    user_gender: userGender,
+    user_birth: birthDateRef.current!.value,
+    user_phone: phoneRefs.map((ref) => ref.current!.value).join('-'),
+    user_address: addressRef.current!.value,
+    user_email: session?.user?.email || '',
+    user_register: new Date(),
+    user_google: session?.user.provider === 'google' ? session.user.id : null,
+    user_kakao: session?.user.provider === 'kakao' ? session.user.id : null,
+    user_naver: session?.user.provider === 'naver' ? session.user.id : null,
+    simple_password: undefined,
+  });
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const formData = {
-      id: Date.now().toString(),
-      user_name: nameRef.current!.value,
-      user_gender: genderRef.current!.value,
-      user_birth: birthDateRef.current!.value,
-      user_phone: [
-        phone1Ref.current!.value,
-        phone2Ref.current!.value,
-        phone3Ref.current!.value,
-      ].join('-'),
-      user_address: addressRef.current!.value,
-      user_email: session?.user?.email || '',
-      user_register: new Date(),
-      user_google: session?.user.provider === 'google' ? session.user.id : null,
-      user_kakao: session?.user.provider === 'kakao' ? session.user.id : null,
-      user_naver: session?.user.provider === 'naver' ? session.user.id : null,
-      simple_password: undefined,
-    };
+    const formData = createFormData();
 
     const existingUser = users.find(
       (user) =>
@@ -75,12 +78,14 @@ export default function Register() {
       }
     } else {
       // 유저가 존재하지 않으면 추가
+
       try {
         await addData(formData);
+        await update({ id: newId });
         alert('회원등록에 성공하였습니다');
         router.push('/');
       } catch (err) {
-        console.error('Error updating user:', err);
+        console.error('Error adding user:', err);
       }
     }
   };
@@ -95,9 +100,9 @@ export default function Register() {
     >
       <form
         onSubmit={handleSubmit}
-        className='felx-1 flex flex-col justify-between'
+        className='flex-1 flex flex-col justify-between'
       >
-        <div className='flex flex-col items-center '>
+        <div className='flex flex-col items-center'>
           <div className='flex items-center mb-2'>
             <h1 className='text-main-green text-2xl font-medium'>원,하다</h1>
             <h2 className='text-lg ml-2 flex'>
@@ -108,27 +113,22 @@ export default function Register() {
         </div>
 
         <div className='space-y-6'>
-          <div className='flex items-center justify-center'>
-            <label htmlFor='name' className='w-20 block text-md '>
-              이름
-            </label>
-            <input
-              type='text'
-              id='name'
-              ref={nameRef}
-              required
-              className=' flex-1 px-3 py-2 text-md rounded-xl shadow-sm focus:outline-none '
-            />
-          </div>
+          <InputField
+            label='이름'
+            type='text'
+            ref={nameRef}
+            inputRef={nameRef}
+            labelClassName='w-20 block text-md'
+            inputClassName='flex-1 px-3 py-2 text-md rounded-xl shadow-sm focus:outline-none'
+          />
 
           <div className='flex items-center justify-center'>
-            <label htmlFor='gender' className='w-20 block text-md '>
+            <label htmlFor='gender' className='w-20 block text-md'>
               성별
             </label>
-            <Select>
+            <Select onValueChange={setUserGender}>
               <SelectTrigger
                 id='gender'
-                ref={genderRef}
                 className='flex-1 px-3 py-2 h-11 text-md data-[placeholder]:text-gray-400 data-[placeholder]:font-light bg-white rounded-xl shadow-sm focus:outline-none border-0 ring-0'
               >
                 <SelectValue placeholder='선택해주세요' />
@@ -140,54 +140,14 @@ export default function Register() {
             </Select>
           </div>
 
-          <div className='flex items-center justify-center'>
-            <label htmlFor='birthDate' className='w-20 block text-md mb-2'>
-              생년월일
-            </label>
-            <input
-              type='date'
-              id='birthDate'
-              ref={birthDateRef}
-              data-placeholder='날짜 선택'
-              required
-              className='flex-1 px-3 py-2 data-[placeholder]:text-gray-400 rounded-xl shadow-sm focus:outline-none'
-            />
-          </div>
-
-          <div className='flex items-center justify-center'>
-            <label htmlFor='phone' className='w-20 block text-md mb-2'>
-              연락처
-            </label>
-            <div className='flex-1 flex items-center justify-center'>
-              <input
-                type='tel'
-                id='phone1'
-                ref={phone1Ref}
-                placeholder='010'
-                required
-                className='w-full px-3 py-2  rounded-xl shadow-sm focus:outline-none'
-              />
-              <p className='mx-2'>-</p>
-              <input
-                type='tel'
-                id='phone2'
-                ref={phone2Ref}
-                placeholder='1234'
-                required
-                className='w-full px-3 py-2  rounded-xl shadow-sm focus:outline-none'
-              />
-              <p className='mx-2'>-</p>
-              <input
-                type='tel'
-                id='phone3'
-                ref={phone3Ref}
-                placeholder='5678'
-                required
-                className='w-full px-3 py-2  rounded-xl shadow-sm focus:outline-none'
-              />
-            </div>
-          </div>
-
+          <InputField
+            label='생년월일'
+            type='date'
+            inputRef={birthDateRef}
+            labelClassName='w-20 block text-md'
+            inputClassName='flex-1 px-3 py-2 text-md rounded-xl shadow-sm focus:outline-none'
+          />
+          <PhoneField refs={phoneRefs} />
           <div className='flex items-start justify-center'>
             <label htmlFor='address' className='w-20 block text-md mb-2'>
               주소
@@ -197,7 +157,7 @@ export default function Register() {
               ref={addressRef}
               required
               rows={2}
-              className='flex-1 px-3 py-2 rounded-xl shadow-sm focus:outline-none resize-none  overflow-hidden'
+              className='flex-1 px-3 py-2 rounded-xl shadow-sm focus:outline-none resize-none overflow-hidden'
             />
           </div>
         </div>

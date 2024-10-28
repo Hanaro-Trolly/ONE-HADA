@@ -64,11 +64,14 @@ export const authOptions: NextAuthOptions = {
       user.provider = provider;
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.sub = user.id;
         token.isNewUser = user.isNewUser;
         token.provider = user.provider;
+      }
+      if (trigger === 'update' && session?.id) {
+        token.sub = session.id;
       }
       return token;
     },
