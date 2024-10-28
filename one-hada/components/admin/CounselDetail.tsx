@@ -15,6 +15,7 @@ export default function CounselDetail({ userId }: { userId: string }) {
   const [userData, setUserData] = useState<{
     birth: string;
     phone: string;
+    name: string;
   } | null>(null);
   const { counselData } = useCounsel();
   const { session } = useAdminSession();
@@ -27,12 +28,14 @@ export default function CounselDetail({ userId }: { userId: string }) {
         id: string;
         user_birth: string;
         user_phone: string;
+        user_name: string;
       }>('user');
       const currentUser = allUsers.find((user) => user.id === decodedUserId);
       if (currentUser) {
         setUserData({
           birth: currentUser.user_birth,
           phone: currentUser.user_phone,
+          name: currentUser.user_name,
         });
       }
     };
@@ -58,7 +61,10 @@ export default function CounselDetail({ userId }: { userId: string }) {
       <div>
         <div className='space-y-4'>
           <div className='flex justify-between'>
-            <h2 className='text-2xl font-medium'>{decodedUserId} 님</h2>
+            <h2 className='text-2xl font-medium'>
+              {' '}
+              {userData ? `${userData.name}` : `${decodedUserId}`} 님
+            </h2>
             <button
               onClick={() => setIsPreviewOpen(true)}
               className='flex items-center gap-2 rounded-lg bg-[#61B89F] px-4 py-2 text-white hover:bg-[#377b68] transition-colors'

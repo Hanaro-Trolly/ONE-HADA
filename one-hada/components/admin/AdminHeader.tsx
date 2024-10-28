@@ -14,8 +14,9 @@ export default function AdminHeader() {
   const { session, logout } = useAdminSession();
 
   useEffect(() => {
+    console.log(counselData);
     fetchCounselData();
-  }, [fetchCounselData]);
+  }, []);
 
   useEffect(() => {
     if (counselData.length > 0 && session.loginUser?.id) {
@@ -89,9 +90,7 @@ export default function AdminHeader() {
           >
             <div className='pl-3 items-center'>
               <div className='flex flex-col space-y-1'>
-                <h3 className='font-medium'>
-                  {counsel.user_name || counsel.user_id}
-                </h3>
+                <h3 className='font-medium'>{counsel.user_name}</h3>
                 <p className='text-sm text-gray-400'>
                   {formatDate(counsel.consultation_date)}
                 </p>
