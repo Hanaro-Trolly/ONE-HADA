@@ -4,15 +4,16 @@ import TypeButton from '@/components/molecules/TypeButton';
 import { Button } from '@/components/ui/button';
 import useApi from '@/hooks/useApi';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function AmountInput() {
   const [amount, setAmount] = useState('');
+  const [recipientName, setRecipientName] = useState('');
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const accountId = searchParams.get('account_id');
-  const recipientName = searchParams.get('recipient');
+  const recipientId = searchParams.get('recipient');
   const recipientNumber = searchParams.get('recipient_number');
   const bankName = searchParams.get('bank');
 
@@ -26,18 +27,38 @@ export default function AmountInput() {
     account_name: string;
   };
 
-  const { data: accounts } = useApi<Account>('account');
+  type User = {
+    id: string;
+    user_name: string;
+    user_email: string;
+    user_phone: string;
+    user_address: string;
+    user_birth: string;
+    user_register: string;
+    user_google: string;
+    user_kakao: string;
+    user_naver: string;
+  };
 
-  const balance =
+  const { data: accounts } = useApi<Account>('account');
+  const { data: users } = useApi<User>('user');
+
+  const balance: number | string =
     accounts.find((account) => account.id === accountId)?.balance ||
     '정보 확인되지 않음';
 
   const handleNumberClick = (num: string) => {
-    setAmount((prev) => prev + num);
+    setAmount((prev) => {
+      const newAmount = String(prev) + num;
+      return Number(newAmount) > Number(balance) ? balance.toString() : newAmount.toString();
+    });
   };
 
   const handleSpecialAmount = (value: number) => {
-    setAmount((prev) => (Number(prev) + value).toString());
+    setAmount((prev) => {
+      const newAmount = Number(prev) + value;
+      return newAmount > Number(balance) ? balance.toString() : newAmount.toString();
+    });
   };
 
   const handleBackspace = () => {
@@ -49,14 +70,24 @@ export default function AmountInput() {
   };
 
   const handleClick = () => {
-    if (accountId && recipientName &&recipientNumber && bankName && amount) {
+    if (accountId && recipientId && recipientNumber && bankName && amount) {
       router.push(
-        `/transfer/validation?account_id=${accountId}&recipient=${recipientName}&bank=${bankName}&recipient_number=${recipientNumber}&amount=${amount}`
+        `/transfer/validation?account_id=${accountId}&recipient=${recipientId}&bank=${bankName}&recipient_number=${recipientNumber}&amount=${amount}`
       );
     } else {
       alert('은행과 계좌번호를 모두 입력해주세요.');
     }
   };
+  useEffect(() => {
+    if (users && recipientId) {
+      const recipient = users.find((user) => user.id === recipientId);
+      if (recipient) {
+        setRecipientName(recipient.user_name);
+      } else {
+        setRecipientName('알 수 없는 사용자');
+      }
+    }
+  }, [users, recipientId]);
 
   return (
     <div className='container mx-auto p-6'>

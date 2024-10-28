@@ -2,18 +2,16 @@
 
 import AccountCard from '@/components/molecules/AccountCard';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
 import useApi from '@/hooks/useApi';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function TransferPage() {
   const router = useRouter();
   const { data: session } = useSession();
 
-
-  const { data: accounts, loading, error } = useApi<Account>('account');
+  const { data: accounts } = useApi<Account>('account');
   const userId = session?.user?.id;
-
 
   type Account = {
     id: string;
@@ -25,8 +23,8 @@ export default function TransferPage() {
     account_name: string;
   };
 
-
-  const filteredAccounts = accounts?.filter(account => account.user_id === userId) || [];
+  const filteredAccounts =
+    accounts?.filter((account) => account.user_id === userId) || [];
 
   const handleClick = (account: Account) => {
     router.push(`/transfer/recipient?account_id=${account.id}`);

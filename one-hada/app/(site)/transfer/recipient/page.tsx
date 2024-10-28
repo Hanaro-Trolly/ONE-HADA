@@ -75,11 +75,7 @@ export default function RecipientPage({
     logo_url: string;
   };
 
-  const {
-    data: recipientAccounts,
-    loading,
-    error,
-  } = useApi<Account>('account');
+  const { data: recipientAccounts } = useApi<Account>('account');
   const banks: Bank[] = dummy.banks;
 
   return (
