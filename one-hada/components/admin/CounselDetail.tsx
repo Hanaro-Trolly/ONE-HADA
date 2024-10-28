@@ -2,7 +2,7 @@
 
 import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
-import { IoEye } from 'react-icons/io5';
+import { IoEye, IoFemale, IoMale } from 'react-icons/io5';
 import { useState, useEffect } from 'react';
 import { fetchAllData } from '@/lib/api';
 import AdminCard from './AdminCard';
@@ -16,10 +16,20 @@ export default function CounselDetail({ userId }: { userId: string }) {
     birth: string;
     phone: string;
     name: string;
+    gender: string;
   } | null>(null);
   const { counselData } = useCounsel();
   const { session } = useAdminSession();
   const decodedUserId = decodeURIComponent(userId);
+
+  const getGenderIcon = () => {
+    if (userData?.gender === '남') {
+      return <IoMale className='text-blue-500' size={24} />;
+    } else if (userData?.gender === '여') {
+      return <IoFemale className='text-pink-500' size={24} />;
+    }
+    return null;
+  };
 
   // 사용자 데이터 불러오기
   useEffect(() => {
@@ -29,6 +39,7 @@ export default function CounselDetail({ userId }: { userId: string }) {
         user_birth: string;
         user_phone: string;
         user_name: string;
+        user_gender: string;
       }>('user');
       const currentUser = allUsers.find((user) => user.id === decodedUserId);
       if (currentUser) {
@@ -36,6 +47,7 @@ export default function CounselDetail({ userId }: { userId: string }) {
           birth: currentUser.user_birth,
           phone: currentUser.user_phone,
           name: currentUser.user_name,
+          gender: currentUser.user_gender,
         });
       }
     };
@@ -65,6 +77,7 @@ export default function CounselDetail({ userId }: { userId: string }) {
               {' '}
               {userData ? `${userData.name}` : `${decodedUserId}`} 님
             </h2>
+            <div className='ml-2 mt-1'>{getGenderIcon()}</div>
             <button
               onClick={() => setIsPreviewOpen(true)}
               className='flex items-center gap-2 rounded-lg bg-[#61B89F] px-4 py-2 text-white hover:bg-[#377b68] transition-colors'
