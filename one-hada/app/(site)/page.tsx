@@ -8,10 +8,20 @@ import {
 } from '@/components/ui/carousel';
 import { FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
+import { getData, getDataByUserId } from '@/lib/api';
+import { Shortcut, User } from '@/lib/datatypes';
 
-const favoriteList = ['철수한테 송금', '강희한테 2000원 송금', '관리비 납부'];
-
-export default function Home() {
+export default async function Home() {
+  let favoriteList: Shortcut[] = [];
+  let user: User | null = null;
+  const userId = '1';
+  try {
+    favoriteList = await getDataByUserId<Shortcut>('shortcut', userId);
+    user = await getData<User>('user', userId);
+  } catch (error) {
+    console.error(error);
+  }
+  favoriteList = favoriteList.filter((item) => item.is_Favorite === true);
   return (
     <>
       <div
@@ -20,7 +30,9 @@ export default function Home() {
       >
         <div className='w-1/3 h-[12%] pt-3 px-2'>
           <div className='text=[#635666}'>
-            <label className='text-xl font-medium text-[#698596]'>강민관</label>{' '}
+            <label className='text-xl font-medium text-[#698596]'>
+              {user?.user_name}
+            </label>{' '}
             님,
           </div>
           안녕하세요.
@@ -87,11 +99,11 @@ export default function Home() {
                 {favoriteList.map((item, idx) => (
                   <CarouselItem key={idx}>
                     <Button
-                      id={'favoriteBtn-' + item}
+                      id={'favoriteBtn-' + item.id}
                       variant='home'
                       className='h-16 w-full bg-white text-black mx-2 font-medium rounded-xl hover:bg-[#F0F0F0]'
                     >
-                      {item}
+                      {item.shortcut_name}
                     </Button>
                   </CarouselItem>
                 ))}

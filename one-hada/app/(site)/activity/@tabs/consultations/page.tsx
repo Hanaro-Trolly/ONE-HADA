@@ -1,43 +1,40 @@
 import ConsultationCard from '@/components/molecules/ConsultationCard';
+import { getDataByUserId } from '@/lib/api';
+import { Consultation } from '@/lib/datatypes';
+import { formatDate } from '@/lib/formatDate';
 
-type Temp = {
-  title: string;
-  date: string;
-  content: string;
-};
-const TempConsultation: Temp[] = [
-  {
-    title: '대출하는 법',
-    date: '2024.10.23',
-    content: '상담내용1.상담내용2.상담내용3.',
-  },
-  {
-    title: '계좌 생성하는 법',
-    date: '2024.10.22',
-    content: '상담내용A.상담내용B.상담내용C.',
-  },
-  {
-    title: '내 집 마련하기',
-    date: '2024.10.10',
-    content: '못해요.파이팅하세요.',
-  },
-];
-export default function ConsultationsPage() {
+export default async function ConsultationsPage() {
+  let consultationData: Consultation[] = [];
+  try {
+    consultationData = await getDataByUserId<Consultation>('consultation', '1');
+  } catch (error) {
+    console.error(error);
+  }
+
   return (
     <>
       <div className='h-10 flex items-center w-full pl-4'>
-        총<div className='font-semibold text-lg'>{TempConsultation.length}</div>
+        총<div className='font-semibold text-lg'>{consultationData.length}</div>
         건
       </div>
       <ul
         style={{ maxHeight: 'calc(100vh - 150px)' }}
         className='w-full py-2 overflow-y-scroll rounded-t-md'
       >
-        {TempConsultation.map(({ title, date, content }, idx) => (
-          <li key={idx}>
-            <ConsultationCard title={title} date={date} content={content} />
-          </li>
-        ))}
+        {consultationData.map(
+          (
+            { consultation_title, consultation_date, consultation_content },
+            idx
+          ) => (
+            <li key={idx}>
+              <ConsultationCard
+                title={consultation_title}
+                date={formatDate(consultation_date)}
+                content={consultation_content}
+              />
+            </li>
+          )
+        )}
       </ul>
     </>
   );
