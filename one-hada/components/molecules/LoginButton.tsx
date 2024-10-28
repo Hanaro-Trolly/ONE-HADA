@@ -9,7 +9,8 @@ export default function LoginButton() {
 
   useEffect(() => {
     if (session?.user) {
-      console.log('로그인 성공:', session.user);
+      console.log('로그인 성공: session', session);
+      console.log('session.user:', session.user);
     }
   }, [session]);
 
@@ -28,6 +29,7 @@ export default function LoginButton() {
   return session ? (
     <div className='flex items-center space-x-4'>
       <Button
+        id='lo'
         variant='ghost'
         className='rounded-none hover:bg-main-background'
         onClick={handleSignOut}
@@ -37,6 +39,7 @@ export default function LoginButton() {
     </div>
   ) : (
     <Button
+      id='li'
       variant='ghost'
       className='rounded-none hover:bg-main-background'
       onClick={handleSignIn}

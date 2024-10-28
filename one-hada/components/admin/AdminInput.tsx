@@ -1,3 +1,4 @@
+'use client';
 interface AdminInputProps {
   label: string;
   value: string;

@@ -1,3 +1,5 @@
+'use client';
+
 import { StarFilledIcon } from '@radix-ui/react-icons';
 import { Button } from '../ui/button';
 

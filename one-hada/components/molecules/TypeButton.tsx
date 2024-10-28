@@ -1,23 +1,22 @@
 import { ButtonHTMLAttributes } from 'react';
 import { Button } from '../ui/button';
 
-type AccountTypeButtonProps = {
-  account_type: string;
+type TypeButtonProps = {
+  button_type: string;
   onClick: () => void;
   children: React.ReactNode; // children 속성 추가
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export default function AccountTypeButton({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  account_type,
+export default function TypeButton({
+  button_type,
   onClick,
   children,
   ...rest
-}: AccountTypeButtonProps) {
+}: TypeButtonProps) {
   return (
     <Button
-      id={account_type}
-      className='px-4 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377b68]'
+      id={button_type}
+      className='px-3 py-2 bg-[#61B89F] text-xs text-white rounded-3xl hover:bg-[#377b68] w-12 h-8'
       onClick={onClick}
       {...rest}
     >

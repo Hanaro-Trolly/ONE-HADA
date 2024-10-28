@@ -1,12 +1,15 @@
 'use client';
 
 import dummy from '@/c-dummy/account_d.json';
-import { useSearchParams } from 'next/navigation';
+import TypeButton from '@/components/molecules/TypeButton';
+import { Button } from '@/components/ui/button';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function AmountInput() {
   const [amount, setAmount] = useState('');
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const accountId = searchParams.get('account_id');
   const recipientNumber = searchParams.get('recipient_number');
@@ -19,11 +22,26 @@ export default function AmountInput() {
     logo_url: string;
   };
 
+  type Account = {
+    account_id: string;
+    user_id: string;
+    account_number: number;
+    balance: number;
+    account_type: string;
+    bank: string;
+    account_name: string;
+  };
+
   const banks: Bank[] = dummy.banks;
+  const accounts: Account[] = dummy.accounts;
 
   const bankName =
     banks.find((bank) => bank.bank_id === bankId)?.bank_name ||
     '은행 정보 없음';
+
+  const balance =
+    accounts.find((account) => account.account_id === accountId)?.balance ||
+    '정보 확인되지 않음';
 
   const handleNumberClick = (num: string) => {
     setAmount((prev) => prev + num);
@@ -38,63 +56,75 @@ export default function AmountInput() {
   };
 
   const handleMaxAmount = () => {
-    setAmount('5500500'); // 예시로 계좌의 최대 잔액을 사용
+    setAmount(balance.toString());
   };
 
-  const handleNext = () => {
-    alert(`입력한 금액: ${amount}`);
+  const handleClick = () => {
+    if (accountId && recipientNumber && bankId && amount) {
+      router.push(
+        `/transfer/validation?account_id=${accountId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`
+      );
+    } else {
+      alert('은행과 계좌번호를 모두 입력해주세요.');
+    }
   };
 
   return (
     <div className='container mx-auto p-6'>
-      <h1 className='text-center font-bold text-2xl mb-6'>얼마를 보낼까요?</h1>
       <div className='bg-gray-100 p-6 rounded-lg mb-6 text-center'>
         <div className='mb-6'>
           <p className='font-bold text-xl mb-2'>{accountId}</p>
-          <p className='text-gray-600'>
+          <p className='text-gray-400'>
             {bankName} {recipientNumber}
           </p>
           <hr className='border-t border-gray-600 mx-auto w-3/4' />
+          <p
+            className={`text-xl mb-2 mt-8 ${amount ? 'font-bold text-black' : 'font-bold text-gray-400'}`}
+          >
+            {amount ? (
+              <span>{`${Number(amount).toLocaleString()} 원`}</span>
+            ) : (
+              <span>얼마를 보낼까요?</span>
+            )}
+          </p>
         </div>
 
-        <div className='bg-white p-4 rounded-lg shadow mb-4'>
+        <div className='bg-[#61B89F] hover:bg-[#377b68] text-white p-4 rounded-lg shadow mb-4'>
           <div className='flex justify-between items-center'>
             <span className='font-bold'>내 계좌</span>
             <span className='font-bold'>
-              {Number(amount).toLocaleString()} 원
+              {Number(balance).toLocaleString()} 원
             </span>
           </div>
         </div>
-
-        {/* 금액 추가 버튼들 */}
-        <div className='flex justify-between mb-4'>
-          <button
+        <div className='flex justify-between mb-4 space-x-2'>
+          <TypeButton
             onClick={() => handleSpecialAmount(10000)}
-            className='p-2 bg-gray-200 rounded'
+            button_type={'231'}
           >
             +1만
-          </button>
-          <button
+          </TypeButton>
+          <TypeButton
             onClick={() => handleSpecialAmount(50000)}
-            className='p-2 bg-gray-200 rounded'
+            button_type={'231'}
           >
             +5만
-          </button>
-          <button
+          </TypeButton>
+          <TypeButton
             onClick={() => handleSpecialAmount(100000)}
-            className='p-2 bg-gray-200 rounded'
+            button_type={'231'}
           >
             +10만
-          </button>
-          <button
+          </TypeButton>
+          <TypeButton
             onClick={() => handleSpecialAmount(1000000)}
-            className='p-2 bg-gray-200 rounded'
+            button_type={'231'}
           >
             +100만
-          </button>
-          <button onClick={handleMaxAmount} className='p-2 bg-gray-200 rounded'>
+          </TypeButton>
+          <TypeButton onClick={handleMaxAmount} button_type={'231'}>
             전액
-          </button>
+          </TypeButton>
         </div>
 
         {/* 숫자 키패드 */}
@@ -110,19 +140,19 @@ export default function AmountInput() {
           ))}
           <button
             onClick={handleBackspace}
-            className='p-4 bg-red-200 rounded text-xl shadow'
+            className='p-4 bg-gray-100 rounded text-xl shadow'
           >
             ⌫
           </button>
         </div>
 
-        {/* 다음 버튼 */}
-        <button
-          onClick={handleNext}
-          className='w-full p-4 bg-green-500 text-white font-bold rounded'
+        <Button
+          id='231'
+          className='w-full  text-white bg-[#61B89F] font-bold py-3 rounded mt-6 hover:bg-[#377b68] transition'
+          onClick={() => handleClick()}
         >
           다음
-        </button>
+        </Button>
       </div>
     </div>
   );

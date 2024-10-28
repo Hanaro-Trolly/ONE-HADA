@@ -1,11 +1,16 @@
 type User = {
   id: string;
   user_name: string;
-  user_email: string;
+  user_email: string | undefined;
+  user_gender: string;
   user_phone: string;
   user_address: string;
   user_birth: string;
   user_register: Date;
+  user_google: string | null | undefined;
+  user_kakao: string | null | undefined;
+  user_naver: string | null | undefined;
+  simple_password: number | undefined;
 };
 
 type Agent = {

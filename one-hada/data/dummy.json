@@ -3,11 +3,14 @@
     {
       "id": "1",
       "user_name": "정성현",
-      "user_email": "awaysh@example.com",
+      "user_email": "mingwan21@example.com",
       "user_phone": "010-1234-5678",
       "user_address": "서울특별시 영등포구 신길동",
       "user_birth": "1999-04-02",
-      "user_register": "2023-01-01T12:00:00Z"
+      "user_register": "2023-01-01T12:00:00Z",
+      "user_google": "google@gmail.com",
+      "user_kakao": "kakao@kakao.com",
+      "user_naver": "naver@naver.com"
     },
     {
       "id": "2",
@@ -16,7 +19,10 @@
       "user_phone": "010-9876-5432",
       "user_address": "부천시 소사로 78번길",
       "user_birth": "1997-01-02",
-      "user_register": "2023-02-01T12:00:00Z"
+      "user_register": "2023-02-01T12:00:00Z",
+      "user_google": "google@gmail.com",
+      "user_kakao": "kakao@kakao.com",
+      "user_naver": "naver@naver.com"
     },
     {
       "id": "3",
@@ -25,7 +31,10 @@
       "user_phone": "010-5555-1234",
       "user_address": "서울특별시 구로구 구로1동",
       "user_birth": "2000-05-26",
-      "user_register": "2023-03-01T12:00:00Z"
+      "user_register": "2023-03-01T12:00:00Z",
+      "user_google": "google@gmail.com",
+      "user_kakao": "kakao@kakao.com",
+      "user_naver": "naver@naver.com"
     },
     {
       "id": "4",
@@ -34,7 +43,23 @@
       "user_phone": "010-4444-5678",
       "user_address": "인천광역시 남동구 구월동",
       "user_birth": "1999-09-21",
-      "user_register": "2023-04-01T12:00:00Z"
+      "user_register": "2023-04-01T12:00:00Z",
+      "user_google": "google@gmail.com",
+      "user_kakao": "kakao@kakao.com",
+      "user_naver": "naver@naver.com"
+    },
+    {
+      "id": "1730036044583",
+      "user_name": "조서현",
+      "user_gender": "female",
+      "user_birth": "1999-07-20",
+      "user_phone": "010-2905-5905",
+      "user_address": "서울특별시 중구",
+      "user_email": "csh990720@gmail.com",
+      "user_register": "2024-10-27T13:34:04.583Z",
+      "user_google": "112287508448169046665",
+      "user_kakao": "3762386136",
+      "user_naver": null
     }
   ],
   "agent": [
