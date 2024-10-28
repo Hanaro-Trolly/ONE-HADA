@@ -1,6 +1,6 @@
 'use client';
 
-import ShortCutCard from '@/components/molecules/ShortCutCard';
+import ShortCutCard from '@/components/activity/ShortCutCard';
 import SmallButton from '@/components/molecules/SmallButton';
 import { Edit2Icon, RotateCcwIcon, Trash2Icon } from 'lucide-react';
 import { useEffect, useState } from 'react';
