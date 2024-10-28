@@ -62,7 +62,7 @@ export default function ShortCutPage() {
       try {
         const data = await getDataByUserId<Shortcut>('shortcut', userId);
         if (data) {
-          setShortCuts(data);
+          setShortCuts(data.reverse());
         } else {
           console.error('No shortcuts found for the user.');
         }

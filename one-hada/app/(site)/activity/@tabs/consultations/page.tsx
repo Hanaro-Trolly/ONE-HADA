@@ -21,20 +21,22 @@ export default async function ConsultationsPage() {
         style={{ maxHeight: 'calc(100vh - 150px)' }}
         className='w-full py-2 overflow-y-scroll rounded-t-md'
       >
-        {consultationData.map(
-          (
-            { consultation_title, consultation_date, consultation_content },
-            idx
-          ) => (
-            <li key={idx}>
-              <ConsultationCard
-                title={consultation_title}
-                date={formatDate(consultation_date)}
-                content={consultation_content}
-              />
-            </li>
-          )
-        )}
+        {consultationData
+          .reverse()
+          .map(
+            (
+              { consultation_title, consultation_date, consultation_content },
+              idx
+            ) => (
+              <li key={idx}>
+                <ConsultationCard
+                  title={consultation_title}
+                  date={formatDate(consultation_date)}
+                  content={consultation_content}
+                />
+              </li>
+            )
+          )}
       </ul>
     </>
   );
