@@ -1,17 +1,16 @@
 'use client';
 
-import { useState } from 'react';
 import dummy from '@/c-dummy/account_d.json';
 import BankOption from '@/components/molecules/BankOption';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function RecipientPage({
   searchParams,
 }: {
   searchParams: { account_id: string };
 }) {
-
   const router = useRouter();
 
   const [selectedBank, setSelectedBank] = useState('');
@@ -33,7 +32,9 @@ export default function RecipientPage({
 
   const handleClick = () => {
     if (selectedBank && accountNumber) {
-      router.push(`/transfer/amount?account_id=${account_id}&bank=${selectedBank}&recipient_number=${accountNumber}`);
+      router.push(
+        `/transfer/amount?account_id=${account_id}&bank=${selectedBank}&recipient_number=${accountNumber}`
+      );
     } else {
       alert('은행과 계좌번호를 모두 입력해주세요.');
     }
@@ -98,7 +99,9 @@ export default function RecipientPage({
           className='w-full mb-4 p-2 border border-gray-300 rounded'
         />
 
-        <Button id='223' onClick={handleClick}>다음</Button>
+        <Button id='223' onClick={handleClick}>
+          다음
+        </Button>
 
         {/* 수취인 목록 */}
         <div className='flex flex-col gap-4'>

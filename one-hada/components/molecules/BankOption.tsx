@@ -7,7 +7,12 @@ type BankOptionProps = {
   onClick: (bankId: string) => void;
 };
 
-const BankOption: React.FC<BankOptionProps> = ({ bankId, bankName, selected, onClick }) => {
+const BankOption: React.FC<BankOptionProps> = ({
+  bankId,
+  bankName,
+  selected,
+  onClick,
+}) => {
   return (
     <button
       onClick={() => onClick(bankId)}

@@ -1,9 +1,9 @@
 'use client';
 
+import dummy from '@/c-dummy/account_d.json';
 import AccountCard from '@/components/molecules/AccountCard';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import dummy from '@/c-dummy/account_d.json'
 
 export default function TransferPage() {
   const router = useRouter();
