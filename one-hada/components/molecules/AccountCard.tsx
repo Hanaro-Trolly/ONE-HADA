@@ -1,13 +1,11 @@
 'use client';
 
-import useApi from '@/hooks/useApi';
 import BankIcon from './BankIcon';
 
 type AccountCardProps = {
   id: string;
-  name: string;
   accountNumber: number;
-  balance: number;
+  balance?: number; // balance를 선택적 속성으로 정의
   accountType: string;
   bank: string;
   user_id: string;
@@ -15,7 +13,6 @@ type AccountCardProps = {
 
 export default function AccountCard({
   id,
-  name,
   accountNumber,
   balance,
   accountType,
@@ -36,9 +33,12 @@ export default function AccountCard({
           </label>
         </div>
       </div>
-      <h2 className='font-medium text-lg text-right self-end'>
-        {balance.toLocaleString()} 원
-      </h2>
+      {/* balance 값이 존재할 때만 렌더링 */}
+      {balance !== undefined && (
+        <h2 className='font-medium text-lg text-right self-end'>
+          {balance.toLocaleString()} 원
+        </h2>
+      )}
     </div>
   );
 }

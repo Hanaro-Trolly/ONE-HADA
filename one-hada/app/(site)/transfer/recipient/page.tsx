@@ -137,10 +137,8 @@ export default function RecipientPage({
             <AccountCard
               key={account.id}
               id={account.id}
-              name={account.account_name}
               accountType={account.account_type}
               accountNumber={account.account_number}
-              balance={account.balance}
               bank={account.bank}
               user_id={account.user_id}
             />
