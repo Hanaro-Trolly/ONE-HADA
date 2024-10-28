@@ -74,8 +74,6 @@ export default function ShortCutPage() {
     loadShortCuts();
   }, [userId]);
 
-  useEffect(() => {}, []);
-
   return (
     <>
       <li className='h-10 flex items-center w-full justify-between pr-4 py-1'>

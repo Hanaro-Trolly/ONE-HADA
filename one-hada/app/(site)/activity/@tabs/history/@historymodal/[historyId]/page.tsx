@@ -3,90 +3,9 @@
 import Modal from '@/components/layout/Modal';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
-
-type Temp = {
-  historyId: number;
-  memberId: number;
-  title: string;
-  date: string;
-  isConsulting: boolean;
-  historyList: string[];
-};
-const TempTable: Temp[] = [
-  {
-    historyId: 1,
-    memberId: 2000,
-    title: '메가커피 결제내역 조회',
-    date: '2024.10.22',
-    isConsulting: false,
-    historyList: ['메가커피', '결제내역', '조회'],
-  },
-  {
-    historyId: 2,
-    memberId: 2000,
-    title: '오늘 입금내역 조회',
-    date: '2024.10.22',
-    isConsulting: false,
-    historyList: ['2024.10.22', '입금내역', '조회'],
-  },
-  {
-    historyId: 3,
-    memberId: 2000,
-    title: '시온이한테 2억 송금',
-    date: '2024.10.21',
-    isConsulting: false,
-    historyList: ['시온에게', '2억', '송금'],
-  },
-  {
-    historyId: 4,
-    memberId: 2000,
-    title: '한달간 출금 내역 조회',
-    date: '2024.10.18',
-    isConsulting: false,
-    historyList: ['한달', '출금내역', '조회'],
-  },
-  {
-    historyId: 5,
-    memberId: 2000,
-    title: '한달간 출금 내역 조회',
-    date: '2024.10.18',
-    isConsulting: false,
-    historyList: ['한달', '출금내역', '조회'],
-  },
-  {
-    historyId: 6,
-    memberId: 2000,
-    title: '한달간 출금 내역 조회',
-    date: '2024.10.18',
-    isConsulting: false,
-    historyList: ['한달', '출금내역', '조회'],
-  },
-  {
-    historyId: 7,
-    memberId: 2000,
-    title: '한달간 출금 내역 조회',
-    date: '2024.10.18',
-    isConsulting: false,
-    historyList: ['한달', '출금내역', '조회'],
-  },
-  {
-    historyId: 8,
-    memberId: 2000,
-    title: '한달간 출금 내역 조회',
-    date: '2024.10.18',
-    isConsulting: false,
-    historyList: ['한달', '출금내역', '조회'],
-  },
-  {
-    historyId: 9,
-    memberId: 2000,
-    title: '한달간 출금 내역 조회',
-    date: '2024.10.18',
-    isConsulting: false,
-    historyList: ['한달', '출금내역', '조회'],
-  },
-];
+import { useEffect, useRef, useState } from 'react';
+import { getDataByUserId } from '@/lib/api';
+import { History } from '@/lib/datatypes';
 
 export default function HistoryModalPage({
   params: { historyId },
@@ -95,19 +14,36 @@ export default function HistoryModalPage({
 }) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [checkedList, setCheckedList] = useState<string[]>([]); //원하는 경로설정 체크
+  const [checkedList, setCheckedList] = useState<string[]>([]);
+  const [history, setHistory] = useState<History | null>(null); // useState로 history 관리
 
-  const item = TempTable.find((item) => item.historyId === parseInt(historyId));
-  if (!item) return <></>;
+  useEffect(() => {
+    const loadHistory = async () => {
+      try {
+        const data = await getDataByUserId<History>('history', historyId);
+        if (data) {
+          const foundHistory =
+            data.find((item) => item.id === historyId) || null;
+          setHistory(foundHistory); // 상태로 설정
+        } else {
+          console.error('No history found for the user.');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadHistory();
+  }, [historyId]);
 
   const handleSave = () => {
     const inputValue = inputRef.current?.value;
     if (!inputValue) {
       inputRef.current?.focus();
-      return; // 타이틀에 포커스 주고 모달 닫으면 안됨.
+      return;
     }
     console.log('🚀 ~ handleSave ~ inputValue:', inputValue);
-    console.log('🚀 ~ 채크 된 항목 checkedList:', checkedList);
+    console.log('🚀 ~ 체크된 항목 checkedList:', checkedList);
 
     // 전송 로직 추가
     router.back();
@@ -116,10 +52,9 @@ export default function HistoryModalPage({
   const handleCheckedItem = (value: string, isChecked: boolean) => {
     if (isChecked) {
       setCheckedList((prev) => [...prev, value]);
-    } else if (!isChecked && checkedList.includes(value)) {
-      setCheckedList(checkedList.filter((item) => item !== value));
+    } else {
+      setCheckedList((prev) => prev.filter((item) => item !== value));
     }
-    return;
   };
 
   return (
@@ -130,20 +65,20 @@ export default function HistoryModalPage({
           <div className='flex justify-around pt-3'>
             <input
               ref={inputRef}
-              defaultValue={item?.title}
-              placeholder={item?.title}
+              defaultValue={history?.history_name}
+              placeholder={history?.history_name}
               className='flex justify-center border border-gray-300 rounded-md p-3 bg-white focus:outline-none focus:ring-0 transition duration-200 w-full'
-            ></input>
+            />
           </div>
         </div>
         <div className='flex flex-col justify-items-start'>
-          {item.historyList.map((value) => (
+          {history?.history_params.split('#').map((value) => (
             <label key={value} className='flex items-center'>
               <input
                 type='checkbox'
                 checked={checkedList.includes(value)}
                 onChange={(e) => handleCheckedItem(value, e.target.checked)}
-              ></input>
+              />
               <span className='ml-2'>{value}</span>
             </label>
           ))}
