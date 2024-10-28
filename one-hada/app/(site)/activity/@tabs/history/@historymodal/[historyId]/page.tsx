@@ -3,7 +3,7 @@
 import Modal from '@/components/layout/Modal';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 type Temp = {
   historyId: number;
@@ -11,6 +11,7 @@ type Temp = {
   title: string;
   date: string;
   isConsulting: boolean;
+  historyList: string[];
 };
 const TempTable: Temp[] = [
   {
@@ -19,6 +20,7 @@ const TempTable: Temp[] = [
     title: '메가커피 결제내역 조회',
     date: '2024.10.22',
     isConsulting: false,
+    historyList: ['메가커피', '결제내역', '조회'],
   },
   {
     historyId: 2,
@@ -26,6 +28,7 @@ const TempTable: Temp[] = [
     title: '오늘 입금내역 조회',
     date: '2024.10.22',
     isConsulting: false,
+    historyList: ['2024.10.22', '입금내역', '조회'],
   },
   {
     historyId: 3,
@@ -33,13 +36,15 @@ const TempTable: Temp[] = [
     title: '시온이한테 2억 송금',
     date: '2024.10.21',
     isConsulting: false,
+    historyList: ['시온에게', '2억', '송금'],
   },
   {
     historyId: 4,
     memberId: 2000,
-    title: '한달간 출금 내역 확인',
+    title: '한달간 출금 내역 조회',
     date: '2024.10.18',
     isConsulting: false,
+    historyList: ['한달', '출금내역', '조회'],
   },
   {
     historyId: 5,
@@ -47,6 +52,7 @@ const TempTable: Temp[] = [
     title: '한달간 출금 내역 조회',
     date: '2024.10.18',
     isConsulting: false,
+    historyList: ['한달', '출금내역', '조회'],
   },
   {
     historyId: 6,
@@ -54,6 +60,7 @@ const TempTable: Temp[] = [
     title: '한달간 출금 내역 조회',
     date: '2024.10.18',
     isConsulting: false,
+    historyList: ['한달', '출금내역', '조회'],
   },
   {
     historyId: 7,
@@ -61,6 +68,7 @@ const TempTable: Temp[] = [
     title: '한달간 출금 내역 조회',
     date: '2024.10.18',
     isConsulting: false,
+    historyList: ['한달', '출금내역', '조회'],
   },
   {
     historyId: 8,
@@ -68,6 +76,7 @@ const TempTable: Temp[] = [
     title: '한달간 출금 내역 조회',
     date: '2024.10.18',
     isConsulting: false,
+    historyList: ['한달', '출금내역', '조회'],
   },
   {
     historyId: 9,
@@ -75,6 +84,7 @@ const TempTable: Temp[] = [
     title: '한달간 출금 내역 조회',
     date: '2024.10.18',
     isConsulting: false,
+    historyList: ['한달', '출금내역', '조회'],
   },
 ];
 
@@ -85,6 +95,8 @@ export default function HistoryModalPage({
 }) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [checkedList, setCheckedList] = useState<string[]>([]); //원하는 경로설정 체크
+
   const item = TempTable.find((item) => item.historyId === parseInt(historyId));
   if (!item) return <></>;
 
@@ -95,39 +107,19 @@ export default function HistoryModalPage({
       return; // 타이틀에 포커스 주고 모달 닫으면 안됨.
     }
     console.log('🚀 ~ handleSave ~ inputValue:', inputValue);
+    console.log('🚀 ~ 채크 된 항목 checkedList:', checkedList);
 
     // 전송 로직 추가
     router.back();
   };
 
-  const renderCheckboxes = () => {
-    if (item.title.includes('조회')) {
-      return (
-        <>
-          <label>
-            <input type='checkbox' /> 필터링 조건 1
-          </label>
-          <label>
-            <input type='checkbox' /> 필터링 조건 2
-          </label>
-          <label>
-            <input type='checkbox' /> 필터링 조건 3
-          </label>
-        </>
-      );
-    } else if (item.title.includes('송금')) {
-      return (
-        <>
-          <label>
-            <input type='checkbox' /> 누구에게 송금
-          </label>
-          <label>
-            <input type='checkbox' /> 얼마 송금
-          </label>
-        </>
-      );
+  const handleCheckedItem = (value: string, isChecked: boolean) => {
+    if (isChecked) {
+      setCheckedList((prev) => [...prev, value]);
+    } else if (!isChecked && checkedList.includes(value)) {
+      setCheckedList(checkedList.filter((item) => item !== value));
     }
-    return null; // 조건에 맞지 않는 경우 null 반환
+    return;
   };
 
   return (
@@ -144,7 +136,18 @@ export default function HistoryModalPage({
             ></input>
           </div>
         </div>
-        <div>{renderCheckboxes()}</div>
+        <div className='flex flex-col justify-items-start'>
+          {item.historyList.map((value) => (
+            <label key={value} className='flex items-center'>
+              <input
+                type='checkbox'
+                checked={checkedList.includes(value)}
+                onChange={(e) => handleCheckedItem(value, e.target.checked)}
+              ></input>
+              <span className='ml-2'>{value}</span>
+            </label>
+          ))}
+        </div>
         <div className='flex justify-between gap-4'>
           <Button
             id='cancle_historymodal'
