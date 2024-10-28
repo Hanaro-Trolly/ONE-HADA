@@ -20,22 +20,28 @@ export default function ShortCutCard({
   favoriteToggle,
   shortcutUrl,
 }: ShortCutCardProps) {
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (e.target === e.currentTarget) {
+      window.location.href = shortcutUrl;
+    }
+  };
   return (
     <>
       <Button
         key={id}
-        className='bg-white shadow-md rounded-lg border-l-[10px] border-[#AEDBCE] m-4 mx-6 p-4 px-5 h-16 flex justify-between w-11/12 hover:bg-slate-100'
-        onClick={() => (window.location.href = shortcutUrl)}
+        className='bg-white shadow-md rounded-lg border-l-[10px] border-[#AEDBCE] m-4 mx-6 p-4 px-5 h-16 flex justify-between w-11/12 hover:bg-white'
+        onClick={handleButtonClick}
       >
         <div className='flex items-center gap-1'>
           <label className='font-medium text-lg text-black'>{name}</label>
         </div>
 
         {isEdit ? (
-          <div className='px-6 py-2'>
+          <div className='pr-1 pt-2'>
             <input
               type='checkbox'
               id={'chk' + id}
+              className='w-4 h-4'
               onChange={(e) => {
                 e.stopPropagation();
                 onCheckboxChange?.(id);
