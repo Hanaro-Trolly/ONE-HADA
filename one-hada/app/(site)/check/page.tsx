@@ -35,9 +35,12 @@ export default function CheckPage() {
 
   return (
     <div>
-      <h1>내 계좌</h1>
-      <div className='bg-white shadow-md rounded-lg m-4 p-4 flex items-start justify-between flex-col'>
-        <h2>총 금액: {totalBalance.toLocaleString()} 원</h2>
+      <h1 className='text-center text-3xl font-medium mt-4'>내 계좌</h1>
+      <div className='bg-[#95D0BF] shadow-md rounded-lg m-8 p-8 flex items-center justify-between'>
+        <span className='text-xl text-white ml-2'>총 금액</span>
+        <span className='text-xl text-white mr-2'>
+          {totalBalance.toLocaleString()} 원
+        </span>
       </div>
 
       {/* 버튼 클릭 시 account_type을 설정 */}
