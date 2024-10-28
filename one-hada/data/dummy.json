@@ -296,13 +296,6 @@
       "shortcut_name": "한달 결제내역 조회",
       "shortcutUrl": "/",
       "is_Favorite": true
-    },
-    {
-      "id": "11",
-      "user_id": "1",
-      "shortcut_name": "'강민관'님께 2000만원 송금",
-      "shortcutUrl": "http://localhost:3000/transfer/amount?account_id=1",
-      "is_Favorite": true
     }
   ],
   "consultation": [
