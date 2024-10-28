@@ -12,14 +12,15 @@ import {
 import useApi from '@/hooks/useApi';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { FormEvent, Ref, useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import React from 'react';
 import { User } from '@/lib/datatypes';
 
 export default function Register() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const router = useRouter();
 
+  const newId = Date.now().toString();
   const nameRef = useRef<HTMLInputElement>(null);
   const birthDateRef = useRef<HTMLInputElement>(null);
   const phoneRefs = [
@@ -39,7 +40,7 @@ export default function Register() {
   } = useApi<User>('user');
 
   const createFormData = () => ({
-    id: Date.now().toString(),
+    id: newId,
     user_name: nameRef.current!.value,
     user_gender: userGender,
     user_birth: birthDateRef.current!.value,
@@ -77,8 +78,10 @@ export default function Register() {
       }
     } else {
       // 유저가 존재하지 않으면 추가
+
       try {
         await addData(formData);
+        await update({ id: newId });
         alert('회원등록에 성공하였습니다');
         router.push('/');
       } catch (err) {
