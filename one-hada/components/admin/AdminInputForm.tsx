@@ -7,24 +7,30 @@ import AdminSubmitButton from './AdminSubmitButton';
 
 interface AdminInputFormProps {
   userId: string;
+  agentId: string; // agentId 추가
 }
 
-export default function AdminInputForm({ userId }: AdminInputFormProps) {
+export default function AdminInputForm({
+  userId,
+  agentId,
+}: AdminInputFormProps) {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
 
   const handleSubmit = async () => {
-    const currentTime = new Date().toLocaleString();
+    const currentTime = new Date().toISOString(); // ISO 형식으로 날짜 포맷
 
     const data = {
-      title,
-      content,
-      time: currentTime,
-      userId,
+      id: Date.now().toString(), // 임의의 고유 ID 생성
+      agent_id: agentId,
+      user_id: userId,
+      consultation_title: title,
+      consultation_content: content,
+      consultation_date: currentTime,
     };
 
     try {
-      await addData('counsel', data);
+      await addData('consultation', data); // consultation 리소스에 추가
       alert('상담 정보가 등록되었습니다.');
       setTitle('');
       setContent('');
