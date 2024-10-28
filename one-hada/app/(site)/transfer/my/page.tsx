@@ -3,13 +3,17 @@
 import AccountCard from '@/components/molecules/AccountCard';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import dummy from '@/c-dummy/account_d.json'
 import useApi from '@/hooks/useApi';
+import { useSession } from 'next-auth/react';
 
 export default function TransferPage() {
   const router = useRouter();
+  const { data: session } = useSession();
+
 
   const { data: accounts, loading, error } = useApi<Account>('account');
+  const userId = session?.user?.id;
+
 
   type Account = {
     id: string;
@@ -22,6 +26,8 @@ export default function TransferPage() {
   };
 
 
+  const filteredAccounts = accounts?.filter(account => account.user_id === userId) || [];
+
   const handleClick = (account: Account) => {
     router.push(`/transfer/recipient?account_id=${account.id}`);
   };
@@ -33,7 +39,7 @@ export default function TransferPage() {
       </h1>
       <div className='w-full h-[150px]'>
         {/* {todo} 받아오는 map이나 리스트 크기로 button 만들어야함*/}
-        {accounts.map((account) => (
+        {filteredAccounts.map((account) => (
           <Button
             key={account.id}
             id='211'

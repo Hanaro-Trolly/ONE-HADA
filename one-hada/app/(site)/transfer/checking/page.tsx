@@ -68,7 +68,7 @@ export default function Checking({
           </div>
         </div>
       </div>
-      <button className='w-full bg-green-400 text-white font-bold py-3 rounded mt-6 hover:bg-green-500 transition'>
+      <button className='w-full bg-sub-green text-white font-bold py-3 rounded mt-6 hover:bg-green-500 transition'>
         확인
       </button>
     </div>

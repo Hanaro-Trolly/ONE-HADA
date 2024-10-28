@@ -1,18 +1,21 @@
 'use client';
 
-import { useState } from 'react';
 import dummy from '@/c-dummy/account_d.json';
+import AccountCard from '@/components/molecules/AccountCard';
 import BankOption from '@/components/molecules/BankOption';
 import { Button } from '@/components/ui/button';
+import useApi from '@/hooks/useApi';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function RecipientPage({
   searchParams,
 }: {
   searchParams: { account_id: string };
 }) {
-
   const router = useRouter();
+  // const { data: session } = useSession(); // 세션에서 sessionId 가져오기
+  // const sessionId = session?.user?.id; // sessionId를 세션에서 가져온다고 가정
 
   const [selectedBank, setSelectedBank] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
@@ -20,8 +23,8 @@ export default function RecipientPage({
 
   const { account_id } = searchParams;
 
-  const handleBankChange = (bankId: string) => {
-    setSelectedBank(bankId);
+  const handleBankChange = (bank: string) => {
+    setSelectedBank(bank);
     setIsBankOptionsOpen(false);
   };
 
@@ -32,15 +35,31 @@ export default function RecipientPage({
   };
 
   const handleClick = () => {
-    if (selectedBank && accountNumber) {
-      router.push(`/transfer/amount?account_id=${account_id}&bank=${selectedBank}&recipient_number=${accountNumber}`);
+    const matchingAccount = recipientAccounts.find(
+      (account) =>
+        account.account_number.toString() === accountNumber &&
+        account.bank === selectedBank
+    );
+    console.log(selectedBank);
+    console.log('d', recipientAccounts);
+
+    if (matchingAccount) {
+      router.push(
+        `/transfer/amount?account_id=${account_id}&recipient=${matchingAccount.user_id}&bank=${matchingAccount.bank}&recipient_number=${matchingAccount.account_number}`
+      );
     } else {
-      alert('은행과 계좌번호를 모두 입력해주세요.');
+      alert('일치하는 계좌가 없습니다.');
     }
   };
 
+  const handleClick2 = (account: Account) => {
+    router.push(
+      `/transfer/amount?account_id=${account_id}&recipient=${account.user_id}&bank=${account.bank}&recipient_number=${account.account_number}`
+    );
+  };
+
   type Account = {
-    account_id: string;
+    id: string;
     user_id: string;
     account_number: number;
     balance: number;
@@ -56,13 +75,17 @@ export default function RecipientPage({
     logo_url: string;
   };
 
-  const recipientAccounts: Account[] = dummy.recipent_accounts;
+  const {
+    data: recipientAccounts,
+    loading,
+    error,
+  } = useApi<Account>('account');
   const banks: Bank[] = dummy.banks;
 
   return (
     <div className='container mx-auto p-6'>
       <h1 className='text-center font-bold text-2xl mb-6'>
-        누구에게 보낼까요? {account_id}
+        누구에게 보낼까요?
       </h1>
       <div className='bg-gray-100 p-4 rounded-lg mb-6'>
         <button
@@ -70,7 +93,7 @@ export default function RecipientPage({
           className='w-full mb-4 p-2 border border-gray-300 rounded'
         >
           {selectedBank
-            ? banks.find((bank) => bank.bank_id === selectedBank)?.bank_name
+            ? banks.find((bank) => bank.bank_name === selectedBank)?.bank_name
             : '은행을 선택해주세요'}
         </button>
 
@@ -80,7 +103,6 @@ export default function RecipientPage({
               {banks.map((bank) => (
                 <BankOption
                   key={bank.bank_id}
-                  bankId={bank.bank_id}
                   bankName={bank.bank_name}
                   selected={selectedBank === bank.bank_id}
                   onClick={handleBankChange}
@@ -98,26 +120,36 @@ export default function RecipientPage({
           className='w-full mb-4 p-2 border border-gray-300 rounded'
         />
 
-        <Button id='223' onClick={handleClick}>다음</Button>
+        <Button
+          id='223'
+          className='text-white bg-[#61B89F] font-bold py-3 rounded mt-6 hover:bg-[#377b68] transition'
+          onClick={() => handleClick()}
+        >
+          다음
+        </Button>
+      </div>
 
-        {/* 수취인 목록 */}
-        <div className='flex flex-col gap-4'>
-          {recipientAccounts.map((account) => (
-            <div
-              key={account.account_id}
-              className='flex items-center bg-[#bfe4da] p-4 rounded-lg cursor-pointer hover:bg-[#a3d2c7]'
-            >
-              <div className='flex flex-col'>
-                <span className='font-medium text-lg'>
-                  {account.account_name}
-                </span>
-                <span className='text-sm text-gray-600'>
-                  {account.account_number}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className='flex flex-col gap-4'>
+        {recipientAccounts.map((account) => (
+          <Button
+            key={account.id}
+            id='222'
+            variant={'ghost'}
+            className='w-full h-full'
+            onClick={() => handleClick2(account)}
+          >
+            <AccountCard
+              key={account.id}
+              id={account.id}
+              name={account.account_name}
+              accountType={account.account_type}
+              accountNumber={account.account_number}
+              balance={account.balance}
+              bank={account.bank}
+              user_id={account.user_id}
+            />
+          </Button>
+        ))}
       </div>
     </div>
   );

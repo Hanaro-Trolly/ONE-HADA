@@ -1,8 +1,8 @@
 'use client';
 
-import dummy from '@/c-dummy/account_d.json';
 import TypeButton from '@/components/molecules/TypeButton';
 import { Button } from '@/components/ui/button';
+import useApi from '@/hooks/useApi';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -12,18 +12,12 @@ export default function AmountInput() {
   const router = useRouter();
 
   const accountId = searchParams.get('account_id');
+  const recipientName = searchParams.get('recipient');
   const recipientNumber = searchParams.get('recipient_number');
-  const bankId = searchParams.get('bank');
-
-  type Bank = {
-    bank_id: string;
-    bank_name: string;
-    bank_code: string;
-    logo_url: string;
-  };
+  const bankName = searchParams.get('bank');
 
   type Account = {
-    account_id: string;
+    id: string;
     user_id: string;
     account_number: number;
     balance: number;
@@ -32,15 +26,10 @@ export default function AmountInput() {
     account_name: string;
   };
 
-  const banks: Bank[] = dummy.banks;
-  const accounts: Account[] = dummy.accounts;
-
-  const bankName =
-    banks.find((bank) => bank.bank_id === bankId)?.bank_name ||
-    '은행 정보 없음';
+  const { data: accounts } = useApi<Account>('account');
 
   const balance =
-    accounts.find((account) => account.account_id === accountId)?.balance ||
+    accounts.find((account) => account.id === accountId)?.balance ||
     '정보 확인되지 않음';
 
   const handleNumberClick = (num: string) => {
@@ -60,9 +49,9 @@ export default function AmountInput() {
   };
 
   const handleClick = () => {
-    if (accountId && recipientNumber && bankId && amount) {
+    if (accountId && recipientName &&recipientNumber && bankName && amount) {
       router.push(
-        `/transfer/validation?account_id=${accountId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`
+        `/transfer/validation?account_id=${accountId}&recipient=${recipientName}&bank=${bankName}&recipient_number=${recipientNumber}&amount=${amount}`
       );
     } else {
       alert('은행과 계좌번호를 모두 입력해주세요.');
@@ -73,7 +62,7 @@ export default function AmountInput() {
     <div className='container mx-auto p-6'>
       <div className='bg-gray-100 p-6 rounded-lg mb-6 text-center'>
         <div className='mb-6'>
-          <p className='font-bold text-xl mb-2'>{accountId}</p>
+          <p className='font-bold text-xl mb-2'>{recipientName}</p>
           <p className='text-gray-400'>
             {bankName} {recipientNumber}
           </p>
