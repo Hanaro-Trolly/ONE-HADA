@@ -47,7 +47,6 @@ export default function TransferPage() {
           >
             <AccountCard
               id={account.id}
-              name={account.account_name}
               accountType={account.account_type}
               accountNumber={account.account_number}
               balance={account.balance}
