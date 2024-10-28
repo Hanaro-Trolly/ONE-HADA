@@ -120,6 +120,7 @@ export default function ShortCutPage() {
               isFavorite={true}
               onCheckboxChange={handleCheckboxChange}
               favoriteToggle={favoriteToggle}
+              shortcutUrl={item.shortcutUrl}
             />
           </li>
         ))}
@@ -132,6 +133,7 @@ export default function ShortCutPage() {
               isFavorite={false}
               onCheckboxChange={handleCheckboxChange}
               favoriteToggle={favoriteToggle}
+              shortcutUrl={item.shortcutUrl}
             />
           </li>
         ))}

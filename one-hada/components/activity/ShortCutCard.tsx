@@ -8,6 +8,7 @@ type ShortCutCardProps = {
   isFavorite: boolean;
   onCheckboxChange?: (id: string) => void;
   favoriteToggle: (id: string) => void;
+  shortcutUrl: string;
 };
 
 export default function ShortCutCard({
@@ -17,15 +18,17 @@ export default function ShortCutCard({
   isFavorite = false,
   onCheckboxChange,
   favoriteToggle,
+  shortcutUrl,
 }: ShortCutCardProps) {
   return (
     <>
-      <div
+      <Button
         key={id}
-        className='bg-white shadow-md rounded-lg border-l-[10px] border-[#AEDBCE] m-4 mx-6 p-4 px-5 h-16 flex justify-between'
+        className='bg-white shadow-md rounded-lg border-l-[10px] border-[#AEDBCE] m-4 mx-6 p-4 px-5 h-16 flex justify-between w-11/12 hover:bg-slate-100'
+        onClick={() => (window.location.href = shortcutUrl)}
       >
         <div className='flex items-center gap-1'>
-          <label className='font-medium text-lg'>{name}</label>
+          <label className='font-medium text-lg text-black'>{name}</label>
         </div>
 
         {isEdit ? (
@@ -33,29 +36,36 @@ export default function ShortCutCard({
             <input
               type='checkbox'
               id={'chk' + id}
-              onChange={() => onCheckboxChange?.(id)}
-            ></input>
+              onChange={(e) => {
+                e.stopPropagation();
+                onCheckboxChange?.(id);
+              }}
+            />
           </div>
         ) : isFavorite ? (
-          <Button
+          <div
             id='deleteFavorite'
-            variant='ghost'
-            className='[&_svg]:size-6'
-            onClick={() => favoriteToggle(id)}
+            className='[&_svg]:size-6 cursor-pointer'
+            onClick={(e) => {
+              e.stopPropagation(); // 클릭 이벤트 전파 방지
+              favoriteToggle(id);
+            }}
           >
             <StarFilledIcon className='text-yellow-300' />
-          </Button>
+          </div>
         ) : (
-          <Button
+          <div
             id='addFavorite'
-            variant='ghost'
-            className='[&_svg]:size-6'
-            onClick={() => favoriteToggle(id)}
+            className='[&_svg]:size-6 cursor-pointer'
+            onClick={(e) => {
+              e.stopPropagation(); // 클릭 이벤트 전파 방지
+              favoriteToggle(id);
+            }}
           >
             <StarFilledIcon className='text-gray-400' />
-          </Button>
+          </div>
         )}
-      </div>
+      </Button>
     </>
   );
 }

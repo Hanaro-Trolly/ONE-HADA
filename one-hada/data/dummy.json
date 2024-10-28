@@ -245,57 +245,64 @@
       "id": "1",
       "user_id": "1",
       "shortcut_name": "한달간 밥플러스 결제내역",
-      "shortcutUrl": "",
-      "is_Favorite": true
+      "shortcutUrl": "/",
+      "is_Favorite": false
     },
     {
       "id": "2",
       "user_id": "1",
       "shortcut_name": "박시온님께 5억 송금",
-      "shortcutUrl": "",
-      "is_Favorite": true
+      "shortcutUrl": "/",
+      "is_Favorite": false
     },
     {
       "id": "3",
       "user_id": "1",
       "shortcut_name": "1년 결제내역 조회",
-      "shortcutUrl": "",
-      "is_Favorite": false
+      "shortcutUrl": "/",
+      "is_Favorite": true
     },
     {
       "id": "5",
       "user_id": "2",
       "shortcut_name": "박시온님께 3000만원 송금",
-      "shortcutUrl": "",
+      "shortcutUrl": "/",
       "is_Favorite": false
     },
     {
       "id": "6",
       "user_id": "3",
       "shortcut_name": "올리브영 결제내역 조회",
-      "shortcutUrl": "",
+      "shortcutUrl": "/",
       "is_Favorite": true
     },
     {
       "id": "7",
       "user_id": "4",
       "shortcut_name": "정성현님께 4000원 송금",
-      "shortcutUrl": "",
+      "shortcutUrl": "/",
       "is_Favorite": false
     },
     {
       "id": "8",
       "user_id": "4",
       "shortcut_name": "1년 결제내역 조회",
-      "shortcutUrl": "",
+      "shortcutUrl": "/",
       "is_Favorite": true
     },
     {
       "id": "9",
       "user_id": "1",
       "shortcut_name": "한달 결제내역 조회",
-      "shortcutUrl": "",
-      "is_Favorite": false
+      "shortcutUrl": "/",
+      "is_Favorite": true
+    },
+    {
+      "id": "10",
+      "user_id": "1",
+      "shortcut_name": "'강민관'님께 2000만원 송금",
+      "shortcutUrl": "http://localhost:3000/transfer/amount?account_id=1&receiver_id=3&amount=20000000",
+      "is_Favorite": true
     }
   ],
   "consultation": [
