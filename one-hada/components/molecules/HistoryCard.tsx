@@ -6,20 +6,9 @@ type HistoryCardProps = {
   id: string;
   name: string;
   date: string;
-  isConsulting: boolean;
 };
 
-export default function HistoryCard({
-  id,
-  name,
-  date,
-  // isConsulting = false,
-}: HistoryCardProps) {
-  // console.log(`🚀 ~ key:`, id);
-  // console.log('🚀 ~ isConsulting:', isConsulting);
-  // console.log('🚀 ~ date:', date);
-  // console.log('🚀 ~ name:', name);
-
+export default function HistoryCard({ id, name, date }: HistoryCardProps) {
   return (
     <>
       <div

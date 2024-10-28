@@ -1,47 +1,24 @@
 'use client';
 
-import { useAdminSession } from '@/context/admin/SessionContext';
-import { useState } from 'react';
-import AdminInput from './AdminInput';
-import AdminSubmitButton from './AdminSubmitButton';
+import CounselDetail from '@/components/admin/CounselDetail';
+import { useParams } from 'next/navigation';
+import AdminInputForm from './AdminInputForm';
+import Title from './AdminTitle';
 
 export default function AdminForm() {
-  const [title, setTitle] = useState<string>('');
-  const [content, setContent] = useState<string>('');
-  const { session } = useAdminSession();
+  const params = useParams();
+  const userId = params.userId as string;
 
-  const handleSubmit = () => {
-    const currentTime = new Date().toLocaleString();
-    const userId = session.loginUser?.id;
-
-    const data = {
-      title,
-      content,
-      time: currentTime,
-      userId,
-    };
-    console.log('전송된 데이터:', data);
-    alert('상담 정보가 등록되었습니다.');
-    setTitle('');
-    setContent('');
-  };
   return (
-    <div>
-      <AdminInput
-        label='상담 제목'
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        inputType='text'
-      />
-
-      <AdminInput
-        label='상담 내용'
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        inputType='textarea'
-      />
-
-      <AdminSubmitButton onClick={handleSubmit} />
+    <div className='flex justify-between'>
+      <div className='w-1/2 px-6 space-y-6'>
+        <Title text='고객 정보' />
+        <CounselDetail userId={userId} />
+      </div>
+      <div className='w-1/2 px-6 space-y-6'>
+        <Title text='상담 정보' />
+        <AdminInputForm />
+      </div>
     </div>
   );
 }

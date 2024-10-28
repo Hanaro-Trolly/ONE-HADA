@@ -1,3 +1,5 @@
+'use client';
+
 import useApi from '@/hooks/useApi';
 import { useState } from 'react';
 import { User } from '@/lib/datatypes';
