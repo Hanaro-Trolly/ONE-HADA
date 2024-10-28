@@ -25,15 +25,29 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input ref={idRef} type='text' placeholder='ID' required />
-      <input
-        ref={passwordRef}
-        type='password'
-        placeholder='Password'
-        required
-      />
-      <button type='submit'>Login</button>
+    <form className='flex flex-col' onSubmit={handleSubmit}>
+      <div className='flex flex-col space-y-2 mb-11'>
+        <input
+          className='border px-1 py-1'
+          ref={idRef}
+          type='text'
+          placeholder='ID'
+          required
+        />
+        <input
+          className='border px-1 py-1'
+          ref={passwordRef}
+          type='password'
+          placeholder='Password'
+          required
+        />
+      </div>
+      <button
+        className='flex justify-center items-center gap-2 rounded-lg bg-[#61B89F] px-4 py-2 text-white hover:bg-[#377b68] transition-colors'
+        type='submit'
+      >
+        Login
+      </button>
       {message && <div>{message}</div>}
     </form>
   );

@@ -1,14 +1,15 @@
 import { useAdminSession } from '@/context/admin/SessionContext';
 
 export default function Profile() {
-  const { session, logout } = useAdminSession();
+  const { session } = useAdminSession();
 
   if (!session.loginUser) return null;
 
   return (
     <div>
-      <div>Welcome, {session.loginUser.name}!</div>
-      <button onClick={logout}>Logout</button>
+      <div className='text-gray-400 text-xl'>
+        안녕하세요, {session.loginUser.name} 님!
+      </div>
     </div>
   );
 }
