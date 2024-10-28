@@ -49,17 +49,18 @@
       "user_naver": "naver@naver.com"
     },
     {
-      "id": "1730036044583",
+      "id": "1730103306576",
       "user_name": "조서현",
       "user_gender": "female",
       "user_birth": "1999-07-20",
       "user_phone": "010-2905-5905",
-      "user_address": "서울특별시 중구",
+      "user_address": "서울시 중구",
       "user_email": "csh990720@gmail.com",
-      "user_register": "2024-10-27T13:34:04.583Z",
+      "user_register": "2024-10-28T08:15:25.882Z",
       "user_google": "112287508448169046665",
       "user_kakao": "3762386136",
-      "user_naver": null
+      "user_naver": null,
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
     }
   ],
   "agent": [
@@ -372,7 +373,7 @@
   "account": [
     {
       "id": "1",
-      "user_id": "1",
+      "user_id": "1730077977283",
       "account_number": 1000000001,
       "balance": 5000000,
       "account_type": "저축",
@@ -380,19 +381,19 @@
     },
     {
       "id": "2",
-      "user_id": "1",
+      "user_id": "1730077977283",
       "account_number": 1000000002,
       "balance": 1500000000,
       "account_type": "예금",
-      "bank": "국민은행"
+      "bank": "하나은행"
     },
     {
       "id": "3",
-      "user_id": "1",
+      "user_id": "1730077977283",
       "account_number": 1000000003,
       "balance": 3000000,
       "account_type": "입출금",
-      "bank": "농협은행"
+      "bank": "하나은행"
     },
     {
       "id": "4",
@@ -408,7 +409,7 @@
       "account_number": 2000000002,
       "balance": 8000000,
       "account_type": "저축",
-      "bank": "하나은행"
+      "bank": "넘옙브넹~"
     },
     {
       "id": "6",
@@ -424,7 +425,7 @@
       "account_number": 3000000001,
       "balance": 7000000,
       "account_type": "저축",
-      "bank": "하나은행"
+      "bank": "토스뱅크"
     },
     {
       "id": "8",
@@ -438,7 +439,7 @@
   "transaction": [
     {
       "id": "1",
-      "sender_account_id": "1",
+      "sender_account_id": "1730077977283",
       "receiver_account_id": "4",
       "amount": 1000000,
       "sender_viewer": "정성현",
@@ -446,7 +447,7 @@
     },
     {
       "id": "2",
-      "sender_account_id": "7",
+      "sender_account_id": "1730077977283",
       "receiver_account_id": "1",
       "amount": 500000,
       "sender_viewer": "문규빈",
@@ -454,7 +455,7 @@
     },
     {
       "id": "3",
-      "sender_account_id": "3",
+      "sender_account_id": "1730077977283",
       "receiver_account_id": "4",
       "amount": 200000,
       "sender_viewer": "정성현",
@@ -462,7 +463,7 @@
     },
     {
       "id": "4",
-      "sender_account_id": "2",
+      "sender_account_id": "1730077977283",
       "receiver_account_id": "5",
       "amount": 300000,
       "sender_viewer": "정성현",

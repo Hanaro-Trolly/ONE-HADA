@@ -40,21 +40,22 @@ export default function AccountDetailPage({
     setSelectedType(type);
   };
   return (
-    <div className='bg-white shadow-md rounded-lg m-4 p-4'>
+    <div className='bg-[#DCEFEA] min-h-screen flex flex-col'>
       <h1>{account.account_name}</h1>
       <div className='mt-4'>{account.account_number}</div>
-      <div className='bg-gray-100 shadow-md rounded-lg mt-8 p-4'>
+      <div className='bg-white shadow-md rounded-lg mt-8 p-8 flex-grow'>
+        {/* flex-grow 추가 */}
         <h2 className='text-lg font-bold mb-4'>조회 옵션</h2>
-        <div className='mb-4'>
+        <div className='mb-10'>
           <p className='text-md font-semibold'>조회기간</p>
-          <div className='flex gap-2 mt-2'>
+          <div className='flex gap-4 mt-10'>
             <TypeButton
               button_type='조회기간'
               onClick={() => handlePeriodClick('전체')}
               className={
                 selectedPeriod === '전체'
-                  ? 'bg-[#377B68] text-white'
-                  : 'bg-[#61B89F] text-white'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
               }
             >
               전체
@@ -64,8 +65,8 @@ export default function AccountDetailPage({
               onClick={() => handlePeriodClick('1개월')}
               className={
                 selectedPeriod === '1개월'
-                  ? 'bg-[#377B68] text-white'
-                  : 'bg-[#61B89F] text-white'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
               }
             >
               1개월
@@ -75,8 +76,8 @@ export default function AccountDetailPage({
               onClick={() => handlePeriodClick('3개월')}
               className={
                 selectedPeriod === '3개월'
-                  ? 'bg-[#377B68] text-white'
-                  : 'bg-[#61B89F] text-white'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
               }
             >
               3개월
@@ -86,8 +87,8 @@ export default function AccountDetailPage({
               onClick={() => handlePeriodClick('6개월')}
               className={
                 selectedPeriod === '6개월'
-                  ? 'bg-[#377B68] text-white'
-                  : 'bg-[#61B89F] text-white'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
               }
             >
               6개월
@@ -97,8 +98,8 @@ export default function AccountDetailPage({
               onClick={() => handlePeriodClick('1년')}
               className={
                 selectedPeriod === '1년'
-                  ? 'bg-[#377B68] text-white'
-                  : 'bg-[#61B89F] text-white'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
               }
             >
               1년
@@ -130,16 +131,16 @@ export default function AccountDetailPage({
           </div>
         </div>
         {/* 거래 구분 */}
-        <div className='mb-4'>
-          <p className='text-md font-semibold'>거래 구분</p>
-          <div className='flex gap-2 mt-2'>
+        <div className='mb-10'>
+          <p className='text-md mt-10 font-semibold'>거래 구분</p>
+          <div className='flex gap-2 mt-10'>
             <TypeButton
               button_type='거래구분'
               onClick={() => handleTypeClick('전체')}
               className={
                 selectedType === '전체'
-                  ? 'bg-[#377B68] text-white'
-                  : 'bg-[#61B89F] text-white'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
               }
             >
               전체
@@ -149,8 +150,8 @@ export default function AccountDetailPage({
               onClick={() => handleTypeClick('입금')}
               className={
                 selectedType === '입금'
-                  ? 'bg-[#377B68] text-white'
-                  : 'bg-[#61B89F] text-white'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
               }
             >
               입금
@@ -160,21 +161,21 @@ export default function AccountDetailPage({
               onClick={() => handleTypeClick('출금')}
               className={
                 selectedType === '출금'
-                  ? 'bg-[#377B68] text-white'
-                  : 'bg-[#61B89F] text-white'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
               }
             >
               출금
             </TypeButton>
           </div>
         </div>
-        <div className='mb-4'>
-          <p className='text-md font-semibold'>검색어</p>
+        <div className='mb-10 '>
+          <p className='text-md  font-semibold'>검색어</p>
           <input
             type='text'
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
-            className='border rounded-md px-4 py-2 w-full'
+            className='border rounded-full mt-10 px-4 py-2 w-1/2 bg-[#DCEFEA]'
             placeholder='검색어 입력'
           />
         </div>
@@ -182,8 +183,8 @@ export default function AccountDetailPage({
         <Link
           href={`/check/${account.account_id}/detail?period=${selectedPeriod}&type=${selectedType}&accountId=${account.account_id}&startDate=${startDate}&endDate=${endDate}&search=${searchKeyword}`}
         >
-          <div className='flex justify-end'>
-            <button className='px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600'>
+          <div className='flex justify-center'>
+            <button className='w-4/5 mt-10 px-6 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377B68]'>
               조회하기
             </button>
           </div>

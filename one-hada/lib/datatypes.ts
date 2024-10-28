@@ -1,7 +1,7 @@
 type User = {
   id: string;
   user_name: string;
-  user_email: string | undefined;
+  user_email: string | null | undefined;
   user_gender: string;
   user_phone: string;
   user_address: string;
