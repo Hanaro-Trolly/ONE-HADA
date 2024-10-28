@@ -15,9 +15,11 @@ export default function TransferConfirmation() {
   const recipientId = searchParams.get('recipient');
   const bankName = searchParams.get('bank');
   const amount = searchParams.get('amount');
+  const bankId = searchParams.get('bank');
   const [recipientName, setRecipientName] = useState('');
   const [senderName, setSenderName] = useState('');
-  const bankId = searchParams.get('bank');
+  const [senderLabel, setSenderLabel] = useState('');
+  const [recipientLabel, setRecipientLabel] = useState('');
 
   type Account = {
     id: string;
@@ -96,7 +98,9 @@ export default function TransferConfirmation() {
             <p className='font-bold text-sm text-gray-600'>받는분에게 표기</p>
             <input
               type='text'
-              value={senderName}
+              placeholder={senderName}
+              value={senderLabel}
+              onChange={(e) => setSenderLabel(e.target.value)}
               className='border-b border-gray-400 w-1/2 text-right focus:outline-none'
             />
           </div>
@@ -104,7 +108,9 @@ export default function TransferConfirmation() {
             <p className='font-bold text-sm text-gray-600'>나에게 표기</p>
             <input
               type='text'
-              value={recipientName}
+              placeholder={recipientName}
+              value={recipientLabel}
+              onChange={(e) => setRecipientLabel(e.target.value)}
               className='border-b border-gray-400 w-1/2 text-right focus:outline-none'
             />
           </div>
