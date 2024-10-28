@@ -17,10 +17,10 @@ import React from 'react';
 import { User } from '@/lib/datatypes';
 
 export default function Register() {
-  const { data: session, update } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
 
-  const newId = Date.now().toString();
+  const userId = Date.now().toString();
   const nameRef = useRef<HTMLInputElement>(null);
   const birthDateRef = useRef<HTMLInputElement>(null);
   const phoneRefs = [
@@ -40,7 +40,7 @@ export default function Register() {
   } = useApi<User>('user');
 
   const createFormData = () => ({
-    id: newId,
+    id: userId,
     user_name: nameRef.current!.value,
     user_gender: userGender,
     user_birth: birthDateRef.current!.value,
@@ -51,7 +51,7 @@ export default function Register() {
     user_google: session?.user.provider === 'google' ? session.user.id : null,
     user_kakao: session?.user.provider === 'kakao' ? session.user.id : null,
     user_naver: session?.user.provider === 'naver' ? session.user.id : null,
-    simple_password: undefined,
+    simple_password: null,
   });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -81,9 +81,11 @@ export default function Register() {
 
       try {
         await addData(formData);
-        await update({ id: newId });
         alert('회원등록에 성공하였습니다');
-        router.push('/');
+        const route: string = '/api/auth/checkPassword';
+        router.push(
+          `/api/auth/register/setPassword?userId=${userId}&route=${route}`
+        );
       } catch (err) {
         console.error('Error adding user:', err);
       }

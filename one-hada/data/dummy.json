@@ -49,30 +49,18 @@
       "user_naver": "naver@naver.com"
     },
     {
-      "id": "1730036044583",
+      "id": "1730103306576",
       "user_name": "조서현",
       "user_gender": "female",
       "user_birth": "1999-07-20",
       "user_phone": "010-2905-5905",
-      "user_address": "서울특별시 중구",
+      "user_address": "서울시 중구",
       "user_email": "csh990720@gmail.com",
-      "user_register": "2024-10-27T13:34:04.583Z",
+      "user_register": "2024-10-28T08:15:25.882Z",
       "user_google": "112287508448169046665",
       "user_kakao": "3762386136",
-      "user_naver": null
-    },
-    {
-      "id": "1730077977283",
-      "user_name": "문규빈",
-      "user_gender": "male",
-      "user_birth": "2000-05-02",
-      "user_phone": "010-9178-8484",
-      "user_address": "Mars",
-      "user_email": "joemoon0526@gmail.com",
-      "user_register": "2024-10-28T01:13:11.291Z",
-      "user_google": "118380181517390185679",
-      "user_kakao": null,
-      "user_naver": null
+      "user_naver": null,
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
     }
   ],
   "agent": [

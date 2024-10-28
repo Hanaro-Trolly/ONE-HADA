@@ -2,17 +2,34 @@
 
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
+import { fetchAllData } from '@/lib/api';
+import { User } from '@/lib/datatypes';
 import { Button } from '../ui/button';
 
 export default function LoginButton() {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
+
+  const fetchUser = async () => {
+    try {
+      const userData = await fetchAllData<User>('user');
+      const provider = `user_${session?.user?.provider}` as keyof User;
+      const foundUser = userData.find(
+        (user) => user[provider] === session?.user.id
+      );
+      if (foundUser) {
+        await update({ id: foundUser.id });
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
 
   useEffect(() => {
-    if (session?.user) {
-      console.log('로그인 성공: session', session);
-      console.log('session.user:', session.user);
+    if (session) {
+      fetchUser();
+      console.log('로그인성공', session);
     }
-  }, [session]);
+  }, [session, fetchUser]);
 
   const handleSignIn = () => {
     signIn();
