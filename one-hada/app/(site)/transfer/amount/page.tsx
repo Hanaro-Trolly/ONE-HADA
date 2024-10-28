@@ -50,14 +50,18 @@ export default function AmountInput() {
   const handleNumberClick = (num: string) => {
     setAmount((prev) => {
       const newAmount = String(prev) + num;
-      return Number(newAmount) > Number(balance) ? balance.toString() : newAmount.toString();
+      return Number(newAmount) > Number(balance)
+        ? balance.toString()
+        : newAmount.toString();
     });
   };
 
   const handleSpecialAmount = (value: number) => {
     setAmount((prev) => {
       const newAmount = Number(prev) + value;
-      return newAmount > Number(balance) ? balance.toString() : newAmount.toString();
+      return newAmount > Number(balance)
+        ? balance.toString()
+        : newAmount.toString();
     });
   };
 
@@ -90,16 +94,20 @@ export default function AmountInput() {
   }, [users, recipientId]);
 
   return (
-    <div className='container mx-auto p-6'>
-      <div className='bg-gray-100 p-6 rounded-lg mb-6 text-center'>
+    <div
+      style={{ height: 'calc(100vh - 56px)' }}
+      className='flex flex-col justify-between items-center px-6'
+    >
+      <div className=' w-full rounded-lg mb-6 text-center'>
         <div className='mb-6'>
-          <p className='font-bold text-xl mb-2'>{recipientName}</p>
-          <p className='text-gray-400'>
-            {bankName} {recipientNumber}
+          <p className='font-semibold text-xl text-[#635666] mt-2 mb-2'>
+            {recipientName}
           </p>
-          <hr className='border-t border-gray-600 mx-auto w-3/4' />
+          <div className='text-gray-400 border-b-2'>
+            {bankName} {recipientNumber}
+          </div>
           <p
-            className={`text-xl mb-2 mt-8 ${amount ? 'font-bold text-black' : 'font-bold text-gray-400'}`}
+            className={`text-xl mb-2 mt-6 ${amount ? 'font-bold text-black' : 'font-medium text-gray-400'}`}
           >
             {amount ? (
               <span>{`${Number(amount).toLocaleString()} 원`}</span>
@@ -109,7 +117,7 @@ export default function AmountInput() {
           </p>
         </div>
 
-        <div className='bg-[#61B89F] hover:bg-[#377b68] text-white p-4 rounded-lg shadow mb-4'>
+        <div className='bg-[#95D0BF] text-white p-4 rounded-lg shadow mb-4'>
           <div className='flex justify-between items-center'>
             <span className='font-bold'>내 계좌</span>
             <span className='font-bold'>
@@ -117,38 +125,46 @@ export default function AmountInput() {
             </span>
           </div>
         </div>
-        <div className='flex justify-between mb-4 space-x-2'>
+        <div className='flex justify-end mb-4 space-x-2'>
           <TypeButton
             onClick={() => handleSpecialAmount(10000)}
             button_type={'231'}
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem]'
           >
             +1만
           </TypeButton>
           <TypeButton
             onClick={() => handleSpecialAmount(50000)}
             button_type={'231'}
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem]'
           >
             +5만
           </TypeButton>
           <TypeButton
             onClick={() => handleSpecialAmount(100000)}
             button_type={'231'}
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem]'
           >
             +10만
           </TypeButton>
           <TypeButton
             onClick={() => handleSpecialAmount(1000000)}
             button_type={'231'}
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem]'
           >
             +100만
           </TypeButton>
-          <TypeButton onClick={handleMaxAmount} button_type={'231'}>
+          <TypeButton
+            onClick={handleMaxAmount}
+            button_type={'231'}
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem]'
+          >
             전액
           </TypeButton>
         </div>
 
         {/* 숫자 키패드 */}
-        <div className='grid grid-cols-3 gap-2 mb-6'>
+        <div className='grid grid-cols-3 gap-2 '>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, '00', 0].map((num) => (
             <button
               key={num}
@@ -165,15 +181,14 @@ export default function AmountInput() {
             ⌫
           </button>
         </div>
-
-        <Button
-          id='231'
-          className='w-full  text-white bg-[#61B89F] font-bold py-3 rounded mt-6 hover:bg-[#377b68] transition'
-          onClick={() => handleClick()}
-        >
-          다음
-        </Button>
       </div>
+      <Button
+        id='231'
+        className='w-full text-white text-lg bg-main-green  py-3 rounded mt-6 hover:bg-[#377b68] transition'
+        onClick={() => handleClick()}
+      >
+        다음
+      </Button>
     </div>
   );
 }

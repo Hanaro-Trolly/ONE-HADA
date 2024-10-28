@@ -1,7 +1,7 @@
 'use client';
 
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { fetchAllData } from '@/lib/api';
 import { User } from '@/lib/datatypes';
 import { Button } from '../ui/button';
@@ -9,7 +9,7 @@ import { Button } from '../ui/button';
 export default function LoginButton() {
   const { data: session, status, update } = useSession();
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const userData = await fetchAllData<User>('user');
       const provider = `user_${session?.user?.provider}` as keyof User;
@@ -22,7 +22,7 @@ export default function LoginButton() {
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
-  };
+  }, [session, update]);
 
   useEffect(() => {
     if (session) {

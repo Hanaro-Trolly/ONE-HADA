@@ -7,6 +7,6 @@ export default function ActivityPage() {
   const router = useRouter();
   useEffect(() => {
     router.push('/activity/history');
-  }, []);
+  }, [router]);
   return <div></div>;
 }
