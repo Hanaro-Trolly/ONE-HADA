@@ -1,3 +1,5 @@
+'use client';
+
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -9,9 +11,10 @@ type UseApiResponse<T> = {
   updateData: (id: string, updatedData: Partial<T>) => Promise<void>;
   deleteData: (id: string) => Promise<void>;
   getData: (id: string) => Promise<T | null>;
+  getDataByUserId: (userId: string) => Promise<T | null>;
 };
 
-const useApi = <T extends { id: string }>(
+const useApi = <T extends { id: string; user_id?: string }>(
   resource: string
 ): UseApiResponse<T> => {
   const [data, setData] = useState<T[]>([]);
@@ -84,7 +87,29 @@ const useApi = <T extends { id: string }>(
     }
   };
 
-  return { data, loading, error, addData, updateData, deleteData, getData };
+  const getDataByUserId = async (userId: string): Promise<T | null> => {
+    try {
+      const response = await axios.get<T[]>(
+        `http://localhost:3001/${resource}`
+      );
+      const res = response.data.find((item) => item.user_id === userId);
+      return res || null;
+    } catch (err) {
+      setError(err as Error);
+      return null;
+    }
+  };
+
+  return {
+    data,
+    loading,
+    error,
+    addData,
+    updateData,
+    deleteData,
+    getData,
+    getDataByUserId,
+  };
 };
 
 export default useApi;

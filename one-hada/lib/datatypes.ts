@@ -7,10 +7,10 @@ type User = {
   user_address: string;
   user_birth: string;
   user_register: Date;
-  user_google: string | null | undefined;
-  user_kakao: string | null | undefined;
-  user_naver: string | null | undefined;
-  simple_password: number | undefined;
+  user_google: string | null;
+  user_kakao: string | null;
+  user_naver: string | null;
+  simple_password: string[] | null;
 };
 
 type Agent = {
@@ -24,6 +24,8 @@ type History = {
   id: string;
   user_id: string;
   history_name: string;
+  history_type: 'inquiry' | 'transfer' | 'acc';
+  history_params: string;
   activity_date: Date;
   is_Shortcut: boolean;
 };
@@ -31,7 +33,7 @@ type History = {
 type Shortcut = {
   id: string;
   user_id: string;
-  history_id: string;
+  shortcut_params: string;
   shortcut_name: string;
   is_Favorite: boolean;
 };
