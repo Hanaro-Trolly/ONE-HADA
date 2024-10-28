@@ -1,18 +1,20 @@
 'use client';
 
-import { useAdminSession } from '@/context/admin/SessionContext';
 import { useState } from 'react';
+import { addData } from '@/lib/api';
 import AdminInput from './AdminInput';
 import AdminSubmitButton from './AdminSubmitButton';
 
-export default function AdminInputForm() {
+interface AdminInputFormProps {
+  userId: string;
+}
+
+export default function AdminInputForm({ userId }: AdminInputFormProps) {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
-  const { session } = useAdminSession();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const currentTime = new Date().toLocaleString();
-    const userId = session.loginUser?.id;
 
     const data = {
       title,
@@ -20,11 +22,18 @@ export default function AdminInputForm() {
       time: currentTime,
       userId,
     };
-    console.log('전송된 데이터:', data);
-    alert('상담 정보가 등록되었습니다.');
-    setTitle('');
-    setContent('');
+
+    try {
+      await addData('counsel', data);
+      alert('상담 정보가 등록되었습니다.');
+      setTitle('');
+      setContent('');
+    } catch (error) {
+      console.error('Error submitting data:', error);
+      alert('데이터 등록 중 오류가 발생했습니다.');
+    }
   };
+
   return (
     <div>
       <AdminInput

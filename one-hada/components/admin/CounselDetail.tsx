@@ -3,7 +3,8 @@
 import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
 import { IoEye } from 'react-icons/io5';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { fetchAllData } from '@/lib/api';
 import AdminCard from './AdminCard';
 import AdminInfo from './AdminInfo';
 import Modal from './Modal';
@@ -11,18 +12,46 @@ import ServicePreview from './ServicePreview';
 
 export default function CounselDetail({ userId }: { userId: string }) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [userData, setUserData] = useState<{
+    birth: string;
+    phone: string;
+  } | null>(null);
   const { counselData } = useCounsel();
   const { session } = useAdminSession();
   const decodedUserId = decodeURIComponent(userId);
 
+  // 사용자 데이터 불러오기
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const allUsers = await fetchAllData<{
+        id: string;
+        user_birth: string;
+        user_phone: string;
+      }>('user');
+      const currentUser = allUsers.find((user) => user.id === decodedUserId);
+      if (currentUser) {
+        setUserData({
+          birth: currentUser.user_birth,
+          phone: currentUser.user_phone,
+        });
+      }
+    };
+
+    fetchUserData();
+  }, [decodedUserId]);
+
+  // 해당 상담원과 사용자에 맞는 상담 데이터 필터링 및 정렬
   const userCounsels = counselData
     .filter(
       (item) =>
-        item.agentid === session.loginUser?.id && item.userid === decodedUserId
+        item.agent_id === session.loginUser?.id &&
+        item.user_id === decodedUserId
     )
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  const { birth, phone } = userCounsels[0] || { birth: '', phone: '' };
+    .sort(
+      (a, b) =>
+        new Date(b.consultation_date).getTime() -
+        new Date(a.consultation_date).getTime()
+    );
 
   return (
     <>
@@ -39,16 +68,18 @@ export default function CounselDetail({ userId }: { userId: string }) {
             </button>
           </div>
 
-          <AdminInfo birth={birth} phone={phone} />
+          {userData && (
+            <AdminInfo birth={userData.birth} phone={userData.phone} />
+          )}
 
           {userCounsels.map((counsel) => (
             <AdminCard
               key={counsel.id}
-              title={counsel.title}
-              content={counsel.content}
-              date={counsel.date}
-              birth={counsel.birth}
-              phone={counsel.phone}
+              title={counsel.consultation_title}
+              content={counsel.consultation_content}
+              date={counsel.consultation_date}
+              birth={userData?.birth || ''}
+              phone={userData?.phone || ''}
             />
           ))}
         </div>

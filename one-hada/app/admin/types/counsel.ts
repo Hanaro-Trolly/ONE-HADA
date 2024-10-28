@@ -1,17 +1,19 @@
-export interface Counsel {
-  id: number;
-  agentid: string;
-  userid: string;
-  title: string;
-  content: string;
-  date: string;
-  birth: string;
-  phone: string;
-}
+export type Counsel = {
+  id: string;
+  agent_id: string;
+  user_id: string;
+  user_name: string;
+  user_birth: string;
+  user_phone: string;
+  consultation_title: string;
+  consultation_content: string;
+  consultation_date: string;
+};
 
-export interface CounselContextType {
+export type CounselContextType = {
   selectedUserId: string | null;
   setSelectedUserId: (id: string | null) => void;
   counselData: Counsel[];
   setCounselData: (data: Counsel[]) => void;
-}
+  fetchCounselData: () => Promise<void>;
+};

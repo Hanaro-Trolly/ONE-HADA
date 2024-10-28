@@ -311,6 +311,14 @@
       "consultation_title": "송금 방법 상담",
       "consultation_content": "송금 방법 상담 요청.지난번 상담 내용 존재. 바로가기 페이지로 이동. 즐겨찾기 추가",
       "consultation_date": "2024-10-23T13:00:00Z"
+    },
+    {
+      "id": "7",
+      "agent_id": "1",
+      "user_id": "1",
+      "consultation_title": "송금 방법 상담",
+      "consultation_content": "송금 방법 상담 요청.지난번 상담 내용 존재. 바로가기 페이지로 이동. 즐겨찾기 추가",
+      "consultation_date": "2024-10-23T13:00:00Z"
     }
   ],
   "account": [
