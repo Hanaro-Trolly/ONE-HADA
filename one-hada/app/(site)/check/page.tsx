@@ -3,29 +3,23 @@
 // API 호출 함수 가져오기
 import AccountCard from '@/components/molecules/AccountCard';
 import AccountTypeButton from '@/components/molecules/AccountTypeButton';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { fetchAllData } from '@/lib/api';
-
-type AccountData = {
-  id: string;
-  user_id: string;
-  account_number: number;
-  balance: number;
-  account_type: string;
-  bank: string;
-  account_name: string;
-};
+import { Account } from '@/lib/datatypes';
 
 export default function CheckPage() {
-  const [accountData, setAccountData] = useState<AccountData[]>([]);
+  const { data: session } = useSession();
+  const userId = session?.user.id;
+  const [accountData, setAccountData] = useState<Account[]>([]);
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   useEffect(() => {
     // API에서 account 데이터를 가져오는 함수
     const fetchData = async () => {
       try {
-        const data = await fetchAllData<AccountData>('accounts'); // accounts는 API 리소스 경로
+        const data = await fetchAllData<Account>(`account?user_id=${userId}`); // account는 API 리소스 경로
         setAccountData(data);
       } catch (error) {
         console.error('Error fetching account data:', error);
@@ -33,23 +27,23 @@ export default function CheckPage() {
     };
 
     fetchData();
-  }, []);
+  }, [userId]);
 
   const totalBalance = accountData.reduce(
     (total, account) => total + account.balance,
     0
   );
 
-  const filteredAccounts = selectedType
+  const filteredaccount = selectedType
     ? accountData.filter((account) => account.account_type === selectedType)
     : accountData;
-  console.log(filteredAccounts);
+  console.log(filteredaccount);
   return (
-    <div>
-      <h1 className='text-center text-3xl font-medium mt-4'>내 계좌</h1>
-      <div className='bg-[#95D0BF] shadow-md rounded-lg m-8 p-8 flex items-center justify-between'>
-        <span className='text-xl text-white ml-2'>총 금액</span>
-        <span className='text-xl text-white mr-2'>
+    <div className='p-8'>
+      <h1 className='text-center text-xl font-medium '>내 계좌</h1>
+      <div className='bg-[#95D0BF] shadow-md rounded-xl my-6 px-8 py-6 flex items-center justify-between'>
+        <span className='text-lg text-white ml-2'>총 금액</span>
+        <span className='text-lg text-white mr-2'>
           {totalBalance.toLocaleString()} 원
         </span>
       </div>
@@ -82,7 +76,7 @@ export default function CheckPage() {
       </div>
 
       <div>
-        {filteredAccounts.map((account) => (
+        {filteredaccount.map((account) => (
           <Link href={`/check/${account.id}`}>
             <div>
               <AccountCard
