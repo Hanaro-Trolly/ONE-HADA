@@ -3,7 +3,7 @@
 import BankIcon from '@/components/molecules/BankIcon';
 import TypeButton from '@/components/molecules/TypeButton';
 import { useEffect, useState } from 'react';
-import { getData, addData } from '@/lib/api';
+import { getData, addData, fetchAllData } from '@/lib/api';
 // postData 함수 가져오기
 import { Account } from '@/lib/datatypes';
 
@@ -30,12 +30,14 @@ export default function AccountDetailPage({
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [historyLength, setHistoryLength] = useState<number>(0);
 
-  // account 데이터 가져오기
   useEffect(() => {
     const fetchAccount = async () => {
       try {
         const data = await getData<Account>('account', accountId); // 'account' 리소스에서 accountId로 데이터 가져오기
+        const histories = await fetchAllData<History>('history');
+        if (histories) setHistoryLength(histories.length + 1);
         setAccount(data); // 가져온 데이터를 상태로 설정
       } catch (error) {
         console.error('계좌 데이터 가져오기 오류:', error);
@@ -62,7 +64,7 @@ export default function AccountDetailPage({
 
   // 조회하기 버튼 클릭 시 호출되는 함수
   const handleSearchClick = async () => {
-    const historyId = Math.random().toString(36).substring(2, 15); // 랜덤 ID 생성
+    const historyId = historyLength;
     const historyName = `조회 ${new Date().toLocaleString()}`; // 조회 이름 생성
     const historyType = 'inquiry'; // history_type
     const historyParams = `${accountId}#${selectedPeriod}#${startDate}#${endDate}#${selectedType}#${searchKeyword}`; // 파라미터 생성
@@ -70,7 +72,7 @@ export default function AccountDetailPage({
     const isShortcut = false; // 단축키 여부
 
     const historyData: History = {
-      id: historyId,
+      id: '' + historyId,
       user_id: account.user_id, // 사용자 ID는 account에서 가져옵니다
       history_name: historyName,
       history_type: historyType,
