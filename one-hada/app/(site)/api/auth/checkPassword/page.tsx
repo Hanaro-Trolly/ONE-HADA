@@ -67,7 +67,7 @@ export default function CheckPassword() {
           activity_date: new Date().toISOString(),
           is_Shortcut: false,
           history_type: 'transaction',
-          history_params: `'${queryParams.get('account_id')}#${queryParams.get('recipient_account_id')}#${queryParams.get(
+          history_params: `${queryParams.get('account_id')}#${queryParams.get('recipient_account_id')}#${queryParams.get(
             'amount'
           )}`,
         };
@@ -92,7 +92,7 @@ export default function CheckPassword() {
     if (userPassword?.join('') === password.join('')) {
       alert('인증에 성공하였습니다');
       handleTransactionAndHistory(route || '');
-      router.push(`${redirectTo}` || `${route}`);
+      router.push(redirectTo || route || '/');
     } else {
       alert('비밀번호가 일치하지 않습니다.');
     }

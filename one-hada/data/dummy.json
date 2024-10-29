@@ -8,10 +8,7 @@
       "user_phone": "010-1234-5678",
       "user_address": "서울특별시 영등포구 신길동",
       "user_birth": "1999-04-02",
-      "user_register": "2023-01-01T12:00:00Z",
-      "user_google": "google@gmail.com",
-      "user_kakao": "kakao@kakao.com",
-      "user_naver": "naver@naver.com"
+      "user_register": "2023-01-01T12:00:00Z"
     },
     {
       "id": "2",
@@ -21,10 +18,7 @@
       "user_phone": "010-9876-5432",
       "user_address": "부천시 소사로 78번길",
       "user_birth": "1997-01-02",
-      "user_register": "2023-02-01T12:00:00Z",
-      "user_google": "google@gmail.com",
-      "user_kakao": "kakao@kakao.com",
-      "user_naver": "naver@naver.com"
+      "user_register": "2023-02-01T12:00:00Z"
     },
     {
       "id": "3",
@@ -34,10 +28,7 @@
       "user_phone": "010-5555-1234",
       "user_address": "서울특별시 구로구 구로1동",
       "user_birth": "2000-05-26",
-      "user_register": "2023-03-01T12:00:00Z",
-      "user_google": "google@gmail.com",
-      "user_kakao": "kakao@kakao.com",
-      "user_naver": "naver@naver.com"
+      "user_register": "2023-03-01T12:00:00Z"
     },
     {
       "id": "4",
@@ -67,32 +58,32 @@
       "simple_password": ["1", "1", "1", "1", "1", "1"]
     },
     {
-      "id": "1730119322267",
-      "user_name": "문규빈",
-      "user_gender": "male",
-      "user_birth": "2000-05-26",
-      "user_phone": "010-9178-8444",
-      "user_address": "화성",
-      "user_email": "joemoon0526@gmail.com",
-      "user_register": "2024-10-28T12:42:22.863Z",
-      "user_google": "118380181517390185679",
+      "id": "1730179138231",
+      "user_name": "혜민",
+      "user_gender": "female",
+      "user_birth": "2024-09-02",
+      "user_phone": "010-1234-1234",
+      "user_address": "연무장로 알파코캠퍼스 ",
+      "user_email": "42freshpong@gmail.com",
+      "user_register": "2024-10-29T05:19:22.378Z",
+      "user_google": "102904350864248754457",
       "user_kakao": null,
       "user_naver": null,
       "simple_password": ["1", "1", "1", "1", "1", "1"]
     },
     {
-      "id": "1730174754276",
-      "user_name": "최강희",
+      "id": "1730183690628",
+      "user_name": "박시온",
       "user_gender": "male",
-      "user_birth": "1999-07-30",
-      "user_phone": "010-6274-2263",
-      "user_address": "광주광역시 광산구 ",
-      "user_email": "rkdgml3577@gmail.com",
-      "user_register": "2024-10-29T04:06:15.266Z",
-      "user_google": "103915107674413636765",
+      "user_birth": "1999-09-21",
+      "user_phone": "010-4193-0478",
+      "user_address": "로ㅓㅏ유하",
+      "user_email": "sion691@gmail.com",
+      "user_register": "2024-10-29T06:35:01.183Z",
+      "user_google": "112714503410025629569",
       "user_kakao": null,
       "user_naver": null,
-      "simple_password": ["9", "9", "0", "7", "3", "0"]
+      "simple_password": ["8", "8", "8", "8", "8", "8"]
     }
   ],
   "agent": [
@@ -124,8 +115,8 @@
   "history": [
     {
       "id": "1",
-      "user_id": "1730103306576",
-      "history_name": "'강민관'님께 2000만원 송금",
+      "user_id": "1730162231776",
+      "history_name": "이십글자이십글자이십글자이십글자이십글자",
       "history_type": "transfer",
       "history_params": "1#3#20000000",
       "activity_date": "2024-10-20T14:30:00Z",
@@ -133,10 +124,10 @@
     },
     {
       "id": "2",
-      "user_id": "1730103306576",
+      "user_id": "1730162231776",
       "history_name": "'밥플러스' 30일간 출금내역 확인",
       "history_type": "inquiry",
-      "history_params": "1#2024-10-28#2024-10-29#출금#밥플러스",
+      "history_params": "1##2024-10-23#2024-10-27#전체#밥플러스",
       "activity_date": "2024-10-21T10:15:00Z",
       "is_Shortcut": true
     },
@@ -420,110 +411,46 @@
       "is_Shortcut": false
     },
     {
-      "id": "6h2vnqp2ecy",
-      "user_id": "1730103306576",
-      "history_name": "조회 2024. 10. 29. 오전 11:22:45",
+      "id": "6quw5avxyau",
+      "user_id": "1730183690628",
+      "history_name": "조회 2024. 10. 29. 오후 3:44:08",
       "history_type": "inquiry",
-      "history_params": "3#전체###전체#",
-      "activity_date": "2024-10-29T02:22:45.939Z",
+      "history_params": "1#1개월###전체#",
+      "activity_date": "2024-10-29T06:44:08.541Z",
       "is_Shortcut": false
     },
     {
-      "id": "yccbc6xy1v9",
-      "user_id": "1730119322267",
-      "history_name": "조회 2024. 10. 29. 오전 11:22:53",
+      "id": "3rss6a1016c",
+      "user_id": "1730183690628",
+      "history_name": "조회 2024. 10. 29. 오후 3:45:46",
       "history_type": "inquiry",
-      "history_params": "1#전체###전체#",
-      "activity_date": "2024-10-29T02:22:53.325Z",
+      "history_params": "1#3개월###전체#",
+      "activity_date": "2024-10-29T06:45:46.509Z",
       "is_Shortcut": false
     },
     {
-      "id": "640c93m64qp",
-      "user_id": "1730119322267",
-      "history_name": "조회 2024. 10. 29. 오전 11:24:19",
-      "history_type": "inquiry",
-      "history_params": "1#전체###전체#",
-      "activity_date": "2024-10-29T02:24:19.981Z",
-      "is_Shortcut": false
+      "id": "1730184406662",
+      "user_id": "1730183690628",
+      "history_name": "강민관님께 5000000원 송금",
+      "activity_date": "2024-10-29T06:46:46.671Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#5#5000000"
     },
     {
-      "id": "r3n9jaerwq",
-      "user_id": "1730119322267",
-      "history_name": "조회 2024. 10. 29. 오전 11:25:59",
-      "history_type": "inquiry",
-      "history_params": "1#전체###전체#",
-      "activity_date": "2024-10-29T02:25:59.187Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "cmwz2i58ng",
-      "user_id": "1730119322267",
-      "history_name": "조회 2024. 10. 29. 오전 11:29:04",
-      "history_type": "inquiry",
-      "history_params": "1#전체###전체#",
-      "activity_date": "2024-10-29T02:29:04.194Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "ygtrx7tenvc",
-      "user_id": "1730119322267",
-      "history_name": "조회 2024. 10. 29. 오전 11:38:55",
-      "history_type": "inquiry",
-      "history_params": "1#전체###전체#",
-      "activity_date": "2024-10-29T02:38:55.289Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "xqrgdk1kma",
-      "user_id": "1730103306576",
-      "history_name": "조회 2024. 10. 29. 오전 11:39:18",
-      "history_type": "inquiry",
-      "history_params": "2#전체###전체#",
-      "activity_date": "2024-10-29T02:39:18.235Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "5wtc8poktmm",
-      "user_id": "1",
-      "history_name": "조회 2024. 10. 29. 오후 1:13:42",
-      "history_type": "inquiry",
-      "history_params": "1#전체###전체#",
-      "activity_date": "2024-10-29T04:13:43.028Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "p8824hd2x7p",
-      "user_id": "1",
-      "history_name": "조회 2024. 10. 29. 오후 1:30:22",
-      "history_type": "inquiry",
-      "history_params": "3#전체###전체#",
-      "activity_date": "2024-10-29T04:30:22.826Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "uu8uybl0xhq",
-      "user_id": "1",
-      "history_name": "조회 2024. 10. 29. 오후 1:36:17",
-      "history_type": "inquiry",
-      "history_params": "1#전체###전체#",
-      "activity_date": "2024-10-29T04:36:17.478Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "u3xp7olf2hh",
-      "user_id": "1",
-      "history_name": "조회 2024. 10. 29. 오후 2:00:02",
-      "history_type": "inquiry",
-      "history_params": "1#전체###전체#",
-      "activity_date": "2024-10-29T05:00:02.977Z",
-      "is_Shortcut": false
+      "id": "1730184752818",
+      "user_id": "1730183690628",
+      "history_name": "강민관님께 55원 송금",
+      "activity_date": "2024-10-29T06:52:32.838Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "1#5#55"
     }
   ],
   "shortcut": [
     {
       "id": "1",
       "user_id": "1",
-      "history_id": "2",
       "shortcut_name": "한달간 밥플러스 결제내역",
       "shortcutUrl": "/",
       "is_Favorite": false
@@ -586,6 +513,27 @@
       "shortcut_name": "ㅇㄴㅇㄴ",
       "shortcutUrl": "http://localhost:3000/transfer/amount?account_id=1&recipient=1bank=농협은행recipient_number=100000000",
       "is_Favorite": false
+    },
+    {
+      "id": "11",
+      "user_id": "1",
+      "shortcut_name": "'강민관'님께 2000만원 송금",
+      "shortcutUrl": "http://localhost:3000/transfer/vaildation?account_id=1&recipient=1bank=농협은행recipient_number=1000000003amount=2000000",
+      "is_Favorite": false
+    },
+    {
+      "id": "12",
+      "user_id": "1730162231776",
+      "shortcut_name": "이십글자이십글자이십글자이십글자이십글자",
+      "shortcutUrl": "http://localhost:3000/transfer/vaildation?account_id=1&recipient=1bank=농협은행recipient_number=1000000003amount=2000000",
+      "is_Favorite": true
+    },
+    {
+      "id": "13",
+      "user_id": "1730183690628",
+      "shortcut_name": "조회 2024. 10. 29. 오후 3:45:46",
+      "shortcutUrl": "http://localhost:3000/check/1/detail?accound_id=1&period=3개월&type=전체&search=",
+      "is_Favorite": true
     }
   ],
   "consultation": [
@@ -636,43 +584,12 @@
       "consultation_title": "송금 방법 상담",
       "consultation_content": "송금 방법 상담 요청.지난번 상담 내용 존재. 바로가기 페이지로 이동. 즐겨찾기 추가",
       "consultation_date": "2024-10-23T13:00:00Z"
-    },
-    {
-      "id": "7",
-      "agent_id": "1",
-      "user_id": "1",
-      "consultation_title": "송금 방법 상담",
-      "consultation_content": "송금 방법 상담 요청.지난번 상담 내용 존재. 바로가기 페이지로 이동. 즐겨찾기 추가",
-      "consultation_date": "2024-10-23T13:00:00Z"
-    },
-    {
-      "id": "1730134523226",
-      "user_id": "2",
-      "consultation_title": "sdfsdf",
-      "consultation_content": "sdfsdf",
-      "consultation_date": "2024-10-28T16:55:23.225Z"
-    },
-    {
-      "id": "1730165358431",
-      "agent_id": "1",
-      "user_id": "1",
-      "consultation_title": "테스트",
-      "consultation_content": "테스트",
-      "consultation_date": "2024-10-29T01:29:18.431Z"
-    },
-    {
-      "id": "1730167076494",
-      "agent_id": "1",
-      "user_id": "2",
-      "consultation_title": "wf",
-      "consultation_content": "wfwef",
-      "consultation_date": "2024-10-29T01:57:56.494Z"
     }
   ],
   "account": [
     {
       "id": "1",
-      "user_id": "1",
+      "user_id": "1730183690628",
       "account_number": 1000000001,
       "balance": 5000000,
       "account_type": "예적금",
@@ -681,21 +598,19 @@
     },
     {
       "id": "2",
-      "user_id": "1",
+      "user_id": "1730183690628",
       "account_number": 1000000002,
       "balance": 1500000000,
-      "account_type": "예적금",
-      "bank": "하나은행",
-      "account_name": "하나은행 예금통장"
+      "account_type": "예금",
+      "bank": "국민은행"
     },
     {
       "id": "3",
-      "user_id": "1",
+      "user_id": "1730183690628",
       "account_number": 1000000003,
       "balance": 3000000,
       "account_type": "입출금",
-      "bank": "하나은행",
-      "account_name": "하나은행 입출금통장"
+      "bank": "농협은행"
     },
     {
       "id": "4",
@@ -711,9 +626,8 @@
       "user_id": "2",
       "account_number": 2000000002,
       "balance": 8000000,
-      "account_type": "예적금",
-      "bank": "넘옙브넹~",
-      "account_name": "넘옙브넹 저축통장"
+      "account_type": "저축",
+      "bank": "하나은행"
     },
     {
       "id": "6",
@@ -729,9 +643,8 @@
       "user_id": "3",
       "account_number": 3000000001,
       "balance": 7000000,
-      "account_type": "예적금",
-      "bank": "토스뱅크",
-      "account_name": "토스뱅크 저축통장"
+      "account_type": "저축",
+      "bank": "하나은행"
     },
     {
       "id": "8",
@@ -755,7 +668,7 @@
     },
     {
       "id": "2",
-      "sender_account_id": "1",
+      "sender_account_id": "7",
       "receiver_account_id": "1",
       "amount": 500000,
       "sender_viewer": "문규빈",
@@ -764,7 +677,7 @@
     },
     {
       "id": "3",
-      "sender_account_id": "1",
+      "sender_account_id": "3",
       "receiver_account_id": "4",
       "amount": 200000,
       "sender_viewer": "정성현",
@@ -773,7 +686,7 @@
     },
     {
       "id": "4",
-      "sender_account_id": "1",
+      "sender_account_id": "2",
       "receiver_account_id": "5",
       "amount": 300000,
       "sender_viewer": "정성현",
@@ -1017,6 +930,22 @@
       "receiver_account_id": "4",
       "amount": 8,
       "sender_viewer": "문규빈",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730184406662",
+      "sender_account_id": "1",
+      "receiver_account_id": "5",
+      "amount": 5000000,
+      "sender_viewer": "박시온",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730184752818",
+      "sender_account_id": "1",
+      "receiver_account_id": "5",
+      "amount": 55,
+      "sender_viewer": "박시온",
       "receiver_viewer": "강민관"
     }
   ],

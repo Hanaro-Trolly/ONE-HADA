@@ -33,8 +33,7 @@ export default function DetailPage({
     // Fetch transaction data with filtering
     const fetchTransactionData = async () => {
       try {
-        const transaction = await fetchAllData<Transaction>('transaction');
-        console.log('Fetched transaction:', transaction); // Log transaction to check data structure
+        const transactions = await fetchAllData<Transaction>('transaction');
         const searchParams = new URLSearchParams(window.location.search);
         const period = searchParams.get('period');
         const type = searchParams.get('type');
@@ -42,7 +41,7 @@ export default function DetailPage({
         const endDate = searchParams.get('endDate');
         const searchKeyword = searchParams.get('search');
 
-        const filtered = transaction.filter((transaction) => {
+        const filtered = transactions.filter((transaction) => {
           let transactionType = '';
 
           if (transaction.sender_account_id === accountId) {
