@@ -24,7 +24,7 @@ type History = {
   id: string;
   user_id: string;
   history_name: string;
-  history_type: 'inquiry' | 'transfer' | 'acc';
+  history_type: 'inquiry' | 'transaction' | 'acc';
   history_params: string;
   activity_date: Date;
   is_Shortcut: boolean;

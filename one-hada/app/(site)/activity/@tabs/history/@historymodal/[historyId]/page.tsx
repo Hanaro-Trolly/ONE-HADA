@@ -48,24 +48,23 @@ export default function HistoryModalPage({
           : 1;
       let shortcutUrl = BASE_URL;
       const params = history!.history_params.split('#');
-      if (history?.history_type === 'transfer') {
+      if (history?.history_type === 'transaction') {
         shortcutUrl +=
           'transfer/' + TRANSFERPARAM[checkedList.length - 1] + '?';
         checkedList.forEach((idx) => {
           if (idx === '0') shortcutUrl += 'account_id=' + params[0] + '&';
           else if (idx === '1') {
-            shortcutUrl += 'recipient=' + receiveAccount.current?.user_id;
-            shortcutUrl += 'bank=' + receiveAccount.current?.bank;
+            shortcutUrl += 'recipient=' + receiveAccount.current?.user_id + '&';
+            shortcutUrl += 'bank=' + receiveAccount.current?.bank + '&';
             shortcutUrl +=
-              'recipient_number=' + receiveAccount.current?.account_number;
+              'recipient_number=' +
+              receiveAccount.current?.account_number +
+              '&';
           } else if (idx === '2') {
-            shortcutUrl += 'amount=' + params[2];
+            shortcutUrl += 'amount=' + params[2] + '&';
           }
         });
       } else if (history?.history_type === 'inquiry') {
-        //TODO: 여기 강희 조회 URL 형식 맞춰야함
-        //‘자기계좌id#period#startdate#enddate#type#searchkey’
-        //  'accound_id','period','start_date','end_date','type','search',
         shortcutUrl += 'check/';
         shortcutUrl += myAccount.current?.id + '/detail?';
         checkedList.forEach((idx) => {
@@ -116,7 +115,7 @@ export default function HistoryModalPage({
         if (data) {
           setHistory(data);
           const params = data?.history_params.split('#') || [];
-          if (data.history_type === 'transfer') {
+          if (data.history_type === 'transaction') {
             myAccount.current = await getData<Account>('account', params[0]);
             receiveAccount.current = await getData<Account>(
               'account',
