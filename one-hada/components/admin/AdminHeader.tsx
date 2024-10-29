@@ -56,7 +56,14 @@ export default function AdminHeader() {
           }
         });
 
-      setUniqueUsers(Array.from(userLatestCounsels.values()));
+      // Convert Map values to array and sort by consultation_date
+      const sortedUsers = Array.from(userLatestCounsels.values()).sort(
+        (a, b) =>
+          new Date(b.consultation_date).getTime() -
+          new Date(a.consultation_date).getTime()
+      );
+
+      setUniqueUsers(sortedUsers);
     }
   }, [counselData, session.loginUser?.id]);
 
