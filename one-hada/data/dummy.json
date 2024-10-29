@@ -568,6 +568,51 @@
       "history_params": "1#전체###전체#",
       "activity_date": "2024-10-29T20:37:47.440Z",
       "is_Shortcut": false
+    },
+    {
+      "id": "ias5l96gss8",
+      "user_id": "1730188643520",
+      "history_name": "조회 2024. 10. 30. 오전 6:05:42",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T21:05:42.586Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "ts5hfyx5al",
+      "user_id": "1730188643520",
+      "history_name": "조회 2024. 10. 30. 오전 6:09:18",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T21:09:18.894Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "qekq11lhg3r",
+      "user_id": "1730188643520",
+      "history_name": "전체 + 전체 +  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T21:12:41.167Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "93g25r7oq6g",
+      "user_id": "1730188643520",
+      "history_name": "1개월 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#1개월###전체#",
+      "activity_date": "2024-10-29T21:13:31.408Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "9x428j37f7",
+      "user_id": "1730188643520",
+      "history_name": "3개월 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#3개월###전체#",
+      "activity_date": "2024-10-29T21:19:03.920Z",
+      "is_Shortcut": false
     }
   ],
   "shortcut": [

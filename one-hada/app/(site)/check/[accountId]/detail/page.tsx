@@ -133,30 +133,34 @@ export default function DetailPage({
   };
 
   return (
-    <div className='bg-[#DCEFEA] min-h-screen flex flex-col'>
-      {accountInfo && (
-        <div className=' flex items-center ml-4 mt-4'>
-          <div className='w-12 h-12 bg-white rounded-full flex items-center justify-center'>
-            <BankIcon bankId={accountInfo.bank} />
+    <div className='bg-white min-h-screen flex flex-col'>
+      <div className='bg-[#DCEFEA]'>
+        {accountInfo && (
+          <div className='flex items-center ml-4 mt-4 bg-[#DCEFEA] p-4 rounded-lg'>
+            <div className='w-12 h-12 bg-white rounded-full flex items-center justify-center'>
+              <BankIcon bankId={accountInfo.bank} />
+            </div>
+            <div className='ml-4'>
+              <h1 className='text-xl font-medium'>
+                {accountInfo.account_name}
+              </h1>
+              <h2 className='text-xl font-medium'>
+                {accountInfo.account_number}
+              </h2>
+            </div>
           </div>
-          <div className=' ml-4 '>
-            <h1 className='text-xl font-medium'>{accountInfo.account_name}</h1>
-            <h2 className='text-xl font-medium'>
-              {accountInfo.account_number}
-            </h2>
-          </div>
+        )}
+        <div className='bg-[#DCEFEA] flex justify-end mt-8 mb-8'>
+          <h1 className='text-2xl font-semibold mr-8'>
+            {accountInfo?.balance.toLocaleString()}원
+          </h1>
         </div>
-      )}
-      <div className='bg-[#DCEFEA] flex justify-end mt-8 mb-8'>
-        <h1 className=' text-2xl font-semibold mr-8'>
-          {accountInfo?.balance.toLocaleString()}원
-        </h1>
       </div>
       <div className='bg-white flex justify-center items-center'>
         <h1 className='mt-2 mb-2 text-center flex-1 text-xl'>거래 내역</h1>
         <Button
           onClick={handleSearchClick}
-          className='tossface-icon mt-2 mb-2 mr-2 bg-[#61B89F]  rounded-full'
+          className='tossface-icon mt-2 mb-2 mr-2 bg-[#61B89F] rounded-full'
         >
           🔍
         </Button>

@@ -64,7 +64,7 @@ export default function AccountDetailPage({
   // 조회하기 버튼 클릭 시 호출되는 함수
   const handleSearchClick = async () => {
     const historyId = Math.random().toString(36).substring(2, 15); // 랜덤 ID 생성
-    const historyName = `조회 ${new Date().toLocaleString()}`; // 조회 이름 생성
+    const historyName = `${selectedPeriod} 동안 ${selectedType} 내역 ${searchKeyword} 조회하기`; // 조회 이름 생성
     const historyType = 'inquiry'; // history_type
     const historyParams = `${accountId}#${selectedPeriod}#${startDate}#${endDate}#${selectedType}#${searchKeyword}`; // 파라미터 생성
     const activityDate = new Date(); // 현재 날짜
