@@ -11,24 +11,8 @@ import { getData } from '@/lib/api';
 import { User } from '@/lib/datatypes';
 
 export default function MenuPage() {
-  const { data: session } = useSession();
-  const [userProfile, setUserProfile] = useState<User | null>(null);
-  useEffect(() => {
-    const loadUser = async () => {
-      try {
-        if (session?.user) {
-          const data = await getData<User>('user', session.user.id);
-          if (data) {
-            setUserProfile(data);
-          }
-        }
-      } catch (error) {
-        console.error('유저 정보를 불러오는데 실패했습니다.', error);
-      }
-    };
-    loadUser();
-  }, [session]);
-
+  const [isLogined] = useState(true);
+  const name = '홍길동';
   const buttons = [
     { label: '조회', targetId: '조회' },
     { label: '이체', targetId: '이체' },
@@ -45,8 +29,8 @@ export default function MenuPage() {
     >
       {/* <h1 className='font-semibold mb-2 mx-6 px-5 pt-4 '>전체메뉴</h1> */}
       {session?.user ? (
-        <div className='bg-[#DCEFEA] flex items-center pb-2'>
-          <div className='mb-2 mx-6 px-5 pt-4 w-full flex justify-between items-center'>
+        <div className='bg-[#DCEFEA] flex items-center mb-2'>
+          <div className='mx-6 px-5 h-14 w-full flex justify-between items-center'>
             <div className='text=[#635666}'>
               <label className='text-xl text-[#698596] font-semibold'>
                 {userProfile?.user_name}
