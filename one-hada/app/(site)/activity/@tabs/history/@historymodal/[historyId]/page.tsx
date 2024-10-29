@@ -9,7 +9,7 @@ import { addData, fetchAllData, getData } from '@/lib/api';
 import { Account, History, Shortcut } from '@/lib/datatypes';
 
 const BASE_URL = 'http://localhost:3000/';
-const TRANSFERPARAM = ['recipient', 'amount', 'vaildation'];
+const TRANSFERPARAM = ['recipient', 'amount', 'validation'];
 const INQUIRYPARAM = [
   'accound_id',
   'period',
