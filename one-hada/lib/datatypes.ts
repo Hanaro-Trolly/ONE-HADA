@@ -2,7 +2,7 @@ type User = {
   id: string;
   user_name: string;
   user_email: string | undefined;
-  user_gender: 'male' | 'female';
+  user_gender: string;
   user_phone: string;
   user_address: string;
   user_birth: string;
