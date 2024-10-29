@@ -22,26 +22,13 @@
     },
     {
       "id": "3",
-      "user_name": "문규빈",
+      "user_name": "시니어코딩",
       "user_gender": "male",
-      "user_email": "somea82@example.com",
+      "user_email": "indiflex@example.com",
       "user_phone": "010-5555-1234",
       "user_address": "서울특별시 구로구 구로1동",
-      "user_birth": "2000-05-26",
+      "user_birth": "1973-05-26",
       "user_register": "2023-03-01T12:00:00Z"
-    },
-    {
-      "id": "4",
-      "user_name": "박시온",
-      "user_gender": "male",
-      "user_email": "sion9999@example.com",
-      "user_phone": "010-4444-5678",
-      "user_address": "인천광역시 남동구 구월동",
-      "user_birth": "1999-09-21",
-      "user_register": "2023-04-01T12:00:00Z",
-      "user_google": "google@gmail.com",
-      "user_kakao": "kakao@kakao.com",
-      "user_naver": "naver@naver.com"
     },
     {
       "id": "1730103306576",
@@ -55,14 +42,7 @@
       "user_google": "112287508448169046665",
       "user_kakao": "3762386136",
       "user_naver": null,
-      "simple_password": [
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1"
-      ]
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
     },
     {
       "id": "1730179138231",
@@ -76,14 +56,7 @@
       "user_google": "102904350864248754457",
       "user_kakao": null,
       "user_naver": null,
-      "simple_password": [
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1"
-      ]
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
     },
     {
       "id": "1730183690628",
@@ -91,26 +64,33 @@
       "user_gender": "male",
       "user_birth": "1999-09-21",
       "user_phone": "010-4193-0478",
-      "user_address": "로ㅓㅏ유하",
+      "user_address": "인천광역시 남동구 구월동",
       "user_email": "sion691@gmail.com",
       "user_register": "2024-10-29T06:35:01.183Z",
       "user_google": "112714503410025629569",
       "user_kakao": null,
       "user_naver": null,
-      "simple_password": [
-        "8",
-        "8",
-        "8",
-        "8",
-        "8",
-        "8"
-      ]
+      "simple_password": ["8", "8", "8", "8", "8", "8"]
+    },
+    {
+      "id": "1730185897052",
+      "user_name": "문규빈",
+      "user_gender": "male",
+      "user_birth": "2000-05-26",
+      "user_phone": "010-9178-8484",
+      "user_address": "서울특별시 구로구 구로1동",
+      "user_email": "joemoon0526@gmail.com",
+      "user_register": "2024-10-29T07:11:54.313Z",
+      "user_google": "118380181517390185679",
+      "user_kakao": null,
+      "user_naver": null,
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
     }
   ],
   "agent": [
     {
       "id": "1",
-      "agent_name": "김도영",
+      "agent_name": "최강희",
       "agent_email": "kim.doyoung@example.com",
       "agent_pw": "password123"
     },
@@ -136,299 +116,52 @@
   "history": [
     {
       "id": "1",
-      "user_id": "1730162231776",
-      "history_name": "이십글자이십글자이십글자이십글자이십글자",
-      "history_type": "transfer",
-      "history_params": "1#3#20000000",
-      "activity_date": "2024-10-20T14:30:00Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "2",
-      "user_id": "1730162231776",
-      "history_name": "'밥플러스' 30일간 출금내역 확인",
-      "history_type": "inquiry",
-      "history_params": "1##2024-10-23#2024-10-27#전체#밥플러스",
-      "activity_date": "2024-10-21T10:15:00Z",
-      "is_Shortcut": true
-    },
-    {
-      "id": "3",
-      "user_id": "1730103306576",
-      "history_name": "'박시온'님께 5억원 송금",
-      "history_type": "transfer",
-      "history_params": "",
-      "activity_date": "2024-10-22T07:00:00Z",
-      "is_Shortcut": true
-    },
-    {
-      "id": "4",
-      "user_id": "1730103306576",
-      "history_name": "'하나로' 1년간 입금내역 조회",
-      "history_type": "inquiry",
-      "history_params": "",
-      "activity_date": "2024-10-23T19:45:00Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "5",
-      "user_id": "1730103306576",
-      "history_name": "'문규빈'님께 20억원 송금",
-      "history_type": "transaction",
-      "history_params": "",
-      "activity_date": "2024-10-24T16:30:00Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "6",
-      "user_id": "1730103306576",
-      "history_name": "대출 페이지 이동",
-      "history_type": "acc",
-      "history_params": "daechul",
-      "activity_date": "2024-10-25T12:00:00Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "7",
-      "user_id": "1730103306576",
-      "history_name": "'박시온'님께 3원 송금",
-      "history_type": "transaction",
-      "history_params": "",
-      "activity_date": "2024-10-26T18:00:00Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "8",
-      "user_id": "1730103306576",
-      "history_name": "1년간 결제내역 조회",
-      "history_type": "inquiry",
-      "history_params": "",
-      "activity_date": "2024-10-27T09:00:00Z",
-      "is_Shortcut": true
-    },
-    {
-      "id": "9",
-      "user_id": "1730103306576",
-      "history_name": "'조서현'님께 10억 송금",
-      "history_type": "transaction",
-      "history_params": "",
-      "activity_date": "2024-10-28T14:00:00Z",
-      "is_Shortcut": true
-    },
-    {
-      "id": "10",
-      "user_id": "1730103306576",
-      "history_name": "30일간 결제내역 조회",
-      "history_type": "inquiry",
-      "history_params": "",
-      "activity_date": "2024-10-29T11:30:00Z",
-      "is_Shortcut": true
-    },
-    {
-      "id": "11",
-      "user_id": "2",
-      "history_name": "적금 페이지 이동",
-      "history_type": "acc",
-      "history_params": "",
-      "activity_date": "2024-10-20T15:00:00Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "12",
-      "user_id": "2",
-      "history_name": "1년간 결제내역 조회",
-      "history_type": "inquiry",
-      "history_params": "",
-      "activity_date": "2024-10-21T12:00:00Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "13",
-      "user_id": "2",
-      "history_name": "'박시온'님께 3000만원 송금",
-      "history_type": "transaction",
-      "history_params": "",
-      "activity_date": "2024-10-22T09:00:00Z",
-      "is_Shortcut": true
-    },
-    {
-      "id": "14",
-      "user_id": "3",
-      "history_name": "'박시온'님께 4억원 송금",
-      "history_type": "transaction",
-      "history_params": "",
-      "activity_date": "2024-10-20T11:00:00Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "15",
-      "user_id": "3",
-      "history_name": "'올리브영' 결제내역 조회",
-      "history_type": "inquiry",
-      "history_params": "",
-      "activity_date": "2024-10-21T18:30:00Z",
-      "is_Shortcut": true
-    },
-    {
-      "id": "16",
-      "user_id": "3",
-      "history_name": "'강민관'님께 34억원 송금",
-      "history_type": "transaction",
-      "history_params": "",
-      "activity_date": "2024-10-22T14:45:00Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "17",
       "user_id": "1730183690628",
-      "history_name": "조회 2024. 10. 29. 오후 4:43:54",
-      "history_type": "inquiry",
-      "history_params": "1#3개월###입금#",
-      "activity_date": "2024-10-29T07:43:54.221Z",
-      "is_Shortcut": false
-    },
-    {
-      "id": "18",
-      "user_id": "1730183690628",
-      "history_name": "강민관님께 1818원 송금",
-      "activity_date": "2024-10-29T07:45:17.971Z",
-      "is_Shortcut": false,
+      "history_name": "시니어코딩님께 10000",
       "history_type": "transaction",
-      "history_params": "1#5#1818"
-    },
-    {
-      "id": "19",
-      "user_id": "1730183690628",
-      "history_name": "강민관님께 1818원 송금",
-      "activity_date": "2024-10-29T07:45:38.178Z",
-      "is_Shortcut": false,
-      "history_type": "transaction",
-      "history_params": "1#5#1818"
+      "history_params": "1#7#10000",
+      "activity_date": "2024-01-23T14:30:00Z"
     }
   ],
   "shortcut": [
     {
       "id": "1",
-      "user_id": "1",
-      "shortcut_name": "한달간 밥플러스 결제내역",
+      "user_id": "1730183690628",
+      "shortcut_name": "상납금",
       "shortcutUrl": "/",
       "is_Favorite": false
     },
     {
       "id": "2",
-      "user_id": "1",
-      "history_id": "3",
-      "shortcut_name": "박시온님께 5억 송금",
-      "shortcutUrl": "/",
-      "is_Favorite": false
+      "user_id": "1730183690628",
+      "shortcut_name": "시코",
+      "shortcutUrl": "http://localhost:3000/transfer/amount?account_id=1&recipient=3&bank=하나은행&recipient_number=1234567890",
+      "is_Favorite": true
     },
     {
       "id": "3",
-      "user_id": "1",
-      "history_id": "8",
-      "shortcut_name": "1년 결제내역 조회",
-      "shortcutUrl": "/",
-      "is_Favorite": true
-    },
-    {
-      "id": "5",
-      "user_id": "2",
-      "shortcut_name": "박시온님께 3000만원 송금",
-      "shortcutUrl": "/",
-      "is_Favorite": false
-    },
-    {
-      "id": "6",
-      "user_id": "3",
-      "shortcut_name": "올리브영 결제내역 조회",
-      "shortcutUrl": "/",
-      "is_Favorite": true
-    },
-    {
-      "id": "7",
-      "user_id": "4",
-      "shortcut_name": "정성현님께 4000원 송금",
-      "shortcutUrl": "/",
-      "is_Favorite": false
-    },
-    {
-      "id": "8",
-      "user_id": "4",
-      "shortcut_name": "1년 결제내역 조회",
-      "shortcutUrl": "/",
-      "is_Favorite": true
-    },
-    {
-      "id": "9",
-      "user_id": "1",
-      "history_id": "10",
-      "shortcut_name": "한달 결제내역 조회",
-      "shortcutUrl": "/",
-      "is_Favorite": true
-    },
-    {
-      "id": "10",
       "user_id": "1730183690628",
-      "shortcut_name": "조회덮밥",
-      "shortcutUrl": "http://localhost:3000/check/1/detail?accound_id=1&type=입금&search=",
-      "is_Favorite": true
-    },
-    {
-      "id": "11",
-      "user_id": "1730183690628",
-      "shortcut_name": "강민관님께 1818원 송금",
-      "shortcutUrl": "http://localhost:3000/transfer/validation?account_id=1&recipient=2&bank=하나은행&recipient_number=2000000002&amount=1818",
-      "is_Favorite": true
+      "shortcut_name": "시니어코딩님께 10000",
+      "shortcutUrl": "http://localhost:3000/transfer/validation?account_id=1&recipient=3&bank=하나은행&recipient_number=1234567890&amount=10000",
+      "is_Favorite": false
     }
   ],
   "consultation": [
     {
       "id": "1",
-      "agent_id": "1730103306576",
-      "user_id": "2",
-      "consultation_title": "세금 관련 상담",
-      "consultation_content": "2024년도 세금 신고에 대한 상담을 요청.잘 알려줌",
+      "agent_id": "1",
+      "user_id": "1730183690628",
+      "consultation_title": "적금 가입관련 상담",
+      "consultation_content": "적금가입하세요\n좋아요",
       "consultation_date": "2024-10-20T14:15:00Z"
     },
     {
       "id": "2",
       "agent_id": "1",
-      "user_id": "1730103306576",
+      "user_id": "1730183690628",
       "consultation_title": "대출 상담",
-      "consultation_content": "대출 관련 상담 요청.대출관련 설명1.대출관련 설명2.대출 페이지로 이동",
+      "consultation_content": "대출 관련 상담 요청\n대출관련 설명1\n대출관련 설명2\n대출 페이지로 이동",
       "consultation_date": "2024-10-21T10:00:00Z"
-    },
-    {
-      "id": "3",
-      "agent_id": "4",
-      "user_id": "1730103306576",
-      "consultation_title": "송금 방법 상담",
-      "consultation_content": "송금 방법 상담 요청.송금 설명1.송금 설명2.송금 완료.바로가기에 추가",
-      "consultation_date": "2024-10-22T11:30:00Z"
-    },
-    {
-      "id": "4",
-      "agent_id": "1",
-      "user_id": "3",
-      "consultation_title": "대출 상담",
-      "consultation_content": "대출 관련 상담 요청.대출관련 설명1.대출관련 설명2.대출 페이지로 이동",
-      "consultation_date": "2024-10-21T09:00:00Z"
-    },
-    {
-      "id": "5",
-      "agent_id": "2",
-      "user_id": "4",
-      "consultation_title": "보험 상담",
-      "consultation_content": "생명 보험 상품에 대한 상담을 원합니다.",
-      "consultation_date": "2024-10-22T16:00:00Z"
-    },
-    {
-      "id": "6",
-      "agent_id": "2",
-      "user_id": "1",
-      "consultation_title": "송금 방법 상담",
-      "consultation_content": "송금 방법 상담 요청.지난번 상담 내용 존재. 바로가기 페이지로 이동. 즐겨찾기 추가",
-      "consultation_date": "2024-10-23T13:00:00Z"
     }
   ],
   "account": [
@@ -446,7 +179,7 @@
       "user_id": "1730183690628",
       "account_number": 1000000002,
       "balance": 1500000000,
-      "account_type": "예금",
+      "account_type": "예적금",
       "bank": "국민은행"
     },
     {
@@ -459,7 +192,7 @@
     },
     {
       "id": "4",
-      "user_id": "2",
+      "user_id": "3",
       "account_number": 2000000001,
       "balance": 12000000,
       "account_type": "예적금",
@@ -468,15 +201,15 @@
     },
     {
       "id": "5",
-      "user_id": "2",
+      "user_id": "1730183690628",
       "account_number": 2000000002,
       "balance": 8000000,
-      "account_type": "저축",
+      "account_type": "펀드",
       "bank": "하나은행"
     },
     {
       "id": "6",
-      "user_id": "2",
+      "user_id": "1",
       "account_number": 2000000003,
       "balance": 2500000,
       "account_type": "입출금",
@@ -486,14 +219,14 @@
     {
       "id": "7",
       "user_id": "3",
-      "account_number": 3000000001,
+      "account_number": 1234567890,
       "balance": 7000000,
       "account_type": "저축",
       "bank": "하나은행"
     },
     {
       "id": "8",
-      "user_id": "4",
+      "user_id": "1730185897052",
       "account_number": 4000000001,
       "balance": 4000000,
       "account_type": "입출금",
@@ -503,210 +236,85 @@
   ],
   "transaction": [
     {
-      "id": "1",
-      "sender_account_id": "1",
-      "receiver_account_id": "4",
-      "amount": 1000000,
-      "sender_viewer": "정성현",
-      "receiver_viewer": "정성현",
-      "transaction_date": "2024-10-03T09:45:00"
-    },
-    {
-      "id": "2",
-      "sender_account_id": "7",
-      "receiver_account_id": "1",
-      "amount": 500000,
-      "sender_viewer": "문규빈",
-      "receiver_viewer": "문규빈",
-      "transaction_date": "2024-10-03T09:45:00"
-    },
-    {
-      "id": "3",
-      "sender_account_id": "3",
-      "receiver_account_id": "4",
-      "amount": 200000,
-      "sender_viewer": "정성현",
-      "receiver_viewer": "트롤리",
-      "transaction_date": "2024-10-03T09:45:00"
-    },
-    {
-      "id": "4",
-      "sender_account_id": "2",
-      "receiver_account_id": "5",
-      "amount": 300000,
-      "sender_viewer": "정성현",
-      "receiver_viewer": "성현성현",
-      "transaction_date": "2024-10-03T09:45:00"
-    },
-    {
-      "id": "5",
-      "sender_account_id": "5",
-      "receiver_account_id": "3",
-      "amount": 700000,
-      "sender_viewer": "강민관",
-      "receiver_viewer": "민관민민",
-      "transaction_date": "2024-10-03T09:45:00"
-    },
-    {
-      "id": "6",
-      "sender_account_id": "8",
-      "receiver_account_id": "1",
-      "amount": 250000,
-      "sender_viewer": "박시온",
-      "receiver_viewer": "시온시온",
-      "transaction_date": "2024-10-03T09:45:00"
-    },
-    {
-      "id": "7",
-      "sender_account_id": "4",
-      "receiver_account_id": "7",
-      "amount": 100000,
-      "sender_viewer": "강민관",
-      "receiver_viewer": "용돈",
-      "transaction_date": "2024-10-03T09:45:00"
-    },
-    {
-      "id": "8",
-      "sender_account_id": "7",
-      "receiver_account_id": "8",
-      "amount": 150000,
-      "sender_viewer": "문규빈",
-      "receiver_viewer": "수고비",
-      "transaction_date": "2024-10-03T09:45:00"
-    },
-    {
-      "id": "9",
-      "sender_account_id": "5",
-      "receiver_account_id": "3",
-      "amount": 600000,
-      "sender_viewer": "강민관",
-      "receiver_viewer": "수고비",
-      "transaction_date": "2024-10-03T09:45:00"
-    },
-    {
-      "id": "10",
-      "sender_account_id": "3",
-      "receiver_account_id": "5",
-      "amount": 200000,
-      "sender_viewer": "정성현",
-      "receiver_viewer": "페이백",
-      "transaction_date": "2024-10-03T09:45:00"
-    },
-    {
-      "id": "11",
-      "sender_account_id": "4",
-      "receiver_account_id": "5",
-      "amount": 800000,
-      "sender_viewer": "강민관",
-      "receiver_viewer": "민관강",
-      "transaction_date": "2024-10-03T09:45:00"
-    },
-    {
-      "id": "12",
-      "sender_account_id": "7",
-      "receiver_account_id": "4",
-      "amount": 900000,
-      "sender_viewer": "문규빈",
-      "receiver_viewer": "규빈문",
-      "transaction_date": "2024-10-03T09:45:00"
-    },
-    {
-      "id": "13",
-      "sender_account_id": "8",
-      "receiver_account_id": "1",
-      "amount": 1000000,
-      "sender_viewer": "박시온",
-      "receiver_viewer": "용돈",
-      "transaction_date": "2024-01-03T09:45:00"
-    },
-    {
-      "id": "14",
-      "sender_account_id": "2",
-      "receiver_account_id": "8",
-      "amount": 500000,
-      "sender_viewer": "정성현",
-      "receiver_viewer": "성성현현",
-      "transaction_date": "2024-09-03T09:45:00"
-    },
-    {
-      "id": "15",
-      "sender_account_id": "7",
-      "receiver_account_id": "5",
-      "amount": 300000,
-      "sender_viewer": "문규빈",
-      "receiver_viewer": "문문"
-    },
-    {
       "id": "1730130922547",
       "sender_account_id": "1",
-      "receiver_account_id": "1730077977283",
+      "receiver_account_id": "4",
       "amount": 5000000,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-01-21T10:00:00Z"
     },
     {
       "id": "1730132444447",
       "sender_account_id": "1",
-      "receiver_account_id": "1730077977283",
+      "receiver_account_id": "7",
       "amount": 120000,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-02-21T10:00:00Z"
     },
     {
       "id": "1730132902727",
       "sender_account_id": "1",
-      "receiver_account_id": "1730077977283",
+      "receiver_account_id": "8",
       "amount": 120000,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-03-16T10:00:00Z"
     },
     {
       "id": "1730134210042",
-      "sender_account_id": "1",
-      "receiver_account_id": "1730077977283",
+      "sender_account_id": "8",
+      "receiver_account_id": "1",
       "amount": 50000,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-04-10T10:00:00Z"
     },
     {
       "id": "1730135640711",
-      "sender_account_id": "1",
-      "receiver_account_id": null,
+      "sender_account_id": "6",
+      "receiver_account_id": "1",
       "amount": 200002,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-07-15T10:00:00Z"
     },
     {
       "id": "1730136038396",
-      "sender_account_id": "1",
-      "receiver_account_id": null,
+      "sender_account_id": "4",
+      "receiver_account_id": "6",
       "amount": 200002,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-09-17T10:00:00Z"
     },
     {
       "id": "1730136096008",
-      "sender_account_id": "1",
-      "receiver_account_id": null,
+      "sender_account_id": "2",
+      "receiver_account_id": "3",
       "amount": 200002,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-09-21T10:00:00Z"
     },
     {
       "id": "1730162614676",
       "sender_account_id": "1",
-      "receiver_account_id": null,
+      "receiver_account_id": "7",
       "amount": 1000002,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-10-03T10:00:00Z"
     },
     {
       "id": "1730163483693",
       "sender_account_id": "1",
-      "receiver_account_id": "1",
+      "receiver_account_id": "6",
       "amount": 5555,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-10-12T10:00:00Z"
     },
     {
       "id": "1730163564328",
@@ -714,111 +322,8 @@
       "receiver_account_id": "4",
       "amount": 2222,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "신한은행"
-    },
-    {
-      "id": "1730164139591",
-      "sender_account_id": "1",
-      "receiver_account_id": "4",
-      "amount": 33333,
-      "sender_viewer": "발신자 이름",
-      "receiver_viewer": "신한은행"
-    },
-    {
-      "id": "1730165359850",
-      "sender_account_id": "1",
-      "receiver_account_id": "4",
-      "amount": 7777,
-      "sender_viewer": "문규빈",
-      "receiver_viewer": "강민관"
-    },
-    {
-      "id": "1730166768280",
-      "sender_account_id": "2",
-      "receiver_account_id": "4",
-      "amount": 1050000,
-      "sender_viewer": "조서현",
-      "receiver_viewer": "강민관"
-    },
-    {
-      "id": "1730167835961",
-      "sender_account_id": "1",
-      "receiver_account_id": "1",
-      "amount": 500002,
-      "sender_viewer": "문규빈",
-      "receiver_viewer": "문규빈"
-    },
-    {
-      "id": "1730168038311",
-      "sender_account_id": "1",
-      "receiver_account_id": "4",
-      "amount": 1000008,
-      "sender_viewer": "문규빈",
-      "receiver_viewer": "강민관"
-    },
-    {
-      "id": "1730168277429",
-      "sender_account_id": "1",
-      "receiver_account_id": "4",
-      "amount": 8,
-      "sender_viewer": "문규빈",
-      "receiver_viewer": "강민관"
-    },
-    {
-      "id": "1730184406662",
-      "sender_account_id": "1",
-      "receiver_account_id": "5",
-      "amount": 5000000,
-      "sender_viewer": "박시온",
-      "receiver_viewer": "강민관"
-    },
-    {
-      "id": "1730184752818",
-      "sender_account_id": "1",
-      "receiver_account_id": "5",
-      "amount": 55,
-      "sender_viewer": "박시온",
-      "receiver_viewer": "강민관"
-    },
-    {
-      "id": "1730186847763",
-      "sender_account_id": "1",
-      "receiver_account_id": "5",
-      "amount": 5000000,
-      "sender_viewer": "박시온",
-      "receiver_viewer": "강민관"
-    },
-    {
-      "id": "1730186895216",
-      "sender_account_id": "1",
-      "receiver_account_id": "5",
-      "amount": 4,
-      "sender_viewer": "박시온",
-      "receiver_viewer": "강민관"
-    },
-    {
-      "id": "1730187078827",
-      "sender_account_id": "1",
-      "receiver_account_id": "5",
-      "amount": 850,
-      "sender_viewer": "박시온",
-      "receiver_viewer": "강민관"
-    },
-    {
-      "id": "1730187917959",
-      "sender_account_id": "1",
-      "receiver_account_id": "5",
-      "amount": 1818,
-      "sender_viewer": "박시온",
-      "receiver_viewer": "강민관"
-    },
-    {
-      "id": "1730187938161",
-      "sender_account_id": "1",
-      "receiver_account_id": "5",
-      "amount": 1818,
-      "sender_viewer": "박시온",
-      "receiver_viewer": "강민관"
+      "receiver_viewer": "신한은행",
+      "transaction_date": "2024-10-15T10:00:00Z"
     }
   ],
   "activity_logs": [
