@@ -296,6 +296,13 @@
       "shortcut_name": "한달 결제내역 조회",
       "shortcutUrl": "/",
       "is_Favorite": true
+    },
+    {
+      "id": "10",
+      "user_id": "1",
+      "shortcut_name": "ㅇㄴㅇㄴ",
+      "shortcutUrl": "http://localhost:3000/transfer/amount?account_id=1&recipient=1bank=농협은행recipient_number=100000000",
+      "is_Favorite": false
     }
   ],
   "consultation": [

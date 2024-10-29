@@ -3,6 +3,7 @@
 import ShortCutCard from '@/components/activity/ShortCutCard';
 import SmallButton from '@/components/molecules/SmallButton';
 import { Edit2Icon, RotateCcwIcon, Trash2Icon } from 'lucide-react';
+// import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { deleteData, getDataByUserId, updateData } from '@/lib/api';
 import { Shortcut } from '@/lib/datatypes';
@@ -11,8 +12,9 @@ export default function ShortCutPage() {
   const [isDelete, setIsDelete] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [shortCuts, setShortCuts] = useState<Shortcut[]>([]);
+  // const { data: session } = useSession();
   const userId = '1';
-
+  // const userId = session?.user.id;
   const toggle = () => setIsDelete((prev) => !prev);
 
   const handleCheckboxChange = (id: string) => {
