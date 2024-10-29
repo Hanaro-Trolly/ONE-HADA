@@ -93,10 +93,10 @@
     },
     {
       "id": "2",
-      "user_id": "1730103306576",
+      "user_id": "1",
       "history_name": "'밥플러스' 30일간 출금내역 확인",
       "history_type": "inquiry",
-      "history_params": "1#2024-10-28#2024-10-29#출금#밥플러스",
+      "history_params": "1##2024-10-23#2024-10-27#전체#밥플러스",
       "activity_date": "2024-10-21T10:15:00Z",
       "is_Shortcut": true
     },
@@ -383,7 +383,7 @@
   "shortcut": [
     {
       "id": "1",
-      "user_id": "1",
+      "user_id": "1730162231776",
       "shortcut_name": "한달간 밥플러스 결제내역",
       "shortcutUrl": "/",
       "is_Favorite": false
@@ -457,9 +457,9 @@
     {
       "id": "12",
       "user_id": "1730162231776",
-      "shortcut_name": "'강민관'님께 2000만원 송금",
+      "shortcut_name": "이십글자이십글자이십글자이십글자이십글자",
       "shortcutUrl": "http://localhost:3000/transfer/vaildation?account_id=1&recipient=1bank=농협은행recipient_number=1000000003amount=2000000",
-      "is_Favorite": false
+      "is_Favorite": true
     }
   ],
   "consultation": [
