@@ -44,27 +44,6 @@
       "user_naver": "naver@naver.com"
     },
     {
-      "id": "1730103306576",
-      "user_name": "조서현",
-      "user_gender": "female",
-      "user_birth": "1999-07-20",
-      "user_phone": "010-2905-5905",
-      "user_address": "서울시 중구",
-      "user_email": "csh990720@gmail.com",
-      "user_register": "2024-10-28T08:15:25.882Z",
-      "user_google": "112287508448169046665",
-      "user_kakao": "3762386136",
-      "user_naver": null,
-      "simple_password": [
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1"
-      ]
-    },
-    {
       "id": "1730179138231",
       "user_name": "혜민",
       "user_gender": "female",
@@ -104,6 +83,27 @@
         "8",
         "8",
         "8"
+      ]
+    },
+    {
+      "id": "1730188696822",
+      "user_name": "서현",
+      "user_gender": "female",
+      "user_birth": "2024-10-02",
+      "user_phone": "010-2905-5905",
+      "user_address": "dfgfgj",
+      "user_email": "csh990720@gmail.com",
+      "user_register": "2024-10-29T07:58:26.304Z",
+      "user_google": "112287508448169046665",
+      "user_kakao": null,
+      "user_naver": null,
+      "simple_password": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1"
       ]
     }
   ],
@@ -989,7 +989,8 @@
           "timestamp": "2024-10-23 15:20:30",
           "details": "펀드 메뉴 확인"
         }
-      ]
+      ],
+      "id": "da0d"
     },
     {
       "user_name": "강민관",
@@ -1014,7 +1015,8 @@
           "timestamp": "2024-10-17 12:15:45",
           "details": "모바일뱅킹 로그인"
         }
-      ]
+      ],
+      "id": "6ced"
     },
     {
       "user_name": "문규빈",
@@ -1039,7 +1041,8 @@
           "timestamp": "2024-10-15 19:20:45",
           "details": "바로가기 편집"
         }
-      ]
+      ],
+      "id": "2088"
     },
     {
       "user_name": "박시온",
@@ -1068,7 +1071,8 @@
           "timestamp": "2024-10-15 19:28:45",
           "details": "펀드 메뉴 확인"
         }
-      ]
+      ],
+      "id": "8e8f"
     }
   ]
 }

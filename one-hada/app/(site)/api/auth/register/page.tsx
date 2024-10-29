@@ -118,7 +118,6 @@ export default function Register() {
             label='이름'
             type='text'
             ref={nameRef}
-            inputRef={nameRef}
             labelClassName='w-20 block text-md'
             inputClassName='flex-1 px-3 py-2 text-md rounded-xl shadow-sm focus:outline-none'
           />
@@ -144,7 +143,7 @@ export default function Register() {
           <InputField
             label='생년월일'
             type='date'
-            inputRef={birthDateRef}
+            ref={birthDateRef}
             labelClassName='w-20 block text-md'
             inputClassName='flex-1 px-3 py-2 text-md rounded-xl shadow-sm focus:outline-none'
           />
