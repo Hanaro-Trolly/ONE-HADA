@@ -8,7 +8,7 @@ import { addData, fetchAllData, getData } from '@/lib/api';
 import { Account, History, Shortcut } from '@/lib/datatypes';
 
 const BASE_URL = 'http://localhost:3000/';
-const TRANSFERPARAM = ['account_id', 'receiver_id', 'amount'];
+const TRANSFERPARAM = ['recipient', 'amount', 'vaildation'];
 const INQUIRYPARAM = [
   'account_id',
   'start_date',
@@ -45,13 +45,20 @@ export default function HistoryModalPage({
           : 1;
       let shortcutUrl = BASE_URL;
       const params = history!.history_params.split('#');
-      //TODO: 여기 규빈님 이체 URL 형식 맞춰야함
       if (history?.history_type === 'transfer') {
-        shortcutUrl += 'transfer/amount?';
-        checkedList.forEach(
-          (idx) =>
-            (shortcutUrl += TRANSFERPARAM[+idx] + '=' + params[+idx] + '&')
-        );
+        shortcutUrl +=
+          'transfer/' + TRANSFERPARAM[checkedList.length - 1] + '?';
+        checkedList.forEach((idx) => {
+          if (idx === '0') shortcutUrl += 'account_id=' + params[0] + '&';
+          else if (idx === '1') {
+            shortcutUrl += 'recipient=' + receiveAccount.current?.user_id;
+            shortcutUrl += 'bank=' + receiveAccount.current?.bank;
+            shortcutUrl +=
+              'recipient_number=' + receiveAccount.current?.account_number;
+          } else if (idx === '2') {
+            shortcutUrl += 'amount=' + params[2];
+          }
+        });
       } else if (history?.history_type === 'inquiry') {
         //TODO: 여기 강희 조회 URL 형식 맞춰야함
         shortcutUrl += 'transfer/check?';
