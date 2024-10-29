@@ -38,21 +38,24 @@
       "user_phone": "010-4444-5678",
       "user_address": "인천광역시 남동구 구월동",
       "user_birth": "1999-09-21",
-      "user_register": "2023-04-01T12:00:00Z"
+      "user_register": "2023-04-01T12:00:00Z",
+      "user_google": "google@gmail.com",
+      "user_kakao": "kakao@kakao.com",
+      "user_naver": "naver@naver.com"
     },
     {
-      "id": "1730162231776",
-      "user_name": "사용자",
-      "user_gender": "male",
-      "user_birth": "2024-01-29",
-      "user_phone": "010-1234-3232ㅇ",
-      "user_address": "ㄴㅇㄴㅇㄴ",
-      "user_email": "sion691@gmail.com",
-      "user_register": "2024-10-29T00:37:26.975Z",
-      "user_google": "112714503410025629569",
-      "user_kakao": null,
+      "id": "1730103306576",
+      "user_name": "조서현",
+      "user_gender": "female",
+      "user_birth": "1999-07-20",
+      "user_phone": "010-2905-5905",
+      "user_address": "서울시 중구",
+      "user_email": "csh990720@gmail.com",
+      "user_register": "2024-10-28T08:15:25.882Z",
+      "user_google": "112287508448169046665",
+      "user_kakao": "3762386136",
       "user_naver": null,
-      "simple_password": ["2", "2", "2", "2", "2", "2"]
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
     }
   ],
   "agent": [
@@ -93,7 +96,7 @@
     },
     {
       "id": "2",
-      "user_id": "1",
+      "user_id": "1730162231776",
       "history_name": "'밥플러스' 30일간 출금내역 확인",
       "history_type": "inquiry",
       "history_params": "1##2024-10-23#2024-10-27#전체#밥플러스",
@@ -383,7 +386,7 @@
   "shortcut": [
     {
       "id": "1",
-      "user_id": "1730162231776",
+      "user_id": "1",
       "shortcut_name": "한달간 밥플러스 결제내역",
       "shortcutUrl": "/",
       "is_Favorite": false
@@ -510,20 +513,12 @@
       "consultation_title": "송금 방법 상담",
       "consultation_content": "송금 방법 상담 요청.지난번 상담 내용 존재. 바로가기 페이지로 이동. 즐겨찾기 추가",
       "consultation_date": "2024-10-23T13:00:00Z"
-    },
-    {
-      "id": "7",
-      "agent_id": "1",
-      "user_id": "1",
-      "consultation_title": "송금 방법 상담",
-      "consultation_content": "송금 방법 상담 요청.지난번 상담 내용 존재. 바로가기 페이지로 이동. 즐겨찾기 추가",
-      "consultation_date": "2024-10-23T13:00:00Z"
     }
   ],
   "account": [
     {
       "id": "1",
-      "user_id": "1730077977283",
+      "user_id": "1",
       "account_number": 1000000001,
       "balance": 5000000,
       "account_type": "예적금",
@@ -532,19 +527,19 @@
     },
     {
       "id": "2",
-      "user_id": "1730077977283",
+      "user_id": "1",
       "account_number": 1000000002,
       "balance": 1500000000,
       "account_type": "예금",
-      "bank": "하나은행"
+      "bank": "국민은행"
     },
     {
       "id": "3",
-      "user_id": "1730077977283",
+      "user_id": "1",
       "account_number": 1000000003,
       "balance": 3000000,
       "account_type": "입출금",
-      "bank": "하나은행"
+      "bank": "농협은행"
     },
     {
       "id": "4",
@@ -561,7 +556,7 @@
       "account_number": 2000000002,
       "balance": 8000000,
       "account_type": "저축",
-      "bank": "넘옙브넹~"
+      "bank": "하나은행"
     },
     {
       "id": "6",
@@ -578,7 +573,7 @@
       "account_number": 3000000001,
       "balance": 7000000,
       "account_type": "저축",
-      "bank": "토스뱅크"
+      "bank": "하나은행"
     },
     {
       "id": "8",
@@ -602,7 +597,7 @@
     },
     {
       "id": "2",
-      "sender_account_id": "1730077977283",
+      "sender_account_id": "7",
       "receiver_account_id": "1",
       "amount": 500000,
       "sender_viewer": "문규빈",
@@ -611,7 +606,7 @@
     },
     {
       "id": "3",
-      "sender_account_id": "1730077977283",
+      "sender_account_id": "3",
       "receiver_account_id": "4",
       "amount": 200000,
       "sender_viewer": "정성현",
@@ -620,7 +615,7 @@
     },
     {
       "id": "4",
-      "sender_account_id": "1730077977283",
+      "sender_account_id": "2",
       "receiver_account_id": "5",
       "amount": 300000,
       "sender_viewer": "정성현",
