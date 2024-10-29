@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import useApi from '@/hooks/useApi';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function TransferConfirmation() {
@@ -19,6 +19,11 @@ export default function TransferConfirmation() {
   const [senderName, setSenderName] = useState('');
   const [senderLabel, setSenderLabel] = useState('');
   const [recipientLabel, setRecipientLabel] = useState('');
+  const [userId, setUserId] = useState('');
+  const [recipientAccountId, setRecipientAccountId] = useState<string | null>(
+    null
+  );
+  const pathname = usePathname(); // 현재 경로를 가져옴
 
   type Account = {
     id: string;
@@ -47,14 +52,20 @@ export default function TransferConfirmation() {
   const { data: users } = useApi<User>('user');
 
   useEffect(() => {
-    if (accounts && users && accountId) {
+    if (accounts && accountId) {
       const account = accounts.find((acc) => acc.id === accountId);
       if (account) {
-        const user = users.find((u) => u.id === account.user_id);
-        setSenderName(user ? user.user_name : '알 수 없는 사용자');
+        setUserId(account.user_id);
       }
     }
-  }, [accounts, users, accountId]);
+  }, [accounts, accountId]);
+
+  useEffect(() => {
+    if (users && userId) {
+      const user = users.find((u) => u.id === userId);
+      setSenderName(user ? user.user_name : '알 수 없는 사용자');
+    }
+  }, [users, userId]);
 
   useEffect(() => {
     if (users && recipientId) {
@@ -63,10 +74,25 @@ export default function TransferConfirmation() {
     }
   }, [users, recipientId]);
 
+  useEffect(() => {
+    if (accounts && recipientNumber && bankName) {
+      const account = accounts.find(
+        (acc) =>
+          acc.account_number === Number(recipientNumber) &&
+          acc.bank === bankName
+      );
+      setRecipientAccountId(account ? account.id : null);
+    }
+  }, [accounts, recipientNumber, bankName]);
+
   const handleClick = () => {
     if (accountId && recipientNumber && bankId && amount) {
+      const queryString = `?account_id=${accountId}&sender_name=${senderName}&recipient_name=${recipientName}&recipient_account_id=${recipientAccountId}&recipient=${recipientId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`;
+      const fullRoute = `${pathname}${queryString}`;
+      const targetRoute = `/transfer/checking${queryString}`;
       router.push(
-        `/transfer/checking?account_id=${accountId}&recipient=${recipientId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`
+        // `/transfer/checking?account_id=${accountId}&recipient=${recipientId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`
+        `/api/auth/checkPassword?userId=${userId}&route=${encodeURIComponent(fullRoute)}&redirectTo=${encodeURIComponent(targetRoute)}`
       );
     } else {
       alert('은행과 계좌번호를 모두 입력해주세요.');
