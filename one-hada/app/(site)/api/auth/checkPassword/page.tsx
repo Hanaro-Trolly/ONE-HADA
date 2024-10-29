@@ -37,7 +37,7 @@ export default function CheckPassword() {
     };
 
     fetchData();
-  }, [userId, recipientNumber]);
+  }, [userId, recipientNumber, getUserPassword]);
 
   const handleTransactionAndHistory = async (route: string) => {
     const queryParams = new URLSearchParams(route.split('?')[1]);

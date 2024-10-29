@@ -128,7 +128,6 @@ export default function HistoryModalPage({
             ]);
             setCheckedList(Array.from({ length: 4 }, (v, i) => '' + i));
           }
-          console.log(checkedList);
         } else {
           console.error('No history found for the user.');
         }

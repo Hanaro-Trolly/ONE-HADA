@@ -77,7 +77,7 @@ export default function CheckPage() {
 
       <div>
         {filteredaccount.map((account) => (
-          <Link href={`/check/${account.id}`}>
+          <Link key={account.id} href={`/check/${account.id}`}>
             <div>
               <AccountCard
                 id={account.id}
