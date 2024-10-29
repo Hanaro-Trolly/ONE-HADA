@@ -55,7 +55,14 @@
       "user_google": "112287508448169046665",
       "user_kakao": "3762386136",
       "user_naver": null,
-      "simple_password": ["1", "1", "1", "1", "1", "1"]
+      "simple_password": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1"
+      ]
     },
     {
       "id": "1730179138231",
@@ -69,7 +76,35 @@
       "user_google": "102904350864248754457",
       "user_kakao": null,
       "user_naver": null,
-      "simple_password": ["1", "1", "1", "1", "1", "1"]
+      "simple_password": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1"
+      ]
+    },
+    {
+      "id": "1730183690628",
+      "user_name": "박시온",
+      "user_gender": "male",
+      "user_birth": "1999-09-21",
+      "user_phone": "010-4193-0478",
+      "user_address": "로ㅓㅏ유하",
+      "user_email": "sion691@gmail.com",
+      "user_register": "2024-10-29T06:35:01.183Z",
+      "user_google": "112714503410025629569",
+      "user_kakao": null,
+      "user_naver": null,
+      "simple_password": [
+        "8",
+        "8",
+        "8",
+        "8",
+        "8",
+        "8"
+      ]
     }
   ],
   "agent": [
@@ -395,6 +430,42 @@
       "history_params": "1#1년###전체#",
       "activity_date": "2024-10-29T01:55:36.901Z",
       "is_Shortcut": false
+    },
+    {
+      "id": "6quw5avxyau",
+      "user_id": "1730183690628",
+      "history_name": "조회 2024. 10. 29. 오후 3:44:08",
+      "history_type": "inquiry",
+      "history_params": "1#1개월###전체#",
+      "activity_date": "2024-10-29T06:44:08.541Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "3rss6a1016c",
+      "user_id": "1730183690628",
+      "history_name": "조회 2024. 10. 29. 오후 3:45:46",
+      "history_type": "inquiry",
+      "history_params": "1#3개월###전체#",
+      "activity_date": "2024-10-29T06:45:46.509Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "1730184406662",
+      "user_id": "1730183690628",
+      "history_name": "강민관님께 5000000원 송금",
+      "activity_date": "2024-10-29T06:46:46.671Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#5#5000000"
+    },
+    {
+      "id": "1730184752818",
+      "user_id": "1730183690628",
+      "history_name": "강민관님께 55원 송금",
+      "activity_date": "2024-10-29T06:52:32.838Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "1#5#55"
     }
   ],
   "shortcut": [
@@ -477,6 +548,13 @@
       "shortcut_name": "이십글자이십글자이십글자이십글자이십글자",
       "shortcutUrl": "http://localhost:3000/transfer/vaildation?account_id=1&recipient=1bank=농협은행recipient_number=1000000003amount=2000000",
       "is_Favorite": true
+    },
+    {
+      "id": "13",
+      "user_id": "1730183690628",
+      "shortcut_name": "조회 2024. 10. 29. 오후 3:45:46",
+      "shortcutUrl": "http://localhost:3000/check/1/detail?accound_id=1&period=3개월&type=전체&search=",
+      "is_Favorite": true
     }
   ],
   "consultation": [
@@ -532,7 +610,7 @@
   "account": [
     {
       "id": "1",
-      "user_id": "1",
+      "user_id": "1730183690628",
       "account_number": 1000000001,
       "balance": 5000000,
       "account_type": "예적금",
@@ -541,7 +619,7 @@
     },
     {
       "id": "2",
-      "user_id": "1",
+      "user_id": "1730183690628",
       "account_number": 1000000002,
       "balance": 1500000000,
       "account_type": "예금",
@@ -549,7 +627,7 @@
     },
     {
       "id": "3",
-      "user_id": "1",
+      "user_id": "1730183690628",
       "account_number": 1000000003,
       "balance": 3000000,
       "account_type": "입출금",
@@ -860,6 +938,22 @@
       "receiver_account_id": "4",
       "amount": 8,
       "sender_viewer": "문규빈",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730184406662",
+      "sender_account_id": "1",
+      "receiver_account_id": "5",
+      "amount": 5000000,
+      "sender_viewer": "박시온",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730184752818",
+      "sender_account_id": "1",
+      "receiver_account_id": "5",
+      "amount": 55,
+      "sender_viewer": "박시온",
       "receiver_viewer": "강민관"
     }
   ],
