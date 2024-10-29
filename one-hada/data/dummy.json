@@ -55,7 +55,35 @@
       "user_google": "112287508448169046665",
       "user_kakao": "3762386136",
       "user_naver": null,
-      "simple_password": ["1", "1", "1", "1", "1", "1"]
+      "simple_password": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1"
+      ]
+    },
+    {
+      "id": "1730179138231",
+      "user_name": "혜민",
+      "user_gender": "female",
+      "user_birth": "2024-09-02",
+      "user_phone": "010-1234-1234",
+      "user_address": "연무장로 알파코캠퍼스 ",
+      "user_email": "42freshpong@gmail.com",
+      "user_register": "2024-10-29T05:19:22.378Z",
+      "user_google": "102904350864248754457",
+      "user_kakao": null,
+      "user_naver": null,
+      "simple_password": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1"
+      ]
     }
   ],
   "agent": [
