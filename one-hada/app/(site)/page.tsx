@@ -126,7 +126,9 @@ export default function Home() {
                           variant='home'
                           className='h-16 w-full bg-white text-black mx-2 font-medium rounded-xl hover:bg-[#F0F0F0]'
                         >
-                          {item.shortcut_name}
+                          <label className=' overflow-ellipsis overflow-hidden whitespace-nowrap'>
+                            {item.shortcut_name}
+                          </label>
                         </Button>
                       </Link>
                     </CarouselItem>

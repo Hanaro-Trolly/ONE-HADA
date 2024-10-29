@@ -32,8 +32,10 @@ export default function ShortCutCard({
         className='bg-white shadow-md rounded-lg border-l-[10px] border-[#AEDBCE] m-4 mx-6 p-4 px-5 h-16 flex justify-between w-11/12 hover:bg-white'
         onClick={handleButtonClick}
       >
-        <div className='flex items-center gap-1'>
-          <label className='font-medium text-lg text-black'>{name}</label>
+        <div className='flex items-center gap-1 max-w-72'>
+          <label className='font-medium text-lg text-black overflow-ellipsis overflow-hidden whitespace-nowrap'>
+            {name}
+          </label>
         </div>
 
         {isEdit ? (
