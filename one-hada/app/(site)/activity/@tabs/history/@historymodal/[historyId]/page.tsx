@@ -2,6 +2,7 @@
 
 import Modal from '@/components/layout/Modal';
 import { Button } from '@/components/ui/button';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { addData, fetchAllData, getData } from '@/lib/api';
@@ -27,6 +28,7 @@ export default function HistoryModalPage({
   const [checkedList, setCheckedList] = useState<string[]>([]);
   const [checkpoints, setCheckPoints] = useState<string[]>([]);
   const [history, setHistory] = useState<History | null>(null);
+  const { data: session } = useSession();
 
   const myAccount = useRef<Account | null>(null);
   const receiveAccount = useRef<Account | null>(null);
@@ -76,7 +78,7 @@ export default function HistoryModalPage({
       }
       const new_shortcut: Shortcut = {
         id: '' + newId,
-        user_id: '1',
+        user_id: session?.user.id || '',
         shortcut_name: inputRef.current.value,
         shortcutUrl: shortcutUrl.slice(0, -1),
         is_Favorite: false,

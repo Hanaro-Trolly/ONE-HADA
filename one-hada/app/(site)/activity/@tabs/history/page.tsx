@@ -1,16 +1,32 @@
+'use client';
+
 import HistoryCard from '@/components/activity/HistoryCard';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import { getDataByUserId } from '@/lib/api';
 import { History } from '@/lib/datatypes';
 import { formatDate } from '@/lib/formatDate';
 
-const HistoryPage = async () => {
-  let historyData: History[] = [];
+const HistoryPage = () => {
+  const [historyData, setHistoryData] = useState<History[]>([]);
+  const { data: session } = useSession();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (session?.user) {
+          const data = await getDataByUserId<History>(
+            'history',
+            session?.user.id
+          );
+          setHistoryData(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  try {
-    historyData = await getDataByUserId<History>('history', '1');
-  } catch (error) {
-    console.error(error);
-  }
+    fetchData();
+  }, [session]);
 
   return (
     <div
