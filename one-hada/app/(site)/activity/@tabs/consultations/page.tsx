@@ -1,4 +1,4 @@
-import ConsultationCard from '@/components/molecules/ConsultationCard';
+import ConsultationCard from '@/components/activity/ConsultationCard';
 import { getDataByUserId } from '@/lib/api';
 import { Consultation } from '@/lib/datatypes';
 import { formatDate } from '@/lib/formatDate';

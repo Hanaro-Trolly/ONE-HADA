@@ -1,7 +1,7 @@
 'use client';
 
-import HistoryCard from '@/components/molecules/HistoryCard';
-import ShortCutCard from '@/components/molecules/ShortCutCard';
+import HistoryCard from '@/components/activity/HistoryCard';
+import ShortCutCard from '@/components/activity/ShortCutCard';
 import SmallButton from '@/components/molecules/SmallButton';
 import { Edit2Icon, RotateCcwIcon, Trash2Icon } from 'lucide-react';
 import UserList from './UserList';

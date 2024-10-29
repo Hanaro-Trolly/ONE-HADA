@@ -3,7 +3,8 @@
     {
       "id": "1",
       "user_name": "정성현",
-      "user_email": "mingwan21@example.com",
+      "user_gender": "male",
+      "user_email": "awaysh@example.com",
       "user_phone": "010-1234-5678",
       "user_address": "서울특별시 영등포구 신길동",
       "user_birth": "1999-04-02",
@@ -15,6 +16,7 @@
     {
       "id": "2",
       "user_name": "강민관",
+      "user_gender": "female",
       "user_email": "mingwan21@example.com",
       "user_phone": "010-9876-5432",
       "user_address": "부천시 소사로 78번길",
@@ -27,6 +29,7 @@
     {
       "id": "3",
       "user_name": "문규빈",
+      "user_gender": "male",
       "user_email": "somea82@example.com",
       "user_phone": "010-5555-1234",
       "user_address": "서울특별시 구로구 구로1동",
@@ -39,6 +42,7 @@
     {
       "id": "4",
       "user_name": "박시온",
+      "user_gender": "male",
       "user_email": "sion9999@example.com",
       "user_phone": "010-4444-5678",
       "user_address": "인천광역시 남동구 구월동",
@@ -95,7 +99,7 @@
       "user_id": "1",
       "history_name": "'강민관'님께 2000만원 송금",
       "history_type": "transfer",
-      "history_params": "A001#A003#20000000",
+      "history_params": "1#3#20000000",
       "activity_date": "2024-10-20T14:30:00Z",
       "is_Shortcut": false
     },
@@ -104,7 +108,7 @@
       "user_id": "1",
       "history_name": "'밥플러스' 30일간 출금내역 확인",
       "history_type": "inquiry",
-      "history_params": "",
+      "history_params": "1#2024-10-28#2024-10-29#출금#밥플러스",
       "activity_date": "2024-10-21T10:15:00Z",
       "is_Shortcut": true
     },
@@ -140,7 +144,7 @@
       "user_id": "1",
       "history_name": "대출 페이지 이동",
       "history_type": "acc",
-      "history_params": "",
+      "history_params": "daechul",
       "activity_date": "2024-10-25T12:00:00Z",
       "is_Shortcut": false
     },
@@ -266,57 +270,64 @@
     {
       "id": "1",
       "user_id": "1",
-      "history_id": "2",
       "shortcut_name": "한달간 밥플러스 결제내역",
-      "is_Favorite": true
+      "shortcutUrl": "/",
+      "is_Favorite": false
     },
     {
       "id": "2",
       "user_id": "1",
-      "history_id": "3",
       "shortcut_name": "박시온님께 5억 송금",
-      "is_Favorite": true
+      "shortcutUrl": "/",
+      "is_Favorite": false
     },
     {
       "id": "3",
       "user_id": "1",
-      "history_id": "8",
       "shortcut_name": "1년 결제내역 조회",
-      "is_Favorite": false
+      "shortcutUrl": "/",
+      "is_Favorite": true
     },
     {
       "id": "5",
       "user_id": "2",
-      "history_id": "13",
       "shortcut_name": "박시온님께 3000만원 송금",
+      "shortcutUrl": "/",
       "is_Favorite": false
     },
     {
       "id": "6",
       "user_id": "3",
-      "history_id": "15",
       "shortcut_name": "올리브영 결제내역 조회",
+      "shortcutUrl": "/",
       "is_Favorite": true
     },
     {
       "id": "7",
       "user_id": "4",
-      "history_id": "18",
       "shortcut_name": "정성현님께 4000원 송금",
+      "shortcutUrl": "/",
       "is_Favorite": false
     },
     {
       "id": "8",
       "user_id": "4",
-      "history_id": "19",
       "shortcut_name": "1년 결제내역 조회",
+      "shortcutUrl": "/",
       "is_Favorite": true
     },
     {
       "id": "9",
       "user_id": "1",
-      "history_id": "10",
       "shortcut_name": "한달 결제내역 조회",
+      "shortcutUrl": "/",
+      "is_Favorite": true
+    },
+    {
+      "id": "10",
+      "user_id": "1",
+      "shortcut_name": "ㅇㄴㅇㄴ",
+      "shortcutUrl": "http://localhost:3000/transfer/amount?account_id=1&recipient=1bank=농협은행recipient_number=100000000",
       "is_Favorite": false
     }
   ],

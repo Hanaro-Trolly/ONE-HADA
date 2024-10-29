@@ -1,4 +1,4 @@
-import HistoryCard from '@/components/molecules/HistoryCard';
+import HistoryCard from '@/components/activity/HistoryCard';
 import { getDataByUserId } from '@/lib/api';
 import { History } from '@/lib/datatypes';
 import { formatDate } from '@/lib/formatDate';
