@@ -11,8 +11,24 @@ import { getData } from '@/lib/api';
 import { User } from '@/lib/datatypes';
 
 export default function MenuPage() {
-  const [isLogined] = useState(true);
-  const name = '홍길동';
+  const { data: session } = useSession();
+  const [userProfile, setUserProfile] = useState<User | null>(null);
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        if (session?.user) {
+          const data = await getData<User>('user', session.user.id);
+          if (data) {
+            setUserProfile(data);
+          }
+        }
+      } catch (error) {
+        console.error('유저 정보를 불러오는데 실패했습니다.', error);
+      }
+    };
+    loadUser();
+  }, [session]);
+
   const buttons = [
     { label: '조회', targetId: '조회' },
     { label: '이체', targetId: '이체' },
