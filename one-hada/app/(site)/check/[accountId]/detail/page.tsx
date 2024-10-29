@@ -1,5 +1,6 @@
 'use client';
 
+import BankIcon from '@/components/molecules/BankIcon';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getData, fetchAllData } from '@/lib/api';
@@ -11,9 +12,9 @@ export default function DetailPage({
 }: {
   params: { accountId: string };
 }) {
-  const [filteredTransactions, setFilteredTransactions] = useState<
-    Transaction[]
-  >([]);
+  const [filteredtransaction, setFilteredtransaction] = useState<Transaction[]>(
+    []
+  );
   const [accountInfo, setAccountInfo] = useState<Account | null>(null);
   const { accountId } = params;
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function DetailPage({
     // Fetch account details
     const fetchAccountData = async () => {
       try {
-        const account = await getData<Account>('accounts', accountId);
+        const account = await getData<Account>('account', accountId);
         if (account) setAccountInfo(account);
       } catch (error) {
         console.error('Error fetching account data:', error);
@@ -32,8 +33,8 @@ export default function DetailPage({
     // Fetch transaction data with filtering
     const fetchTransactionData = async () => {
       try {
-        const transactions = await fetchAllData<Transaction>('transactions');
-        console.log('Fetched transactions:', transactions); // Log transactions to check data structure
+        const transaction = await fetchAllData<Transaction>('transaction');
+        console.log('Fetched transaction:', transaction); // Log transaction to check data structure
         const searchParams = new URLSearchParams(window.location.search);
         const period = searchParams.get('period');
         const type = searchParams.get('type');
@@ -41,7 +42,7 @@ export default function DetailPage({
         const endDate = searchParams.get('endDate');
         const searchKeyword = searchParams.get('search');
 
-        const filtered = transactions.filter((transaction) => {
+        const filtered = transaction.filter((transaction) => {
           let transactionType = '';
 
           if (transaction.sender_account_id === accountId) {
@@ -97,9 +98,9 @@ export default function DetailPage({
           return periodCondition && keywordCondition;
         });
 
-        setFilteredTransactions(filtered);
+        setFilteredtransaction(filtered);
       } catch (error) {
-        console.error('Error fetching transactions:', error);
+        console.error('Error fetching transaction:', error);
       }
     };
 
@@ -107,7 +108,7 @@ export default function DetailPage({
     fetchTransactionData();
   }, [accountId]);
 
-  const groupedTransactions = filteredTransactions.reduce(
+  const groupedtransaction = filteredtransaction.reduce(
     (groups: Record<string, Transaction[]>, transaction) => {
       // Check if transaction_date exists before using toISOString
       const transactionDate = transaction.transaction_date;
@@ -135,10 +136,19 @@ export default function DetailPage({
   return (
     <div>
       {accountInfo && (
-        <div className='bg-white shadow-md rounded-lg w-full h-full flex items-start justify-between flex-col'>
-          <h1>계좌 이름: {accountInfo.account_name}</h1>
-          <h2>계좌 번호: {accountInfo.account_number}</h2>
-          <h3>{accountInfo.balance.toLocaleString()}원</h3>
+        <div className=' bg-[#DCEFEA] flex items-center mt-4'>
+          <div className='w-12 h-12 bg-white rounded-full flex items-center justify-center'>
+            <BankIcon bankId={accountInfo.bank} />
+          </div>
+          <div className=' ml-4 '>
+            <h1 className='text-xl font-medium'>
+              계좌 이름: {accountInfo.account_name}
+            </h1>
+            <h2 className='text-xl font-medium'>
+              계좌 번호: {accountInfo.account_number}
+            </h2>
+            <h3>{accountInfo.balance.toLocaleString()}원</h3>
+          </div>
         </div>
       )}
       <div className='flex justify-center items-center'>
@@ -147,19 +157,18 @@ export default function DetailPage({
           🔍
         </button>
       </div>
-
-      {Object.keys(groupedTransactions).length === 0 ? (
+      {Object.keys(groupedtransaction).length === 0 ? (
         <p>거래 내역이 없습니다.</p>
       ) : (
-        Object.entries(groupedTransactions)
+        Object.entries(groupedtransaction)
           .sort(
             ([dateA], [dateB]) =>
               new Date(dateB).getTime() - new Date(dateA).getTime()
           )
-          .map(([date, transactions]) => (
+          .map(([date, transaction]) => (
             <div key={date} className='mt-4'>
               <h2 className='text-lg font-bold'>{date}</h2>
-              {transactions.map((transaction) => (
+              {transaction.map((transaction) => (
                 <div key={transaction.id} className='mt-2 border-b pb-2'>
                   <p>
                     거래 타입:{' '}

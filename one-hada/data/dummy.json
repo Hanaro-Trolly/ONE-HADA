@@ -65,6 +65,34 @@
       "user_kakao": "3762386136",
       "user_naver": null,
       "simple_password": ["1", "1", "1", "1", "1", "1"]
+    },
+    {
+      "id": "1730119322267",
+      "user_name": "문규빈",
+      "user_gender": "male",
+      "user_birth": "2000-05-26",
+      "user_phone": "010-9178-8444",
+      "user_address": "화성",
+      "user_email": "joemoon0526@gmail.com",
+      "user_register": "2024-10-28T12:42:22.863Z",
+      "user_google": "118380181517390185679",
+      "user_kakao": null,
+      "user_naver": null,
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
+    },
+    {
+      "id": "1730174754276",
+      "user_name": "최강희",
+      "user_gender": "male",
+      "user_birth": "1999-07-30",
+      "user_phone": "010-6274-2263",
+      "user_address": "광주광역시 광산구 ",
+      "user_email": "rkdgml3577@gmail.com",
+      "user_register": "2024-10-29T04:06:15.266Z",
+      "user_google": "103915107674413636765",
+      "user_kakao": null,
+      "user_naver": null,
+      "simple_password": ["9", "9", "0", "7", "3", "0"]
     }
   ],
   "agent": [
@@ -390,6 +418,105 @@
       "history_params": "1#1년###전체#",
       "activity_date": "2024-10-29T01:55:36.901Z",
       "is_Shortcut": false
+    },
+    {
+      "id": "6h2vnqp2ecy",
+      "user_id": "1730103306576",
+      "history_name": "조회 2024. 10. 29. 오전 11:22:45",
+      "history_type": "inquiry",
+      "history_params": "3#전체###전체#",
+      "activity_date": "2024-10-29T02:22:45.939Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "yccbc6xy1v9",
+      "user_id": "1730119322267",
+      "history_name": "조회 2024. 10. 29. 오전 11:22:53",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T02:22:53.325Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "640c93m64qp",
+      "user_id": "1730119322267",
+      "history_name": "조회 2024. 10. 29. 오전 11:24:19",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T02:24:19.981Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "r3n9jaerwq",
+      "user_id": "1730119322267",
+      "history_name": "조회 2024. 10. 29. 오전 11:25:59",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T02:25:59.187Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "cmwz2i58ng",
+      "user_id": "1730119322267",
+      "history_name": "조회 2024. 10. 29. 오전 11:29:04",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T02:29:04.194Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "ygtrx7tenvc",
+      "user_id": "1730119322267",
+      "history_name": "조회 2024. 10. 29. 오전 11:38:55",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T02:38:55.289Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "xqrgdk1kma",
+      "user_id": "1730103306576",
+      "history_name": "조회 2024. 10. 29. 오전 11:39:18",
+      "history_type": "inquiry",
+      "history_params": "2#전체###전체#",
+      "activity_date": "2024-10-29T02:39:18.235Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "5wtc8poktmm",
+      "user_id": "1",
+      "history_name": "조회 2024. 10. 29. 오후 1:13:42",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T04:13:43.028Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "p8824hd2x7p",
+      "user_id": "1",
+      "history_name": "조회 2024. 10. 29. 오후 1:30:22",
+      "history_type": "inquiry",
+      "history_params": "3#전체###전체#",
+      "activity_date": "2024-10-29T04:30:22.826Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "uu8uybl0xhq",
+      "user_id": "1",
+      "history_name": "조회 2024. 10. 29. 오후 1:36:17",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T04:36:17.478Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "u3xp7olf2hh",
+      "user_id": "1",
+      "history_name": "조회 2024. 10. 29. 오후 2:00:02",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T05:00:02.977Z",
+      "is_Shortcut": false
     }
   ],
   "shortcut": [
@@ -545,7 +672,7 @@
   "account": [
     {
       "id": "1",
-      "user_id": "1730119322267",
+      "user_id": "1",
       "account_number": 1000000001,
       "balance": 5000000,
       "account_type": "예적금",
@@ -554,7 +681,7 @@
     },
     {
       "id": "2",
-      "user_id": "1730103306576",
+      "user_id": "1",
       "account_number": 1000000002,
       "balance": 1500000000,
       "account_type": "예적금",
@@ -563,7 +690,7 @@
     },
     {
       "id": "3",
-      "user_id": "1730103306576",
+      "user_id": "1",
       "account_number": 1000000003,
       "balance": 3000000,
       "account_type": "입출금",
@@ -749,7 +876,8 @@
       "receiver_account_id": "5",
       "amount": 300000,
       "sender_viewer": "문규빈",
-      "receiver_viewer": "문문"
+      "receiver_viewer": "문문",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730130922547",
@@ -757,7 +885,8 @@
       "receiver_account_id": "1730077977283",
       "amount": 5000000,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730132444447",
@@ -765,7 +894,8 @@
       "receiver_account_id": "1730077977283",
       "amount": 120000,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730132902727",
@@ -773,7 +903,8 @@
       "receiver_account_id": "1730077977283",
       "amount": 120000,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730134210042",
@@ -781,7 +912,8 @@
       "receiver_account_id": "1730077977283",
       "amount": 50000,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730135640711",
@@ -789,7 +921,8 @@
       "receiver_account_id": null,
       "amount": 200002,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730136038396",
@@ -797,7 +930,8 @@
       "receiver_account_id": null,
       "amount": 200002,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730136096008",
@@ -805,7 +939,8 @@
       "receiver_account_id": null,
       "amount": 200002,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730162614676",
@@ -813,7 +948,8 @@
       "receiver_account_id": null,
       "amount": 1000002,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730163483693",
@@ -821,7 +957,8 @@
       "receiver_account_id": "1",
       "amount": 5555,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "하나은행"
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730163564328",
@@ -829,7 +966,8 @@
       "receiver_account_id": "4",
       "amount": 2222,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "신한은행"
+      "receiver_viewer": "신한은행",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730164139591",
@@ -837,7 +975,8 @@
       "receiver_account_id": "4",
       "amount": 33333,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "신한은행"
+      "receiver_viewer": "신한은행",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730165359850",
@@ -845,7 +984,8 @@
       "receiver_account_id": "4",
       "amount": 7777,
       "sender_viewer": "문규빈",
-      "receiver_viewer": "강민관"
+      "receiver_viewer": "강민관",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "1730166768280",

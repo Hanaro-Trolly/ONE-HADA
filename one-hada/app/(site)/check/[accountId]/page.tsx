@@ -4,19 +4,20 @@ import BankIcon from '@/components/molecules/BankIcon';
 import TypeButton from '@/components/molecules/TypeButton';
 import { useEffect, useState } from 'react';
 import { getData, addData } from '@/lib/api';
+import { History } from '@/lib/datatypes';
 // postData 함수 가져오기
 import { Account } from '@/lib/datatypes';
 
 // History 타입 정의
-type History = {
-  id: string;
-  user_id: string;
-  history_name: string;
-  history_type: 'inquiry' | 'transfer' | 'acc';
-  history_params: string;
-  activity_date: Date;
-  is_Shortcut: boolean;
-};
+// type History = {
+//   id: string;
+//   user_id: string;
+//   history_name: string;
+//   history_type: 'inquiry' | 'transfer' | 'acc';
+//   history_params: string;
+//   activity_date: Date;
+//   is_Shortcut: boolean;
+// };
 
 export default function AccountDetailPage({
   params,
@@ -35,7 +36,7 @@ export default function AccountDetailPage({
   useEffect(() => {
     const fetchAccount = async () => {
       try {
-        const data = await getData<Account>('accounts', accountId); // 'accounts' 리소스에서 accountId로 데이터 가져오기
+        const data = await getData<Account>('account', accountId); // 'accounts' 리소스에서 accountId로 데이터 가져오기
         setAccount(data); // 가져온 데이터를 상태로 설정
       } catch (error) {
         console.error('계좌 데이터 가져오기 오류:', error);
