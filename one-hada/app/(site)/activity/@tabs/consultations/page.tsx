@@ -1,15 +1,33 @@
+'use client';
+
 import ConsultationCard from '@/components/activity/ConsultationCard';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import { getDataByUserId } from '@/lib/api';
 import { Consultation } from '@/lib/datatypes';
 import { formatDate } from '@/lib/formatDate';
 
-export default async function ConsultationsPage() {
-  let consultationData: Consultation[] = [];
-  try {
-    consultationData = await getDataByUserId<Consultation>('consultation', '1');
-  } catch (error) {
-    console.error(error);
-  }
+const ConsultationsPage = () => {
+  const [consultationData, setConsultationData] = useState<Consultation[]>([]);
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (session?.user) {
+          const data = await getDataByUserId<Consultation>(
+            'consultation',
+            session.user.id
+          );
+          setConsultationData(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [session]);
 
   return (
     <>
@@ -40,4 +58,6 @@ export default async function ConsultationsPage() {
       </ul>
     </>
   );
-}
+};
+
+export default ConsultationsPage;
