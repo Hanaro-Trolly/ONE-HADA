@@ -15,13 +15,15 @@ const BankOption: React.FC<BankOptionProps> = ({
   return (
     <button
       onClick={() => onClick(bankName)}
-      className={`flex p-4 rounded-lg items-center justify-center border ${
-        selected ? 'bg-blue-500 text-white' : 'bg-gray-100 text-black'
+      className={`flex py-2 rounded-lg items-center justify-center border border-gray-100 ${
+        selected ? 'bg-blue-500 text-white' : 'bg-gray-50 text-black'
       } hover:bg-blue-200 transition`}
-      style={{ width: '120px', height: '120px' }}
     >
-      <BankIcon bankId={bankName} />
-      <span>{bankName}</span>
+      <div className='flex flex-col items-center justify-center gap-2'>
+        <BankIcon bankId={bankName} />
+
+        <label className='text-xs font-normal'>{bankName}</label>
+      </div>
     </button>
   );
 };

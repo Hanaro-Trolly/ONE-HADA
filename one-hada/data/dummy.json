@@ -383,8 +383,7 @@
       "history_type": "transaction",
       "history_params": "'2#4#1050000"
     },
-    {
-      "id": "84e7kbbuten",
+    {"id": "84e7kbbuten",
       "user_id": "1730077977283",
       "history_name": "조회 2024. 10. 29. 오전 10:49:47",
       "history_type": "inquiry",
@@ -821,6 +820,30 @@
       "receiver_account_id": "4",
       "amount": 1050000,
       "sender_viewer": "조서현",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730167835961",
+      "sender_account_id": "1",
+      "receiver_account_id": "1",
+      "amount": 500002,
+      "sender_viewer": "문규빈",
+      "receiver_viewer": "문규빈"
+    },
+    {
+      "id": "1730168038311",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 1000008,
+      "sender_viewer": "문규빈",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730168277429",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 8,
+      "sender_viewer": "문규빈",
       "receiver_viewer": "강민관"
     }
   ]

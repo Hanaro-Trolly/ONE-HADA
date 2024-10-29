@@ -1,6 +1,5 @@
 'use client';
 
-import AccountCard from '@/components/molecules/AccountCard';
 import BankIcon from '@/components/molecules/BankIcon';
 import { Button } from '@/components/ui/button';
 import {

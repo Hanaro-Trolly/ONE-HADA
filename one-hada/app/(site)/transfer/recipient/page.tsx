@@ -1,6 +1,5 @@
 'use client';
 
-import dummy from '@/c-dummy/account_d.json';
 // import BankIcon from '@/components/molecules/BankIcon';
 import BankOption from '@/components/molecules/BankOption';
 import { Button } from '@/components/ui/button';
@@ -71,15 +70,24 @@ export default function RecipientPage({
   //   );
   // };
 
+  const { data: recipientAccounts } = useApi<Account>('account');
   type Bank = {
     bank_id: string;
     bank_name: string;
-    bank_code: string;
-    logo_url: string;
   };
 
-  const { data: recipientAccounts } = useApi<Account>('account');
-  const banks: Bank[] = dummy.banks;
+  // Declare banks array directly
+  const banks: Bank[] = [
+    { bank_id: 'bank1', bank_name: '하나은행' },
+    { bank_id: 'bank2', bank_name: '국민은행' },
+    { bank_id: 'bank3', bank_name: '신한은행' },
+    { bank_id: 'bank4', bank_name: '우리은행' },
+    { bank_id: 'bank5', bank_name: '농협은행' },
+    { bank_id: 'bank6', bank_name: '카카오뱅크' },
+    { bank_id: 'bank7', bank_name: '토스뱅크' },
+    { bank_id: 'bank8', bank_name: '제일은행' },
+    { bank_id: 'bank9', bank_name: '기업은행' },
+  ];
 
   return (
     <div
@@ -109,7 +117,7 @@ export default function RecipientPage({
           </button>
 
           {isBankOptionsOpen && (
-            <div className='absolute bg-white border border-gray-300  shadow-lg p-4 mt-2 w-80'>
+            <div className='absolute bg-white border border-gray-300  shadow-lg p-4 mt-2 w-[272px] overflow-auto h-60'>
               <div className='grid grid-cols-3 gap-2 mb-6 w-full'>
                 {banks.map((bank) => (
                   <BankOption
@@ -188,7 +196,7 @@ export default function RecipientPage({
         </SelectContent>
       </Select> */}
       <Button
-        id='223'
+        id='221'
         className='w-full text-white text-lg bg-main-green  py-3 rounded mt-6 focus:bg-[#479e86] hover:bg-[#479e86] transition'
         onClick={() => handleClick()}
       >

@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { getData, updateData } from '@/lib/api';
 import { User } from '@/lib/datatypes';
 
-export default function setPassword() {
+export default function SetPassword() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const userId = searchParams.get('userId');
