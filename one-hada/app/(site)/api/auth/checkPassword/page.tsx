@@ -47,7 +47,6 @@ export default function CheckPassword() {
     const queryCount = Array.from(queryParams.keys()).length;
 
     if (queryCount === 8) {
-      console.log('Inside handleTransactionAndHistory');
       const transactionId = String(Date.now());
       const newTransaction = {
         id: transactionId,
@@ -56,6 +55,7 @@ export default function CheckPassword() {
         amount: Number(queryParams.get('amount')) || 0,
         sender_viewer: queryParams.get('sender_name') || '',
         receiver_viewer: queryParams.get('recipient_name') || '',
+        transaction_date: new Date().toISOString(),
       };
 
       try {
