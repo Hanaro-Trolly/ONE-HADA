@@ -60,6 +60,27 @@
         "2",
         "2"
       ]
+    },
+    {
+      "id": "1730174942226",
+      "user_name": "혜민",
+      "user_gender": "female",
+      "user_birth": "2024-09-02",
+      "user_phone": "010-1234-1234",
+      "user_address": "성수역 2번출구 알파코 제2캠퍼스",
+      "user_email": "42freshpong@gmail.com",
+      "user_register": "2024-10-29T04:09:33.836Z",
+      "user_google": "102904350864248754457",
+      "user_kakao": null,
+      "user_naver": null,
+      "simple_password": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1"
+      ]
     }
   ],
   "agent": [
