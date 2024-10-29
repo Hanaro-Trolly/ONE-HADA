@@ -45,8 +45,8 @@ export default function MenuPage() {
     >
       {/* <h1 className='font-semibold mb-2 mx-6 px-5 pt-4 '>전체메뉴</h1> */}
       {session?.user ? (
-        <div className='bg-[#DCEFEA] flex items-center pb-2'>
-          <div className='mb-2 mx-6 px-5 h-14 w-full flex justify-between items-center'>
+        <div className='bg-[#DCEFEA] flex items-center'>
+          <div className='mx-6 px-5 h-14 w-full flex justify-between items-center'>
             <div className='text=[#635666}'>
               <label className='text-xl text-[#698596] font-semibold'>
                 {userProfile?.user_name}
@@ -68,7 +68,7 @@ export default function MenuPage() {
           </div>
         </div>
       ) : (
-        <div className='bg-[#DCEFEA] flex items-center mb-2'>
+        <div className='bg-[#DCEFEA] flex items-center'>
           <div className='mx-6 px-5 h-14 w-full flex justify-between items-center'>
             로그인을 해주세요.
             <div className='flex items-center h-5 text-gray-500'>

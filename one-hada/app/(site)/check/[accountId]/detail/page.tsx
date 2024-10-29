@@ -22,7 +22,7 @@ export default function DetailPage({
     // Fetch account details
     const fetchAccountData = async () => {
       try {
-        const account = await getData<Account>('accounts', accountId);
+        const account = await getData<Account>('account', accountId);
         if (account) setAccountInfo(account);
       } catch (error) {
         console.error('Error fetching account data:', error);
@@ -32,8 +32,7 @@ export default function DetailPage({
     // Fetch transaction data with filtering
     const fetchTransactionData = async () => {
       try {
-        const transactions = await fetchAllData<Transaction>('transactions');
-        console.log('Fetched transactions:', transactions); // Log transactions to check data structure
+        const transactions = await fetchAllData<Transaction>('transaction');
         const searchParams = new URLSearchParams(window.location.search);
         const period = searchParams.get('period');
         const type = searchParams.get('type');

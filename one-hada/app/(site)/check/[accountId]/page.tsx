@@ -35,7 +35,7 @@ export default function AccountDetailPage({
   useEffect(() => {
     const fetchAccount = async () => {
       try {
-        const data = await getData<Account>('accounts', accountId); // 'accounts' 리소스에서 accountId로 데이터 가져오기
+        const data = await getData<Account>('account', accountId); // 'account' 리소스에서 accountId로 데이터 가져오기
         setAccount(data); // 가져온 데이터를 상태로 설정
       } catch (error) {
         console.error('계좌 데이터 가져오기 오류:', error);
