@@ -8,7 +8,6 @@ import Title from './AdminTitle';
 export default function AdminForm() {
   const params = useParams();
   const userId = params.userId as string;
-  const agentId = params.agentId as string; // agentId 가져오기 추가
 
   return (
     <div className='flex justify-between'>
@@ -19,7 +18,7 @@ export default function AdminForm() {
       <div className='w-1/2 px-6 space-y-6'>
         <Title text='상담 정보' />
         {/* agentId를 함께 전달 */}
-        <AdminInputForm userId={userId} agentId={agentId} />
+        <AdminInputForm userId={userId} />
       </div>
     </div>
   );
