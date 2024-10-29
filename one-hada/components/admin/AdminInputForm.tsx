@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { addData } from '@/lib/api';
 import AdminInput from './AdminInput';
 import AdminSubmitButton from './AdminSubmitButton';
+import { useCounsel } from '@/context/admin/CounselContext';
 
 interface AdminInputFormProps {
   userId: string;
@@ -13,6 +14,7 @@ interface AdminInputFormProps {
 export default function AdminInputForm({ userId }: AdminInputFormProps) {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const {refetchCounselData} = useCounsel();
   const { session } = useAdminSession(); // SessionContext에서 로그인 정보 가져오기
 
   const handleSubmit = async () => {
@@ -33,6 +35,7 @@ export default function AdminInputForm({ userId }: AdminInputFormProps) {
       setTitle('');
       setContent('');
       console.log(data);
+      refetchCounselData();
     } catch (error) {
       console.error('Error submitting data:', error);
       alert('데이터 등록 중 오류가 발생했습니다.');

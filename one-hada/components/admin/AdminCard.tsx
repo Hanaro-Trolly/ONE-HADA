@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 
-const DevideChar = '.';
+const DevideChar = '\n';
 
 type ConsultationCardProps = {
   title: string;
@@ -22,7 +22,6 @@ export default function AdminCard({
 }: ConsultationCardProps) {
   const [isDetail, setIsDetail] = useState(false);
   const oneLineContent = content.split(DevideChar);
-  oneLineContent.splice(-1, 1);
 
   // 날짜 포맷 함수
   const formatDate = (dateString: string) => {
