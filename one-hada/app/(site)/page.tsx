@@ -22,15 +22,16 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const { data: session } = useSession();
 
-  const userId = '1';
-  // const userId = session?.user.id;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const shortcuts = await getDataByUserId<Shortcut>('shortcut', userId);
-        const userData = await getData<User>('user', userId);
-        setFavoriteList(shortcuts.filter((item) => item.is_Favorite));
-        setUser(userData);
+        if (session?.user.id) {
+          const userId = session?.user.id;
+          const shortcuts = await getDataByUserId<Shortcut>('shortcut', userId);
+          const userData = await getData<User>('user', userId);
+          setFavoriteList(shortcuts.filter((item) => item.is_Favorite));
+          setUser(userData);
+        }
       } catch (error) {
         setError('데이터를 불러오는 데 문제가 발생했습니다.');
         console.error(error);
@@ -40,7 +41,7 @@ export default function Home() {
     };
 
     fetchData();
-  }, [userId]);
+  }, [session]);
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>{error}</div>;
@@ -110,28 +111,36 @@ export default function Home() {
           <FaStar className='text-yellow-400 text-2xl' /> 즐겨찾기
         </div>
         {session?.user ? (
-          <div className='flex justify-center text-black'>
-            <Carousel
-              opts={{ align: 'start', loop: true }}
-              className='h-16 mx-8 w-full'
-            >
-              <CarouselContent>
-                {favoriteList.map((item, idx) => (
-                  <CarouselItem key={idx}>
-                    <Button
-                      id={'favoriteBtn-' + item.id}
-                      variant='home'
-                      className='h-16 w-full bg-white text-black mx-2 font-medium rounded-xl hover:bg-[#F0F0F0]'
-                    >
-                      {item.shortcut_name}
-                    </Button>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious variant='ghost' size='xl' />
-              <CarouselNext variant='ghost' size='xl' />
-            </Carousel>
-          </div>
+          favoriteList.length > 0 ? (
+            <div className='flex justify-center text-black'>
+              <Carousel
+                opts={{ align: 'start', loop: true }}
+                className='h-16 mx-8 w-full'
+              >
+                <CarouselContent>
+                  {favoriteList.map((item, idx) => (
+                    <CarouselItem key={idx}>
+                      <Link href={item.shortcutUrl}>
+                        <Button
+                          id={'favoriteBtn-' + item.id}
+                          variant='home'
+                          className='h-16 w-full bg-white text-black mx-2 font-medium rounded-xl hover:bg-[#F0F0F0]'
+                        >
+                          <label className=' overflow-ellipsis overflow-hidden whitespace-nowrap'>
+                            {item.shortcut_name}
+                          </label>
+                        </Button>
+                      </Link>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious variant='ghost' size='xl' />
+                <CarouselNext variant='ghost' size='xl' />
+              </Carousel>
+            </div>
+          ) : (
+            <div className='text-center'>즐겨찾기를 설정해주세요</div>
+          )
         ) : (
           <div className='text-center'>로그인 후 이용해주세요</div>
         )}
