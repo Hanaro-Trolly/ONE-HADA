@@ -41,12 +41,12 @@ export default function MenuPage() {
   return (
     <div
       style={{ maxHeight: 'calc(100vh - 60px)' }}
-      className='w-full py-2 overflow-y-scroll'
+      className='w-full overflow-y-scroll'
     >
       {/* <h1 className='font-semibold mb-2 mx-6 px-5 pt-4 '>전체메뉴</h1> */}
       {session?.user ? (
-        <div className='bg-[#DCEFEA] flex items-center mb-2'>
-          <div className='mx-6 px-5 h-14 w-full flex justify-between items-center'>
+        <div className='bg-[#DCEFEA] flex items-center pb-2'>
+          <div className='mb-2 mx-6 px-5 pt-4 w-full flex justify-between items-center'>
             <div className='text=[#635666}'>
               <label className='text-xl text-[#698596] font-semibold'>
                 {userProfile?.user_name}
@@ -86,8 +86,9 @@ export default function MenuPage() {
           </div>
         </div>
       )}
-
-      <ButtonRow buttons={buttons}></ButtonRow>
+      <div className='my-2'>
+        <ButtonRow buttons={buttons}></ButtonRow>
+      </div>
       <div className='mb-2 mx-6 px-5 pt-1 py-2'>
         <MenuSection title={'조회'}>
           <MenuCard title={'메뉴1'} link={'/'} />

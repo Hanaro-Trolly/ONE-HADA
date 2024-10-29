@@ -86,10 +86,10 @@ export default function SettingsPage() {
 
   return (
     <>
-      <div className='bg-[#DCEFEA] pb-4'>
+      <div className='bg-[#DCEFEA] w-full overflow-y-scroll'>
         {session?.user ? (
-          <div>
-            <div className='h-[14%] mb-2 mx-6 px-5 pt-4'>
+          <div className='pb-4'>
+            <div className='mb-2 mx-6 px-5 pt-4'>
               <div className='text=[#635666}'>
                 <label className='text-xl text-[#698596] font-semibold'>
                   {userProfile?.user_name}
@@ -179,23 +179,23 @@ export default function SettingsPage() {
             </div>
           </div>
         ) : (
-          // <div className='bg-[#DCEFEA] items-center mb-2'>
-          <div className='mx-6 px-5 h-14 w-full flex justify-between items-center'>
-            로그인을 해주세요.
-            <div className='flex items-center h-5 text-gray-500'>
-              <Button
-                variant='ghost'
-                className='px-0 py-0 gap-0 font-normal'
-                onClick={() => {
-                  signIn();
-                }}
-              >
-                로그인
-                <ChevronRightIcon />
-              </Button>
+          <div className='flex items-center'>
+            <div className='mx-6 px-5 h-14 w-full flex justify-between items-center'>
+              로그인을 해주세요.
+              <div className='flex items-center h-5 text-gray-500'>
+                <Button
+                  variant='ghost'
+                  className='px-0 py-0 gap-0 font-normal'
+                  onClick={() => {
+                    signIn();
+                  }}
+                >
+                  로그인
+                  <ChevronRightIcon />
+                </Button>
+              </div>
             </div>
           </div>
-          // </div>
         )}
       </div>
       <div>
