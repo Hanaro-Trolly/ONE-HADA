@@ -85,13 +85,13 @@ export default function Checking({
       className='flex flex-col justify-between items-center px-6'
     >
       <div className='tossface-icon text-[3rem] pt-10 text-center'>✅</div>
-      <h2 className='text-center font-bold text-lg mb-12'>
-        <span className='text-green-700'>{recipientName}</span>
-        <span className='text-gray-400'> 님께 </span>
-        <span className='text-green-700'>
+      <h2 className='text-center font-medium text-lg mb-12'>
+        <span className='text-[#479E86]'>{recipientName}</span>
+        <span className='font-medium'> 님께 </span>
+        <span className='text-[#479E86]'>
           {Number(amount).toLocaleString()}원을
         </span>
-        <span className='block text-gray-400'> 송금했습니다!</span>
+        <span className='block'> 송금했습니다!</span>
       </h2>
 
       <div className='bg-white  rounded-xl shadow-md p-4 mb-6 w-full'>

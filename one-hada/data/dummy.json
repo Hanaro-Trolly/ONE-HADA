@@ -349,6 +349,15 @@
       "is_Shortcut": false,
       "history_type": "transaction",
       "history_params": "'1#4#7777"
+    },
+    {
+      "id": "1730166768280",
+      "user_id": "1730103306576",
+      "history_name": "강민관님께 1050000원 송금",
+      "activity_date": "2024-10-29T01:52:48.299Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'2#4#1050000"
     }
   ],
   "shortcut": [
@@ -747,6 +756,14 @@
       "receiver_account_id": "4",
       "amount": 7777,
       "sender_viewer": "문규빈",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730166768280",
+      "sender_account_id": "2",
+      "receiver_account_id": "4",
+      "amount": 1050000,
+      "sender_viewer": "조서현",
       "receiver_viewer": "강민관"
     }
   ]
