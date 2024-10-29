@@ -84,8 +84,8 @@
   "history": [
     {
       "id": "1",
-      "user_id": "1",
-      "history_name": "'강민관'님께 2000만원 송금",
+      "user_id": "1730162231776",
+      "history_name": "이십글자이십글자이십글자이십글자이십글자",
       "history_type": "transfer",
       "history_params": "1#3#20000000",
       "activity_date": "2024-10-20T14:30:00Z",
@@ -386,7 +386,7 @@
       "user_id": "1",
       "shortcut_name": "한달간 밥플러스 결제내역",
       "shortcutUrl": "/",
-      "is_Favorite": true
+      "is_Favorite": false
     },
     {
       "id": "2",
@@ -852,120 +852,6 @@
       "amount": 8,
       "sender_viewer": "문규빈",
       "receiver_viewer": "강민관"
-    }
-  ],
-  "activity_logs": [
-    {
-      "user_name": "정성현",
-      "logs": [
-        {
-          "timestamp": "2024-10-23 16:22:36",
-          "details": "규빈님에게 50,000원 이체"
-        },
-        {
-          "timestamp": "2024-10-23 16:12:28",
-          "details": "계좌 잔액 확인"
-        },
-        {
-          "timestamp": "2024-10-23 15:58:11",
-          "details": "9월 거래내역 조회"
-        },
-        {
-          "timestamp": "2024-10-23 15:57:32",
-          "details": "웹뱅킹 로그인"
-        },
-        {
-          "timestamp": "2024-10-23 15:37:30",
-          "details": "주택담보대출"
-        },
-        {
-          "timestamp": "2024-10-23 15:36:30",
-          "details": "강희님에게 20,000원 이체"
-        },
-        {
-          "timestamp": "2024-10-23 15:20:30",
-          "details": "펀드 메뉴 확인"
-        }
-      ]
-    },
-    {
-      "user_name": "강민관",
-      "logs": [
-        {
-          "timestamp": "2024-10-17 12:22:36",
-          "details": "펀드 메뉴 확인"
-        },
-        {
-          "timestamp": "2024-10-17 12:21:15",
-          "details": "계좌 잔액 확인"
-        },
-        {
-          "timestamp": "2024-10-17 12:20:30",
-          "details": "이체 알림 설정 변경"
-        },
-        {
-          "timestamp": "2024-10-17 12:19:45",
-          "details": "9월 거래내역 조회"
-        },
-        {
-          "timestamp": "2024-10-17 12:15:45",
-          "details": "모바일뱅킹 로그인"
-        }
-      ]
-    },
-    {
-      "user_name": "문규빈",
-      "logs": [
-        {
-          "timestamp": "2024-10-15 09:22:36",
-          "details": "민관님에게 60,000원 이체"
-        },
-        {
-          "timestamp": "2024-10-15 19:30:36",
-          "details": "상담내역 확인"
-        },
-        {
-          "timestamp": "2024-10-15 19:29:20",
-          "details": "즐겨찾기 등록"
-        },
-        {
-          "timestamp": "2024-10-15 19:28:45",
-          "details": "내 활동 보기"
-        },
-        {
-          "timestamp": "2024-10-15 19:20:45",
-          "details": "바로가기 편집"
-        }
-      ]
-    },
-    {
-      "user_name": "박시온",
-      "logs": [
-        {
-          "timestamp": "2024-10-16 09:22:36",
-          "details": "계좌 잔액 확인"
-        },
-        {
-          "timestamp": "2024-10-15 19:30:36",
-          "details": "내 활동 보기"
-        },
-        {
-          "timestamp": "2024-10-15 19:29:20",
-          "details": "웹뱅킹 로그인"
-        },
-        {
-          "timestamp": "2024-10-15 19:28:45",
-          "details": "이체 알림 설정 변경"
-        },
-        {
-          "timestamp": "2024-10-15 1ㄴ9:28:45",
-          "details": "상담내역 확인"
-        },
-        {
-          "timestamp": "2024-10-15 19:28:45",
-          "details": "펀드 메뉴 확인"
-        }
-      ]
     }
   ]
 }
