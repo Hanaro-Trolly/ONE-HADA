@@ -60,7 +60,14 @@
       "user_google": "112287508448169046665",
       "user_kakao": "3762386136",
       "user_naver": null,
-      "simple_password": ["1", "1", "1", "1", "1", "1"]
+      "simple_password": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1"
+      ]
     }
   ],
   "agent": [
@@ -260,6 +267,33 @@
       "history_params": "",
       "activity_date": "2024-10-22T10:00:00Z",
       "is_Shortcut": true
+    },
+    {
+      "id": "uz0oaug1y",
+      "user_id": "1730077977283",
+      "history_name": "조회 2024. 10. 29. 오전 10:44:33",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T01:44:33.410Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "84e7kbbuten",
+      "user_id": "1730077977283",
+      "history_name": "조회 2024. 10. 29. 오전 10:49:47",
+      "history_type": "inquiry",
+      "history_params": "1#3개월###입금#",
+      "activity_date": "2024-10-29T01:49:47.492Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "t37dbxj7lkm",
+      "user_id": "1730077977283",
+      "history_name": "조회 2024. 10. 29. 오전 10:55:36",
+      "history_type": "inquiry",
+      "history_params": "1#1년###전체#",
+      "activity_date": "2024-10-29T01:55:36.901Z",
+      "is_Shortcut": false
     }
   ],
   "shortcut": [
