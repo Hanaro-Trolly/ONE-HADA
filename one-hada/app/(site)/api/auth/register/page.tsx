@@ -13,7 +13,7 @@ import useApi from '@/hooks/useApi';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useRef, useState } from 'react';
-import React from 'react';
+//import React from 'react';
 import { User } from '@/lib/datatypes';
 
 export default function Register() {

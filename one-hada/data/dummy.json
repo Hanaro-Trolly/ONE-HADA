@@ -64,7 +64,14 @@
       "user_google": "112287508448169046665",
       "user_kakao": "3762386136",
       "user_naver": null,
-      "simple_password": ["1", "1", "1", "1", "1", "1"]
+      "simple_password": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1"
+      ]
     }
   ],
   "agent": [
@@ -387,6 +394,29 @@
       "consultation_title": "송금 방법 상담",
       "consultation_content": "송금 방법 상담 요청.지난번 상담 내용 존재. 바로가기 페이지로 이동. 즐겨찾기 추가",
       "consultation_date": "2024-10-23T13:00:00Z"
+    },
+    {
+      "id": "1730134523226",
+      "user_id": "2",
+      "consultation_title": "sdfsdf",
+      "consultation_content": "sdfsdf",
+      "consultation_date": "2024-10-28T16:55:23.225Z"
+    },
+    {
+      "id": "1730165358431",
+      "agent_id": "1",
+      "user_id": "1",
+      "consultation_title": "테스트",
+      "consultation_content": "테스트",
+      "consultation_date": "2024-10-29T01:29:18.431Z"
+    },
+    {
+      "id": "1730167076494",
+      "agent_id": "1",
+      "user_id": "2",
+      "consultation_title": "wf",
+      "consultation_content": "wfwef",
+      "consultation_date": "2024-10-29T01:57:56.494Z"
     }
   ],
   "account": [
@@ -575,6 +605,120 @@
       "amount": 300000,
       "sender_viewer": "문규빈",
       "receiver_viewer": "문문"
+    }
+  ],
+  "activity_logs": [
+    {
+      "user_name": "정성현",
+      "logs": [
+        {
+          "timestamp": "2024-10-23 16:22:36",
+          "details": "규빈님에게 50,000원 이체"
+        },
+        {
+          "timestamp": "2024-10-23 16:12:28",
+          "details": "계좌 잔액 확인"
+        },
+        {
+          "timestamp": "2024-10-23 15:58:11",
+          "details": "9월 거래내역 조회"
+        },
+        {
+          "timestamp": "2024-10-23 15:57:32",
+          "details": "웹뱅킹 로그인"
+        },
+        {
+          "timestamp": "2024-10-23 15:37:30",
+          "details": "주택담보대출"
+        },
+        {
+          "timestamp": "2024-10-23 15:36:30",
+          "details": "강희님에게 20,000원 이체"
+        },
+        {
+          "timestamp": "2024-10-23 15:20:30",
+          "details": "펀드 메뉴 확인"
+        }
+      ]
+    },
+    {
+      "user_name": "강민관",
+      "logs": [
+        {
+          "timestamp": "2024-10-17 12:22:36",
+          "details": "펀드 메뉴 확인"
+        },
+        {
+          "timestamp": "2024-10-17 12:21:15",
+          "details": "계좌 잔액 확인"
+        },
+        {
+          "timestamp": "2024-10-17 12:20:30",
+          "details": "이체 알림 설정 변경"
+        },
+        {
+          "timestamp": "2024-10-17 12:19:45",
+          "details": "9월 거래내역 조회"
+        },
+        {
+          "timestamp": "2024-10-17 12:15:45",
+          "details": "모바일뱅킹 로그인"
+        }
+      ]
+    },
+    {
+      "user_name": "문규빈",
+      "logs": [
+        {
+          "timestamp": "2024-10-15 09:22:36",
+          "details": "민관님에게 60,000원 이체"
+        },
+        {
+          "timestamp": "2024-10-15 19:30:36",
+          "details": "상담내역 확인"
+        },
+        {
+          "timestamp": "2024-10-15 19:29:20",
+          "details": "즐겨찾기 등록"
+        },
+        {
+          "timestamp": "2024-10-15 19:28:45",
+          "details": "내 활동 보기"
+        },
+        {
+          "timestamp": "2024-10-15 19:20:45",
+          "details": "바로가기 편집"
+        }
+      ]
+    },
+    {
+      "user_name": "박시온",
+      "logs": [
+        {
+          "timestamp": "2024-10-16 09:22:36",
+          "details": "계좌 잔액 확인"
+        },
+        {
+          "timestamp": "2024-10-15 19:30:36",
+          "details": "내 활동 보기"
+        },
+        {
+          "timestamp": "2024-10-15 19:29:20",
+          "details": "웹뱅킹 로그인"
+        },
+        {
+          "timestamp": "2024-10-15 19:28:45",
+          "details": "이체 알림 설정 변경"
+        },
+        {
+          "timestamp": "2024-10-15 1ㄴ9:28:45",
+          "details": "상담내역 확인"
+        },
+        {
+          "timestamp": "2024-10-15 19:28:45",
+          "details": "펀드 메뉴 확인"
+        }
+      ]
     }
   ]
 }

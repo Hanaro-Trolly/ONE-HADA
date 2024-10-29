@@ -1,6 +1,6 @@
 'use client';
 
-import dummy from '@/c-dummy/account_d.json';
+//import dummy from '@/c-dummy/account_d.json';
 import AccountCard from '@/components/molecules/AccountCard';
 import { Button } from '@/components/ui/button';
 import useApi from '@/hooks/useApi';

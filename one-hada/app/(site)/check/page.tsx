@@ -13,7 +13,6 @@ type AccountData = {
   balance: number;
   account_type: string;
   bank: string;
-  account_name: string;
 }[];
 
 export default function CheckPage() {
@@ -80,7 +79,6 @@ export default function CheckPage() {
                 balance={account.balance}
                 accountType={account.account_type}
                 bank={account.bank}
-                name={account.account_name}
               />
             </div>
           </Link>

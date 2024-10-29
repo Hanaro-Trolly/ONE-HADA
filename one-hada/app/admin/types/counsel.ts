@@ -16,4 +16,5 @@ export type CounselContextType = {
   counselData: Counsel[];
   setCounselData: (data: Counsel[]) => void;
   fetchCounselData: () => Promise<void>;
+  refetchCounselData: () => void;
 };

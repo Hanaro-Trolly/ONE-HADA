@@ -8,10 +8,10 @@ import { fetchAllData } from '@/lib/api';
 import AdminCard from './AdminCard';
 import AdminInfo from './AdminInfo';
 import Modal from './Modal';
-import ServicePreview from './ServicePreview';
+import RealTimeLog from './RealTimeLog';
 
 export default function CounselDetail({ userId }: { userId: string }) {
-  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [isLogOpen, setIsLogOpen] = useState(false);
   const [userData, setUserData] = useState<{
     birth: string;
     phone: string;
@@ -23,9 +23,9 @@ export default function CounselDetail({ userId }: { userId: string }) {
   const decodedUserId = decodeURIComponent(userId);
 
   const getGenderIcon = () => {
-    if (userData?.gender === '남') {
+    if (userData?.gender === 'male') {
       return <IoMale className='text-blue-500' size={24} />;
-    } else if (userData?.gender === '여') {
+    } else if (userData?.gender === 'female') {
       return <IoFemale className='text-pink-500' size={24} />;
     }
     return null;
@@ -73,17 +73,19 @@ export default function CounselDetail({ userId }: { userId: string }) {
       <div>
         <div className='space-y-4'>
           <div className='flex justify-between'>
-            <h2 className='text-2xl font-medium'>
-              {' '}
-              {userData ? `${userData.name}` : `${decodedUserId}`} 님
-            </h2>
-            <div className='ml-2 mt-1'>{getGenderIcon()}</div>
+            <div className='flex'>
+              <h2 className='text-2xl font-medium'>
+                {' '}
+                {userData ? `${userData.name}` : `${decodedUserId}`} 님
+              </h2>
+              <div className='ml-2 mt-1'>{getGenderIcon()}</div>
+            </div>
             <button
-              onClick={() => setIsPreviewOpen(true)}
+              onClick={() => setIsLogOpen(true)}
               className='flex items-center gap-2 rounded-lg bg-[#61B89F] px-4 py-2 text-white hover:bg-[#377b68] transition-colors'
             >
               <IoEye size={20} />
-              <span>화면 보기</span>
+              <span>고객 사용 로그</span>
             </button>
           </div>
 
@@ -105,11 +107,11 @@ export default function CounselDetail({ userId }: { userId: string }) {
       </div>
 
       <Modal
-        isOpen={isPreviewOpen}
-        onClose={() => setIsPreviewOpen(false)}
-        title='서비스 화면 미리보기'
+        isOpen={isLogOpen}
+        onClose={() => setIsLogOpen(false)}
+        title='고객 사용 로그'
       >
-        <ServicePreview userId={decodedUserId} />
+        <RealTimeLog userId={decodedUserId} userName={userData?.name || ''} />
       </Modal>
     </>
   );

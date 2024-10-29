@@ -5,22 +5,43 @@ import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { fetchAllData } from '@/lib/api';
 import Title from './AdminTitle';
 
 export default function AdminHeader() {
   const router = useRouter();
-  const { counselData, setSelectedUserId, fetchCounselData } = useCounsel();
+  const { counselData, setSelectedUserId } = useCounsel();
+  const { fetchCounselData } = useCounsel();
   const [uniqueUsers, setUniqueUsers] = useState<Counsel[]>([]);
+  const [userData, setUserData] = useState<{ [key: string]: string }>({});
   const { session, logout } = useAdminSession();
 
+  // 사용자 데이터 가져오기
   useEffect(() => {
-    console.log(counselData);
+    const loadUserData = async () => {
+      const users = await fetchAllData<{ id: string; user_name: string }>(
+        'user'
+      );
+      const userMap = users.reduce(
+        (acc, user) => {
+          acc[user.id] = user.user_name;
+          return acc;
+        },
+        {} as { [key: string]: string }
+      );
+      setUserData(userMap);
+    };
+
+    loadUserData();
+  }, []);
+
+  useEffect(() => {
     fetchCounselData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (counselData.length > 0 && session.loginUser?.id) {
-      // 각 사용자의 가장 최근 상담 데이터만 필터링
       const userLatestCounsels = new Map<string, Counsel>();
 
       counselData
@@ -36,7 +57,14 @@ export default function AdminHeader() {
           }
         });
 
-      setUniqueUsers(Array.from(userLatestCounsels.values()));
+      // Convert Map values to array and sort by consultation_date
+      const sortedUsers = Array.from(userLatestCounsels.values()).sort(
+        (a, b) =>
+          new Date(b.consultation_date).getTime() -
+          new Date(a.consultation_date).getTime()
+      );
+
+      setUniqueUsers(sortedUsers);
     }
   }, [counselData, session.loginUser?.id]);
 
@@ -90,7 +118,9 @@ export default function AdminHeader() {
           >
             <div className='pl-3 items-center'>
               <div className='flex flex-col space-y-1'>
-                <h3 className='font-medium'>{counsel.user_name}</h3>
+                <h3 className='font-medium'>
+                  {userData[counsel.user_id] || 'Unknown User'}
+                </h3>
                 <p className='text-sm text-gray-400'>
                   {formatDate(counsel.consultation_date)}
                 </p>

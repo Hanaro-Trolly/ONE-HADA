@@ -1,10 +1,10 @@
 'use client';
 
-import { IoCheckbox } from 'react-icons/io5';
-import { useEffect, useState } from 'react';
-import useApi from '@/hooks/useApi';
 import { Button } from '@/components/ui/button';
+import useApi from '@/hooks/useApi';
+import { IoCheckbox } from 'react-icons/io5';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Checking({
   searchParams: {
@@ -27,7 +27,6 @@ export default function Checking({
   // const recipientNumber = searchParams.get('recipient_number');
   // const bankName = searchParams.get('bank');
   // const amount = searchParams.get('amount');
-
 
   type Account = {
     id: string;
@@ -58,7 +57,7 @@ export default function Checking({
 
   const { data: accounts } = useApi<Account>('account');
   const { data: users } = useApi<User>('user');
-  
+
   useEffect(() => {
     if (accounts && users && accountId) {
       const account = accounts.find((acc) => acc.id === accountId);
@@ -77,19 +76,15 @@ export default function Checking({
   }, [users, recipientId]);
 
   const handleClick = () => {
-    router.push(
-      `/`
-    );
-  }
+    router.push(`/`);
+  };
 
   return (
     <div className='container mx-auto p-4'>
       <div className='bg-gray-50 p-6 flex flex-col items-center rounded-lg shadow-md'>
         <IoCheckbox className='text-green-600 text-4xl mb-6' />
         <h2 className='text-center font-bold text-lg mb-12'>
-          <span className='text-green-700'>
-            {recipientName}
-          </span>
+          <span className='text-green-700'>{recipientName}</span>
           <span className='text-gray-400'> 님께 </span>
           <span className='text-green-700'>
             {Number(amount).toLocaleString()}원을
