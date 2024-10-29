@@ -2,18 +2,18 @@
 
 import PasswordKeypad from '@/components/ui/PasswordKeypad';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getData, updateData } from '@/lib/api';
 import { User } from '@/lib/datatypes';
 
-export default function CheckPassword() {
+export default function setPassword() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const userId = searchParams.get('userId');
   const thisRoute = searchParams.get('route');
   const [userData, setUserData] = useState<User>();
 
-  const getUserData = async () => {
+  const getUserData = useCallback(async () => {
     try {
       if (userId) {
         const data = await getData<User>('user', userId);
@@ -24,11 +24,11 @@ export default function CheckPassword() {
     } catch (error) {
       console.error('Error fetching user:', error);
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
     getUserData();
-  }, [userId]);
+  }, [userId, getUserData]);
 
   const handleSubmit = async (password: string[]) => {
     if (password.length !== 6) {

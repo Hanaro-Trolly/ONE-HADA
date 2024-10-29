@@ -21,14 +21,14 @@ export default function AccountCard({
   return (
     <div
       key={id}
-      className='bg-white shadow-md rounded-lg w-full h-full flex items-start justify-between flex-col p-5 mb-4'
+      className='bg-white shadow-md rounded-lg w-full h-full flex items-start justify-center flex-col space-y-3 p-4 mb-4'
     >
       <div className='flex items-center gap-4'>
         {/* Bank icon */}
         <BankIcon bankId={bank} />
         <div className='flex flex-col'>
           <h1 className='font-medium text-left text-lg'>{accountType}</h1>
-          <label className='font-light text-gray-500 text-left text-xs'>
+          <label className='font-light text-gray-500 text-left text-sm'>
             {`${bank} • ${accountNumber}`}
           </label>
         </div>

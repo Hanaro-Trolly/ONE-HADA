@@ -1,10 +1,20 @@
 'use client';
 
 import AccountCard from '@/components/molecules/AccountCard';
+import BankIcon from '@/components/molecules/BankIcon';
 import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import useApi from '@/hooks/useApi';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Account } from '@/lib/datatypes';
 
 export default function TransferPage() {
   const router = useRouter();
@@ -12,50 +22,75 @@ export default function TransferPage() {
 
   const { data: accounts } = useApi<Account>('account');
   const userId = session?.user?.id;
-
-  type Account = {
-    id: string;
-    user_id: string;
-    account_number: number;
-    balance: number;
-    account_type: string;
-    bank: string;
-    account_name: string;
-  };
+  const [selectedAccount, setSelectedAccount] = useState<string>();
 
   const filteredAccounts =
     accounts?.filter((account) => account.user_id === userId) || [];
 
-  const handleClick = (account: Account) => {
-    router.push(`/transfer/recipient?account_id=${account.id}`);
+  const handleClick = (selectedAccount: string) => {
+    router.push(`/transfer/recipient?account_id=${selectedAccount}`);
   };
 
   return (
-    <div className='container'>
-      <h1 className='text-center font-medium text-2xl mb-6'>
-        보낼 계좌를 선택해주세요
-      </h1>
-      <div className='w-full h-[150px]'>
-        {/* {todo} 받아오는 map이나 리스트 크기로 button 만들어야함*/}
-        {filteredAccounts.map((account) => (
-          <Button
-            key={account.id}
-            id='211'
-            variant={'ghost'}
-            className='w-full h-full'
-            onClick={() => handleClick(account)}
+    <div
+      style={{ height: 'calc(100vh - 56px)' }}
+      className='flex flex-col justify-between items-center px-6'
+    >
+      <div>
+        <div className='tossface-icon text-[4rem] pt-10 text-center'>💴</div>
+        <h1 className='text-center font-medium text-xl pt-4 mb-10'>
+          어떤 계좌로 보낼까요?
+        </h1>
+        <Select onValueChange={setSelectedAccount}>
+          <SelectTrigger
+            id='gender'
+            className='w-[300px] h-20 text-md flex items-center justify-center space-x-4 data-[placeholder]:text-gray-400 data-[placeholder]:text-center data-[placeholder]:font-light bg-white rounded-xl shadow-none focus:outline-none focus:ring-0 border-0 ring-0'
           >
-            <AccountCard
-              id={account.id}
-              accountType={account.account_type}
-              accountNumber={account.account_number}
-              balance={account.balance}
-              bank={account.bank}
-              user_id={account.user_id}
+            <SelectValue
+              placeholder='계좌를 선택해주세요'
+              className='text-center '
             />
-          </Button>
-        ))}
+          </SelectTrigger>
+          <SelectContent className='absolute w-[300px] max-h-44 overflow-y-auto focus:outline-none'>
+            {filteredAccounts.map((account) => (
+              <SelectItem
+                key={account.id}
+                value={account.id}
+                className='bg-white w-[300px] focus:outline-none'
+              >
+                <div className='w-full p-2'>
+                  <div className='w-full rounded-lg flex flex-col'>
+                    <div className='flex items-center gap-4'>
+                      <BankIcon bankId={account.bank} />
+                      <div className='flex flex-col'>
+                        <h1 className='font-medium text-left text-lg'>
+                          {account.account_type}
+                        </h1>
+                        <label className='font-light text-gray-500 text-left text-sm'>
+                          {`${account.bank} • ${account.account_number}`}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
+      <Button
+        id='211'
+        className='w-full h-10 mx-8 bg-main-green text-white text-lg hover:bg-[#479e86] focus:bg-[#479e86]'
+        onClick={() => {
+          if (selectedAccount) {
+            handleClick(selectedAccount);
+          } else {
+            alert('계좌를 선택해주세요.');
+          }
+        }}
+      >
+        다음
+      </Button>
     </div>
   );
 }

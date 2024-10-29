@@ -6,7 +6,7 @@ interface InputFieldProps {
   inputRef?: React.RefObject<HTMLInputElement>;
   inputClassName?: string;
   labelClassName?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export default function InputField({
