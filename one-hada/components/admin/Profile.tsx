@@ -8,7 +8,7 @@ export default function Profile() {
   return (
     <div>
       <div className='text-gray-400 text-xl'>
-        안녕하세요, {session.loginUser.name} 님!
+        안녕하세요, {session.loginUser.agent_name} 님!
       </div>
     </div>
   );

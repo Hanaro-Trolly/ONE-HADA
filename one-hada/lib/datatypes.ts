@@ -1,8 +1,8 @@
 type User = {
   id: string;
   user_name: string;
-  user_email: string | null | undefined;
-  user_gender: string;
+  user_email: string | undefined;
+  user_gender: 'male' | 'female';
   user_phone: string;
   user_address: string;
   user_birth: string;
@@ -33,8 +33,8 @@ type History = {
 type Shortcut = {
   id: string;
   user_id: string;
-  shortcut_params: string;
   shortcut_name: string;
+  shortcutUrl: string;
   is_Favorite: boolean;
 };
 

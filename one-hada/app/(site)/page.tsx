@@ -8,6 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { useSession } from 'next-auth/react';
 import { FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -19,8 +20,10 @@ export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const userId = '1';
+  const { data: session } = useSession();
 
+  const userId = '1';
+  // const userId = session?.user.id;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -48,13 +51,16 @@ export default function Home() {
       className='flex flex-col pt-2 px-6'
     >
       <div className='w-1/3 h-[12%] pt-3 px-2'>
-        <div className='text-[#635666]'>
-          <label className='text-xl font-medium text-[#698596]'>
-            {user?.user_name}
-          </label>{' '}
-          님,
-        </div>
-        안녕하세요.
+        {session?.user ? (
+          <div className='text-[#635666]'>
+            <label className='text-xl font-medium text-[#698596]'>
+              {user?.user_name}
+            </label>{' '}
+            님, <div>안녕하세요.</div>
+          </div>
+        ) : (
+          <div className='text-[#635666]'>로그인 후 이용해주세요</div>
+        )}
       </div>
       <div className='h-1/2 mb-4 flex flex-col'>
         <div className='w-full h-1/2 p-2'>
@@ -103,28 +109,32 @@ export default function Home() {
         <div className='text-lg text-[#635666] flex gap-1 items-stretch mb-4 font-medium'>
           <FaStar className='text-yellow-400 text-2xl' /> 즐겨찾기
         </div>
-        <div className='flex justify-center text-black'>
-          <Carousel
-            opts={{ align: 'start', loop: true }}
-            className='h-16 mx-8 w-full'
-          >
-            <CarouselContent>
-              {favoriteList.map((item, idx) => (
-                <CarouselItem key={idx}>
-                  <Button
-                    id={'favoriteBtn-' + item.id}
-                    variant='home'
-                    className='h-16 w-full bg-white text-black mx-2 font-medium rounded-xl hover:bg-[#F0F0F0]'
-                  >
-                    {item.shortcut_name}
-                  </Button>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious variant='ghost' size='xl' />
-            <CarouselNext variant='ghost' size='xl' />
-          </Carousel>
-        </div>
+        {session?.user ? (
+          <div className='flex justify-center text-black'>
+            <Carousel
+              opts={{ align: 'start', loop: true }}
+              className='h-16 mx-8 w-full'
+            >
+              <CarouselContent>
+                {favoriteList.map((item, idx) => (
+                  <CarouselItem key={idx}>
+                    <Button
+                      id={'favoriteBtn-' + item.id}
+                      variant='home'
+                      className='h-16 w-full bg-white text-black mx-2 font-medium rounded-xl hover:bg-[#F0F0F0]'
+                    >
+                      {item.shortcut_name}
+                    </Button>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious variant='ghost' size='xl' />
+              <CarouselNext variant='ghost' size='xl' />
+            </Carousel>
+          </div>
+        ) : (
+          <div className='text-center'>로그인 후 이용해주세요</div>
+        )}
       </div>
       <div className='flex-grow'></div>
       <footer>
@@ -135,7 +145,7 @@ export default function Home() {
               variant='ghost'
               className='w-full h-full text-[#635666] text-xl'
             >
-              전화상담
+              <div className='tossface-icon'>📞</div>전화상담
             </Button>
           </Link>
         </div>
