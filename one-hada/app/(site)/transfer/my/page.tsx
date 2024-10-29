@@ -51,12 +51,12 @@ export default function TransferPage() {
               className='text-center '
             />
           </SelectTrigger>
-          <SelectContent className='focus:outline-none'>
+          <SelectContent className='absolute w-[300px] max-h-44 overflow-y-auto focus:outline-none'>
             {filteredAccounts.map((account) => (
               <SelectItem
                 key={account.id}
                 value={account.id}
-                className='bg-white focus:outline-none'
+                className='bg-white w-[300px] focus:outline-none'
               >
                 <div className='w-full p-2'>
                   <div className='w-full rounded-lg flex flex-col'>
@@ -80,7 +80,7 @@ export default function TransferPage() {
       </div>
       <Button
         id='211'
-        className='w-full h-10 mx-8 bg-main-green text-white text-lg focus:bg-main-green'
+        className='w-full h-10 mx-8 bg-main-green text-white text-lg hover:bg-[#479e86] focus:bg-[#479e86]'
         onClick={() => {
           if (selectedAccount) {
             handleClick(selectedAccount);

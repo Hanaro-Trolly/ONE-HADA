@@ -98,16 +98,18 @@ export default function AmountInput() {
       style={{ height: 'calc(100vh - 56px)' }}
       className='flex flex-col justify-between items-center px-6'
     >
-      <div className=' w-full rounded-lg mb-6 text-center'>
-        <div className='mb-6'>
-          <p className='font-semibold text-xl text-[#635666] mt-2 mb-2'>
-            {recipientName}
-          </p>
-          <div className='text-gray-400 border-b-2'>
-            {bankName} {recipientNumber}
+      <div className=' w-full rounded-lg mb-2 text-center'>
+        <div className='mb-5'>
+          <div className='border-b-2 py-2'>
+            <span className='font-medium text-lg text-gray-700 mt-2'>
+              {recipientName}
+            </span>
+            <span className='text-gray-400 text-sm'>
+              ({bankName} {recipientNumber})
+            </span>
           </div>
           <p
-            className={`text-xl mb-2 mt-6 ${amount ? 'font-semibold text-black' : 'font-medium text-gray-400'}`}
+            className={`text-xl  mt-4 ${amount ? 'font-medium text-black' : 'font-medium text-gray-400'}`}
           >
             {amount ? (
               <span>{`${Number(amount).toLocaleString()} 원`}</span>
@@ -129,35 +131,35 @@ export default function AmountInput() {
           <TypeButton
             onClick={() => handleSpecialAmount(10000)}
             button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem]'
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF]'
           >
             +1만
           </TypeButton>
           <TypeButton
             onClick={() => handleSpecialAmount(50000)}
             button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem]'
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF]'
           >
             +5만
           </TypeButton>
           <TypeButton
             onClick={() => handleSpecialAmount(100000)}
             button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem]'
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF]'
           >
             +10만
           </TypeButton>
           <TypeButton
             onClick={() => handleSpecialAmount(1000000)}
             button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem]'
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF]'
           >
             +100만
           </TypeButton>
           <TypeButton
             onClick={handleMaxAmount}
             button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem]'
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF]'
           >
             전액
           </TypeButton>
@@ -184,7 +186,7 @@ export default function AmountInput() {
       </div>
       <Button
         id='231'
-        className='w-full text-white text-lg bg-main-green  py-3 rounded mt-6  transition'
+        className='w-full text-white text-lg bg-main-green  py-3 rounded hover:bg-[#479e86] focus:bg-[#479e86] transition'
         onClick={() => handleClick()}
       >
         다음

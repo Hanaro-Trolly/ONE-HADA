@@ -191,7 +191,7 @@ export default function RecipientPage({
       </Select> */}
       <Button
         id='223'
-        className='w-full text-white text-lg bg-main-green  py-3 rounded mt-6 hover:bg-[#377b68] transition'
+        className='w-full text-white text-lg bg-main-green  py-3 rounded mt-6 focus:bg-[#479e86] hover:bg-[#479e86] transition'
         onClick={() => handleClick()}
       >
         다음

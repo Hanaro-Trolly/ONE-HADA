@@ -120,7 +120,7 @@ export default function TransferConfirmation() {
       <Button
         id='241'
         onClick={() => handleClick()}
-        className='w-full text-white text-lg bg-main-green  py-3 rounded mt-6  transition'
+        className='w-full text-white text-lg bg-main-green hover:bg-[#479e86]  focus:bg-[#479e86] py-3 rounded mt-6  transition'
       >
         확인
       </Button>
