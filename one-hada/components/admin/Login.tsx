@@ -30,7 +30,7 @@ export default function Login() {
 
   return (
     <div className='min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
-      <div className='max-w-md w-full space-y-8 bg-gray-50 p-8 rounded-xl shadow-lg'>
+      <div className='max-w-md w-full space-y-8 bg-gray-50 px-28 py-8 rounded-xl shadow-lg'>
         <div>
           <div className='flex justify-center'>
             <Image
