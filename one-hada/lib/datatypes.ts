@@ -54,6 +54,7 @@ type Account = {
   balance: number;
   account_type: string;
   bank: string;
+  account_name: string;
 };
 
 type Transaction = {
