@@ -107,7 +107,7 @@ export default function AmountInput() {
             {bankName} {recipientNumber}
           </div>
           <p
-            className={`text-xl mb-2 mt-6 ${amount ? 'font-bold text-black' : 'font-medium text-gray-400'}`}
+            className={`text-xl mb-2 mt-6 ${amount ? 'font-semibold text-black' : 'font-medium text-gray-400'}`}
           >
             {amount ? (
               <span>{`${Number(amount).toLocaleString()} 원`}</span>
@@ -184,7 +184,7 @@ export default function AmountInput() {
       </div>
       <Button
         id='231'
-        className='w-full text-white text-lg bg-main-green  py-3 rounded mt-6 hover:bg-[#377b68] transition'
+        className='w-full text-white text-lg bg-main-green  py-3 rounded mt-6  transition'
         onClick={() => handleClick()}
       >
         다음
