@@ -1,45 +1,64 @@
 'use client';
 
-import dummy from '@/c-dummy/account_d.json';
 import BankIcon from '@/components/molecules/BankIcon';
 import TypeButton from '@/components/molecules/TypeButton';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getData } from '@/lib/api';
+import { Account } from '@/lib/datatypes';
 
-type AccountData = {
-  account_id: string;
-  user_id: string;
-  account_number: number;
-  balance: number;
-  account_type: string;
-  bank: string;
-  account_name: string;
-};
+// type AccountData = {
+//   account_id: string;
+//   user_id: string;
+//   account_number: number;
+//   balance: number;
+//   account_type: string;
+//   bank: string;
+//   account_name: string;
+// };
+
 export default function AccountDetailPage({
   params,
 }: {
   params: { accountId: string };
 }) {
   const { accountId } = params;
+  const [account, setAccount] = useState<Account | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState<string>('전체');
   const [selectedType, setSelectedType] = useState<string>('전체');
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
-  const account: AccountData | undefined = dummy.accounts.find((acc) => {
-    return acc.account_id === accountId;
-  });
+
+  // account 데이터 가져오기
+  useEffect(() => {
+    const fetchAccount = async () => {
+      try {
+        const data = await getData<Account>('accounts', accountId); // 'accounts' 리소스에서 accountId로 데이터 가져오기
+        setAccount(data); // 가져온 데이터를 상태로 설정
+      } catch (error) {
+        console.error('계좌 데이터 가져오기 오류:', error);
+      }
+    };
+
+    fetchAccount();
+  }, [accountId]);
+
+  // account가 없을 때 처리
   if (!account) {
     return <div>계좌를 찾을 수 없습니다.</div>;
   }
+
   const handlePeriodClick = (period: string) => {
     setSelectedPeriod(period);
     setStartDate('');
     setEndDate('');
   };
+
   const handleTypeClick = (type: string) => {
     setSelectedType(type);
   };
+
   return (
     <div className='bg-[#DCEFEA] min-h-screen flex flex-col'>
       <div className='flex items-center ml-4 mt-4'>
@@ -52,18 +71,7 @@ export default function AccountDetailPage({
         </div>
       </div>
 
-      {/* <AccountCard 
-        id={account.account_id}
-        user_id={account.user_id}
-        accountNumber={account.account_number}
-        balance={account.balance}
-        accountType={account.account_type}
-        bank={account.bank}
-        name={account.account_name}
-      /> */}
-
       <div className='bg-white shadow-md rounded-lg mt-8 p-8 flex-grow'>
-        {/* flex-grow 추가 */}
         <h2 className='text-lg font-bold mb-4'>조회 옵션</h2>
         <div className='mb-10'>
           <p className='text-md font-semibold'>조회기간</p>
@@ -125,6 +133,7 @@ export default function AccountDetailPage({
             </TypeButton>
           </div>
         </div>
+
         <div className='mb-4'>
           <div className='flex gap-4 mt-2'>
             <input
@@ -149,6 +158,7 @@ export default function AccountDetailPage({
             />
           </div>
         </div>
+
         {/* 거래 구분 */}
         <div className='mb-10'>
           <p className='text-md mt-10 font-semibold'>거래 구분</p>
@@ -188,6 +198,7 @@ export default function AccountDetailPage({
             </TypeButton>
           </div>
         </div>
+
         <div className='mb-10 '>
           <p className='text-md  font-semibold'>검색어</p>
           <input
@@ -198,9 +209,10 @@ export default function AccountDetailPage({
             placeholder='검색어 입력'
           />
         </div>
+
         {/* 조회하기 버튼 */}
         <Link
-          href={`/check/${account.account_id}/detail?period=${selectedPeriod}&type=${selectedType}&accountId=${account.account_id}&startDate=${startDate}&endDate=${endDate}&search=${searchKeyword}`}
+          href={`/check/${account.id}/detail?period=${selectedPeriod}&type=${selectedType}&accountId=${account.id}&startDate=${startDate}&endDate=${endDate}&search=${searchKeyword}`}
         >
           <div className='flex justify-center'>
             <button className='w-4/5 mt-10 px-6 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377B68]'>

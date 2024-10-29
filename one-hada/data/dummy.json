@@ -370,14 +370,15 @@
       "consultation_date": "2024-10-23T13:00:00Z"
     }
   ],
-  "account": [
+  "accounts": [
     {
       "id": "1",
       "user_id": "1730077977283",
       "account_number": 1000000001,
       "balance": 5000000,
       "account_type": "저축",
-      "bank": "하나은행"
+      "bank": "하나은행",
+      "account_name": "하나은행 저축통장"
     },
     {
       "id": "2",
@@ -385,7 +386,8 @@
       "account_number": 1000000002,
       "balance": 1500000000,
       "account_type": "예금",
-      "bank": "하나은행"
+      "bank": "하나은행",
+      "account_name": "하나은행 예금통장"
     },
     {
       "id": "3",
@@ -393,7 +395,8 @@
       "account_number": 1000000003,
       "balance": 3000000,
       "account_type": "입출금",
-      "bank": "하나은행"
+      "bank": "하나은행",
+      "account_name": "하나은행 입출금통장"
     },
     {
       "id": "4",
@@ -401,7 +404,8 @@
       "account_number": 2000000001,
       "balance": 12000000,
       "account_type": "정기예금",
-      "bank": "신한은행"
+      "bank": "신한은행",
+      "account_name": "신한은행 정기예금통장"
     },
     {
       "id": "5",
@@ -409,7 +413,8 @@
       "account_number": 2000000002,
       "balance": 8000000,
       "account_type": "저축",
-      "bank": "넘옙브넹~"
+      "bank": "넘옙브넹~",
+      "account_name": "넘옙브넹 저축통장"
     },
     {
       "id": "6",
@@ -417,7 +422,8 @@
       "account_number": 2000000003,
       "balance": 2500000,
       "account_type": "입출금",
-      "bank": "기업은행"
+      "bank": "기업은행",
+      "account_name": "기업은행 입출금통장"
     },
     {
       "id": "7",
@@ -425,7 +431,8 @@
       "account_number": 3000000001,
       "balance": 7000000,
       "account_type": "저축",
-      "bank": "토스뱅크"
+      "bank": "토스뱅크",
+      "account_name": "토스뱅크 저축통장"
     },
     {
       "id": "8",
@@ -433,41 +440,46 @@
       "account_number": 4000000001,
       "balance": 4000000,
       "account_type": "입출금",
-      "bank": "하나은행"
+      "bank": "하나은행",
+      "account_name": "하나은행 입출금통장"
     }
   ],
-  "transaction": [
+  "transactions": [
     {
       "id": "1",
-      "sender_account_id": "1730077977283",
+      "sender_account_id": "1",
       "receiver_account_id": "4",
       "amount": 1000000,
       "sender_viewer": "정성현",
-      "receiver_viewer": "정성현"
+      "receiver_viewer": "정성현",
+      "transaction_date": "2024-10-03T09:45:00"
     },
     {
       "id": "2",
-      "sender_account_id": "1730077977283",
+      "sender_account_id": "1",
       "receiver_account_id": "1",
       "amount": 500000,
       "sender_viewer": "문규빈",
-      "receiver_viewer": "문규빈"
+      "receiver_viewer": "문규빈",
+      "transaction_date": "2024-10-03T09:45:00"
     },
     {
       "id": "3",
-      "sender_account_id": "1730077977283",
+      "sender_account_id": "1",
       "receiver_account_id": "4",
       "amount": 200000,
       "sender_viewer": "정성현",
-      "receiver_viewer": "트롤리"
+      "receiver_viewer": "트롤리",
+      "transaction_date": "2024-10-03T09:45:00"
     },
     {
       "id": "4",
-      "sender_account_id": "1730077977283",
+      "sender_account_id": "1",
       "receiver_account_id": "5",
       "amount": 300000,
       "sender_viewer": "정성현",
-      "receiver_viewer": "성현성현"
+      "receiver_viewer": "성현성현",
+      "transaction_date": "2024-10-03T09:45:00"
     },
     {
       "id": "5",
@@ -475,7 +487,8 @@
       "receiver_account_id": "3",
       "amount": 700000,
       "sender_viewer": "강민관",
-      "receiver_viewer": "민관민민"
+      "receiver_viewer": "민관민민",
+      "transaction_date": "2024-10-03T09:45:00"
     },
     {
       "id": "6",
@@ -483,7 +496,8 @@
       "receiver_account_id": "1",
       "amount": 250000,
       "sender_viewer": "박시온",
-      "receiver_viewer": "시온시온"
+      "receiver_viewer": "시온시온",
+      "transaction_date": "2024-10-03T09:45:00"
     },
     {
       "id": "7",
@@ -491,7 +505,8 @@
       "receiver_account_id": "7",
       "amount": 100000,
       "sender_viewer": "강민관",
-      "receiver_viewer": "용돈"
+      "receiver_viewer": "용돈",
+      "transaction_date": "2024-10-03T09:45:00"
     },
     {
       "id": "8",
@@ -499,7 +514,8 @@
       "receiver_account_id": "8",
       "amount": 150000,
       "sender_viewer": "문규빈",
-      "receiver_viewer": "수고비"
+      "receiver_viewer": "수고비",
+      "transaction_date": "2024-10-03T09:45:00"
     },
     {
       "id": "9",
@@ -507,7 +523,8 @@
       "receiver_account_id": "3",
       "amount": 600000,
       "sender_viewer": "강민관",
-      "receiver_viewer": "수고비"
+      "receiver_viewer": "수고비",
+      "transaction_date": "2024-10-03T09:45:00"
     },
     {
       "id": "10",
@@ -515,7 +532,8 @@
       "receiver_account_id": "5",
       "amount": 200000,
       "sender_viewer": "정성현",
-      "receiver_viewer": "페이백"
+      "receiver_viewer": "페이백",
+      "transaction_date": "2024-10-03T09:45:00"
     },
     {
       "id": "11",
@@ -523,7 +541,8 @@
       "receiver_account_id": "5",
       "amount": 800000,
       "sender_viewer": "강민관",
-      "receiver_viewer": "민관강"
+      "receiver_viewer": "민관강",
+      "transaction_date": "2024-10-03T09:45:00"
     },
     {
       "id": "12",
@@ -531,7 +550,8 @@
       "receiver_account_id": "4",
       "amount": 900000,
       "sender_viewer": "문규빈",
-      "receiver_viewer": "규빈문"
+      "receiver_viewer": "규빈문",
+      "transaction_date": "2024-10-03T09:45:00"
     },
     {
       "id": "13",
@@ -539,7 +559,8 @@
       "receiver_account_id": "1",
       "amount": 1000000,
       "sender_viewer": "박시온",
-      "receiver_viewer": "용돈"
+      "receiver_viewer": "용돈",
+      "transaction_date": "2024-01-03T09:45:00"
     },
     {
       "id": "14",
@@ -547,7 +568,8 @@
       "receiver_account_id": "8",
       "amount": 500000,
       "sender_viewer": "정성현",
-      "receiver_viewer": "성성현현"
+      "receiver_viewer": "성성현현",
+      "transaction_date": "2024-09-03T09:45:00"
     },
     {
       "id": "15",
@@ -555,7 +577,8 @@
       "receiver_account_id": "5",
       "amount": 300000,
       "sender_viewer": "문규빈",
-      "receiver_viewer": "문문"
+      "receiver_viewer": "문문",
+      "transaction_date": "2024-10-04T09:45:00"
     }
   ]
 }

@@ -1,38 +1,49 @@
 'use client';
 
-import dummy from '@/c-dummy/account_d.json';
+// API 호출 함수 가져오기
 import AccountCard from '@/components/molecules/AccountCard';
 import AccountTypeButton from '@/components/molecules/AccountTypeButton';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchAllData } from '@/lib/api';
 
 type AccountData = {
-  account_id: string;
+  id: string;
   user_id: string;
   account_number: number;
   balance: number;
   account_type: string;
   bank: string;
   account_name: string;
-}[];
+};
 
 export default function CheckPage() {
-  const accountData: AccountData = dummy.accounts;
-
-  // 상태로 선택된 account_type을 저장
+  const [accountData, setAccountData] = useState<AccountData[]>([]);
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  //   const [selectedType, setSelectedType] = useState<string>('입출금');
+
+  useEffect(() => {
+    // API에서 account 데이터를 가져오는 함수
+    const fetchData = async () => {
+      try {
+        const data = await fetchAllData<AccountData>('accounts'); // accounts는 API 리소스 경로
+        setAccountData(data);
+      } catch (error) {
+        console.error('Error fetching account data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const totalBalance = accountData.reduce(
     (total, account) => total + account.balance,
     0
   );
 
-  // account_type을 기준으로 필터링
   const filteredAccounts = selectedType
     ? accountData.filter((account) => account.account_type === selectedType)
     : accountData;
-
+  console.log(filteredAccounts);
   return (
     <div>
       <h1 className='text-center text-3xl font-medium mt-4'>내 계좌</h1>
@@ -43,7 +54,6 @@ export default function CheckPage() {
         </span>
       </div>
 
-      {/* 버튼 클릭 시 account_type을 설정 */}
       <div className='flex justify-center space-x-4 mb-4'>
         <AccountTypeButton
           account_type='입출금'
@@ -71,19 +81,17 @@ export default function CheckPage() {
         </AccountTypeButton>
       </div>
 
-      {/* 필터링된 계좌를 표시 */}
       <div>
         {filteredAccounts.map((account) => (
-          <Link href={`/check/${account.account_id}`} key={account.account_id}>
+          <Link href={`/check/${account.id}`}>
             <div>
               <AccountCard
-                id={account.account_id}
+                id={account.id}
                 user_id={account.user_id}
                 accountNumber={account.account_number}
                 balance={account.balance}
                 accountType={account.account_type}
                 bank={account.bank}
-                name={account.account_name}
               />
             </div>
           </Link>
