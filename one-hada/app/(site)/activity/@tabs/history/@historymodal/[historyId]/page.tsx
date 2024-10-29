@@ -11,10 +11,11 @@ import { Account, History, Shortcut } from '@/lib/datatypes';
 const BASE_URL = 'http://localhost:3000/';
 const TRANSFERPARAM = ['recipient', 'amount', 'vaildation'];
 const INQUIRYPARAM = [
-  'account_id',
+  'accound_id',
+  'period',
   'start_date',
   'end_date',
-  'check_type',
+  'type',
   'search',
 ];
 
@@ -63,15 +64,25 @@ export default function HistoryModalPage({
         });
       } else if (history?.history_type === 'inquiry') {
         //TODO: 여기 강희 조회 URL 형식 맞춰야함
-        shortcutUrl += 'transfer/check?';
+        //‘자기계좌id#period#startdate#enddate#type#searchkey’
+        //  'accound_id','period','start_date','end_date','type','search',
+        shortcutUrl += 'check/';
+        shortcutUrl += myAccount.current?.id + '/detail?';
         checkedList.forEach((idx) => {
-          if (+idx < 2) {
-            shortcutUrl += INQUIRYPARAM[+idx] + '=' + params[+idx] + '&';
-            if (+idx === 1)
-              shortcutUrl += INQUIRYPARAM[2] + '=' + params[+idx + 1] + '&';
-          } else
-            shortcutUrl +=
-              INQUIRYPARAM[+idx + 1] + '=' + params[+idx + 1] + '&';
+          if (idx === '0')
+            shortcutUrl += INQUIRYPARAM[0] + '=' + params[0] + '&';
+          else if (idx === '1') {
+            if (params[1] !== '')
+              shortcutUrl += INQUIRYPARAM[1] + '=' + params[1] + '&';
+            else {
+              shortcutUrl += INQUIRYPARAM[2] + '=' + params[2] + '&';
+              shortcutUrl += INQUIRYPARAM[3] + '=' + params[3] + '&';
+            }
+          } else if (idx === '2') {
+            shortcutUrl += INQUIRYPARAM[4] + '=' + params[4] + '&';
+          } else if (idx === '3') {
+            shortcutUrl += INQUIRYPARAM[5] + '=' + params[5] + '&';
+          }
         });
       } else {
         shortcutUrl += 'menu/' + params[0] + '/';
@@ -121,16 +132,17 @@ export default function HistoryModalPage({
             setCheckedList(Array.from({ length: 3 }, (v, i) => '' + i));
           } else if (data.history_type === 'inquiry') {
             myAccount.current = await getData<Account>('account', params[0]);
-            setCheckPoints([
+            const initInquiry: string[] = [
               (myAccount.current?.bank || '') +
                 (' ' + myAccount.current?.account_number || ''),
-              params[1] + ' ~ ' + params[2],
-              params[3],
-              params[4],
-            ]);
+            ];
+            if (params[1]) initInquiry.push(params[1]);
+            else initInquiry.push(params[2] + ' ~ ' + params[3]);
+            if (params[4]) initInquiry.push(params[4]);
+            if (params[5]) initInquiry.push(params[5]);
+            setCheckPoints(initInquiry);
             setCheckedList(Array.from({ length: 4 }, (v, i) => '' + i));
           }
-          console.log(checkedList);
         } else {
           console.error('No history found for the user.');
         }

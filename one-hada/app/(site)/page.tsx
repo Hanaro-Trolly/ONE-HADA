@@ -120,13 +120,15 @@ export default function Home() {
                 <CarouselContent>
                   {favoriteList.map((item, idx) => (
                     <CarouselItem key={idx}>
-                      <Button
-                        id={'favoriteBtn-' + item.id}
-                        variant='home'
-                        className='h-16 w-full bg-white text-black mx-2 font-medium rounded-xl hover:bg-[#F0F0F0]'
-                      >
-                        {item.shortcut_name}
-                      </Button>
+                      <Link href={item.shortcutUrl}>
+                        <Button
+                          id={'favoriteBtn-' + item.id}
+                          variant='home'
+                          className='h-16 w-full bg-white text-black mx-2 font-medium rounded-xl hover:bg-[#F0F0F0]'
+                        >
+                          {item.shortcut_name}
+                        </Button>
+                      </Link>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
