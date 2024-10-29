@@ -3,6 +3,7 @@
 // API 호출 함수 가져오기
 import AccountCard from '@/components/molecules/AccountCard';
 import AccountTypeButton from '@/components/molecules/AccountTypeButton';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { fetchAllData } from '@/lib/api';
@@ -18,6 +19,10 @@ type AccountData = {
 };
 
 export default function CheckPage() {
+  const { data: session } = useSession();
+  // const userId = session?.user.id;
+  const userId = '1';
+  console.log('🚀 ~ CheckPage ~ userId:', userId);
   const [accountData, setAccountData] = useState<AccountData[]>([]);
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
@@ -25,7 +30,9 @@ export default function CheckPage() {
     // API에서 account 데이터를 가져오는 함수
     const fetchData = async () => {
       try {
-        const data = await fetchAllData<AccountData>('accounts'); // accounts는 API 리소스 경로
+        const data = await fetchAllData<AccountData>(
+          `account?user_id=${userId}`
+        ); // accounts는 API 리소스 경로
         setAccountData(data);
       } catch (error) {
         console.error('Error fetching account data:', error);
@@ -33,7 +40,7 @@ export default function CheckPage() {
     };
 
     fetchData();
-  }, []);
+  }, [userId]);
 
   const totalBalance = accountData.reduce(
     (total, account) => total + account.balance,
