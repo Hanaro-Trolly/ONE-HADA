@@ -40,8 +40,6 @@ export default function RecipientPage({
         account.account_number.toString() === accountNumber &&
         account.bank === selectedBank
     );
-    console.log(selectedBank);
-    console.log('d', recipientAccounts);
 
     if (matchingAccount) {
       router.push(

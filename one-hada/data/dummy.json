@@ -60,7 +60,35 @@
       "user_google": "112287508448169046665",
       "user_kakao": "3762386136",
       "user_naver": null,
-      "simple_password": ["1", "1", "1", "1", "1", "1"]
+      "simple_password": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1"
+      ]
+    },
+    {
+      "id": "1730119322267",
+      "user_name": "문규빈",
+      "user_gender": "male",
+      "user_birth": "2000-05-26",
+      "user_phone": "010-9178-8444",
+      "user_address": "화성",
+      "user_email": "joemoon0526@gmail.com",
+      "user_register": "2024-10-28T12:42:22.863Z",
+      "user_google": "118380181517390185679",
+      "user_kakao": null,
+      "user_naver": null,
+      "simple_password": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1"
+      ]
     }
   ],
   "agent": [
@@ -222,6 +250,87 @@
       "history_name": "1년간 결제내역 조회",
       "activity_date": "2024-10-22T10:00:00Z",
       "is_Shortcut": true
+    },
+    {
+      "id": "1730132444447",
+      "user_id": "1730119322267",
+      "history_name": "'1730077977283'님께 120000원 송금",
+      "activity_date": "2024-10-28T16:20:44.501Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1730077977283'님께 120000원 송금"
+    },
+    {
+      "id": "1730132902727",
+      "user_id": "1730119322267",
+      "history_name": "'1730077977283'님께 120000원 송금",
+      "activity_date": "2024-10-28T16:28:22.767Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#1730077977283#120000"
+    },
+    {
+      "id": "1730134210042",
+      "user_id": "1730119322267",
+      "history_name": "'1730077977283'님께 50000원 송금",
+      "activity_date": "2024-10-28T16:50:10.094Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#1730077977283#50000"
+    },
+    {
+      "id": "1730135640711",
+      "user_id": "1730119322267",
+      "history_name": "'1730119322267'님께 200002원 송금",
+      "activity_date": "2024-10-28T17:14:00.786Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#null#200002"
+    },
+    {
+      "id": "1730136038396",
+      "user_id": "1730119322267",
+      "history_name": "'1730119322267'님께 200002원 송금",
+      "activity_date": "2024-10-28T17:20:38.456Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#null#200002"
+    },
+    {
+      "id": "1730136096008",
+      "user_id": "1730119322267",
+      "history_name": "'1730119322267'님께 200002원 송금",
+      "activity_date": "2024-10-28T17:21:36.024Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#null#200002"
+    },
+    {
+      "id": "1730162614676",
+      "user_id": "1730119322267",
+      "history_name": "'1730077977283'님께 1000002원 송금",
+      "activity_date": "2024-10-29T00:43:34.726Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#null#1000002"
+    },
+    {
+      "id": "1730163483693",
+      "user_id": "1730119322267",
+      "history_name": "'1730119322267'님께 5555원 송금",
+      "activity_date": "2024-10-29T00:58:03.790Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#null#5555"
+    },
+    {
+      "id": "1730163564328",
+      "user_id": "1730119322267",
+      "history_name": "'2'님께 2222원 송금",
+      "activity_date": "2024-10-29T00:59:24.366Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#4#2222"
     }
   ],
   "shortcut": [
@@ -342,7 +451,7 @@
   "account": [
     {
       "id": "1",
-      "user_id": "1730077977283",
+      "user_id": "1730119322267",
       "account_number": 1000000001,
       "balance": 5000000,
       "account_type": "저축",
@@ -525,6 +634,86 @@
       "amount": 300000,
       "sender_viewer": "문규빈",
       "receiver_viewer": "문문"
+    },
+    {
+      "id": "1730130922547",
+      "sender_account_id": "1",
+      "receiver_account_id": "1730077977283",
+      "amount": 5000000,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행"
+    },
+    {
+      "id": "1730132444447",
+      "sender_account_id": "1",
+      "receiver_account_id": "1730077977283",
+      "amount": 120000,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행"
+    },
+    {
+      "id": "1730132902727",
+      "sender_account_id": "1",
+      "receiver_account_id": "1730077977283",
+      "amount": 120000,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행"
+    },
+    {
+      "id": "1730134210042",
+      "sender_account_id": "1",
+      "receiver_account_id": "1730077977283",
+      "amount": 50000,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행"
+    },
+    {
+      "id": "1730135640711",
+      "sender_account_id": "1",
+      "receiver_account_id": null,
+      "amount": 200002,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행"
+    },
+    {
+      "id": "1730136038396",
+      "sender_account_id": "1",
+      "receiver_account_id": null,
+      "amount": 200002,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행"
+    },
+    {
+      "id": "1730136096008",
+      "sender_account_id": "1",
+      "receiver_account_id": null,
+      "amount": 200002,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행"
+    },
+    {
+      "id": "1730162614676",
+      "sender_account_id": "1",
+      "receiver_account_id": null,
+      "amount": 1000002,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행"
+    },
+    {
+      "id": "1730163483693",
+      "sender_account_id": "1",
+      "receiver_account_id": "1",
+      "amount": 5555,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행"
+    },
+    {
+      "id": "1730163564328",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 2222,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "신한은행"
     }
   ]
 }
