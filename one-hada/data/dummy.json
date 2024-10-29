@@ -515,7 +515,7 @@
       "user_id": "1730119322267",
       "account_number": 1000000001,
       "balance": 5000000,
-      "account_type": "저축",
+      "account_type": "예적금",
       "bank": "하나은행",
       "account_name": "하나은행 저축통장"
     },
@@ -524,7 +524,7 @@
       "user_id": "1730103306576",
       "account_number": 1000000002,
       "balance": 1500000000,
-      "account_type": "예금",
+      "account_type": "예적금",
       "bank": "하나은행",
       "account_name": "하나은행 예금통장"
     },
@@ -542,7 +542,7 @@
       "user_id": "2",
       "account_number": 2000000001,
       "balance": 12000000,
-      "account_type": "정기예금",
+      "account_type": "예적금",
       "bank": "신한은행",
       "account_name": "신한은행 정기예금통장"
     },
@@ -551,7 +551,7 @@
       "user_id": "2",
       "account_number": 2000000002,
       "balance": 8000000,
-      "account_type": "저축",
+      "account_type": "예적금",
       "bank": "넘옙브넹~",
       "account_name": "넘옙브넹 저축통장"
     },
@@ -569,7 +569,7 @@
       "user_id": "3",
       "account_number": 3000000001,
       "balance": 7000000,
-      "account_type": "저축",
+      "account_type": "예적금",
       "bank": "토스뱅크",
       "account_name": "토스뱅크 저축통장"
     },
