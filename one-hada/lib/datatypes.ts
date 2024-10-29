@@ -24,6 +24,8 @@ type History = {
   id: string;
   user_id: string;
   history_name: string;
+  history_type: 'inquiry' | 'transfer' | 'acc';
+  history_params: string;
   activity_date: Date;
   is_Shortcut: boolean;
 };
@@ -31,7 +33,7 @@ type History = {
 type Shortcut = {
   id: string;
   user_id: string;
-  history_id: string;
+  shortcut_params: string;
   shortcut_name: string;
   is_Favorite: boolean;
 };
@@ -52,6 +54,7 @@ type Account = {
   balance: number;
   account_type: string;
   bank: string;
+  account_name: string;
 };
 
 type Transaction = {

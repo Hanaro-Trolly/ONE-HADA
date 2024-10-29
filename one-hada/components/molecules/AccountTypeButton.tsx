@@ -17,7 +17,7 @@ export default function AccountTypeButton({
   return (
     <Button
       id={account_type}
-      className='px-4 py-2 bg-[#61B89F] text-black rounded-[2rem] hover:bg-[#377b68]'
+      className='px-4 py-2 bg-[#61B89F] text-white rounded-full hover:bg-[#377b68]'
       onClick={onClick}
       {...rest}
     >

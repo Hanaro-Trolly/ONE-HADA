@@ -3,31 +3,17 @@
 import ShortCutCard from '@/components/molecules/ShortCutCard';
 import SmallButton from '@/components/molecules/SmallButton';
 import { Edit2Icon, RotateCcwIcon, Trash2Icon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { deleteData, getDataByUserId, updateData } from '@/lib/api';
+import { Shortcut } from '@/lib/datatypes';
 
-type ShortCut = {
-  id: string;
-  title: string;
-  isFavorite: boolean;
-};
-const Temp: ShortCut[] = [
-  { id: '1', title: '오늘 결제내역', isFavorite: true },
-  { id: '2', title: '철수한테 송금', isFavorite: false },
-  { id: '3', title: '밥플러스 결제내역', isFavorite: false },
-  { id: '4', title: '예금계좌 조회', isFavorite: false },
-  { id: '5', title: '강희한테 2000원 송금', isFavorite: true },
-  { id: '6', title: '대출하기', isFavorite: false },
-  { id: '7', title: '관리비 납부', isFavorite: true },
-  { id: '8', title: '시온이한테 7억 송금', isFavorite: false },
-];
-
-const favoriteList = Temp.filter(({ isFavorite }) => isFavorite);
-const normalList = Temp.filter(({ isFavorite }) => !isFavorite);
 export default function ShortCutPage() {
   const [isDelete, setIsDelete] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set());
+  const [shortCuts, setShortCuts] = useState<Shortcut[]>([]);
+  const userId = '1';
 
-  const toggle = () => setIsDelete((pre) => !pre);
+  const toggle = () => setIsDelete((prev) => !prev);
 
   const handleCheckboxChange = (id: string) => {
     setCheckedItems((prev) => {
@@ -41,11 +27,52 @@ export default function ShortCutPage() {
     });
   };
 
-  const deleteHandler = () => {
-    console.log(`id: ${Array.from(checkedItems).join(', ')} 삭제!`);
-    setCheckedItems(new Set());
-    toggle();
+  const deleteHandler = async () => {
+    try {
+      for (const id of Array.from(checkedItems)) {
+        await deleteData('shortcut', id as string);
+      }
+      setShortCuts((prev) => prev.filter((item) => !checkedItems.has(item.id)));
+    } catch (error) {
+      console.error('Error deleting shortcuts:', error);
+    } finally {
+      setCheckedItems(new Set());
+      toggle();
+    }
   };
+
+  const favoriteToggle = async (id: string) => {
+    setShortCuts((prev) => {
+      return prev.map((item) => {
+        if (item.id === id) {
+          const updatedItem = { ...item, is_Favorite: !item.is_Favorite };
+          updateData('shortcut', id, updatedItem);
+          return updatedItem;
+        }
+        return item;
+      });
+    });
+  };
+
+  const favoriteList = shortCuts.filter(({ is_Favorite }) => is_Favorite);
+  const normalList = shortCuts.filter(({ is_Favorite }) => !is_Favorite);
+
+  useEffect(() => {
+    const loadShortCuts = async () => {
+      try {
+        const data = await getDataByUserId<Shortcut>('shortcut', userId);
+        if (data) {
+          setShortCuts(data.reverse());
+        } else {
+          console.error('No shortcuts found for the user.');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadShortCuts();
+  }, [userId]);
 
   return (
     <>
@@ -88,10 +115,11 @@ export default function ShortCutPage() {
           <li key={item.id}>
             <ShortCutCard
               id={item.id}
-              name={item.title}
+              name={item.shortcut_name}
               isEdit={isDelete}
               isFavorite={true}
               onCheckboxChange={handleCheckboxChange}
+              favoriteToggle={favoriteToggle}
             />
           </li>
         ))}
@@ -99,10 +127,11 @@ export default function ShortCutPage() {
           <li key={item.id}>
             <ShortCutCard
               id={item.id}
-              name={item.title}
+              name={item.shortcut_name}
               isEdit={isDelete}
               isFavorite={false}
               onCheckboxChange={handleCheckboxChange}
+              favoriteToggle={favoriteToggle}
             />
           </li>
         ))}
