@@ -331,6 +331,24 @@
       "is_Shortcut": false,
       "history_type": "transaction",
       "history_params": "'1#4#2222"
+    },
+    {
+      "id": "1730164139591",
+      "user_id": "1730119322267",
+      "history_name": "'2'님께 33333원 송금",
+      "activity_date": "2024-10-29T01:08:59.642Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#4#33333"
+    },
+    {
+      "id": "1730165359850",
+      "user_id": "1730119322267",
+      "history_name": "'강민관'님께 7777원 송금",
+      "activity_date": "2024-10-29T01:29:19.881Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#4#7777"
     }
   ],
   "shortcut": [
@@ -714,6 +732,22 @@
       "amount": 2222,
       "sender_viewer": "발신자 이름",
       "receiver_viewer": "신한은행"
+    },
+    {
+      "id": "1730164139591",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 33333,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "신한은행"
+    },
+    {
+      "id": "1730165359850",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 7777,
+      "sender_viewer": "문규빈",
+      "receiver_viewer": "강민관"
     }
   ]
 }

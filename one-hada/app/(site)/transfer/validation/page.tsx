@@ -21,7 +21,9 @@ export default function TransferConfirmation() {
   const [senderLabel, setSenderLabel] = useState('');
   const [recipientLabel, setRecipientLabel] = useState('');
   const [userId, setUserId] = useState('');
-  const [recipientAccountId, setRecipientAccountId] = useState<string | null>(null);
+  const [recipientAccountId, setRecipientAccountId] = useState<string | null>(
+    null
+  );
   const pathname = usePathname(); // 현재 경로를 가져옴
 
   type Account = {
@@ -76,7 +78,9 @@ export default function TransferConfirmation() {
   useEffect(() => {
     if (accounts && recipientNumber && bankName) {
       const account = accounts.find(
-        (acc) => acc.account_number === Number(recipientNumber) && acc.bank === bankName
+        (acc) =>
+          acc.account_number === Number(recipientNumber) &&
+          acc.bank === bankName
       );
       setRecipientAccountId(account ? account.id : null);
     }
@@ -84,9 +88,9 @@ export default function TransferConfirmation() {
 
   const handleClick = () => {
     if (accountId && recipientNumber && bankId && amount) {
-      const queryString = `?account_id=${accountId}&recipient_account_id=${recipientAccountId}&recipient=${recipientId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`;
+      const queryString = `?account_id=${accountId}&sender_name=${senderName}&recipient_name=${recipientName}&recipient_account_id=${recipientAccountId}&recipient=${recipientId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`;
       const fullRoute = `${pathname}${queryString}`;
-      const targetRoute = `/transfer/checking${queryString}`
+      const targetRoute = `/transfer/checking${queryString}`;
       router.push(
         // `/transfer/checking?account_id=${accountId}&recipient=${recipientId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`
         `/api/auth/checkPassword?userId=${userId}&route=${encodeURIComponent(fullRoute)}&redirectTo=${encodeURIComponent(targetRoute)}`

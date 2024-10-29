@@ -16,7 +16,6 @@ export default function CheckPassword() {
   const redirectTo = searchParams.get('redirectTo');
   const recipientNumber = searchParams.get('recipient');
   const [userPassword, setUserPassword] = useState<string[] | null>(null);
-  
 
   const getUserPassword = async () => {
     try {
@@ -45,7 +44,7 @@ export default function CheckPassword() {
     const queryParams = new URLSearchParams(route.split('?')[1]);
     const queryCount = Array.from(queryParams.keys()).length;
 
-    if (queryCount === 6) {
+    if (queryCount === 8) {
       console.log('Inside handleTransactionAndHistory');
       const transactionId = String(Date.now());
       const newTransaction = {
@@ -53,8 +52,8 @@ export default function CheckPassword() {
         sender_account_id: queryParams.get('account_id') || '',
         receiver_account_id: queryParams.get('recipient_account_id'),
         amount: Number(queryParams.get('amount')) || 0,
-        sender_viewer: '발신자 이름', // 발신자 이름 필요 시 설정
-        receiver_viewer: queryParams.get('bank') || '',
+        sender_viewer: queryParams.get('sender_name') || '',
+        receiver_viewer: queryParams.get('recipient_name') || '',
       };
 
       try {
@@ -63,7 +62,7 @@ export default function CheckPassword() {
         const newHistory = {
           id: transactionId,
           user_id: userId || '',
-          history_name: `'${queryParams.get('recipient') || '수신자'}'님께 ${
+          history_name: `${queryParams.get('recipient_name') || '수신자'}님께 ${
             queryParams.get('amount') || 0
           }원 송금`,
           activity_date: new Date().toISOString(),
