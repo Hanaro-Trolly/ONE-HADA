@@ -1,6 +1,5 @@
 'use client';
 
-import dummy from '@/c-dummy/account_d.json';
 // import BankIcon from '@/components/molecules/BankIcon';
 import BankOption from '@/components/molecules/BankOption';
 import { Button } from '@/components/ui/button';
@@ -118,7 +117,7 @@ export default function RecipientPage({
           </button>
 
           {isBankOptionsOpen && (
-            <div className='absolute bg-white border border-gray-300  shadow-lg p-4 mt-2 w-80'>
+            <div className='absolute bg-white border border-gray-300  shadow-lg p-4 mt-2 w-[272px] overflow-auto h-60'>
               <div className='grid grid-cols-3 gap-2 mb-6 w-full'>
                 {banks.map((bank) => (
                   <BankOption

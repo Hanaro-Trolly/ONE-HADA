@@ -37,8 +37,8 @@ const BankIcon: React.FC<BankIconProps> = ({ bankId }) => {
     <Image
       src={getIconPath(bankId)}
       alt={`${bankId} 아이콘`}
-      width={40}
-      height={40}
+      width={20}
+      height={20}
       className='object-contain'
     />
   );
