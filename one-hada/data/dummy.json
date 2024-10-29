@@ -60,7 +60,14 @@
       "user_google": "112287508448169046665",
       "user_kakao": "3762386136",
       "user_naver": null,
-      "simple_password": ["1", "1", "1", "1", "1", "1"]
+      "simple_password": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1",
+        "1"
+      ]
     }
   ],
   "agent": [
@@ -391,6 +398,14 @@
       "consultation_title": "테스트",
       "consultation_content": "테스트",
       "consultation_date": "2024-10-29T01:29:18.431Z"
+    },
+    {
+      "id": "1730167076494",
+      "agent_id": "1",
+      "user_id": "2",
+      "consultation_title": "wf",
+      "consultation_content": "wfwef",
+      "consultation_date": "2024-10-29T01:57:56.494Z"
     }
   ],
   "account": [
