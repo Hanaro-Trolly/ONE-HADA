@@ -42,14 +42,7 @@
       "user_google": "112287508448169046665",
       "user_kakao": "3762386136",
       "user_naver": null,
-      "simple_password": [
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1"
-      ]
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
     },
     {
       "id": "1730179138231",
@@ -63,14 +56,7 @@
       "user_google": "102904350864248754457",
       "user_kakao": null,
       "user_naver": null,
-      "simple_password": [
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1"
-      ]
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
     },
     {
       "id": "1730183690628",
@@ -84,14 +70,7 @@
       "user_google": "112714503410025629569",
       "user_kakao": null,
       "user_naver": null,
-      "simple_password": [
-        "8",
-        "8",
-        "8",
-        "8",
-        "8",
-        "8"
-      ]
+      "simple_password": ["8", "8", "8", "8", "8", "8"]
     },
     {
       "id": "1730185897052",
@@ -105,14 +84,7 @@
       "user_google": "118380181517390185679",
       "user_kakao": null,
       "user_naver": null,
-      "simple_password": [
-        "1",
-        "1",
-        "1",
-        "1",
-        "1",
-        "1"
-      ]
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
     }
   ],
   "agent": [
@@ -149,24 +121,6 @@
       "history_type": "transaction",
       "history_params": "1#7#10000",
       "activity_date": "2024-01-23T14:30:00Z"
-    },
-    {
-      "id": "2",
-      "user_id": "1730183690628",
-      "history_name": "시니어코딩님께 500원 송금",
-      "activity_date": "2024-10-29T08:50:12.016Z",
-      "is_Shortcut": false,
-      "history_type": "transaction",
-      "history_params": "1#7#500"
-    },
-    {
-      "id": "3",
-      "user_id": "1730183690628",
-      "history_name": "조회 2024. 10. 29. 오후 5:50:42",
-      "history_type": "inquiry",
-      "history_params": "1#전체###전체#",
-      "activity_date": "2024-10-29T08:50:42.392Z",
-      "is_Shortcut": false
     }
   ],
   "shortcut": [
@@ -370,15 +324,6 @@
       "sender_viewer": "발신자 이름",
       "receiver_viewer": "신한은행",
       "transaction_date": "2024-10-15T10:00:00Z"
-    },
-    {
-      "id": "1730191812005",
-      "sender_account_id": "1",
-      "receiver_account_id": "7",
-      "amount": 500,
-      "sender_viewer": "박시온",
-      "receiver_viewer": "시니어코딩",
-      "transaction_date": "2024-10-29T08:50:12.005Z"
     }
   ],
   "activity_logs": [
