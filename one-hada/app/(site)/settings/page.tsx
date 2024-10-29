@@ -11,7 +11,7 @@ export default function SettingsPage() {
   const phoneNumberRef = useRef<HTMLInputElement>(null);
   const addressRef = useRef<HTMLTextAreaElement>(null);
 
-  const [isLogined] = useState(false);
+  const [isLogined] = useState(true);
   const name = '홍길동';
   const birthDate = '2000-01-01';
   const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber);
@@ -121,7 +121,7 @@ export default function SettingsPage() {
                     type='tel'
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    className='w-full border p-2 rounded-lg'
+                    className='w-full border p-2 rounded-lg focus:outline-[#61B89F]'
                   />
                 ) : (
                   <p className='w-full border p-2 rounded-lg'>{phoneNumber}</p>
@@ -136,7 +136,7 @@ export default function SettingsPage() {
                       ref={addressRef}
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
-                      className='w-full h-full border p-2 rounded-lg resize-none'
+                      className='w-full h-full border p-2 rounded-lg resize-none focus:outline-[#61B89F] '
                     />
                   ) : (
                     <p className='w-full h-full border p-2 rounded-lg'>
