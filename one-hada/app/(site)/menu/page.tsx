@@ -12,7 +12,6 @@ import { User } from '@/lib/datatypes';
 
 export default function MenuPage() {
   const { data: session } = useSession();
-  const userId = session?.user?.id;
   const [userProfile, setUserProfile] = useState<User | null>(null);
   useEffect(() => {
     const loadUser = async () => {
@@ -24,7 +23,7 @@ export default function MenuPage() {
           }
         }
       } catch (error) {
-        console.error('유저 정보를 불러오는데 실패했습니다.');
+        console.error('유저 정보를 불러오는데 실패했습니다.', error);
       }
     };
     loadUser();
