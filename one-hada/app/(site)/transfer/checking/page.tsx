@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import useApi from '@/hooks/useApi';
-import { IoCheckbox } from 'react-icons/io5';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 

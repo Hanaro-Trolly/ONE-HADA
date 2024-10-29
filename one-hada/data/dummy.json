@@ -358,6 +358,33 @@
       "is_Shortcut": false,
       "history_type": "transaction",
       "history_params": "'2#4#1050000"
+    },
+    {
+      "id": "1730167835961",
+      "user_id": "1730119322267",
+      "history_name": "문규빈님께 500002원 송금",
+      "activity_date": "2024-10-29T02:10:35.983Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#1#500002"
+    },
+    {
+      "id": "1730168038311",
+      "user_id": "1730119322267",
+      "history_name": "강민관님께 1000008원 송금",
+      "activity_date": "2024-10-29T02:13:58.331Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#4#1000008"
+    },
+    {
+      "id": "1730168277429",
+      "user_id": "1730119322267",
+      "history_name": "강민관님께 8원 송금",
+      "activity_date": "2024-10-29T02:17:57.469Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "'1#4#8"
     }
   ],
   "shortcut": [
@@ -764,6 +791,30 @@
       "receiver_account_id": "4",
       "amount": 1050000,
       "sender_viewer": "조서현",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730167835961",
+      "sender_account_id": "1",
+      "receiver_account_id": "1",
+      "amount": 500002,
+      "sender_viewer": "문규빈",
+      "receiver_viewer": "문규빈"
+    },
+    {
+      "id": "1730168038311",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 1000008,
+      "sender_viewer": "문규빈",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730168277429",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 8,
+      "sender_viewer": "문규빈",
       "receiver_viewer": "강민관"
     }
   ]

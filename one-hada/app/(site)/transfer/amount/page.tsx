@@ -79,7 +79,7 @@ export default function AmountInput() {
         `/transfer/validation?account_id=${accountId}&recipient=${recipientId}&bank=${bankName}&recipient_number=${recipientNumber}&amount=${amount}`
       );
     } else {
-      alert('은행과 계좌번호를 모두 입력해주세요.');
+      alert('금액을 입력해주세요.');
     }
   };
   useEffect(() => {
@@ -92,7 +92,6 @@ export default function AmountInput() {
       }
     }
   }, [users, recipientId]);
-
 
   return (
     <div
@@ -186,7 +185,7 @@ export default function AmountInput() {
         </div>
       </div>
       <Button
-        id='231'
+        id='232'
         className='w-full text-white text-lg bg-main-green  py-3 rounded hover:bg-[#479e86] focus:bg-[#479e86] transition'
         onClick={() => handleClick()}
       >
