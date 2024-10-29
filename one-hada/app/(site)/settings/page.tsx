@@ -3,45 +3,72 @@
 import SwitchCard from '@/components/molecules/SwitchCard';
 import { Button } from '@/components/ui/button';
 import { ChevronRightIcon, PencilIcon } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
+import { useEffect, useRef, useState } from 'react';
+import { getData, updateData } from '@/lib/api';
+import { User } from '@/lib/datatypes';
 
 export default function SettingsPage() {
-  const initialPhoneNumber = '010-1234-5678';
-  const initialAddress = '서울특별시 성동구 아차산로111 우행빌딩 2층';
-  const phoneNumberRef = useRef<HTMLInputElement>(null);
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
+  const [userProfile, setUserProfile] = useState<User | null>(null);
+  const [phoneNumber, setPhoneNumber] = useState<string>();
+  const [address, setAddress] = useState<string>();
   const addressRef = useRef<HTMLTextAreaElement>(null);
+  const phoneNumberRef = useRef<HTMLInputElement>(null);
 
-  const [isLogined] = useState(true);
-  const name = '홍길동';
-  const birthDate = '2000-01-01';
-  const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber);
-  const [address, setAddress] = useState(initialAddress);
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        if (session?.user) {
+          const data = await getData<User>('user', session.user.id);
+          if (data) {
+            setUserProfile(data);
+            setPhoneNumber(data.user_phone);
+            setAddress(data.user_address);
+          }
+        }
+      } catch (error) {
+        console.error('유저 정보를 불러오는데 실패했습니다.');
+      }
+    };
+    loadUser();
+  }, [session]);
+
   const [isLargeTextMode, setIsLargeTextMode] = useState(false);
   const [isColorBlindMode, setIsColorBlindMode] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleSave = () => {
-    const phoneInputValue = phoneNumberRef.current?.value;
-    const addressInputValue = addressRef.current?.value;
-
-    if (!phoneInputValue || !addressInputValue) {
-      if (!phoneInputValue) {
-        phoneNumberRef.current?.focus();
-      } else {
-        addressRef.current?.focus();
-      }
+  const handleSave = async () => {
+    if (!phoneNumber || !address) {
+      (phoneNumber ? addressRef.current : phoneNumberRef.current)?.focus();
       return;
     }
-    console.log('🚀 ~ handleSave ~ phoneInputValue:', phoneInputValue);
-    console.log('🚀 ~ handleSave ~ addressInputValue:', addressInputValue);
-
-    //데이터 전송 로직 추가
+    console.log('🚀 ~ handleSave ~ phoneNumber:', phoneNumber);
+    console.log('🚀 ~ handleSave ~ address:', address);
+    try {
+      if (userId && userProfile) {
+        await updateData<User>('user', userId, {
+          ...userProfile,
+          user_phone: phoneNumber,
+          user_address: address,
+        });
+        setUserProfile((prev) => ({
+          ...prev!,
+          user_phone: phoneNumber,
+          user_address: address,
+        }));
+      }
+    } catch (error) {
+      console.error('Error updating Profile:', error);
+      alert('내 정보 변경에 실패했습니다..');
+    }
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setPhoneNumber(initialPhoneNumber);
-    setAddress(initialAddress);
+    setPhoneNumber(userProfile?.user_phone || '');
+    setAddress(userProfile?.user_address || '');
     setIsEditing(false);
   };
   const handleEdit = () => {
@@ -60,12 +87,12 @@ export default function SettingsPage() {
   return (
     <>
       <div className='bg-[#DCEFEA] pb-4'>
-        {isLogined ? (
+        {session?.user ? (
           <div>
             <div className='h-[14%] mb-2 mx-6 px-5 pt-4'>
               <div className='text=[#635666}'>
                 <label className='text-xl text-[#698596] font-semibold'>
-                  {name}
+                  {userProfile?.user_name}
                 </label>
                 님{' '}
               </div>
@@ -110,7 +137,9 @@ export default function SettingsPage() {
             <div className='flex flex-col justify-between bg-white shadow-md rounded-xl mx-6 p-4 px-5'>
               <div>
                 <label>생년월일</label>
-                <p className='w-full border p-2 rounded-lg'>{birthDate}</p>
+                <p className='w-full border p-2 rounded-lg'>
+                  {userProfile?.user_birth}
+                </p>
               </div>
 
               <div className='mt-4'>
@@ -124,7 +153,9 @@ export default function SettingsPage() {
                     className='w-full border p-2 rounded-lg focus:outline-[#61B89F]'
                   />
                 ) : (
-                  <p className='w-full border p-2 rounded-lg'>{phoneNumber}</p>
+                  <p className='w-full border p-2 rounded-lg'>
+                    {userProfile?.user_phone}
+                  </p>
                 )}
               </div>
 
@@ -140,7 +171,7 @@ export default function SettingsPage() {
                     />
                   ) : (
                     <p className='w-full h-full border p-2 rounded-lg'>
-                      {address}
+                      {userProfile?.user_address}
                     </p>
                   )}
                 </div>
@@ -148,9 +179,23 @@ export default function SettingsPage() {
             </div>
           </div>
         ) : (
-          <div className='pt-4 h-32 flex items-center justify-center '>
+          // <div className='bg-[#DCEFEA] items-center mb-2'>
+          <div className='mx-6 px-5 h-14 w-full flex justify-between items-center'>
             로그인을 해주세요.
+            <div className='flex items-center h-5 text-gray-500'>
+              <Button
+                variant='ghost'
+                className='px-0 py-0 gap-0 font-normal'
+                onClick={() => {
+                  signIn();
+                }}
+              >
+                로그인
+                <ChevronRightIcon />
+              </Button>
+            </div>
           </div>
+          // </div>
         )}
       </div>
       <div>
