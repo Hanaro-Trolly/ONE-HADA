@@ -30,6 +30,10 @@ export default function ShortCutPage() {
   };
 
   const deleteHandler = async () => {
+    if (checkedItems.size === 0) {
+      alert('삭제할 항목을 선택해주세요.');
+      return;
+    }
     try {
       for (const id of Array.from(checkedItems)) {
         await deleteData('shortcut', id as string);
@@ -41,6 +45,11 @@ export default function ShortCutPage() {
       setCheckedItems(new Set());
       toggle();
     }
+  };
+
+  const cancleHandler = async () => {
+    setCheckedItems(new Set());
+    toggle();
   };
 
   const favoriteToggle = async (id: string) => {
@@ -101,7 +110,7 @@ export default function ShortCutPage() {
           ) : (
             <SmallButton
               classNames='bg-[#5e7887] hover:bg-[#3f505a]'
-              onClick={toggle}
+              onClick={cancleHandler}
             >
               <Edit2Icon />
               편집

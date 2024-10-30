@@ -40,4 +40,4 @@ next-env.d.ts
 /public/*.js.map
 
 #dummy
-/data/*
+/data/test.json

@@ -1,26 +1,21 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
-interface InputFieldProps {
+interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  type: string;
-  inputRef?: React.RefObject<HTMLInputElement>;
   inputClassName?: string;
   labelClassName?: string;
-  [key: string]: unknown;
 }
+const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
+  ({ label, type, inputClassName, labelClassName, ...props }, ref) => {
+    return (
+      <div className='flex items-center justify-center'>
+        <label className={labelClassName}>{label}</label>
+        <input type={type} ref={ref} className={inputClassName} {...props} />
+      </div>
+    );
+  }
+);
 
-export default function InputField({
-  label,
-  type,
-  inputRef,
-  inputClassName,
-  labelClassName,
-  ...props
-}: InputFieldProps) {
-  return (
-    <div className='flex items-center justify-center'>
-      <label className={labelClassName}>{label}</label>
-      <input type={type} ref={inputRef} className={inputClassName} {...props} />
-    </div>
-  );
-}
+InputField.displayName = 'InputField';
+
+export default InputField;

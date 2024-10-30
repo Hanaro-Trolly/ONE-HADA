@@ -9,14 +9,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import useApi from '@/hooks/useApi';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useCallback, useRef, useState } from 'react';
+import { fetchAllData, updateData, addData } from '@/lib/api';
 import { User } from '@/lib/datatypes';
 
 export default function Register() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const router = useRouter();
 
   const userId = Date.now().toString();
@@ -30,13 +30,24 @@ export default function Register() {
   const addressRef = useRef<HTMLTextAreaElement>(null);
   const [userGender, setUserGender] = useState<string>('');
 
-  const {
-    data: users,
-    loading,
-    error,
-    updateData,
-    addData,
-  } = useApi<User>('user');
+  const fetchUserData = async () => {
+    return await fetchAllData<User>('user');
+  };
+
+  const updateSession = useCallback(async () => {
+    try {
+      const users = await fetchUserData();
+      const provider = `user_${session?.user?.provider}` as keyof User;
+      const foundUser = users.find(
+        (user) => user[provider] === session?.user.id
+      );
+      if (foundUser) {
+        await update({ id: foundUser.id });
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  }, [session, update]);
 
   const createFormData = () => ({
     id: userId,
@@ -56,6 +67,7 @@ export default function Register() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = createFormData();
+    const users = await fetchUserData();
 
     const existingUser = users.find(
       (user) =>
@@ -67,7 +79,8 @@ export default function Register() {
 
     if (existingUser) {
       try {
-        await updateData(existingUser.id, {
+        await updateData<User>('user', existingUser.id, {
+          // resource와 id, updatedData 순서 조정
           [`user_${session?.user.provider}`]: session?.user.id,
         });
         alert('기존 계정과 연동하였습니다');
@@ -79,7 +92,7 @@ export default function Register() {
       // 유저가 존재하지 않으면 추가
 
       try {
-        await addData(formData);
+        await addData<User>('user', formData);
         alert('회원등록에 성공하였습니다');
         const route: string = '/api/auth/checkPassword';
         router.push(
@@ -89,10 +102,9 @@ export default function Register() {
         console.error('Error adding user:', err);
       }
     }
-  };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+    updateSession();
+  };
 
   return (
     <div
@@ -118,7 +130,6 @@ export default function Register() {
             label='이름'
             type='text'
             ref={nameRef}
-            inputRef={nameRef}
             labelClassName='w-20 block text-md'
             inputClassName='flex-1 px-3 py-2 text-md rounded-xl shadow-sm focus:outline-none'
           />
@@ -144,7 +155,7 @@ export default function Register() {
           <InputField
             label='생년월일'
             type='date'
-            inputRef={birthDateRef}
+            ref={birthDateRef}
             labelClassName='w-20 block text-md'
             inputClassName='flex-1 px-3 py-2 text-md rounded-xl shadow-sm focus:outline-none'
           />
