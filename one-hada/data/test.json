@@ -119,6 +119,34 @@
       "user_id": "1730183690628",
       "history_name": "시니어코딩님께 10000",
       "history_type": "transaction",
+      "history_params": "'1#5#5000000"
+    },
+    {
+      "id": "1730184752818",
+      "user_id": "1730183690628",
+      "history_name": "강민관님께 55원 송금",
+      "activity_date": "2024-10-29T06:52:32.838Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "1#5#55"
+    },
+    {
+      "id": "1730186073825",
+      "user_id": "1730185897052",
+      "history_name": "강민관님께 1100000원 송금",
+      "activity_date": "2024-10-29T07:14:33.863Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "1#4#1100000"
+    },
+    {
+      "id": "e3c2smbkcps",
+      "user_id": "1730185897052",
+      "history_name": "조회 2024. 10. 29. 오후 4:15:12",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T07:15:12.140Z",
+      "is_Shortcut": false,
       "history_params": "1#7#10000",
       "activity_date": "2024-01-23T14:30:00Z"
     }
@@ -167,7 +195,7 @@
   "account": [
     {
       "id": "1",
-      "user_id": "1730183690628",
+      "user_id": "1730185897052",
       "account_number": 1000000001,
       "balance": 5000000,
       "account_type": "예적금",
@@ -176,7 +204,7 @@
     },
     {
       "id": "2",
-      "user_id": "1730183690628",
+      "user_id": "1730185897052",
       "account_number": 1000000002,
       "balance": 1500000000,
       "account_type": "예적금",
@@ -184,7 +212,7 @@
     },
     {
       "id": "3",
-      "user_id": "1730183690628",
+      "user_id": "1730185897052",
       "account_number": 1000000003,
       "balance": 3000000,
       "account_type": "입출금",
@@ -322,8 +350,79 @@
       "receiver_account_id": "4",
       "amount": 2222,
       "sender_viewer": "발신자 이름",
-      "receiver_viewer": "신한은행",
-      "transaction_date": "2024-10-15T10:00:00Z"
+      "receiver_viewer": "신한은행"
+    },
+    {
+      "id": "1730164139591",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 33333,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "신한은행"
+    },
+    {
+      "id": "1730165359850",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 7777,
+      "sender_viewer": "문규빈",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730166768280",
+      "sender_account_id": "2",
+      "receiver_account_id": "4",
+      "amount": 1050000,
+      "sender_viewer": "조서현",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730167835961",
+      "sender_account_id": "1",
+      "receiver_account_id": "1",
+      "amount": 500002,
+      "sender_viewer": "문규빈",
+      "receiver_viewer": "문규빈"
+    },
+    {
+      "id": "1730168038311",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 1000008,
+      "sender_viewer": "문규빈",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730168277429",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 8,
+      "sender_viewer": "문규빈",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730184406662",
+      "sender_account_id": "1",
+      "receiver_account_id": "5",
+      "amount": 5000000,
+      "sender_viewer": "박시온",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730184752818",
+      "sender_account_id": "1",
+      "receiver_account_id": "5",
+      "amount": 55,
+      "sender_viewer": "박시온",
+      "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730186073825",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 1100000,
+      "sender_viewer": "문규빈",
+      "receiver_viewer": "강민관"
     }
   ],
   "activity_logs": [
@@ -359,7 +458,7 @@
           "details": "펀드 메뉴 확인"
         }
       ],
-      "id": "c518"
+      "id": "dada"
     },
     {
       "user_name": "강민관",
@@ -385,7 +484,7 @@
           "details": "모바일뱅킹 로그인"
         }
       ],
-      "id": "67fe"
+      "id": "9699"
     },
     {
       "user_name": "문규빈",
@@ -411,7 +510,7 @@
           "details": "바로가기 편집"
         }
       ],
-      "id": "8609"
+      "id": "0b5d"
     },
     {
       "user_name": "박시온",
@@ -441,7 +540,7 @@
           "details": "펀드 메뉴 확인"
         }
       ],
-      "id": "90d7"
+      "id": "6ff0"
     }
   ]
 }

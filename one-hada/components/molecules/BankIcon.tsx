@@ -27,6 +27,14 @@ const BankIcon: React.FC<BankIconProps> = ({ bankId }) => {
         return '/icons/icon-sc.png';
       case '토스뱅크':
         return '/icons/icon-toss.png';
+      case 'JP모건':
+        return '/icons/icon-jp.png';
+      case 'HSBC':
+        return '/icons/icon-HSBC.png';
+      case '도이치뱅크':
+        return '/icons/icon-Dc.png';
+      case 'BNP파리바':
+        return '/icons/icon-BNP.png';
       // 기본 아이콘 설정
       default:
         return '/icons/icon-192x192.png';

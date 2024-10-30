@@ -87,7 +87,11 @@ export default function RecipientPage({
     { bank_id: 'bank7', bank_name: '토스뱅크' },
     { bank_id: 'bank8', bank_name: '제일은행' },
     { bank_id: 'bank9', bank_name: '기업은행' },
-  ];
+    { bank_id: 'bank10', bank_name: 'JP모건' },
+    { bank_id: 'bank11', bank_name: 'HSBC' },
+    { bank_id: 'bank12', bank_name: '도이치뱅크' },
+    { bank_id: 'bank13', bank_name: 'BNP파리바' },
+];
 
   return (
     <div
