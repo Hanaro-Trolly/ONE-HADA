@@ -21,7 +21,7 @@ export default function AdminInput({
       <label className='text-2xl font-medium '>{label}</label>
       {inputType === 'text' ? (
         <input
-          className='py-2 px-2 rounded-lg border border-gray-100'
+          className='py-2 px-2 rounded-lg border border-gray-100 focus:ring-1 focus:ring-inset focus:ring-main-green focus:outline-none'
           type='text'
           value={value}
           onChange={onChange}
@@ -29,7 +29,7 @@ export default function AdminInput({
         />
       ) : (
         <textarea
-          className='h-72 resize-none py-2 px-2 rounded-lg border border-gray-100'
+          className='h-72 resize-none py-2 px-2 rounded-lg border border-gray-100 focus:ring-1 focus:ring-inset focus:ring-main-green focus:outline-none'
           value={value}
           onChange={onChange}
           placeholder={`${label}을 입력하세요`}

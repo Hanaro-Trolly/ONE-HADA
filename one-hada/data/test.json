@@ -1,0 +1,447 @@
+{
+  "user": [
+    {
+      "id": "1",
+      "user_name": "정성현",
+      "user_gender": "male",
+      "user_email": "awaysh@example.com",
+      "user_phone": "010-1234-5678",
+      "user_address": "서울특별시 영등포구 신길동",
+      "user_birth": "1999-04-02",
+      "user_register": "2023-01-01T12:00:00Z"
+    },
+    {
+      "id": "2",
+      "user_name": "강민관",
+      "user_gender": "female",
+      "user_email": "mingwan21@example.com",
+      "user_phone": "010-9876-5432",
+      "user_address": "부천시 소사로 78번길",
+      "user_birth": "1997-01-02",
+      "user_register": "2023-02-01T12:00:00Z"
+    },
+    {
+      "id": "3",
+      "user_name": "시니어코딩",
+      "user_gender": "male",
+      "user_email": "indiflex@example.com",
+      "user_phone": "010-5555-1234",
+      "user_address": "서울특별시 구로구 구로1동",
+      "user_birth": "1973-05-26",
+      "user_register": "2023-03-01T12:00:00Z"
+    },
+    {
+      "id": "1730103306576",
+      "user_name": "조서현",
+      "user_gender": "female",
+      "user_birth": "1999-07-20",
+      "user_phone": "010-2905-5905",
+      "user_address": "서울시 중구",
+      "user_email": "csh990720@gmail.com",
+      "user_register": "2024-10-28T08:15:25.882Z",
+      "user_google": "112287508448169046665",
+      "user_kakao": "3762386136",
+      "user_naver": null,
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
+    },
+    {
+      "id": "1730179138231",
+      "user_name": "혜민",
+      "user_gender": "female",
+      "user_birth": "2024-09-02",
+      "user_phone": "010-1234-1234",
+      "user_address": "연무장로 알파코캠퍼스 ",
+      "user_email": "42freshpong@gmail.com",
+      "user_register": "2024-10-29T05:19:22.378Z",
+      "user_google": "102904350864248754457",
+      "user_kakao": null,
+      "user_naver": null,
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
+    },
+    {
+      "id": "1730183690628",
+      "user_name": "박시온",
+      "user_gender": "male",
+      "user_birth": "1999-09-21",
+      "user_phone": "010-4193-0478",
+      "user_address": "인천광역시 남동구 구월동",
+      "user_email": "sion691@gmail.com",
+      "user_register": "2024-10-29T06:35:01.183Z",
+      "user_google": "112714503410025629569",
+      "user_kakao": null,
+      "user_naver": null,
+      "simple_password": ["8", "8", "8", "8", "8", "8"]
+    },
+    {
+      "id": "1730185897052",
+      "user_name": "문규빈",
+      "user_gender": "male",
+      "user_birth": "2000-05-26",
+      "user_phone": "010-9178-8484",
+      "user_address": "서울특별시 구로구 구로1동",
+      "user_email": "joemoon0526@gmail.com",
+      "user_register": "2024-10-29T07:11:54.313Z",
+      "user_google": "118380181517390185679",
+      "user_kakao": null,
+      "user_naver": null,
+      "simple_password": ["1", "1", "1", "1", "1", "1"]
+    }
+  ],
+  "agent": [
+    {
+      "id": "1",
+      "agent_name": "최강희",
+      "agent_email": "kim.doyoung@example.com",
+      "agent_pw": "password123"
+    },
+    {
+      "id": "2",
+      "agent_name": "이준구",
+      "agent_email": "lee.jungu@example.com",
+      "agent_pw": "password456"
+    },
+    {
+      "id": "3",
+      "agent_name": "박소윤",
+      "agent_email": "park.soyun@example.com",
+      "agent_pw": "password789"
+    },
+    {
+      "id": "4",
+      "agent_name": "송강",
+      "agent_email": "song.gang@example.com",
+      "agent_pw": "password101"
+    }
+  ],
+  "history": [
+    {
+      "id": "1",
+      "user_id": "1730183690628",
+      "history_name": "시니어코딩님께 10000",
+      "history_type": "transaction",
+      "history_params": "1#7#10000",
+      "activity_date": "2024-01-23T14:30:00Z"
+    }
+  ],
+  "shortcut": [
+    {
+      "id": "1",
+      "user_id": "1730183690628",
+      "shortcut_name": "상납금",
+      "shortcutUrl": "/",
+      "is_Favorite": false
+    },
+    {
+      "id": "2",
+      "user_id": "1730183690628",
+      "shortcut_name": "시코",
+      "shortcutUrl": "http://localhost:3000/transfer/amount?account_id=1&recipient=3&bank=하나은행&recipient_number=1234567890",
+      "is_Favorite": true
+    },
+    {
+      "id": "3",
+      "user_id": "1730183690628",
+      "shortcut_name": "시니어코딩님께 10000",
+      "shortcutUrl": "http://localhost:3000/transfer/validation?account_id=1&recipient=3&bank=하나은행&recipient_number=1234567890&amount=10000",
+      "is_Favorite": false
+    }
+  ],
+  "consultation": [
+    {
+      "id": "1",
+      "agent_id": "1",
+      "user_id": "1730183690628",
+      "consultation_title": "적금 가입관련 상담",
+      "consultation_content": "적금가입하세요\n좋아요",
+      "consultation_date": "2024-10-20T14:15:00Z"
+    },
+    {
+      "id": "2",
+      "agent_id": "1",
+      "user_id": "1730183690628",
+      "consultation_title": "대출 상담",
+      "consultation_content": "대출 관련 상담 요청\n대출관련 설명1\n대출관련 설명2\n대출 페이지로 이동",
+      "consultation_date": "2024-10-21T10:00:00Z"
+    }
+  ],
+  "account": [
+    {
+      "id": "1",
+      "user_id": "1730183690628",
+      "account_number": 1000000001,
+      "balance": 5000000,
+      "account_type": "예적금",
+      "bank": "하나은행",
+      "account_name": "하나은행 저축통장"
+    },
+    {
+      "id": "2",
+      "user_id": "1730183690628",
+      "account_number": 1000000002,
+      "balance": 1500000000,
+      "account_type": "예적금",
+      "bank": "국민은행"
+    },
+    {
+      "id": "3",
+      "user_id": "1730183690628",
+      "account_number": 1000000003,
+      "balance": 3000000,
+      "account_type": "입출금",
+      "bank": "농협은행"
+    },
+    {
+      "id": "4",
+      "user_id": "3",
+      "account_number": 2000000001,
+      "balance": 12000000,
+      "account_type": "예적금",
+      "bank": "신한은행",
+      "account_name": "신한은행 정기예금통장"
+    },
+    {
+      "id": "5",
+      "user_id": "1730183690628",
+      "account_number": 2000000002,
+      "balance": 8000000,
+      "account_type": "펀드",
+      "bank": "하나은행"
+    },
+    {
+      "id": "6",
+      "user_id": "1",
+      "account_number": 2000000003,
+      "balance": 2500000,
+      "account_type": "입출금",
+      "bank": "기업은행",
+      "account_name": "기업은행 입출금통장"
+    },
+    {
+      "id": "7",
+      "user_id": "3",
+      "account_number": 1234567890,
+      "balance": 7000000,
+      "account_type": "저축",
+      "bank": "하나은행"
+    },
+    {
+      "id": "8",
+      "user_id": "1730185897052",
+      "account_number": 4000000001,
+      "balance": 4000000,
+      "account_type": "입출금",
+      "bank": "하나은행",
+      "account_name": "하나은행 입출금통장"
+    }
+  ],
+  "transaction": [
+    {
+      "id": "1730130922547",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 5000000,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-01-21T10:00:00Z"
+    },
+    {
+      "id": "1730132444447",
+      "sender_account_id": "1",
+      "receiver_account_id": "7",
+      "amount": 120000,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-02-21T10:00:00Z"
+    },
+    {
+      "id": "1730132902727",
+      "sender_account_id": "1",
+      "receiver_account_id": "8",
+      "amount": 120000,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-03-16T10:00:00Z"
+    },
+    {
+      "id": "1730134210042",
+      "sender_account_id": "8",
+      "receiver_account_id": "1",
+      "amount": 50000,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-04-10T10:00:00Z"
+    },
+    {
+      "id": "1730135640711",
+      "sender_account_id": "6",
+      "receiver_account_id": "1",
+      "amount": 200002,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-07-15T10:00:00Z"
+    },
+    {
+      "id": "1730136038396",
+      "sender_account_id": "4",
+      "receiver_account_id": "6",
+      "amount": 200002,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-09-17T10:00:00Z"
+    },
+    {
+      "id": "1730136096008",
+      "sender_account_id": "2",
+      "receiver_account_id": "3",
+      "amount": 200002,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-09-21T10:00:00Z"
+    },
+    {
+      "id": "1730162614676",
+      "sender_account_id": "1",
+      "receiver_account_id": "7",
+      "amount": 1000002,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-10-03T10:00:00Z"
+    },
+    {
+      "id": "1730163483693",
+      "sender_account_id": "1",
+      "receiver_account_id": "6",
+      "amount": 5555,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "하나은행",
+      "transaction_date": "2024-10-12T10:00:00Z"
+    },
+    {
+      "id": "1730163564328",
+      "sender_account_id": "1",
+      "receiver_account_id": "4",
+      "amount": 2222,
+      "sender_viewer": "발신자 이름",
+      "receiver_viewer": "신한은행",
+      "transaction_date": "2024-10-15T10:00:00Z"
+    }
+  ],
+  "activity_logs": [
+    {
+      "user_name": "정성현",
+      "logs": [
+        {
+          "timestamp": "2024-10-23 16:22:36",
+          "details": "규빈님에게 50,000원 이체"
+        },
+        {
+          "timestamp": "2024-10-23 16:12:28",
+          "details": "계좌 잔액 확인"
+        },
+        {
+          "timestamp": "2024-10-23 15:58:11",
+          "details": "9월 거래내역 조회"
+        },
+        {
+          "timestamp": "2024-10-23 15:57:32",
+          "details": "웹뱅킹 로그인"
+        },
+        {
+          "timestamp": "2024-10-23 15:37:30",
+          "details": "주택담보대출"
+        },
+        {
+          "timestamp": "2024-10-23 15:36:30",
+          "details": "강희님에게 20,000원 이체"
+        },
+        {
+          "timestamp": "2024-10-23 15:20:30",
+          "details": "펀드 메뉴 확인"
+        }
+      ],
+      "id": "c518"
+    },
+    {
+      "user_name": "강민관",
+      "logs": [
+        {
+          "timestamp": "2024-10-17 12:22:36",
+          "details": "펀드 메뉴 확인"
+        },
+        {
+          "timestamp": "2024-10-17 12:21:15",
+          "details": "계좌 잔액 확인"
+        },
+        {
+          "timestamp": "2024-10-17 12:20:30",
+          "details": "이체 알림 설정 변경"
+        },
+        {
+          "timestamp": "2024-10-17 12:19:45",
+          "details": "9월 거래내역 조회"
+        },
+        {
+          "timestamp": "2024-10-17 12:15:45",
+          "details": "모바일뱅킹 로그인"
+        }
+      ],
+      "id": "67fe"
+    },
+    {
+      "user_name": "문규빈",
+      "logs": [
+        {
+          "timestamp": "2024-10-15 09:22:36",
+          "details": "민관님에게 60,000원 이체"
+        },
+        {
+          "timestamp": "2024-10-15 19:30:36",
+          "details": "상담내역 확인"
+        },
+        {
+          "timestamp": "2024-10-15 19:29:20",
+          "details": "즐겨찾기 등록"
+        },
+        {
+          "timestamp": "2024-10-15 19:28:45",
+          "details": "내 활동 보기"
+        },
+        {
+          "timestamp": "2024-10-15 19:20:45",
+          "details": "바로가기 편집"
+        }
+      ],
+      "id": "8609"
+    },
+    {
+      "user_name": "박시온",
+      "logs": [
+        {
+          "timestamp": "2024-10-16 09:22:36",
+          "details": "계좌 잔액 확인"
+        },
+        {
+          "timestamp": "2024-10-15 19:30:36",
+          "details": "내 활동 보기"
+        },
+        {
+          "timestamp": "2024-10-15 19:29:20",
+          "details": "웹뱅킹 로그인"
+        },
+        {
+          "timestamp": "2024-10-15 19:28:45",
+          "details": "이체 알림 설정 변경"
+        },
+        {
+          "timestamp": "2024-10-15 1ㄴ9:28:45",
+          "details": "상담내역 확인"
+        },
+        {
+          "timestamp": "2024-10-15 19:28:45",
+          "details": "펀드 메뉴 확인"
+        }
+      ],
+      "id": "90d7"
+    }
+  ]
+}
