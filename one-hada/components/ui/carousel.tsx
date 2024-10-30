@@ -170,7 +170,8 @@ const CarouselContent = React.forwardRef<
     }
   }, [api]);
   return (
-    <div ref={carouselRef} className='overflow-hidden'>
+    <div ref={carouselRef} className='overflow-hidden w-full'>
+      {/* <div className='h-[10px]'></div> */}
       <div
         ref={ref}
         className={cn(
@@ -180,7 +181,7 @@ const CarouselContent = React.forwardRef<
         )}
         {...props}
       />
-      <div className='flex justify-center gap-2 w-full mt-3 items-center'>
+      <div className='flex justify-center gap-2 w-full mt-2 items-center'>
         {Array.from({ length: itemCount }, (_, idx) => (
           <FaCircle
             key={idx}
@@ -222,25 +223,19 @@ const CarouselPrevious = React.forwardRef<
   React.ComponentProps<typeof Button>
   // eslint-disable-next-line react/prop-types
 >(({ className, variant = 'outline', size = 'xl', ...props }, ref) => {
-  const { orientation, scrollPrev, canScrollPrev } = useCarousel();
+  const { scrollPrev, canScrollPrev } = useCarousel();
 
   return (
     <Button
       ref={ref}
       variant={variant}
       size={size}
-      className={cn(
-        'absolute  h-10 w-10',
-        orientation === 'horizontal'
-          ? '-left-8 top-1/2 -translate-y-1/2'
-          : '-top-8 left-1/2 -translate-x-1/2 rotate-90',
-        className
-      )}
+      className={cn('', className)}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
     >
-      <FaChevronLeft className='text-xl fill-black' />
+      <FaChevronLeft className='text-xl ' />
       <span className='sr-only'>Previous slide</span>
     </Button>
   );
@@ -259,13 +254,7 @@ const CarouselNext = React.forwardRef<
       ref={ref}
       variant={variant}
       size={size}
-      className={cn(
-        'absolute h-10 w-10 ',
-        orientation === 'horizontal'
-          ? '-right-8 top-1/2 -translate-y-1/2'
-          : '-bottom-8 left-1/2 -translate-x-1/2 rotate-90',
-        className
-      )}
+      className={cn('', className)}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}

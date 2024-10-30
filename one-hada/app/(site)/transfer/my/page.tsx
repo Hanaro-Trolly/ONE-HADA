@@ -33,7 +33,7 @@ export default function TransferPage() {
   return (
     <div
       style={{ height: 'calc(100vh - 56px)' }}
-      className='flex flex-col justify-between items-center px-6'
+      className='flex flex-col justify-between items-center px-6 pb-6'
     >
       <div>
         <div className='tossface-icon text-[4rem] pt-10 text-center'>💴</div>

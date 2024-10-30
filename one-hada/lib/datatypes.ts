@@ -27,6 +27,7 @@ type History = {
   history_type: 'inquiry' | 'transaction' | 'acc';
   history_params: string;
   activity_date: Date;
+  is_Shortcut: boolean;
 };
 
 type Shortcut = {

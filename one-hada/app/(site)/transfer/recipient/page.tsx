@@ -91,12 +91,12 @@ export default function RecipientPage({
     { bank_id: 'bank11', bank_name: 'HSBC' },
     { bank_id: 'bank12', bank_name: '도이치뱅크' },
     { bank_id: 'bank13', bank_name: 'BNP파리바' },
-];
+  ];
 
   return (
     <div
       style={{ height: 'calc(100vh - 56px)' }}
-      className='flex flex-col justify-between items-center px-6'
+      className='flex flex-col justify-between items-center px-6 pb-6'
     >
       <div>
         <div className='tossface-icon text-[4rem] pt-10 text-center'>✉️</div>
@@ -201,7 +201,7 @@ export default function RecipientPage({
       </Select> */}
       <Button
         id='221'
-        className='w-full text-white text-lg bg-main-green  py-3 rounded mt-6 focus:bg-[#479e86] hover:bg-[#479e86] transition'
+        className='w-full h-10 text-white text-lg bg-main-green  py-3 rounded mt-6 focus:bg-[#479e86] hover:bg-[#479e86] transition'
         onClick={() => handleClick()}
       >
         다음

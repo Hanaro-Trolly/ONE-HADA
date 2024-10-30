@@ -667,6 +667,78 @@
       "history_params": "1#전체###전체#",
       "activity_date": "2024-10-30T00:16:48.550Z",
       "is_Shortcut": false
+    },
+    {
+      "id": "qhdu0vhthaf",
+      "user_id": "1730188643520",
+      "history_name": "전체 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-30T00:35:47.192Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "s7moa76x74f",
+      "user_id": "1730188643520",
+      "history_name": "전체 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-30T00:36:27.294Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "f2fouop1598",
+      "user_id": "1730188643520",
+      "history_name": "1년 동안 출금 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#1년###출금#",
+      "activity_date": "2024-10-30T01:10:28.890Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "61",
+      "user_id": "1730188643520",
+      "history_name": "강민관님께 100000원 송금",
+      "activity_date": "2024-10-30T01:58:23.090Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "1#5#100000"
+    },
+    {
+      "id": "1pgh8bv43jq",
+      "user_id": "1730188643520",
+      "history_name": "전체 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-30T02:10:21.322Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "p8poqcy892p",
+      "user_id": "1730188643520",
+      "history_name": "전체 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-30T03:49:35.245Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "8ktd5bq135l",
+      "user_id": "1730188643520",
+      "history_name": "전체 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-30T03:51:12.466Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "65",
+      "user_id": "1730188643520",
+      "history_name": "강민관님께 888원 송금",
+      "activity_date": "2024-10-30T03:56:35.485Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "1#5#888"
     }
   ],
   "shortcut": [
@@ -1183,6 +1255,24 @@
       "amount": 55,
       "sender_viewer": "박시온",
       "receiver_viewer": "강민관"
+    },
+    {
+      "id": "1730253503076",
+      "sender_account_id": "1",
+      "receiver_account_id": "5",
+      "amount": 100000,
+      "sender_viewer": "최강희",
+      "receiver_viewer": "강민관",
+      "transaction_date": "2024-10-30T01:58:23.076Z"
+    },
+    {
+      "id": "1730260595359",
+      "sender_account_id": "1",
+      "receiver_account_id": "5",
+      "amount": 888,
+      "sender_viewer": "최강희",
+      "receiver_viewer": "강민관",
+      "transaction_date": "2024-10-30T03:56:35.359Z"
     }
   ],
   "activity_logs": [
@@ -1217,7 +1307,8 @@
           "timestamp": "2024-10-23 15:20:30",
           "details": "펀드 메뉴 확인"
         }
-      ]
+      ],
+      "id": "2918"
     },
     {
       "user_name": "강민관",
@@ -1242,7 +1333,8 @@
           "timestamp": "2024-10-17 12:15:45",
           "details": "모바일뱅킹 로그인"
         }
-      ]
+      ],
+      "id": "41f2"
     },
     {
       "user_name": "문규빈",
@@ -1267,7 +1359,8 @@
           "timestamp": "2024-10-15 19:20:45",
           "details": "바로가기 편집"
         }
-      ]
+      ],
+      "id": "06f9"
     },
     {
       "user_name": "박시온",
@@ -1296,7 +1389,8 @@
           "timestamp": "2024-10-15 19:28:45",
           "details": "펀드 메뉴 확인"
         }
-      ]
+      ],
+      "id": "fc4f"
     }
   ]
 }

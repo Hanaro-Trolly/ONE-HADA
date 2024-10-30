@@ -10,7 +10,7 @@ export default function ActivityLayout({
   return (
     <div>
       <TabBar></TabBar>
-      <div className='pt-11'></div>
+      <div className='pt-11 '></div>
       <div>{tabs}</div>
       <div>{children}</div>
     </div>

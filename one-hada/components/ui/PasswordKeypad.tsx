@@ -58,7 +58,7 @@ export default function PasswordKeypad({ hadleSubmit }: PasswordKeypadProps) {
       {/* 확인 버튼 */}
       <button
         onClick={() => hadleSubmit(password)}
-        className='w-[290px] mt-6 py-3 bg-main-green text-white text-lg rounded-lg'
+        className='w-[290px] mt-6 h-10 bg-main-green text-white text-lg rounded-lg'
       >
         확인
       </button>

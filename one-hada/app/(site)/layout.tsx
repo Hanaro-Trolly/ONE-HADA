@@ -9,7 +9,7 @@ export default function ServiceLayout({
   return (
     <>
       <AuthSession>
-        <div className='mx-auto w-full min-w-screen-80 min-h-screen flex flex-col bg-main-background '>
+        <div className='mx-auto w-full min-w-screen-80 min-h-screen flex flex-col bg-main-background'>
           <Header />
           <main className='pt-14'>{children}</main>
         </div>

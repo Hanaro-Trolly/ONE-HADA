@@ -102,7 +102,7 @@ export default function TransferConfirmation() {
   return (
     <div
       style={{ height: 'calc(100vh - 56px)' }}
-      className='flex flex-col justify-between items-center px-6'
+      className='flex flex-col justify-between items-center px-6 pb-6'
     >
       <div className='tossface-icon text-[4rem] pt-10 text-center'>❔</div>
       <h2 className='text-center font-medium text-xl mb-12'>
@@ -146,7 +146,7 @@ export default function TransferConfirmation() {
       <Button
         id='241'
         onClick={() => handleClick()}
-        className='w-full text-white text-lg bg-main-green hover:bg-[#479e86]  focus:bg-[#479e86] py-3 rounded mt-6  transition'
+        className='w-full h-10 text-white text-lg bg-main-green hover:bg-[#479e86]  focus:bg-[#479e86] py-3 rounded mt-6  transition'
       >
         확인
       </Button>

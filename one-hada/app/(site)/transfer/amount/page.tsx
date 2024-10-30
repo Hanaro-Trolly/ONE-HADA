@@ -96,7 +96,7 @@ export default function AmountInput() {
   return (
     <div
       style={{ height: 'calc(100vh - 56px)' }}
-      className='flex flex-col justify-between items-center px-6'
+      className='flex flex-col justify-between items-center px-6 pb-6'
     >
       <div className=' w-full rounded-lg mb-2 text-center'>
         <div className='mb-5'>
@@ -131,35 +131,35 @@ export default function AmountInput() {
           <TypeButton
             onClick={() => handleSpecialAmount(10000)}
             button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF]'
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF] hover:bg-[#95D0BF] hover:text-white'
           >
             +1만
           </TypeButton>
           <TypeButton
             onClick={() => handleSpecialAmount(50000)}
             button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF]'
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF] hover:bg-[#95D0BF] hover:text-white'
           >
             +5만
           </TypeButton>
           <TypeButton
             onClick={() => handleSpecialAmount(100000)}
             button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF]'
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF] hover:bg-[#95D0BF] hover:text-white'
           >
             +10만
           </TypeButton>
           <TypeButton
             onClick={() => handleSpecialAmount(1000000)}
             button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF]'
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF] hover:bg-[#95D0BF] hover:text-white'
           >
             +100만
           </TypeButton>
           <TypeButton
             onClick={handleMaxAmount}
             button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF]'
+            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF] hover:bg-[#95D0BF] hover:text-white'
           >
             전액
           </TypeButton>
@@ -186,7 +186,7 @@ export default function AmountInput() {
       </div>
       <Button
         id='232'
-        className='w-full text-white text-lg bg-main-green  py-3 rounded hover:bg-[#479e86] focus:bg-[#479e86] transition'
+        className='w-full h-10 text-white text-lg bg-main-green  py-3 rounded hover:bg-[#479e86] focus:bg-[#479e86] transition'
         onClick={() => handleClick()}
       >
         다음

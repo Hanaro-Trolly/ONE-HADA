@@ -103,17 +103,22 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className='h-1/4 mb-2 p-2'>
-        <div className='text-lg text-[#635666] flex gap-1 items-stretch mb-4 font-medium'>
+      <div className='h-1/4 p-2'>
+        <div className='text-lg text-[#635666] flex gap-1 items-stretch mb-6 font-medium'>
           <FaStar className='text-yellow-400 text-2xl' /> 즐겨찾기
         </div>
         {session?.user ? (
           favoriteList.length > 0 ? (
-            <div className='flex justify-center text-black'>
+            <div className='flex justify-center'>
               <Carousel
                 opts={{ align: 'start', loop: true }}
-                className='h-16 mx-8 w-full'
+                className='h-16 w-full flex justify-between items-center'
               >
+                <CarouselPrevious
+                  variant='ghost'
+                  size='xl'
+                  className='mb-[14px]'
+                />
                 <CarouselContent>
                   {favoriteList.map((item, idx) => (
                     <CarouselItem key={idx}>
@@ -131,8 +136,7 @@ export default function Home() {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious variant='ghost' size='xl' />
-                <CarouselNext variant='ghost' size='xl' />
+                <CarouselNext variant='ghost' size='xl' className='mb-[14px]' />
               </Carousel>
             </div>
           ) : (

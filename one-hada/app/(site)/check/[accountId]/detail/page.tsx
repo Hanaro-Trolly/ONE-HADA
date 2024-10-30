@@ -142,31 +142,31 @@ export default function DetailPage({
               <BankIcon bankId={accountInfo.bank} />
             </div>
             <div className='ml-4'>
-              <h1 className='text-xl font-medium'>
+              <h1 className='text-xl font-normal'>
                 {accountInfo.account_name}
               </h1>
-              <h2 className='text-xl font-medium'>
+
+              <h2 className='mt-4 text-xl font-normal'>
                 {accountInfo.account_number}
               </h2>
             </div>
           </div>
         )}
-        <div className='bg-[#DCEFEA] flex justify-end mt-8 mb-8'>
-          <h1 className='text-2xl font-semibold mr-8'>
+        <div className='bg-[#DCEFEA] flex justify-end mt-4 mb-8'>
+          <h1 className='text-2xl font-medium mr-8'>
             {accountInfo?.balance.toLocaleString()}원
           </h1>
         </div>
       </div>
-      <div className='bg-white flex justify-center items-center'>
-        <h1 className='mt-2 mb-2 text-center flex-1 text-xl'>거래 내역</h1>
+      <div className='bg-white flex justify-center items-center relative'>
+        <h1 className='text-center mt-6 mb-6 text-xl font-medium'>거래 내역</h1>
         <Button
           onClick={handleSearchClick}
-          className='tossface-icon mt-2 mb-2 mr-2 bg-[#61B89F] rounded-full'
+          className='mt-6 mb-6 absolute right-8 tossface-icon bg-[#61B89F] rounded-full hover:bg-[#479e86]'
         >
-          <MagnifyingGlassIcon className='text-white  size-4'></MagnifyingGlassIcon>
+          <MagnifyingGlassIcon className='text-white size-4' />
         </Button>
       </div>
-
       {Object.keys(groupedtransaction).length === 0 ? (
         <p>거래 내역 조회중</p>
       ) : (
@@ -177,7 +177,7 @@ export default function DetailPage({
           )
           .map(([date, transaction]) => (
             <div key={date} className='bg-white'>
-              <h2 className='text-lg font-bold'>
+              <h2 className='ml-4 text-sm font-normal '>
                 {new Date(date).getMonth() + 1}월 {new Date(date).getDate()}일
               </h2>
               {transaction.map((transaction) => {
@@ -196,15 +196,15 @@ export default function DetailPage({
                     className='mt-2 ml-8 border-b pb-2 flex justify-between'
                   >
                     <div>
-                      <p className='font-bold'>
+                      <p className='font-medium'>
                         {isWithdrawal
                           ? ` ${transaction.receiver_viewer}`
                           : ` ${transaction.sender_viewer}`}
                       </p>
                       <p className='text-sm text-gray-500'>{transactionTime}</p>
                     </div>
-                    <div className='text-right'>
-                      <p className={`text-lg font-bold ${isWithdrawal}`}>
+                    <div className='text-right mr-8'>
+                      <p className={`text-lg font-medium ${isWithdrawal}`}>
                         {isWithdrawal ? '-' : '+'}
                         {transaction.amount.toLocaleString()} 원
                       </p>

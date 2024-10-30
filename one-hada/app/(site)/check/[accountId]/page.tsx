@@ -97,7 +97,7 @@ export default function AccountDetailPage({
   };
 
   return (
-    <div className='bg-[#DCEFEA] min-h-screen flex flex-col'>
+    <div className='bg-[#DCEFEA] w-full min-h-screen flex flex-col'>
       <div className='flex items-center ml-4 mt-4'>
         <div className='w-12 h-12 bg-white rounded-full flex items-center justify-center'>
           <BankIcon bankId={account.bank} />
@@ -110,16 +110,16 @@ export default function AccountDetailPage({
 
       <div className='bg-white shadow-md rounded-lg mt-8 p-8 flex-grow'>
         <h2 className='text-lg font-bold mb-4'>조회 옵션</h2>
-        <div className='mb-10'>
+        <div className='mt-10 mb-10'>
           <p className='text-md font-semibold'>조회기간</p>
-          <div className='flex gap-4 mt-10'>
+          <div className='flex justify-between mt-6'>
             <TypeButton
               button_type='조회기간'
               onClick={() => handlePeriodClick('전체')}
               className={
                 selectedPeriod === '전체'
-                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
-                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2 focus:bg-[#95D0BF] focus:text-white hover:bg-[#95D0BF]'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none hover:bg-[#95D0BF] hover:text-white'
               }
             >
               전체
@@ -129,8 +129,8 @@ export default function AccountDetailPage({
               onClick={() => handlePeriodClick('1개월')}
               className={
                 selectedPeriod === '1개월'
-                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
-                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2 focus:bg-[#95D0BF] focus:text-white hover:bg-[#95D0BF]'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none hover:bg-[#95D0BF] hover:text-white'
               }
             >
               1개월
@@ -140,8 +140,8 @@ export default function AccountDetailPage({
               onClick={() => handlePeriodClick('3개월')}
               className={
                 selectedPeriod === '3개월'
-                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
-                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2 focus:bg-[#95D0BF] focus:text-white hover:bg-[#95D0BF]'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none hover:bg-[#95D0BF] hover:text-white'
               }
             >
               3개월
@@ -151,8 +151,8 @@ export default function AccountDetailPage({
               onClick={() => handlePeriodClick('6개월')}
               className={
                 selectedPeriod === '6개월'
-                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
-                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2 focus:bg-[#95D0BF] focus:text-white hover:bg-[#95D0BF]'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none hover:bg-[#95D0BF] hover:text-white'
               }
             >
               6개월
@@ -162,8 +162,8 @@ export default function AccountDetailPage({
               onClick={() => handlePeriodClick('1년')}
               className={
                 selectedPeriod === '1년'
-                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
-                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2 focus:bg-[#95D0BF] focus:text-white hover:bg-[#95D0BF]'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none hover:bg-[#95D0BF] hover:text-white'
               }
             >
               1년
@@ -172,7 +172,7 @@ export default function AccountDetailPage({
         </div>
 
         <div className='mb-4'>
-          <div className='flex gap-4 mt-2'>
+          <div className='flex justify-between items-center mt-2'>
             <input
               type='date'
               value={startDate}
@@ -180,9 +180,10 @@ export default function AccountDetailPage({
                 setStartDate(e.target.value);
                 setSelectedPeriod('');
               }}
-              className='border rounded-md px-4 py-2'
+              className='w-36 border text-sm rounded-md px-4 py-2 focus:ring-2 focus:ring-inset focus:ring-main-green focus:outline-none'
               placeholder='시작 날짜'
             />
+            <span>~</span>
             <input
               type='date'
               value={endDate}
@@ -190,7 +191,7 @@ export default function AccountDetailPage({
                 setEndDate(e.target.value);
                 setSelectedPeriod('');
               }}
-              className='border rounded-md px-4 py-2'
+              className='w-36  border text-sm rounded-md px-4 py-2 focus:ring-2 focus:ring-inset focus:ring-main-green focus:outline-none'
               placeholder='종료 날짜'
             />
           </div>
@@ -199,14 +200,14 @@ export default function AccountDetailPage({
         {/* 거래 구분 */}
         <div className='mb-10'>
           <p className='text-md mt-10 font-semibold'>거래 구분</p>
-          <div className='flex gap-2 mt-10'>
+          <div className='flex gap-2 mt-6'>
             <TypeButton
               button_type='거래구분'
               onClick={() => handleTypeClick('전체')}
               className={
                 selectedType === '전체'
-                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
-                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2 focus:bg-[#95D0BF] focus:text-white hover:bg-[#95D0BF]'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none hover:bg-[#95D0BF] hover:text-white'
               }
             >
               전체
@@ -216,8 +217,8 @@ export default function AccountDetailPage({
               onClick={() => handleTypeClick('입금')}
               className={
                 selectedType === '입금'
-                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
-                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2 focus:bg-[#95D0BF] focus:text-white hover:bg-[#95D0BF]'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none hover:bg-[#95D0BF] hover:text-white'
               }
             >
               입금
@@ -227,8 +228,8 @@ export default function AccountDetailPage({
               onClick={() => handleTypeClick('출금')}
               className={
                 selectedType === '출금'
-                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2'
-                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none'
+                  ? 'bg-[#95D0BF] text-white rounded-full px-4 py-2 focus:bg-[#95D0BF] focus:text-white hover:bg-[#95D0BF]'
+                  : 'bg-[#ffffff] text-black rounded-full px-4 py-2 shadow-none hover:bg-[#95D0BF] hover:text-white'
               }
             >
               출금
@@ -242,7 +243,7 @@ export default function AccountDetailPage({
             type='text'
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
-            className='border rounded-full mt-10 px-4 py-2 w-1/2 bg-[#DCEFEA]'
+            className='border rounded-full mt-6 px-4 py-2 w-1/2 bg-[#DCEFEA] focus:ring-2 focus:ring-inset focus:ring-main-green focus:outline-none'
             placeholder='검색어 입력'
           />
         </div>
@@ -251,7 +252,7 @@ export default function AccountDetailPage({
         <div className='flex justify-center'>
           <button
             onClick={handleSearchClick}
-            className='w-4/5 mt-10 px-6 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377B68]'
+            className='w-4/5 mt-6 px-6 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377B68]'
           >
             조회하기
           </button>
