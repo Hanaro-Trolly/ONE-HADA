@@ -138,14 +138,14 @@ export default function SettingsPage() {
             </div>
             <div className='flex flex-col justify-between bg-white shadow-md rounded-xl mx-6 p-4 px-5'>
               <div>
-                <label>생년월일</label>
+                <label className='font-medium'>생년월일</label>
                 <p className='w-full border p-2 rounded-lg'>
                   {userProfile?.user_birth}
                 </p>
               </div>
 
               <div className='mt-4'>
-                <label>전화번호</label>
+                <label className='font-medium'>전화번호</label>
                 {isEditing ? (
                   <input
                     ref={phoneNumberRef}
@@ -162,7 +162,7 @@ export default function SettingsPage() {
               </div>
 
               <div className='mt-4'>
-                <label>주소</label>
+                <label className='font-medium'>주소</label>
                 <div className='w-full h-16'>
                   {isEditing ? (
                     <textarea
@@ -202,7 +202,7 @@ export default function SettingsPage() {
         )}
       </div>
       <div>
-        <h2 className='mb-4 mt-4 mx-6 px-5'>모드 설정</h2>
+        <h2 className='mb-2 mt-4 mx-6 px-5 font-semibold text-lg'>모드 설정</h2>
         <SwitchCard
           mode='큰글씨 모드'
           checked={isLargeTextMode}
