@@ -123,7 +123,7 @@ export default function ShortCutPage() {
         className='w-full py-2 overflow-y-scroll'
       >
         {favoriteList.map((item) => (
-          <li key={item.id}>
+          <li key={item.id} className='flex'>
             <ShortCutCard
               id={item.id}
               name={item.shortcut_name}
@@ -136,7 +136,7 @@ export default function ShortCutPage() {
           </li>
         ))}
         {normalList.map((item) => (
-          <li key={item.id}>
+          <li key={item.id} className='flex'>
             <ShortCutCard
               id={item.id}
               name={item.shortcut_name}
