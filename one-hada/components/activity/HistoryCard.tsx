@@ -25,7 +25,7 @@ export default function HistoryCard({ id, name, date }: HistoryCardProps) {
           <Link href={`/activity/history/${id}`}>
             <Button
               id={id}
-              className='rounded-full bg-[#61B89F] hover:bg-[#377b68]'
+              className='rounded-full bg-main-green hover:ring-main-green hover:bg-main-green'
             >
               등록 <ChevronRight />
             </Button>

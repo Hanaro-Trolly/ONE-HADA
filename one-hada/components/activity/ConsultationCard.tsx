@@ -43,11 +43,11 @@ export default function ConsultationCard({
         </div>
       </div>
       {isDetail ? (
-        <div className='p-3 bg-[#fafcfb] border-l-4 border-l-[#479E86] border-b text-sm'>
+        <div className='p-3 bg-[#fafcfb] border-l-4 border-l-main-green border-b text-sm'>
           <ul>
             {oneLineContent.map((line, idx) => (
               <li key={idx} className='flex gap-2'>
-                <div className='text-[8px] font-extrabold text-[#479E86]'>
+                <div className='text-[8px] font-extrabold text-main-green'>
                   O
                 </div>
                 {line}
