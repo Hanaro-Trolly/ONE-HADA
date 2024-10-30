@@ -12,9 +12,10 @@ export const buttons = [
   { label: '보험', targetId: '보험' },
   { label: '공과금', targetId: '공과금' },
   { label: '번호표/출금/결제', targetId: '번호표/출금/결제' },
-  { label: '하나금융그룹', targetId: '하나금융그룹' },
   { label: '카드', targetId: '카드' },
-  { label: '이벤트', targetId: '이벤트' },
+  { label: '하나금융그룹', targetId: '하나금융그룹' },
+  { label: '사업자/시니어/VIP/YOUNG', targetId: '사업자/시니어/VIP/YOUNG' },
+  { label: '이벤트/스포츠', targetId: '이벤트/스포츠' },
   { label: '생활', targetId: '생활' },
 ];
 
@@ -108,15 +109,15 @@ export const menuData = [
   {
     title: '외환',
     items: [
-      { title: '메뉴1', link: '/' },
-      { title: '메뉴2', link: '/' },
-      { title: '메뉴3', link: '/' },
-      { title: '메뉴1', link: '/' },
-      { title: '메뉴2', link: '/' },
-      { title: '메뉴3', link: '/' },
-      { title: '메뉴1', link: '/' },
-      { title: '메뉴2', link: '/' },
-      { title: '메뉴3', link: '/' },
+      { title: '외화예금가입', link: '/' },
+      { title: '외화예금관리', link: '/' },
+      { title: 'FX마켓', link: '/' },
+      { title: '환율', link: '/' },
+      { title: '외화매매/환전', link: '/' },
+      { title: '외화송금', link: '/' },
+      { title: '외화송금받기', link: '/' },
+      { title: '외화결제카드', link: '/' },
+      { title: '외환혜택라운지', link: '/' },
     ],
   },
   {
@@ -153,26 +154,41 @@ export const menuData = [
   {
     title: '하나금융그룹',
     items: [
-      { title: '메뉴1', link: '/' },
-      { title: '메뉴2', link: '/' },
-      { title: '메뉴3', link: '/' },
+      { title: '그룹자산 통합조회', link: '/' },
+      { title: '하나머니', link: '/' },
+      { title: '하나증권', link: '/' },
+      { title: '하나카드', link: '/' },
+      { title: '하나캐피탈', link: '/' },
+      { title: '하나생명', link: '/' },
+      { title: '하나손해보험', link: '/' },
+      { title: '하나저축은행', link: '/' },
+      { title: '제휴사 연계대출 조회결과', link: '/' },
     ],
   },
-
   {
-    title: '이벤트',
+    title: '사업자/시니어/VIP/YOUNG',
     items: [
-      { title: '메뉴1', link: '/' },
-      { title: '메뉴2', link: '/' },
-      { title: '메뉴3', link: '/' },
+      { title: '개인사업자', link: '/' },
+      { title: '시니어', link: '/' },
+      { title: 'VIP', link: '/' },
+      { title: 'YOUNG', link: '/' },
+    ],
+  },
+  {
+    title: '이벤트/스포츠',
+    items: [
+      { title: '혜택/이벤트', link: '/' },
+      { title: '티켓예매', link: '/' },
+      { title: '스포츠', link: '/' },
+      { title: '하나원큐 축구Play', link: '/' },
     ],
   },
   {
     title: '생활',
     items: [
-      { title: '메뉴1', link: '/' },
-      { title: '메뉴2', link: '/' },
-      { title: '메뉴3', link: '/' },
+      { title: '생활편의', link: '/' },
+      { title: '생활정보', link: '/' },
+      { title: '생활금융', link: '/' },
     ],
   },
 ];

@@ -1,12 +1,28 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 
+const BASE_URL = 'http://localhost:3000/';
+const urlToPosition = (url: string) => {
+  switch (url) {
+    case BASE_URL + 'activity/history':
+      return 0;
+    case BASE_URL + 'activity/shortcut':
+      return 1;
+    case BASE_URL + 'activity/consultations':
+      return 2;
+    default:
+      return 0;
+  }
+};
 export default function TabBar() {
   const [position, setPosition] = useState(0);
+  useEffect(() => {
+    setPosition(urlToPosition(window.location.href));
+  }, []);
   return (
     <>
       {' '}
