@@ -101,15 +101,19 @@ export default function SettingsPage() {
               <div className='w-full flex justify-between text-sm pb-2'>
                 <div className='flex items-center h-5'>
                   {isEditing ? (
-                    <div className='flex gap-1 items-center'>
+                    <div className='flex gap-4 items-center'>
                       <Button
-                        className='px-2 py-1 gap-0  h-5 bg-[#E44B5B] hover:bg-[#B61C2B]'
+                        // className='px-2 py-1 gap-0  h-5 bg-[#E44B5B] hover:bg-[#B61C2B]'
+                        variant='ghost'
+                        className='px-0 py-1 gap-0 h-5'
                         onClick={handleCancel}
                       >
                         취소
                       </Button>
                       <Button
-                        className='px-2 py-1 gap-0 h-5 bg-[#5E7887] hover:bg-[#3f505a]'
+                        // className='px-2 py-1 gap-0 h-5 bg-[#5E7887] hover:bg-[#3f505a]'
+                        variant='ghost'
+                        className='px-0 py-1 gap-0 h-5'
                         onClick={handleSave}
                       >
                         완료
