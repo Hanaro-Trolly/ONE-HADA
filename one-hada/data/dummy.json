@@ -739,6 +739,15 @@
       "is_Shortcut": false,
       "history_type": "transaction",
       "history_params": "1#5#888"
+    },
+    {
+      "id": "66",
+      "user_id": "1730188643520",
+      "history_name": "최강희님께 100000원 송금",
+      "activity_date": "2024-10-30T05:48:01.529Z",
+      "is_Shortcut": false,
+      "history_type": "transaction",
+      "history_params": "2#1#100000"
     }
   ],
   "shortcut": [
@@ -1273,6 +1282,15 @@
       "sender_viewer": "최강희",
       "receiver_viewer": "강민관",
       "transaction_date": "2024-10-30T03:56:35.359Z"
+    },
+    {
+      "id": "1730267281510",
+      "sender_account_id": "2",
+      "receiver_account_id": "1",
+      "amount": 100000,
+      "sender_viewer": "최강희",
+      "receiver_viewer": "최강희",
+      "transaction_date": "2024-10-30T05:48:01.510Z"
     }
   ],
   "activity_logs": [

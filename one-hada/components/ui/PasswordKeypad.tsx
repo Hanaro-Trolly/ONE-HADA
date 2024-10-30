@@ -1,14 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 interface PasswordKeypadProps {
-  hadleSubmit: (password: string[]) => void;
+  handleSubmit: (
+    password: string[],
+    setPassword: Dispatch<SetStateAction<string[]>>
+  ) => void;
 }
 
-export default function PasswordKeypad({ hadleSubmit }: PasswordKeypadProps) {
+export default function PasswordKeypad({ handleSubmit }: PasswordKeypadProps) {
   const [password, setPassword] = useState<string[]>([]);
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, '', 0, 'delete'];
+  const numbers: (number | string)[] = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    '',
+    0,
+    'delete',
+  ];
 
   const handleNumberClick = (num: number | string) => {
     if (num === 'delete') {
@@ -57,7 +73,7 @@ export default function PasswordKeypad({ hadleSubmit }: PasswordKeypadProps) {
 
       {/* 확인 버튼 */}
       <button
-        onClick={() => hadleSubmit(password)}
+        onClick={() => handleSubmit(password, setPassword)}
         className='w-[290px] mt-6 h-10 bg-main-green text-white text-lg rounded-lg'
       >
         확인

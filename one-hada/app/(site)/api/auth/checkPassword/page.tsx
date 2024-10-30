@@ -2,7 +2,13 @@
 
 import PasswordKeypad from '@/components/ui/PasswordKeypad';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { getData, addData, fetchAllData } from '@/lib/api';
 import { History, User } from '@/lib/datatypes';
 
@@ -86,7 +92,10 @@ export default function CheckPassword() {
     route = decodeURIComponent(route);
   }
 
-  const handleSubmit = (password: string[]) => {
+  const handleSubmit = (
+    password: string[],
+    setPassword: Dispatch<SetStateAction<string[]>>
+  ) => {
     if (password.length !== 6) {
       alert('6자리 숫자를 모두 입력해주세요.');
       return;
@@ -97,6 +106,7 @@ export default function CheckPassword() {
       handleTransactionAndHistory(route || '');
       router.push(redirectTo || route || '/');
     } else {
+      setPassword([]);
       alert('비밀번호가 일치하지 않습니다.');
     }
   };
@@ -106,7 +116,7 @@ export default function CheckPassword() {
       <h2 className='text-xl font-medium text-[#635666] text-center mb-6'>
         간편 비밀번호를 입력하세요
       </h2>
-      <PasswordKeypad hadleSubmit={handleSubmit}></PasswordKeypad>
+      <PasswordKeypad handleSubmit={handleSubmit}></PasswordKeypad>
     </div>
   );
 }
