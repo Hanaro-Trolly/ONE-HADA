@@ -12,8 +12,9 @@ export const buttons = [
   { label: '보험', targetId: '보험' },
   { label: '공과금', targetId: '공과금' },
   { label: '번호표/출금/결제', targetId: '번호표/출금/결제' },
-  { label: '하나금융그룹', targetId: '하나금융그룹' },
   { label: '카드', targetId: '카드' },
+  { label: '하나금융그룹', targetId: '하나금융그룹' },
+  { label: '사업자/시니어/VIP/YOUNG', targetId: '사업자/시니어/VIP/YOUNG' },
   { label: '이벤트/스포츠', targetId: '이벤트/스포츠' },
   { label: '생활', targetId: '생활' },
 ];
@@ -164,7 +165,15 @@ export const menuData = [
       { title: '제휴사 연계대출 조회결과', link: '/' },
     ],
   },
-
+  {
+    title: '사업자/시니어/VIP/YOUNG',
+    items: [
+      { title: '개인사업자', link: '/' },
+      { title: '시니어', link: '/' },
+      { title: 'VIP', link: '/' },
+      { title: 'YOUNG', link: '/' },
+    ],
+  },
   {
     title: '이벤트/스포츠',
     items: [
@@ -177,7 +186,7 @@ export const menuData = [
   {
     title: '생활',
     items: [
-      { title: '생활편의1', link: '/' },
+      { title: '생활편의', link: '/' },
       { title: '생활정보', link: '/' },
       { title: '생활금융', link: '/' },
     ],
