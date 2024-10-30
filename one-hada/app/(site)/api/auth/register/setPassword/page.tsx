@@ -62,7 +62,7 @@ export default function SetPassword() {
       <h2 className='text-xl font-medium text-[#635666] text-center mb-6'>
         간편 비밀번호를 설정하세요
       </h2>
-      <PasswordKeypad hadleSubmit={handleSubmit}></PasswordKeypad>
+      <PasswordKeypad handleSubmit={handleSubmit}></PasswordKeypad>
     </div>
   );
 }
