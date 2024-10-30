@@ -1,5 +1,8 @@
 'use client';
 
+import BankIcon from '@/components/molecules/BankIcon';
+import { Button } from '@/components/ui/button';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getData, fetchAllData } from '@/lib/api';
@@ -11,9 +14,9 @@ export default function DetailPage({
 }: {
   params: { accountId: string };
 }) {
-  const [filteredTransactions, setFilteredTransactions] = useState<
-    Transaction[]
-  >([]);
+  const [filteredtransaction, setFilteredtransaction] = useState<Transaction[]>(
+    []
+  );
   const [accountInfo, setAccountInfo] = useState<Account | null>(null);
   const { accountId } = params;
   const router = useRouter();
@@ -96,9 +99,9 @@ export default function DetailPage({
           return periodCondition && keywordCondition;
         });
 
-        setFilteredTransactions(filtered);
+        setFilteredtransaction(filtered);
       } catch (error) {
-        console.error('Error fetching transactions:', error);
+        console.error('Error fetching transaction:', error);
       }
     };
 
@@ -106,9 +109,8 @@ export default function DetailPage({
     fetchTransactionData();
   }, [accountId]);
 
-  const groupedTransactions = filteredTransactions.reduce(
+  const groupedtransaction = filteredtransaction.reduce(
     (groups: Record<string, Transaction[]>, transaction) => {
-      // Check if transaction_date exists before using toISOString
       const transactionDate = transaction.transaction_date;
       if (!transactionDate) {
         console.error('Transaction date is undefined:', transaction);
@@ -132,54 +134,87 @@ export default function DetailPage({
   };
 
   return (
-    <div>
-      {accountInfo && (
-        <div className='bg-white shadow-md rounded-lg w-full h-full flex items-start justify-between flex-col'>
-          <h1>계좌 이름: {accountInfo.account_name}</h1>
-          <h2>계좌 번호: {accountInfo.account_number}</h2>
-          <h3>{accountInfo.balance.toLocaleString()}원</h3>
+    <div className='bg-white min-h-screen flex flex-col'>
+      <div className='bg-[#DCEFEA]'>
+        {accountInfo && (
+          <div className='flex items-center ml-4 mt-4 bg-[#DCEFEA] p-4 rounded-lg'>
+            <div className='w-12 h-12 bg-white rounded-full flex items-center justify-center'>
+              <BankIcon bankId={accountInfo.bank} />
+            </div>
+            <div className='ml-4'>
+              <h1 className='text-xl font-medium'>
+                {accountInfo.account_name}
+              </h1>
+              <h2 className='text-xl font-medium'>
+                {accountInfo.account_number}
+              </h2>
+            </div>
+          </div>
+        )}
+        <div className='bg-[#DCEFEA] flex justify-end mt-8 mb-8'>
+          <h1 className='text-2xl font-semibold mr-8'>
+            {accountInfo?.balance.toLocaleString()}원
+          </h1>
         </div>
-      )}
-      <div className='flex justify-center items-center'>
-        <h1>거래 내역</h1>
-        <button onClick={handleSearchClick} className='ml-2'>
-          🔍
-        </button>
+      </div>
+      <div className='bg-white flex justify-center items-center'>
+        <h1 className='mt-2 mb-2 text-center flex-1 text-xl'>거래 내역</h1>
+        <Button
+          onClick={handleSearchClick}
+          className='tossface-icon mt-2 mb-2 mr-2 bg-[#61B89F] rounded-full'
+        >
+          <MagnifyingGlassIcon className='text-white  size-4'></MagnifyingGlassIcon>
+        </Button>
       </div>
 
-      {Object.keys(groupedTransactions).length === 0 ? (
-        <p>거래 내역이 없습니다.</p>
+      {Object.keys(groupedtransaction).length === 0 ? (
+        <p>거래 내역 조회중</p>
       ) : (
-        Object.entries(groupedTransactions)
+        Object.entries(groupedtransaction)
           .sort(
             ([dateA], [dateB]) =>
               new Date(dateB).getTime() - new Date(dateA).getTime()
           )
-          .map(([date, transactions]) => (
-            <div key={date} className='mt-4'>
-              <h2 className='text-lg font-bold'>{date}</h2>
-              {transactions.map((transaction) => (
-                <div key={transaction.id} className='mt-2 border-b pb-2'>
-                  <p>
-                    거래 타입:{' '}
-                    {transaction.sender_account_id === accountId
-                      ? '출금'
-                      : '입금'}
-                  </p>
-                  <p>금액: {transaction.amount.toLocaleString()} 원</p>
-                  <p>
-                    {transaction.sender_account_id === accountId
-                      ? `받는 사람: ${transaction.receiver_viewer}`
-                      : `보낸 사람: ${transaction.sender_viewer}`}
-                  </p>
-                  <p>
-                    거래 날짜:{' '}
-                    {new Date(
-                      transaction.transaction_date
-                    ).toLocaleDateString()}
-                  </p>
-                </div>
-              ))}
+          .map(([date, transaction]) => (
+            <div key={date} className='bg-white'>
+              <h2 className='text-lg font-bold'>
+                {new Date(date).getMonth() + 1}월 {new Date(date).getDate()}일
+              </h2>
+              {transaction.map((transaction) => {
+                const isWithdrawal =
+                  transaction.sender_account_id === accountId;
+                const transactionTime = new Date(
+                  transaction.transaction_date
+                ).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                });
+
+                return (
+                  <div
+                    key={transaction.id}
+                    className='mt-2 ml-8 border-b pb-2 flex justify-between'
+                  >
+                    <div>
+                      <p className='font-bold'>
+                        {isWithdrawal
+                          ? ` ${transaction.receiver_viewer}`
+                          : ` ${transaction.sender_viewer}`}
+                      </p>
+                      <p className='text-sm text-gray-500'>{transactionTime}</p>
+                    </div>
+                    <div className='text-right'>
+                      <p className={`text-lg font-bold ${isWithdrawal}`}>
+                        {isWithdrawal ? '-' : '+'}
+                        {transaction.amount.toLocaleString()} 원
+                      </p>
+                      <p className='text-sm text-gray-500'>
+                        {accountInfo?.balance.toLocaleString()} 원
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           ))
       )}
