@@ -11,7 +11,7 @@ export default function ButtonRow({ buttons }: ButtonRowProps) {
   const [isOpen, setButtons] = useState(false);
 
   return (
-    <div className='flex w-full justify-between items-center mb-2 px-11 pt-1'>
+    <div className='flex w-full justify-between mb-2 px-11 pt-1'>
       {!isOpen ? (
         <div className='flex justify-start gap-1 overflow-x-hidden relative'>
           {buttons.map((button) => (

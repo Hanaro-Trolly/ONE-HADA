@@ -17,7 +17,7 @@ export default function MenuButton({ label, targetId }: MenuButtonProps) {
       <Button
         onClick={scrollToSection}
         size='sm'
-        className='rounded-2xl h-7 w-16 bg-[#61B89F] hover:bg-[#AEDBCE]'
+        className='rounded-2xl h-7 w-auto bg-[#61B89F] hover:bg-[#AEDBCE]'
       >
         {label}
       </Button>

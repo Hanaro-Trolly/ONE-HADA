@@ -89,14 +89,16 @@ export default function SettingsPage() {
       <div className='bg-[#DCEFEA] w-full overflow-y-scroll'>
         {session?.user ? (
           <div className='pb-4'>
-            <div className='mb-2 mx-6 px-5 pt-4'>
-              <div className='text=[#635666}'>
-                <label className='text-xl text-[#698596] font-semibold'>
-                  {userProfile?.user_name}
-                </label>
-                님{' '}
+            <div className='mx-6 px-5 flex flex-col justify-center'>
+              <div className='flex items-center h-14'>
+                <div className='text=[#635666}'>
+                  <label className='text-xl text-[#698596] font-semibold'>
+                    {userProfile?.user_name}
+                  </label>
+                  님{' '}
+                </div>
               </div>
-              <div className='w-full flex justify-between text-sm pt-1'>
+              <div className='w-full flex justify-between text-sm pb-2'>
                 <div className='flex items-center h-5'>
                   {isEditing ? (
                     <div className='flex gap-1 items-center'>

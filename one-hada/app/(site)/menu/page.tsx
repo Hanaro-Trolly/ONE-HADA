@@ -9,6 +9,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { getData } from '@/lib/api';
 import { User } from '@/lib/datatypes';
+import { buttons, menuData } from '@/lib/menuData';
 
 export default function MenuPage() {
   const { data: session } = useSession();
@@ -28,15 +29,6 @@ export default function MenuPage() {
     };
     loadUser();
   }, [session]);
-
-  const buttons = [
-    { label: '조회', targetId: '조회' },
-    { label: '이체', targetId: '이체' },
-    { label: '자산관리', targetId: '자산관리' },
-    { label: '예적금', targetId: '예적금' },
-    { label: '퇴직연금', targetId: '퇴직연금' },
-    { label: '신탁', targetId: '신탁' },
-  ];
 
   return (
     <div
@@ -90,41 +82,13 @@ export default function MenuPage() {
         <ButtonRow buttons={buttons}></ButtonRow>
       </div>
       <div className='mb-2 mx-6 px-5 pt-1 py-2'>
-        <MenuSection title={'조회'}>
-          <MenuCard title={'메뉴1'} link={'/'} />
-          <MenuCard title={'메뉴2'} link={'/'} />
-          <MenuCard title={'메뉴3'} link={'/'} />
-        </MenuSection>
-        <MenuSection title={'이체'}>
-          <MenuCard title={'메뉴1'} link={'/'} />
-          <MenuCard title={'메뉴2'} link={'/'} />
-          <MenuCard title={'메뉴3'} link={'/'} />
-        </MenuSection>
-        <MenuSection title={'자산관리'}>
-          <MenuCard title={'메뉴1'} link={'/'} />
-          <MenuCard title={'메뉴2'} link={'/'} />
-          <MenuCard title={'메뉴3'} link={'/'} />
-        </MenuSection>
-        <MenuSection title={'예적금'}>
-          <MenuCard title={'메뉴1'} link={'/'} />
-          <MenuCard title={'메뉴2'} link={'/'} />
-          <MenuCard title={'메뉴3'} link={'/'} />
-        </MenuSection>
-        <MenuSection title={'퇴직연금'}>
-          <MenuCard title={'메뉴1'} link={'/'} />
-          <MenuCard title={'메뉴2'} link={'/'} />
-          <MenuCard title={'메뉴3'} link={'/'} />
-        </MenuSection>
-        <MenuSection title={'펀드'}>
-          <MenuCard title={'메뉴1'} link={'/'} />
-          <MenuCard title={'메뉴2'} link={'/'} />
-          <MenuCard title={'메뉴3'} link={'/'} />
-        </MenuSection>
-        <MenuSection title={'신탁'}>
-          <MenuCard title={'메뉴1'} link={'/'} />
-          <MenuCard title={'메뉴2'} link={'/'} />
-          <MenuCard title={'메뉴3'} link={'/'} />
-        </MenuSection>
+        {menuData.map((section) => (
+          <MenuSection key={section.title} title={section.title}>
+            {section.items.map((item) => (
+              <MenuCard key={item.title} title={item.title} link={item.link} />
+            ))}
+          </MenuSection>
+        ))}
       </div>
     </div>
   );
