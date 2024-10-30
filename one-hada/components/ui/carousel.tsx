@@ -247,7 +247,7 @@ const CarouselNext = React.forwardRef<
   React.ComponentProps<typeof Button>
   // eslint-disable-next-line react/prop-types
 >(({ className, variant = 'outline', size = 'xl', ...props }, ref) => {
-  const { orientation, scrollNext, canScrollNext } = useCarousel();
+  const { scrollNext, canScrollNext } = useCarousel();
 
   return (
     <Button

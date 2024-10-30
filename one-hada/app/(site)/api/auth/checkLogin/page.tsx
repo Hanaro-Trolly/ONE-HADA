@@ -34,7 +34,7 @@ export default function CheckLogin() {
         router.push('/');
       }
     }
-  }, [session, router]);
+  }, [session, router, updateSession]);
 
   return (
     <div
