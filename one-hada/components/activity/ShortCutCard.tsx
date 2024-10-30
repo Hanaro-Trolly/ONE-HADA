@@ -29,10 +29,10 @@ export default function ShortCutCard({
     <>
       <Button
         key={id}
-        className='bg-white shadow-md rounded-lg border-l-[10px] border-[#AEDBCE] m-4 mx-6 p-4 px-5 h-16 flex justify-between w-11/12 hover:bg-white'
+        className='bg-white shadow-md flex-1 rounded-lg border-l-[10px] border-[#AEDBCE] mx-6 my-2 py-4 h-16 flex justify-between  hover:bg-white'
         onClick={handleButtonClick}
       >
-        <div className='flex items-center gap-1 max-w-72'>
+        <div className='flex items-center gap-1 max-w-64 min-w-[170px]'>
           <label className='font-medium text-lg text-[#635666] overflow-ellipsis overflow-hidden whitespace-nowrap'>
             {name}
           </label>
