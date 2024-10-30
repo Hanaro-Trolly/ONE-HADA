@@ -30,7 +30,7 @@ export default function ConsultationCard({
           <div
             className={cn(
               'font-medium',
-              isDetail ? 'text-[#479E86]' : 'text-black'
+              isDetail ? 'text-[#479E86]' : 'text-[#635666]'
             )}
           >
             {title}

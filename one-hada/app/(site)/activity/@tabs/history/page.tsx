@@ -34,7 +34,7 @@ const HistoryPage = () => {
       className='w-full py-2 overflow-y-scroll'
     >
       <ul>
-        {historyData.reverse().map((item) => (
+        {historyData.toReversed().map((item) => (
           <li key={item.id}>
             <HistoryCard
               id={item.id}

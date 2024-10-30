@@ -172,6 +172,7 @@ export default function HistoryModalPage({
             <label key={value} className='flex items-center'>
               <input
                 type='checkbox'
+                className='accent-green-700'
                 checked={checkedList.includes('' + idx)}
                 onChange={(e) => handleCheckedItem('' + idx, e.target.checked)}
               />
