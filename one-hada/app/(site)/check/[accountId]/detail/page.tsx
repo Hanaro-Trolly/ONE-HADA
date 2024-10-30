@@ -2,6 +2,7 @@
 
 import BankIcon from '@/components/molecules/BankIcon';
 import { Button } from '@/components/ui/button';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getData, fetchAllData } from '@/lib/api';
@@ -162,12 +163,12 @@ export default function DetailPage({
           onClick={handleSearchClick}
           className='tossface-icon mt-2 mb-2 mr-2 bg-[#61B89F] rounded-full'
         >
-          🔍
+          <MagnifyingGlassIcon className='text-white  size-4'></MagnifyingGlassIcon>
         </Button>
       </div>
 
       {Object.keys(groupedtransaction).length === 0 ? (
-        <p>거래 내역이 없습니다.</p>
+        <p>거래 내역 조회중</p>
       ) : (
         Object.entries(groupedtransaction)
           .sort(

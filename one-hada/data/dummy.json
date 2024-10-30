@@ -613,6 +613,60 @@
       "history_params": "1#3개월###전체#",
       "activity_date": "2024-10-29T21:19:03.920Z",
       "is_Shortcut": false
+    },
+    {
+      "id": "65h3i3qi7k6",
+      "user_id": "1730188643520",
+      "history_name": "전체 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-29T23:59:52.283Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "8ydu0hoo57s",
+      "user_id": "1730188643520",
+      "history_name": "전체 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "3#전체###전체#",
+      "activity_date": "2024-10-30T00:04:37.349Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "57c5b1wseyo",
+      "user_id": "1730188643520",
+      "history_name": "전체 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-30T00:07:33.126Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "km8pif3eeg",
+      "user_id": "1730188643520",
+      "history_name": "전체 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-30T00:07:38.656Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "jhv6ea5zce",
+      "user_id": "1730188643520",
+      "history_name": "전체 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-30T00:14:31.482Z",
+      "is_Shortcut": false
+    },
+    {
+      "id": "mevjiq83hgs",
+      "user_id": "1730188643520",
+      "history_name": "전체 동안 전체 내역  조회하기",
+      "history_type": "inquiry",
+      "history_params": "1#전체###전체#",
+      "activity_date": "2024-10-30T00:16:48.550Z",
+      "is_Shortcut": false
     }
   ],
   "shortcut": [
@@ -704,9 +758,16 @@
       "is_Favorite": true
     },
     {
-      "id": "14",
+      "id": "16",
       "user_id": "1730188643520",
-      "shortcut_name": "조회 2024. 10. 29. 오후 4:58:49",
+      "shortcut_name": "전체 동안 전체 내역  조회하기",
+      "shortcutUrl": "http://localhost:3000/check/1/detail?accound_id=1&period=전체&type=전체&search=",
+      "is_Favorite": true
+    },
+    {
+      "id": "17",
+      "user_id": "1730188643520",
+      "shortcut_name": "전체 동안 전체 내역  조회하기",
       "shortcutUrl": "http://localhost:3000/check/1/detail?accound_id=1&period=전체&type=전체&search=",
       "is_Favorite": true
     }

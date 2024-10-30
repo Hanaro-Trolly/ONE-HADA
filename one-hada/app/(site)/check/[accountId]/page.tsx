@@ -48,7 +48,7 @@ export default function AccountDetailPage({
 
   // account가 없을 때 처리
   if (!account) {
-    return <div>계좌를 찾을 수 없습니다.</div>;
+    return <div>계좌 조회중</div>;
   }
 
   const handlePeriodClick = (period: string) => {
