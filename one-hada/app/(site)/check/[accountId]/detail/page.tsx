@@ -38,7 +38,7 @@ export default function DetailPage({
         const transactions = await fetchAllData<Transaction>('transaction');
         const searchParams = new URLSearchParams(window.location.search);
         const period = searchParams.get('period');
-        const type = searchParams.get('type');
+        const type = searchParams.get('type') || '전체';
         const startDate = searchParams.get('startDate');
         const endDate = searchParams.get('endDate');
         const searchKeyword = searchParams.get('search');
