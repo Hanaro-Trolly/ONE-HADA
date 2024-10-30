@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 
-const DevideChar = '.';
+const DevideChar = '\n';
 
 type ConsultationCardProps = {
   title: string;
@@ -19,7 +19,6 @@ export default function ConsultationCard({
 }: ConsultationCardProps) {
   const [isDetail, setIsDetail] = useState(false);
   const oneLineContent = content.split(DevideChar);
-  oneLineContent.splice(-1, 1);
   const toggle = () => {
     setIsDetail((pre) => !pre);
   };
