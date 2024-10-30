@@ -109,7 +109,7 @@ export default function Home() {
         </div>
         {session?.user ? (
           favoriteList.length > 0 ? (
-            <div className='flex justify-center text-black'>
+            <div className='flex justify-center'>
               <Carousel
                 opts={{ align: 'start', loop: true }}
                 className='h-16 mx-8 w-full'
@@ -121,7 +121,7 @@ export default function Home() {
                         <Button
                           id={'favoriteBtn-' + item.id}
                           variant='home'
-                          className='h-16 w-full bg-white text-black mx-2 font-medium rounded-xl hover:bg-[#F0F0F0]'
+                          className='h-16 w-full bg-white  mx-2 font-medium rounded-xl hover:bg-[#F0F0F0]'
                         >
                           <label className=' overflow-ellipsis overflow-hidden whitespace-nowrap'>
                             {item.shortcut_name}

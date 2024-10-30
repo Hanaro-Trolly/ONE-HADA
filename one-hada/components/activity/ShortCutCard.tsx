@@ -33,7 +33,7 @@ export default function ShortCutCard({
         onClick={handleButtonClick}
       >
         <div className='flex items-center gap-1 max-w-72'>
-          <label className='font-medium text-lg text-black overflow-ellipsis overflow-hidden whitespace-nowrap'>
+          <label className='font-medium text-lg text-[#635666] overflow-ellipsis overflow-hidden whitespace-nowrap'>
             {name}
           </label>
         </div>

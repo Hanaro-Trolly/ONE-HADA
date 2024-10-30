@@ -19,7 +19,7 @@ export default function Header() {
 
   return (
     <header className='w-full fixed h-14 bg-main-background flex justify-center'>
-      <nav className='w-full flex justify-between items-center  px-4'>
+      <nav className='w-full flex justify-between items-center px-4'>
         <div>
           {pathname === '/' ? (
             <LoginButton />
