@@ -4,9 +4,9 @@ import ButtonRow from '@/components/menu/ButtonRow';
 import MenuCard from '@/components/menu/MenuCard';
 import MenuSection from '@/components/menu/MenuSection';
 import { Button } from '@/components/ui/button';
-import { ChevronRightIcon } from 'lucide-react';
+import { ChevronRightIcon, ChevronUp } from 'lucide-react';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getData } from '@/lib/api';
 import { User } from '@/lib/datatypes';
 import { buttons, menuData } from '@/lib/menuData';
@@ -14,6 +14,9 @@ import { buttons, menuData } from '@/lib/menuData';
 export default function MenuPage() {
   const { data: session } = useSession();
   const [userProfile, setUserProfile] = useState<User | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const loadUser = async () => {
       try {
@@ -30,12 +33,37 @@ export default function MenuPage() {
     loadUser();
   }, [session]);
 
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+
+    if (!container) return;
+
+    const toggleVisibility = () => {
+      if (container.scrollTop > 200) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+    container.addEventListener('scroll', toggleVisibility);
+    return () => {
+      container.removeEventListener('scroll', toggleVisibility);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    scrollContainerRef.current?.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <div
+      ref={scrollContainerRef}
       style={{ maxHeight: 'calc(100vh - 60px)' }}
       className='w-full overflow-y-scroll'
     >
-      {/* <h1 className='font-semibold mb-2 mx-6 px-5 pt-4 '>전체메뉴</h1> */}
       {session?.user ? (
         <div className='bg-[#DCEFEA] flex items-center'>
           <div className='mx-6 px-5 h-14 w-full flex justify-between items-center'>
@@ -89,6 +117,18 @@ export default function MenuPage() {
             ))}
           </MenuSection>
         ))}
+      </div>
+      <div className='z-50'>
+        {isVisible && (
+          <Button
+            id='1'
+            variant='ghost'
+            className='fixed z-50 bottom-4 right-2 p-2 [&_svg]:size-5 '
+            onClick={scrollToTop}
+          >
+            <ChevronUp className='text-[#377b68]' />
+          </Button>
+        )}
       </div>
     </div>
   );
