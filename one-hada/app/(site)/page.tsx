@@ -19,7 +19,6 @@ export default function Home() {
   const [favoriteList, setFavoriteList] = useState<Shortcut[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -33,7 +32,6 @@ export default function Home() {
           setUser(userData);
         }
       } catch (error) {
-        setError('데이터를 불러오는 데 문제가 발생했습니다.');
         console.error(error);
       } finally {
         setLoading(false);
@@ -44,7 +42,6 @@ export default function Home() {
   }, [session]);
 
   if (loading) return <div>로딩 중...</div>;
-  if (error) return <div>{error}</div>;
 
   return (
     <div

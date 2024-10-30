@@ -3,7 +3,7 @@
 import BankIcon from '@/components/molecules/BankIcon';
 import TypeButton from '@/components/molecules/TypeButton';
 import { useEffect, useState } from 'react';
-import { getData, addData } from '@/lib/api';
+import { getData, addData, fetchAllData } from '@/lib/api';
 import { History } from '@/lib/datatypes';
 // postData 함수 가져오기
 import { Account } from '@/lib/datatypes';
@@ -31,12 +31,14 @@ export default function AccountDetailPage({
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [historyLength, setHistoryLength] = useState<number>(0);
 
-  // account 데이터 가져오기
   useEffect(() => {
     const fetchAccount = async () => {
       try {
         const data = await getData<Account>('account', accountId); // 'account' 리소스에서 accountId로 데이터 가져오기
+        const histories = await fetchAllData<History>('history');
+        if (histories) setHistoryLength(histories.length + 1);
         setAccount(data); // 가져온 데이터를 상태로 설정
       } catch (error) {
         console.error('계좌 데이터 가져오기 오류:', error);
@@ -71,7 +73,7 @@ export default function AccountDetailPage({
     const isShortcut = false; // 단축키 여부
 
     const historyData: History = {
-      id: historyId,
+      id: '' + historyId,
       user_id: account.user_id, // 사용자 ID는 account에서 가져옵니다
       history_name: historyName,
       history_type: historyType,

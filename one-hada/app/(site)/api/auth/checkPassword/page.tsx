@@ -3,8 +3,8 @@
 import PasswordKeypad from '@/components/ui/PasswordKeypad';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-import { getData, addData } from '@/lib/api';
-import { User } from '@/lib/datatypes';
+import { getData, addData, fetchAllData } from '@/lib/api';
+import { History, User } from '@/lib/datatypes';
 
 export default function CheckPassword() {
   const router = useRouter();
@@ -15,6 +15,7 @@ export default function CheckPassword() {
   const redirectTo = searchParams.get('redirectTo');
   const recipientNumber = searchParams.get('recipient');
   const [userPassword, setUserPassword] = useState<string[] | null>(null);
+  const [historyLength, setHistoryLength] = useState<number>(0);
 
   const getUserPassword = useCallback(async () => {
     try {
@@ -31,6 +32,8 @@ export default function CheckPassword() {
     const fetchData = async () => {
       try {
         await getUserPassword();
+        const histories = await fetchAllData<History>('history');
+        if (histories) setHistoryLength(histories.length + 1);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -59,7 +62,7 @@ export default function CheckPassword() {
         await addData('transaction', newTransaction);
 
         const newHistory = {
-          id: transactionId,
+          id: '' + historyLength,
           user_id: userId || '',
           history_name: `${queryParams.get('recipient_name') || '수신자'}님께 ${
             queryParams.get('amount') || 0

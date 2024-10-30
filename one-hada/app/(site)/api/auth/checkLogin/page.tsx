@@ -2,17 +2,35 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
+import { fetchAllData } from '@/lib/api';
+import { User } from '@/lib/datatypes';
 
 export default function CheckLogin() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const router = useRouter();
+
+  const updateSession = useCallback(async () => {
+    try {
+      const userData = await fetchAllData<User>('user');
+      const provider = `user_${session?.user?.provider}` as keyof User;
+      const foundUser = userData.find(
+        (user) => user[provider] === session?.user.id
+      );
+      if (foundUser) {
+        await update({ id: foundUser.id });
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  }, [session, update]);
 
   useEffect(() => {
     if (session?.user) {
       if (session.user.isNewUser) {
         router.push('/api/auth/register');
       } else {
+        updateSession();
         router.push('/');
       }
     }
