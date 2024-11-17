@@ -1,5 +1,6 @@
 'use client';
 
+import { useWebSocketContext } from '@/context/user/UserWebSocketContext';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
@@ -48,8 +49,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     { className, variant, size, asChild = false, onClick, id, ...props },
     ref
   ) => {
+    const { sendButtonClick } = useWebSocketContext();
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      if (id !== undefined) console.log(`Button ID: ${id}`);
+      if (id) {
+        console.log(`Button ID: ${id}`);
+        sendButtonClick(id);
+      }
       if (onClick) {
         onClick(event);
       }

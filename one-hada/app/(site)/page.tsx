@@ -1,5 +1,6 @@
 'use client';
 
+import { CallButton } from '@/components/ui/CallButton';
 import { Button } from '@/components/ui/button';
 import {
   Carousel,
@@ -148,17 +149,21 @@ export default function Home() {
       </div>
       <div className='flex-grow'></div>
       <footer>
-        <div className='h-14 w-full'>
-          <Link href='tel:010-9178-8484'>
-            <Button
-              id='callBtn'
-              variant='ghost'
-              className='w-full h-full text-[#635666] text-xl'
-            >
-              <div className='tossface-icon'>📞</div>전화상담
-            </Button>
-          </Link>
-        </div>
+        {session?.user?.id ? (
+          <CallButton customerId={session.user.id} />
+        ) : (
+          <div className='h-14 w-full'>
+            <Link href='tel:010-9178-8484'>
+              <Button
+                id='callBtn'
+                variant='ghost'
+                className='w-full h-full text-[#635666] text-xl'
+              >
+                <div className='tossface-icon'>📞</div>전화상담
+              </Button>
+            </Link>
+          </div>
+        )}
       </footer>
     </div>
   );
