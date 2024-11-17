@@ -1,7 +1,7 @@
 // hooks/useWebSocket.ts
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface UseWebSocketProps {
   customerId?: string;
@@ -13,7 +13,8 @@ export const useWebSocket = ({ customerId, role }: UseWebSocketProps) => {
   const [connected, setConnected] = useState(false);
 
   // 웹소켓 연결 함수
-  const connectWebSocket = () => {
+  const connectWebSocket = useCallback(() => {
+    console.log('Connecting WebSocket...', customerId);
     const client = new Client({
       webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
       onConnect: () => {
@@ -28,16 +29,16 @@ export const useWebSocket = ({ customerId, role }: UseWebSocketProps) => {
 
     client.activate();
     setStompClient(client);
-  };
+  }, [customerId]);
 
   // 웹소켓 연결 해제 함수
-  const disconnectWebSocket = () => {
+  const disconnectWebSocket = useCallback(() => {
     if (stompClient) {
       stompClient.deactivate();
       setStompClient(null);
       setConnected(false);
     }
-  };
+  }, [stompClient]);
 
   return { stompClient, connected, connectWebSocket, disconnectWebSocket };
 };

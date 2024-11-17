@@ -22,8 +22,7 @@ export default function RealTimeLog({ userId, userName }: RealTimeLogProps) {
               key={index}
               className='p-3 bg-gray-50 rounded-lg flex justify-between items-center'
             >
-              <span className='font-medium'>버튼: {log.buttonId}</span>
-              <span className='text-gray-500'>페이지: {log.path}</span>
+              <span className='font-medium'>{log.buttonId}을 눌렀습니다.</span>
               <span className='text-sm text-gray-400'>{log.timestamp}</span>
             </div>
           ))

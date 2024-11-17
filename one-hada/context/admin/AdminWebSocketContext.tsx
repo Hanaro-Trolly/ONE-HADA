@@ -20,7 +20,6 @@ interface ButtonLog {
   customerId: string;
   buttonId: string;
   timestamp: string;
-  path: string;
 }
 
 const WebSocketContext = createContext<WebSocketContextType | null>(null);

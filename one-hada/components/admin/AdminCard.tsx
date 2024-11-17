@@ -56,9 +56,9 @@ export default function AdminCard({
           </div>
         </div>
         <div className='items-center flex justify-center'>
-          <Button variant='ghost' className='[&_svg]:size-6' onClick={toggle}>
+          <button onClick={toggle}>
             {isDetail ? <ChevronUp /> : <ChevronDown />}
-          </Button>
+          </button>
         </div>
       </div>
       {isDetail ? (

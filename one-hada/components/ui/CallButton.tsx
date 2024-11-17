@@ -23,22 +23,24 @@ export const CallButton: React.FC<CustomerViewProps> = ({ customerId }) => {
   }, [customerId, setCustomerId]);
 
   const handleCallClick = () => {
-    // 전화 연결 시도와 함께 웹소켓 연결 요청
-    connectWebSocket();
+    if (customerId) {
+      connectWebSocket();
+      console.log('Connecting WebSocket with customerId:', customerId); // 디버깅용
+    }
   };
 
   return (
     <div className='h-14 w-full'>
-      <Link href='tel:010-9178-8484'>
-        <Button
-          id='callBtn'
-          variant='ghost'
-          className='w-full h-full text-[#635666] text-xl'
-          onClick={handleCallClick}
-        >
-          <div className='tossface-icon'>📞</div>전화상담
-        </Button>
-      </Link>
+      {/* <Link href='tel:010-2905-5905'> */}
+      <Button
+        id='callBtn'
+        variant='ghost'
+        className='w-full h-full text-[#635666] text-xl'
+        onClick={handleCallClick}
+      >
+        <div className='tossface-icon'>📞</div>전화상담
+      </Button>
+      {/* </Link> */}
     </div>
   );
 };

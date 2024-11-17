@@ -153,7 +153,7 @@ export default function Home() {
           <CallButton customerId={session.user.id} />
         ) : (
           <div className='h-14 w-full'>
-            <Link href='tel:010-9178-8484'>
+            <Link href='tel:010-2905-5905'>
               <Button
                 id='callBtn'
                 variant='ghost'
