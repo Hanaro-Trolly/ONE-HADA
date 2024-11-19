@@ -14,7 +14,7 @@ interface WebSocketContextType {
   connected: boolean;
   sendButtonClick: (buttonId: string) => void;
   setCustomerId: (id: string) => void;
-  customerId: string | undefined;
+  startConsultation: (id: string) => void;
 }
 
 const WebSocketContext = createContext<WebSocketContextType | null>(null);
@@ -23,20 +23,50 @@ export const WebSocketProvider: React.FC<{
   children: ReactNode;
 }> = ({ children }) => {
   const [customerId, setCustomerId] = useState<string | undefined>(undefined);
-  const { stompClient, connected, connectWebSocket } = useWebSocket({
-    role: 'customer',
-    customerId,
-  });
+  const [shouldConnect, setShouldConnect] = useState(false);
+  const { stompClient, connected, connectWebSocket, disconnectWebSocket } =
+    useWebSocket({
+      role: 'customer',
+      customerId,
+    });
 
   useEffect(() => {
-    if (customerId) {
+    if (customerId && shouldConnect) {
       connectWebSocket();
     }
-  }, [customerId]);
+  }, [customerId, shouldConnect]);
+
+  useEffect(() => {
+    if (stompClient && connected && customerId) {
+      // 상담 종료 메시지 구독
+      const endConsultationSub = stompClient.subscribe(
+        `/topic/customer/${customerId}/end-consultation`,
+        (message) => {
+          const data = JSON.parse(message.body);
+          if (data.message === 'consultation_ended') {
+            // 웹소켓 연결 해제
+            disconnectWebSocket();
+            setShouldConnect(false);
+            // 필요한 경우 추가 정리 작업 수행
+            console.log('웹소켓이 해제되었습니다.');
+          }
+        }
+      );
+
+      return () => {
+        endConsultationSub.unsubscribe();
+      };
+    }
+  }, [stompClient, connected, customerId, disconnectWebSocket]);
+
+  const startConsultation = (id: string) => {
+    setCustomerId(id);
+    setShouldConnect(true);
+  };
 
   const sendButtonClick = (buttonId: string) => {
-    console.log('sendButtonClick!', customerId, stompClient, connected);
-    if (!customerId) {
+    // console.log('sendButtonClick!', customerId, stompClient, connected);
+    if (!customerId || !shouldConnect) {
       console.warn('No customerId provided for WebSocket communication');
       return;
     }
@@ -62,7 +92,7 @@ export const WebSocketProvider: React.FC<{
         connected,
         sendButtonClick,
         setCustomerId,
-        customerId,
+        startConsultation,
       }}
     >
       {children}

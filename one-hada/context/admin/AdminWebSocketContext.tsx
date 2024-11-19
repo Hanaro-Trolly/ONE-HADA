@@ -7,6 +7,8 @@ import {
   ReactNode,
   useState,
   useEffect,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 import { useAdminSession } from './SessionContext';
 
@@ -14,6 +16,7 @@ interface WebSocketContextType {
   stompClient: any;
   connected: boolean;
   buttonLogs: ButtonLog[];
+  setButtonLogs: Dispatch<SetStateAction<ButtonLog[]>>;
 }
 
 interface ButtonLog {
@@ -48,6 +51,7 @@ export const AdminWebSocketProvider = ({
       const buttonSub = stompClient.subscribe(
         '/topic/consultant/button-logs',
         (message) => {
+          console.log('new message');
           const log = JSON.parse(message.body);
           setButtonLogs((prev) => [...prev, log]);
         }
@@ -60,7 +64,9 @@ export const AdminWebSocketProvider = ({
   }, [stompClient, connected]);
 
   return (
-    <WebSocketContext.Provider value={{ stompClient, connected, buttonLogs }}>
+    <WebSocketContext.Provider
+      value={{ stompClient, connected, buttonLogs, setButtonLogs }}
+    >
       {children}
     </WebSocketContext.Provider>
   );

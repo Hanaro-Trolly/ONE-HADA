@@ -1,8 +1,10 @@
 'use client';
 
 import { Counsel } from '@/app/admin/types/counsel';
+import { useAdminWebSocket } from '@/context/admin/AdminWebSocketContext';
 import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
+import { useWebSocket } from '@/hooks/useWebsocket';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -18,6 +20,9 @@ export default function AdminHeader() {
   const { session, logout } = useAdminSession();
   const params = useParams();
   const currentUserId = params.userId as string;
+  const { disconnectWebSocket } = useWebSocket({
+    role: 'consultant',
+  });
 
   // 사용자 데이터 가져오기
   useEffect(() => {
@@ -89,6 +94,8 @@ export default function AdminHeader() {
 
   const handleLogout = () => {
     logout();
+    disconnectWebSocket();
+    console.log('웹소켓 연결 해제');
     router.push('/admin');
   };
 

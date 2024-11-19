@@ -11,21 +11,11 @@ interface CustomerViewProps {
 }
 
 export const CallButton: React.FC<CustomerViewProps> = ({ customerId }) => {
-  const { connectWebSocket } = useWebSocket({
-    role: 'customer',
-    customerId,
-  });
-  const { setCustomerId } = useWebSocketContext();
-
-  useEffect(() => {
-    // WebSocket Context에 customerId 설정
-    setCustomerId(customerId);
-  }, [customerId, setCustomerId]);
+  const { startConsultation } = useWebSocketContext();
 
   const handleCallClick = () => {
     if (customerId) {
-      connectWebSocket();
-      console.log('Connecting WebSocket with customerId:', customerId); // 디버깅용
+      startConsultation(customerId);
     }
   };
 

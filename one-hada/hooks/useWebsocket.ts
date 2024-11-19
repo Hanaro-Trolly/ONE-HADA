@@ -14,16 +14,15 @@ export const useWebSocket = ({ customerId, role }: UseWebSocketProps) => {
 
   // 웹소켓 연결 함수
   const connectWebSocket = useCallback(() => {
-    console.log('Connecting WebSocket...', customerId);
     const client = new Client({
       webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
       onConnect: () => {
         setConnected(true);
-        console.log('WebSocket Connected!');
+        console.log('웹소켓 연결 성공!');
       },
       onDisconnect: () => {
         setConnected(false);
-        console.log('WebSocket Disconnected!');
+        console.log('웹소켓 연결 실패..');
       },
     });
 

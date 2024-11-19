@@ -1,17 +1,10 @@
 'use client';
 
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
 import { Button } from '../ui/button';
 
 export default function LoginButton() {
   const { data: session, status } = useSession();
-
-  useEffect(() => {
-    if (session) {
-      console.log('로그인성공', session);
-    }
-  }, [session]);
 
   const handleSignIn = () => {
     signIn();
