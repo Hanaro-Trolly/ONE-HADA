@@ -34,15 +34,23 @@ export const AdminWebSocketProvider = ({
 }) => {
   const { session } = useAdminSession();
   const [buttonLogs, setButtonLogs] = useState<ButtonLog[]>([]);
-  const { stompClient, connected, connectWebSocket } = useWebSocket({
-    role: 'consultant',
-  });
+  const [subscription, setSubscription] = useState<any>(null);
+  const { stompClient, connected, connectWebSocket, disconnectWebSocket } =
+    useWebSocket({
+      role: 'consultant',
+    });
 
-  // 로그인 시 웹소켓 연결
   useEffect(() => {
     if (session.loginUser) {
       connectWebSocket();
     }
+
+    return () => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+      disconnectWebSocket();
+    };
   }, [session.loginUser]);
 
   useEffect(() => {
@@ -56,6 +64,7 @@ export const AdminWebSocketProvider = ({
           setButtonLogs((prev) => [...prev, log]);
         }
       );
+      setSubscription(buttonSub);
 
       return () => {
         buttonSub.unsubscribe();

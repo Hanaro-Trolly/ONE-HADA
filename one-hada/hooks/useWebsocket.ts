@@ -14,6 +14,10 @@ export const useWebSocket = ({ customerId, role }: UseWebSocketProps) => {
 
   // 웹소켓 연결 함수
   const connectWebSocket = useCallback(() => {
+    if (stompClient) {
+      stompClient.deactivate();
+    }
+
     const client = new Client({
       webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
       onConnect: () => {

@@ -1,7 +1,6 @@
 'use client';
 
 import { Counsel } from '@/app/admin/types/counsel';
-import { useAdminWebSocket } from '@/context/admin/AdminWebSocketContext';
 import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
 import { useWebSocket } from '@/hooks/useWebsocket';
@@ -138,11 +137,18 @@ export default function AdminHeader() {
     router.push(`/admin/${encodedUserId}`, { scroll: false });
   };
 
-  const handleLogout = () => {
-    logout();
-    disconnectWebSocket();
-    console.log('웹소켓 연결 해제');
-    router.push('/admin');
+  const handleLogout = async () => {
+    try {
+      await disconnectWebSocket(); // 웹소켓 연결 해제 완료 대기
+      logout();
+      console.log('웹소켓 연결 해제 및 로그아웃 완료');
+      router.push('/admin');
+    } catch (error) {
+      console.error('로그아웃 중 웹소켓 오류:', error);
+      // 오류가 발생해도 로그아웃은 진행
+      logout();
+      router.push('/admin');
+    }
   };
 
   const formatDate = (dateString: string) => {
