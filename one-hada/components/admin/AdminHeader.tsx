@@ -19,32 +19,60 @@ export default function AdminHeader() {
   const params = useParams();
   const currentUserId = params.userId as string;
 
+  // 컴포넌트 마운트 상태 관리
+  const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 마운트 상태 설정
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // 사용자 데이터 가져오기
   useEffect(() => {
     const loadUserData = async () => {
-      const users = await fetchAllData<{ id: string; user_name: string }>(
-        'user'
-      );
-      const userMap = users.reduce(
-        (acc, user) => {
-          acc[user.id] = user.user_name;
-          return acc;
-        },
-        {} as { [key: string]: string }
-      );
-      setUserData(userMap);
+      try {
+        const users = await fetchAllData<{ id: string; user_name: string }>(
+          'user'
+        );
+        const userMap = users.reduce(
+          (acc, user) => {
+            acc[user.id] = user.user_name;
+            return acc;
+          },
+          {} as { [key: string]: string }
+        );
+        setUserData(userMap);
+      } catch (error) {
+        console.error('Failed to load user data:', error);
+      }
     };
 
-    loadUserData();
-  }, []);
+    if (mounted) {
+      loadUserData();
+    }
+  }, [mounted]);
 
+  // 상담 데이터 가져오기
   useEffect(() => {
-    fetchCounselData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const loadCounselData = async () => {
+      try {
+        await fetchCounselData();
+      } catch (error) {
+        console.error('Failed to load counsel data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
+    if (mounted) {
+      loadCounselData();
+    }
+  }, [mounted, fetchCounselData]);
+
+  // 상담 데이터 필터링 및 정렬
   useEffect(() => {
-    if (counselData.length > 0 && session.loginUser?.id) {
+    if (counselData.length > 0 && session.loginUser?.id && mounted) {
       const userLatestCounsels = new Map<string, Counsel>();
 
       counselData
@@ -60,7 +88,6 @@ export default function AdminHeader() {
           }
         });
 
-      // Convert Map values to array and sort by consultation_date
       const sortedUsers = Array.from(userLatestCounsels.values()).sort(
         (a, b) =>
           new Date(b.consultation_date).getTime() -
@@ -69,8 +96,27 @@ export default function AdminHeader() {
 
       setUniqueUsers(sortedUsers);
     }
-  }, [counselData, session.loginUser?.id]);
+  }, [counselData, session.loginUser?.id, mounted]);
 
+  // 초기 마운트 전 또는 로딩 중일 때 스켈레톤 UI 표시
+  if (!mounted || isLoading) {
+    return (
+      <div className='min-h-screen bg-gray-50'>
+        <div className='max-w-4xl mx-auto p-4'>
+          <div className='animate-pulse'>
+            <div className='h-8 bg-gray-200 rounded w-1/4 mb-8'></div>
+            <div className='space-y-4'>
+              {[1, 2, 3].map((i) => (
+                <div key={i} className='h-24 bg-gray-200 rounded'></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 로그인하지 않은 경우
   if (!session.loginUser) {
     return (
       <div className='flex items-center justify-center h-screen'>
@@ -159,12 +205,6 @@ export default function AdminHeader() {
                   >
                     {counsel.consultation_title}
                   </p>
-
-                  <div
-                    className={`mt-2 flex items-center text-sm ${
-                      isSelected ? 'text-main-green' : 'text-gray-500'
-                    }`}
-                  ></div>
                 </div>
               </button>
             );
