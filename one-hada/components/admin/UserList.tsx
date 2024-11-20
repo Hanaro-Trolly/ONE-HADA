@@ -4,8 +4,7 @@ import adminData from '@/app/admin/data/AdminData.json';
 import { useAdminSession } from '@/context/admin/SessionContext';
 import { useEffect, useState } from 'react';
 
-// JSON 파일을 직접 import
-
+// Types
 interface Counsel {
   id: number;
   agentid: string;
@@ -15,77 +14,98 @@ interface Counsel {
   date: string;
 }
 
+interface LatestCounsel {
+  userid: string;
+  date: string;
+  title: string;
+}
+
 export default function UserList() {
+  // State
   const [counselData, setCounselData] = useState<Counsel[]>([]);
-  const [uniqueUsers, setUniqueUsers] = useState<string[]>([]);
+  const [uniqueUsers, setUniqueUsers] = useState<LatestCounsel[]>([]);
+
+  // Hooks
   const { session } = useAdminSession();
 
+  // Effects
   useEffect(() => {
     setCounselData(adminData.counsel);
   }, []);
 
   useEffect(() => {
-    if (counselData.length > 0 && session.loginUser?.id) {
-      const filteredUsers = counselData
-        .filter((item) => item.agentid === session.loginUser?.id)
-        .map((item) => item.userid)
-        .filter((value, index, self) => self.indexOf(value) === index);
+    if (!counselData.length || !session.loginUser?.id) return;
 
-      setUniqueUsers(filteredUsers);
-    }
+    const latestCounsels = new Map<string, LatestCounsel>();
+
+    counselData
+      .filter((item) => item.agentid === session.loginUser?.id)
+      .forEach((counsel) => {
+        const existing = latestCounsels.get(counsel.userid);
+        if (!existing || new Date(counsel.date) > new Date(existing.date)) {
+          latestCounsels.set(counsel.userid, {
+            userid: counsel.userid,
+            date: counsel.date,
+            title: counsel.title,
+          });
+        }
+      });
+
+    const sortedUsers = Array.from(latestCounsels.values()).sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+
+    setUniqueUsers(sortedUsers);
   }, [counselData, session.loginUser?.id]);
 
   if (!session.loginUser) {
     return (
-      <p className='text-center text-gray-500 py-4'>로그인 상태가 아닙니다.</p>
+      <div
+        className='flex items-center justify-center h-40'
+        role='alert'
+        aria-label='로그인 필요'
+      >
+        <p className='text-center text-gray-500'>로그인 상태가 아닙니다.</p>
+      </div>
     );
   }
 
   return (
-    <div className='p-4'>
-      <h2 className='text-xl font-bold mb-4'>상담 고객 목록</h2>
-      <div className='divide-y divide-gray-200'>
-        {uniqueUsers.map((userid) => {
-          const latestCounsel = counselData
-            .filter(
-              (item) =>
-                item.agentid === session.loginUser?.id && item.userid === userid
-            )
-            .sort(
-              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-            )[0];
+    <div className='p-4 space-y-6'>
+      <header>
+        <h2 className='text-xl font-bold'>상담 고객 목록</h2>
+      </header>
 
-          return (
-            <div key={userid} className='py-4'>
-              <div className='flex justify-between items-center'>
-                <div>
-                  <h3 className='font-semibold'>{userid}</h3>
-                  <p className='text-sm text-gray-600'>
-                    최근 상담: {latestCounsel?.date}
-                  </p>
-                  <p className='text-sm text-gray-600'>
-                    제목: {latestCounsel?.title}
-                  </p>
-                </div>
-                <div className='text-sm text-gray-500'>
-                  상담 건수:{' '}
-                  {
-                    counselData.filter(
-                      (item) =>
-                        item.agentid === session.loginUser?.id &&
-                        item.userid === userid
-                    ).length
-                  }
-                  건
-                </div>
+      <div className='divide-y divide-gray-200'>
+        {uniqueUsers.map((user) => (
+          <article
+            key={user.userid}
+            className='py-4 hover:bg-gray-50 transition-colors'
+          >
+            <div className='flex justify-between items-center'>
+              <div className='space-y-1'>
+                <h3 className='font-semibold'>{user.userid}</h3>
+                <time className='text-sm text-gray-600' dateTime={user.date}>
+                  최근 상담: {new Date(user.date).toLocaleDateString()}
+                </time>
+                <p className='text-sm text-gray-700 line-clamp-1'>
+                  {user.title}
+                </p>
               </div>
             </div>
-          );
-        })}
+          </article>
+        ))}
+
+        {uniqueUsers.length === 0 && (
+          <div
+            className='py-8 text-center text-gray-500'
+            role='status'
+            aria-label='상담 내역 없음'
+          >
+            상담 내역이 없습니다.
+          </div>
+        )}
       </div>
-      {uniqueUsers.length === 0 && (
-        <p className='text-center text-gray-500 py-4'>상담 내역이 없습니다.</p>
-      )}
     </div>
   );
 }
