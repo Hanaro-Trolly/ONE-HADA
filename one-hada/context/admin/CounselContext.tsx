@@ -1,6 +1,6 @@
 'use client';
 
-import { Counsel, CounselContextType } from '@/app/admin/types/counsel';
+import { Counsel, CounselContextType } from '@/app/admin/types/adminTypes';
 import { createContext, useCallback, useContext, useState } from 'react';
 import { fetchAllData } from '@/lib/api';
 

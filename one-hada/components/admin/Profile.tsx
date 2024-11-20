@@ -8,7 +8,7 @@ export default function Profile() {
   if (!session.loginUser) return null;
 
   return (
-    <div className='flex items-center p-4 bg-white rounded-lg shadow-sm'>
+    <div className='flex items-center p-4'>
       <div
         className='text-gray-600 text-xl font-medium'
         aria-label={`${session.loginUser.agent_name}님의 프로필`}
