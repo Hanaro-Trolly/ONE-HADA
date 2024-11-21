@@ -11,23 +11,20 @@ const ConsultationsPage = () => {
   const [consultationData, setConsultationData] = useState<Consultation[]>([]);
   const { data: session } = useSession();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (session?.user) {
-          const data = await getDataByUserId<Consultation>(
-            'consultation',
-            session.user.id
-          );
-          setConsultationData(data);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const fetchConsultations = async (userId: string) => {
+    try {
+      const data = await getDataByUserId<Consultation>('consultation', userId);
+      setConsultationData(data.reverse());
+    } catch (error) {
+      console.error('Error fetching consultations:', error);
+    }
+  };
 
-    fetchData();
-  }, [session]);
+  useEffect(() => {
+    if (session?.user?.id) {
+      fetchConsultations(session.user.id);
+    }
+  }, [session?.user?.id]);
 
   return (
     <>
@@ -35,26 +32,27 @@ const ConsultationsPage = () => {
         총<div className='font-semibold text-lg'>{consultationData.length}</div>
         건
       </div>
+
       <ul
         style={{ maxHeight: 'calc(100vh - 150px)' }}
         className='w-full py-2 overflow-y-scroll rounded-t-md'
       >
-        {consultationData
-          .reverse()
-          .map(
-            (
-              { consultation_title, consultation_date, consultation_content },
-              idx
-            ) => (
-              <li key={idx}>
-                <ConsultationCard
-                  title={consultation_title}
-                  date={formatDate(consultation_date)}
-                  content={consultation_content}
-                />
-              </li>
-            )
-          )}
+        {consultationData.map(
+          ({
+            id,
+            consultation_title,
+            consultation_date,
+            consultation_content,
+          }) => (
+            <li key={id}>
+              <ConsultationCard
+                title={consultation_title}
+                date={formatDate(consultation_date)}
+                content={consultation_content}
+              />
+            </li>
+          )
+        )}
       </ul>
     </>
   );

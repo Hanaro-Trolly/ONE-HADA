@@ -1,23 +1,41 @@
 'use client';
 
+import CancelDeleteBtns from '@/components/activity/CancleDeleteBtns';
+import EditButton from '@/components/activity/EditButton';
 import ShortCutCard from '@/components/activity/ShortCutCard';
-import SmallButton from '@/components/molecules/SmallButton';
-import { Edit2Icon, RotateCcwIcon, Trash2Icon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { deleteData, getDataByUserId, updateData } from '@/lib/api';
 import { Shortcut } from '@/lib/datatypes';
 
-export default function ShortCutPage() {
+const ShortCutPage = () => {
   const [isDelete, setIsDelete] = useState(false);
-  const [checkedItems, setCheckedItems] = useState(new Set());
+  const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
   const [shortCuts, setShortCuts] = useState<Shortcut[]>([]);
   const { data: session } = useSession();
 
   const userId = session?.user.id || '';
-  const toggle = () => setIsDelete((prev) => !prev);
 
-  const handleCheckboxChange = (id: string) => {
+  const toggleDeleteMode = useCallback(() => setIsDelete((prev) => !prev), []);
+
+  const cancelDeleteMode = () => {
+    setCheckedItems(new Set());
+    toggleDeleteMode();
+  };
+
+  const toggleFavorite = async (id: string) => {
+    setShortCuts((prev) =>
+      prev.map((item) => {
+        if (item.id === id) {
+          const updatedItem = { ...item, is_Favorite: !item.is_Favorite };
+          updateData('shortcut', id, updatedItem);
+          return updatedItem;
+        }
+        return item;
+      })
+    );
+  };
+  const handleCheckboxChange = useCallback((id: string) => {
     setCheckedItems((prev) => {
       const newCheckedItems = new Set(prev);
       if (newCheckedItems.has(id)) {
@@ -27,128 +45,86 @@ export default function ShortCutPage() {
       }
       return newCheckedItems;
     });
-  };
+  }, []);
 
-  const deleteHandler = async () => {
+  const deleteSelectedShortcuts = useCallback(async () => {
     if (checkedItems.size === 0) {
       alert('삭제할 항목을 선택해주세요.');
       return;
     }
     try {
-      for (const id of Array.from(checkedItems)) {
-        await deleteData('shortcut', id as string);
-      }
+      await Promise.all(
+        Array.from(checkedItems).map(async (id) => {
+          await deleteData('shortcut', id);
+        })
+      );
       setShortCuts((prev) => prev.filter((item) => !checkedItems.has(item.id)));
     } catch (error) {
       console.error('Error deleting shortcuts:', error);
     } finally {
       setCheckedItems(new Set());
-      toggle();
+      toggleDeleteMode();
     }
-  };
-
-  const cancleHandler = async () => {
-    setCheckedItems(new Set());
-    toggle();
-  };
-
-  const favoriteToggle = async (id: string) => {
-    setShortCuts((prev) => {
-      return prev.map((item) => {
-        if (item.id === id) {
-          const updatedItem = { ...item, is_Favorite: !item.is_Favorite };
-          updateData('shortcut', id, updatedItem);
-          return updatedItem;
-        }
-        return item;
-      });
-    });
-  };
+  }, [checkedItems, toggleDeleteMode]);
 
   const favoriteList = shortCuts.filter(({ is_Favorite }) => is_Favorite);
   const normalList = shortCuts.filter(({ is_Favorite }) => !is_Favorite);
 
-  useEffect(() => {
-    const loadShortCuts = async () => {
-      try {
-        const data = await getDataByUserId<Shortcut>('shortcut', userId);
-        if (data) {
-          setShortCuts(data.reverse());
-        } else {
-          console.error('No shortcuts found for the user.');
-        }
-      } catch (error) {
-        console.error(error);
+  const loadShortCuts = useCallback(async () => {
+    try {
+      const data = await getDataByUserId<Shortcut>('shortcut', userId);
+      if (data) {
+        setShortCuts(data.reverse());
+      } else {
+        console.error('No shortcuts found for the user.');
       }
-    };
-
-    loadShortCuts();
+    } catch (error) {
+      console.error(error);
+    }
   }, [userId]);
 
+  useEffect(() => {
+    if (userId) {
+      loadShortCuts();
+    }
+  }, [loadShortCuts, userId]);
+
   return (
-    <>
+    <div>
       <li className='h-10 flex items-center w-full justify-between pr-4 py-1'>
-        <div></div>
+        <div />
         <div className='mx-2'>
           {isDelete ? (
-            <div className='flex gap-2'>
-              <SmallButton
-                classNames='text-[#666666] bg-white hover:bg-gray-200'
-                onClick={toggle}
-              >
-                <RotateCcwIcon />
-                취소
-              </SmallButton>
-              <SmallButton
-                classNames='bg-[#E44B5B] hover:bg-[#B61C2B]'
-                onClick={deleteHandler}
-              >
-                <Trash2Icon />
-                삭제
-              </SmallButton>
-            </div>
+            <CancelDeleteBtns
+              onCancel={cancelDeleteMode}
+              onDelete={deleteSelectedShortcuts}
+            />
           ) : (
-            <SmallButton
-              classNames='bg-[#5e7887] hover:bg-[#3f505a]'
-              onClick={cancleHandler}
-            >
-              <Edit2Icon />
-              편집
-            </SmallButton>
+            <EditButton onClick={cancelDeleteMode} />
           )}
         </div>
       </li>
+
       <ul
-        style={{ maxHeight: 'calc(100vh - 150px)' }}
         className='w-full py-2 overflow-y-scroll'
+        style={{ maxHeight: 'calc(100vh - 150px)' }}
       >
-        {favoriteList.map((item) => (
+        {[...favoriteList, ...normalList].map((item) => (
           <li key={item.id} className='flex'>
             <ShortCutCard
               id={item.id}
               name={item.shortcut_name}
               isEdit={isDelete}
-              isFavorite={true}
+              isFavorite={item.is_Favorite}
               onCheckboxChange={handleCheckboxChange}
-              favoriteToggle={favoriteToggle}
-              shortcutUrl={item.shortcutUrl}
-            />
-          </li>
-        ))}
-        {normalList.map((item) => (
-          <li key={item.id} className='flex'>
-            <ShortCutCard
-              id={item.id}
-              name={item.shortcut_name}
-              isEdit={isDelete}
-              isFavorite={false}
-              onCheckboxChange={handleCheckboxChange}
-              favoriteToggle={favoriteToggle}
+              favoriteToggle={toggleFavorite}
               shortcutUrl={item.shortcutUrl}
             />
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
-}
+};
+
+export default ShortCutPage;

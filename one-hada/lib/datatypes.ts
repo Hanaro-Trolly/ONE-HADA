@@ -30,6 +30,14 @@ type History = {
   is_Shortcut: boolean;
 };
 
+// type History = {
+//   id: string;
+//   user_id: string;
+//   history_name: string;
+//   history_url : string;
+//   activity_date: Date;
+// };
+
 type Shortcut = {
   id: string;
   user_id: string;
