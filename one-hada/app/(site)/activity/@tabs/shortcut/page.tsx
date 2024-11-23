@@ -88,6 +88,9 @@ const ShortCutPage = () => {
       loadShortCuts();
     }
   }, [loadShortCuts, userId]);
+  if (shortCuts === null) {
+    return <></>;
+  }
 
   return (
     <div>

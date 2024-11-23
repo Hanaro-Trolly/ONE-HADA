@@ -5,83 +5,50 @@ import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 
-const BASE_URL = 'http://localhost:3000/';
-const urlToPosition = (url: string) => {
-  switch (url) {
-    case BASE_URL + 'activity/history':
-      return 0;
-    case BASE_URL + 'activity/shortcut':
-      return 1;
-    case BASE_URL + 'activity/consultations':
-      return 2;
-    default:
-      return 0;
-  }
-};
-export default function TabBar() {
-  const [position, setPosition] = useState(0);
+const tabs = [
+  { name: '활동내역', href: '/activity/history' },
+  { name: '바로가기', href: '/activity/shortcut' },
+  { name: '상담내역', href: '/activity/consultations' },
+];
+
+const TabBar = () => {
+  const [position, setPosition] = useState<number | null>(null);
+
   useEffect(() => {
-    setPosition(urlToPosition(window.location.href));
+    const currentPath = window.location.pathname;
+    const tabIndex = tabs.findIndex((tab) => currentPath === tab.href);
+    setPosition(tabIndex !== -1 ? tabIndex : 0);
   }, []);
+
+  if (position === null) {
+    return null;
+  }
+
   return (
-    <>
-      {' '}
-      <ul className='flex justify-between fixed w-full'>
+    <ul className='flex justify-between fixed w-full'>
+      {tabs.map((tab, index) => (
         <li
+          key={tab.href}
           className={cn(
             'w-full bg-main-background',
-            position === 0
+            position === index
               ? 'border-b-[3px] border-[#AEDBCE] text-[#3F8D77]'
               : 'border-b'
           )}
         >
-          <Link href='/activity/history' className='h-10'>
+          <Link href={tab.href} className='h-10'>
             <Button
               variant='ghost'
               className='w-full rounded-none hover:bg-main-background hover:text-[#3F8D77]'
-              onClick={() => setPosition(0)}
+              onClick={() => setPosition(index)}
             >
-              활동내역
+              {tab.name}
             </Button>
           </Link>
         </li>
-        <li
-          className={cn(
-            'w-full bg-main-background',
-            position === 1
-              ? 'border-b-[3px] border-[#AEDBCE] text-[#3F8D77]'
-              : 'border-b'
-          )}
-        >
-          <Link href='/activity/shortcut' className='h-10'>
-            <Button
-              variant='ghost'
-              className='w-full rounded-none hover:bg-main-background hover:text-[#3F8D77]'
-              onClick={() => setPosition(1)}
-            >
-              바로가기
-            </Button>
-          </Link>
-        </li>
-        <li
-          className={cn(
-            'w-full bg-main-background',
-            position === 2
-              ? 'border-b-[3px] border-[#AEDBCE] text-[#3F8D77]'
-              : 'border-b'
-          )}
-        >
-          <Link href='/activity/consultations' className='h-10'>
-            <Button
-              variant='ghost'
-              className='w-full rounded-none hover:bg-main-background hover:text-[#3F8D77]'
-              onClick={() => setPosition(2)}
-            >
-              상담내역
-            </Button>
-          </Link>
-        </li>
-      </ul>
-    </>
+      ))}
+    </ul>
   );
-}
+};
+
+export default TabBar;
