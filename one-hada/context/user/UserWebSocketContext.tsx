@@ -1,6 +1,7 @@
 'use client';
 
 import { useWebSocket } from '@/hooks/useWebsocket';
+import { useSession } from 'next-auth/react';
 import React, {
   createContext,
   useContext,
@@ -14,7 +15,6 @@ interface WebSocketContextType {
   connected: boolean;
   sendButtonClick: (buttonId: string) => void;
   setCustomerId: (id: string) => void;
-  startConsultation: (id: string) => void;
 }
 
 const WebSocketContext = createContext<WebSocketContextType | null>(null);
@@ -22,8 +22,9 @@ const WebSocketContext = createContext<WebSocketContextType | null>(null);
 export const WebSocketProvider: React.FC<{
   children: ReactNode;
 }> = ({ children }) => {
+  const { data: session } = useSession();
   const [customerId, setCustomerId] = useState<string | undefined>(undefined);
-  const [shouldConnect, setShouldConnect] = useState(false);
+  const [isConsultation, setIsConsultation] = useState<boolean | null>(false);
   const { stompClient, connected, connectWebSocket, disconnectWebSocket } =
     useWebSocket({
       role: 'customer',
@@ -31,13 +32,33 @@ export const WebSocketProvider: React.FC<{
     });
 
   useEffect(() => {
-    if (customerId && shouldConnect) {
+    const handleStorageChange = () => {
+      const consultationState = Boolean(
+        sessionStorage.getItem('consultationState')
+      );
+      setIsConsultation(consultationState);
+    };
+
+    // 초기 상태 확인
+    if (typeof window !== 'undefined') {
+      handleStorageChange();
+    }
+
+    // storage 이벤트 리스너 등록
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  useEffect(() => {
+    if (isConsultation && session?.user.id) {
+      setCustomerId(session.user.id);
       connectWebSocket();
     }
-  }, [customerId, shouldConnect]);
+  }, [isConsultation, session]);
 
   useEffect(() => {
     if (stompClient && connected && customerId) {
+      console.log(stompClient, connectWebSocket, customerId);
       // 상담 종료 메시지 구독
       const endConsultationSub = stompClient.subscribe(
         `/topic/customer/${customerId}/end-consultation`,
@@ -45,8 +66,9 @@ export const WebSocketProvider: React.FC<{
           const data = JSON.parse(message.body);
           if (data.message === 'consultation_ended') {
             // 웹소켓 연결 해제
+            sessionStorage.setItem('consultationState', 'false');
+            setIsConsultation(false);
             disconnectWebSocket();
-            setShouldConnect(false);
             // 필요한 경우 추가 정리 작업 수행
             console.log('웹소켓이 해제되었습니다.');
           }
@@ -59,18 +81,7 @@ export const WebSocketProvider: React.FC<{
     }
   }, [stompClient, connected, customerId, disconnectWebSocket]);
 
-  const startConsultation = (id: string) => {
-    setCustomerId(id);
-    setShouldConnect(true);
-  };
-
   const sendButtonClick = (buttonId: string) => {
-    // console.log('sendButtonClick!', customerId, stompClient, connected);
-    if (!customerId || !shouldConnect) {
-      console.warn('No customerId provided for WebSocket communication');
-      return;
-    }
-
     if (stompClient && connected) {
       console.log('버튼로그전송');
       stompClient.publish({
@@ -92,7 +103,6 @@ export const WebSocketProvider: React.FC<{
         connected,
         sendButtonClick,
         setCustomerId,
-        startConsultation,
       }}
     >
       {children}

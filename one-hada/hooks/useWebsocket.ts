@@ -16,6 +16,7 @@ export const useWebSocket = ({ customerId, role }: UseWebSocketProps) => {
   const connectWebSocket = useCallback(() => {
     if (stompClient) {
       stompClient.deactivate();
+      setConnected(false);
     }
 
     const client = new Client({
