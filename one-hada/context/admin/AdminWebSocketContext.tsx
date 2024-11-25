@@ -1,6 +1,7 @@
 'use client';
 
 import { useWebSocket } from '@/hooks/useWebsocket';
+import { StompSubscription } from '@stomp/stompjs';
 import {
   createContext,
   useContext,
@@ -34,14 +35,20 @@ export const AdminWebSocketProvider = ({
 }) => {
   const { session } = useAdminSession();
   const [buttonLogs, setButtonLogs] = useState<ButtonLog[]>([]);
-  const [subscription, setSubscription] = useState<any>(null);
+  const [subscription, setSubscription] = useState<StompSubscription>();
+  const [shouldConnect, setShouldConnect] = useState<Boolean>(false);
   const { stompClient, connected, connectWebSocket, disconnectWebSocket } =
     useWebSocket({
       role: 'consultant',
     });
 
   useEffect(() => {
-    if (session.loginUser) {
+    sessionStorage.setItem('wsConnected', 'true');
+    setShouldConnect(Boolean(sessionStorage.getItem('wsConnected')));
+  }, [session.loginUser]);
+
+  useEffect(() => {
+    if (shouldConnect) {
       connectWebSocket();
     }
 
@@ -49,13 +56,11 @@ export const AdminWebSocketProvider = ({
       if (subscription) {
         subscription.unsubscribe();
       }
-      disconnectWebSocket();
     };
-  }, [session.loginUser]);
+  }, [shouldConnect]);
 
   useEffect(() => {
     if (stompClient && connected) {
-      // 버튼 클릭 로그 구독
       const buttonSub = stompClient.subscribe(
         '/topic/consultant/button-logs',
         (message) => {

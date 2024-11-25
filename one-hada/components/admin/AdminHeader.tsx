@@ -139,15 +139,13 @@ export default function AdminHeader() {
 
   const handleLogout = async () => {
     try {
-      await disconnectWebSocket(); // 웹소켓 연결 해제 완료 대기
+      await disconnectWebSocket();
+      sessionStorage.setItem('wsConnected', 'false');
       logout();
       console.log('웹소켓 연결 해제 및 로그아웃 완료');
       router.push('/admin');
     } catch (error) {
       console.error('로그아웃 중 웹소켓 오류:', error);
-      // 오류가 발생해도 로그아웃은 진행
-      logout();
-      router.push('/admin');
     }
   };
 

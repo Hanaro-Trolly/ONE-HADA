@@ -39,12 +39,10 @@ export const WebSocketProvider: React.FC<{
       setIsConsultation(consultationState);
     };
 
-    // 초기 상태 확인
     if (typeof window !== 'undefined') {
       handleStorageChange();
     }
 
-    // storage 이벤트 리스너 등록
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
@@ -59,17 +57,15 @@ export const WebSocketProvider: React.FC<{
   useEffect(() => {
     if (stompClient && connected && customerId) {
       console.log(stompClient, connectWebSocket, customerId);
-      // 상담 종료 메시지 구독
+
       const endConsultationSub = stompClient.subscribe(
         `/topic/customer/${customerId}/end-consultation`,
         (message) => {
           const data = JSON.parse(message.body);
           if (data.message === 'consultation_ended') {
-            // 웹소켓 연결 해제
             sessionStorage.setItem('consultationState', 'false');
             setIsConsultation(false);
             disconnectWebSocket();
-            // 필요한 경우 추가 정리 작업 수행
             console.log('웹소켓이 해제되었습니다.');
           }
         }

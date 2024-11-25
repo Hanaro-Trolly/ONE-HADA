@@ -1,7 +1,7 @@
 // hooks/useWebSocket.ts
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 interface UseWebSocketProps {
   customerId?: string;
@@ -29,6 +29,9 @@ export const useWebSocket = ({ customerId, role }: UseWebSocketProps) => {
         setConnected(false);
         console.log('웹소켓 연결 실패..');
       },
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
     });
 
     client.activate();
