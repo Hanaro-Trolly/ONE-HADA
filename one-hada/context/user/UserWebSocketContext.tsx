@@ -1,6 +1,7 @@
 'use client';
 
 import { useWebSocket } from '@/hooks/useWebsocket';
+import { Client } from '@stomp/stompjs';
 import { useSession } from 'next-auth/react';
 import React, {
   createContext,
@@ -11,7 +12,7 @@ import React, {
 } from 'react';
 
 interface WebSocketContextType {
-  stompClient: any;
+  stompClient: Client | null;
   connected: boolean;
   sendButtonClick: (buttonId: string) => void;
   setCustomerId: (id: string) => void;
@@ -52,7 +53,7 @@ export const WebSocketProvider: React.FC<{
       setCustomerId(session.user.id);
       connectWebSocket();
     }
-  }, [isConsultation, session]);
+  }, [connectWebSocket, isConsultation, session]);
 
   useEffect(() => {
     if (stompClient && connected && customerId) {
@@ -75,7 +76,13 @@ export const WebSocketProvider: React.FC<{
         endConsultationSub.unsubscribe();
       };
     }
-  }, [stompClient, connected, customerId, disconnectWebSocket]);
+  }, [
+    stompClient,
+    connected,
+    customerId,
+    disconnectWebSocket,
+    connectWebSocket,
+  ]);
 
   const sendButtonClick = (buttonId: string) => {
     if (stompClient && connected) {

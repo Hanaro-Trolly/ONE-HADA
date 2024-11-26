@@ -8,7 +8,7 @@ interface UseWebSocketProps {
   role: 'customer' | 'consultant';
 }
 
-export const useWebSocket = ({ customerId, role }: UseWebSocketProps) => {
+export const useWebSocket = ({}: UseWebSocketProps) => {
   const [stompClient, setStompClient] = useState<Client | null>(null);
   const [connected, setConnected] = useState(false);
 
@@ -36,7 +36,7 @@ export const useWebSocket = ({ customerId, role }: UseWebSocketProps) => {
 
     client.activate();
     setStompClient(client);
-  }, [customerId]);
+  }, [stompClient]);
 
   // 웹소켓 연결 해제 함수
   const disconnectWebSocket = useCallback(() => {
