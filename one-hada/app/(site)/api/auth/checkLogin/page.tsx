@@ -26,15 +26,97 @@ export default function CheckLogin() {
   }, [session, update]);
 
   useEffect(() => {
-    if (session?.user) {
-      if (session.user.isNewUser) {
-        router.push('/api/auth/register');
-      } else {
-        updateSession();
-        router.push('/');
+    const handleLogin = async () => {
+      if (!session?.user) {
+        console.error('No session found!');
+        router.push('/api/auth/signin/');
+        return;
       }
-    }
+      //TODO: 유저정보 확인
+      try {
+        console.log('Sending user data to backend:', {
+          userId: session.user.id,
+          email: session.user.email,
+          name: session.user.name,
+          provider: session.user.provider,
+        });
+
+        const response = await fetch('http://localhost:8080/api/auth/jwt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: session.user.id,
+            email: session.user.email,
+            name: session.user.name,
+            provider: session.user.provider,
+          }),
+        });
+
+        const data = await response.json();
+        console.log('Backend response:', data);
+
+        if (!response.ok)
+          throw new Error(data.error || 'Failed to generate session ID');
+      } catch (error) {
+        console.error('Error during login:', error);
+      }
+
+      try {
+        // 백엔드에 사용자 정보 전송하여 세션 ID 발급 요청
+        const response = await fetch('http://localhost:8080/api/auth/jwt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: session.user.id,
+            email: session.user.email,
+            name: session.user.name,
+            provider: session.user.provider,
+          }),
+        });
+
+        if (!response.ok) throw new Error('Failed to generate session ID');
+
+        console.log('Seeion ID generated successfully!');
+
+        if (session.user.isNewUser) {
+          router.push('/api/auth/register'); // 새로운 사용자 등록 페이지로 이동
+        } else {
+          updateSession();
+          router.push('/'); // 기존 사용자라면 메인 페이지로 이동
+        }
+      } catch (error) {
+        console.error('Error during login:', error);
+      }
+    };
+
+    handleLogin();
   }, [session, router, updateSession]);
+
+  // const updateSession = useCallback(async () => {
+  //   try {
+  //     const userData = await fetchAllData<User>('user');
+  //     const provider = `user_${session?.user?.provider}` as keyof User;
+  //     const foundUser = userData.find(
+  //       (user) => user[provider] === session?.user.id
+  //     );
+  //     if (foundUser) {
+  //       await update({ id: foundUser.id });
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching user data:', error);
+  //   }
+  // }, [session, update]);
+
+  // useEffect(() => {
+  //   if (session?.user) {
+  //     if (session.user.isNewUser) {
+  //       router.push('/api/auth/register');
+  //     } else {
+  //       updateSession();
+  //       router.push('/');
+  //     }
+  //   }
+  // }, [session, router, updateSession]);
 
   return (
     <div
