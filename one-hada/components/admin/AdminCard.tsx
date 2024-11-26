@@ -4,7 +4,6 @@ import { useFormattedDate } from '@/hooks/useFormattedDate';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Button } from '../ui/button';
 
 // Constants
 const DIVIDER_CHAR = '\n';

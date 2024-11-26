@@ -18,4 +18,3 @@ export default function ToggleButton({ isOpen, onToggle }: ToggleButtonProps) {
     </Button>
   );
 }
-

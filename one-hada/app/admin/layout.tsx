@@ -52,7 +52,7 @@ export default function AdminLayout({
 
   return (
     <AdminSessionProvider>
-      {mounted && <AdminContent mounted={mounted} children={children} />}
+      {mounted && <AdminContent mounted={mounted}>{children}</AdminContent>}
       {!mounted && (
         <div className='flex min-h-screen'>
           <div className='w-1/5 min-h-screen bg-gray-100 border-r'></div>

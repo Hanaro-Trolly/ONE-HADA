@@ -10,6 +10,8 @@ import { Suspense } from 'react';
 
 // app/admin/page.tsx
 
+// app/admin/page.tsx
+
 /**
  * 관리자 페이지의 메인 컴포넌트
  * 로그인 상태에 따라 Profile 또는 Login 컴포넌트를 렌더링합니다.
