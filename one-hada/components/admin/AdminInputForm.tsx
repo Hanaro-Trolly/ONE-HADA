@@ -8,37 +8,61 @@ import { addData } from '@/lib/api';
 import AdminInput from './AdminInput';
 import AdminSubmitButton from './AdminSubmitButton';
 
+// Types
 interface AdminInputFormProps {
   userId: string;
 }
 
+interface ConsultationData {
+  id: string;
+  agent_id: string | undefined;
+  user_id: string;
+  consultation_title: string;
+  consultation_content: string;
+  consultation_date: string;
+}
+
 export default function AdminInputForm({ userId }: AdminInputFormProps) {
   const { stompClient, setButtonLogs } = useAdminWebSocket();
+  const currentTime = new Date().toDateString;
 
-  const [title, setTitle] = useState<string>('');
-  const [content, setContent] = useState<string>('');
+  // State
+  const [formData, setFormData] = useState({
+    title: '',
+    content: '',
+  });
+
+  // Hooks
   const { refetchCounselData } = useCounsel();
-  const { session } = useAdminSession(); // SessionContext에서 로그인 정보 가져오기
+  const { session } = useAdminSession();
+
+  // Handlers
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    field: 'title' | 'content'
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: e.target.value,
+    }));
+  };
 
   const handleSubmit = async () => {
-    const currentTime = new Date().toISOString();
-
-    const data = {
-      id: Date.now().toString(), // 임의의 고유 ID 생성
-      agent_id: session.loginUser?.id, // Session에서 가져온 agent ID
+    const consultationData: ConsultationData = {
+      id: Date.now().toString(),
+      agent_id: session.loginUser?.id,
       user_id: userId,
-      consultation_title: title,
-      consultation_content: content,
-      consultation_date: currentTime,
+      consultation_title: formData.title,
+      consultation_content: formData.content,
+      consultation_date: new Date().toISOString(),
     };
 
     try {
-      await addData('consultation', data);
+      await addData('consultation', consultationData);
+      await refetchCounselData();
+
+      setFormData({ title: '', content: '' });
       alert('상담 정보가 등록되었습니다.');
-      setTitle('');
-      setContent('');
-      console.log(data);
-      refetchCounselData();
 
       if (stompClient && stompClient.connected) {
         stompClient.publish({
@@ -58,21 +82,22 @@ export default function AdminInputForm({ userId }: AdminInputFormProps) {
   };
 
   return (
-    <div>
+    <div className='space-y-6'>
       <AdminInput
         label='상담 제목'
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        value={formData.title}
+        onChange={(e) => handleInputChange(e, 'title')}
         inputType='text'
       />
 
       <AdminInput
         label='상담 내용'
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
+        value={formData.content}
+        onChange={(e) => handleInputChange(e, 'content')}
         inputType='textarea'
       />
-      <div className='flex justify-center items-center'>
+
+      <div className='flex justify-center'>
         <AdminSubmitButton onClick={handleSubmit} />
       </div>
     </div>

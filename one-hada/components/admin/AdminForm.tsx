@@ -5,21 +5,21 @@ import { useParams } from 'next/navigation';
 import AdminInputForm from './AdminInputForm';
 import Title from './AdminTitle';
 
+// 컴포넌트에 props가 없는 경우 Props 타입 정의를 생략
 export default function AdminForm() {
-  const params = useParams();
-  const userId = params.userId as string;
+  const { userId } = useParams<{ userId: string }>();
 
   return (
-    <div className='flex justify-between'>
-      <div className='w-1/2 px-6 space-y-6'>
+    <div className='grid grid-cols-2 gap-12 px-6'>
+      <section className='space-y-6' aria-label='고객 정보 섹션'>
         <Title text='고객 정보' />
         <CounselDetail userId={userId} />
-      </div>
-      <div className='w-1/2 px-6 space-y-6'>
+      </section>
+
+      <section className='space-y-6' aria-label='상담 정보 섹션'>
         <Title text='상담 정보' />
-        {/* agentId를 함께 전달 */}
         <AdminInputForm userId={userId} />
-      </div>
+      </section>
     </div>
   );
 }
