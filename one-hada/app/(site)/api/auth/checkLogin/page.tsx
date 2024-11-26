@@ -72,6 +72,32 @@ export default function CheckLogin() {
     handleLogin();
   }, [status, session, router, updateSession]);
 
+  // const updateSession = useCallback(async () => {
+  //   try {
+  //     const userData = await fetchAllData<User>('user');
+  //     const provider = `user_${session?.user?.provider}` as keyof User;
+  //     const foundUser = userData.find(
+  //       (user) => user[provider] === session?.user.id
+  //     );
+  //     if (foundUser) {
+  //       await update({ id: foundUser.id });
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching user data:', error);
+  //   }
+  // }, [session, update]);
+
+  // useEffect(() => {
+  //   if (session?.user) {
+  //     if (session.user.isNewUser) {
+  //       router.push('/api/auth/register');
+  //     } else {
+  //       updateSession();
+  //       router.push('/');
+  //     }
+  //   }
+  // }, [session, router, updateSession]);
+
   return (
     <div
       style={{ height: 'calc(100vh - 56px)' }}
