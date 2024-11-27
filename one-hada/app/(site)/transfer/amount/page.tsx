@@ -1,97 +1,103 @@
 'use client';
 
-import TypeButton from '@/components/molecules/TypeButton';
 import { Button } from '@/components/ui/button';
 import useApi from '@/hooks/useApi';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getData } from '@/lib/api';
+import { Account, User } from '@/lib/datatypes';
+
+interface Params {
+  accountId: string | null;
+  recipientId: string | null;
+  recipientNumber: string | null;
+  bankName: string | null;
+}
+
+const AMOUNT_BUTTONS = [
+  { value: 10000, label: '+1만' },
+  { value: 50000, label: '+5만' },
+  { value: 100000, label: '+10만' },
+  { value: 1000000, label: '+100만' },
+];
 
 export default function AmountInput() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [amount, setAmount] = useState('');
   const [recipientName, setRecipientName] = useState('');
-  const searchParams = useSearchParams();
-  const router = useRouter();
 
-  const accountId = searchParams.get('account_id');
-  const recipientId = searchParams.get('recipient');
-  const recipientNumber = searchParams.get('recipient_number');
-  const bankName = searchParams.get('bank');
-
-  type Account = {
-    id: string;
-    user_id: string;
-    account_number: number;
-    balance: number;
-    account_type: string;
-    bank: string;
-    account_name: string;
+  const params: Params = {
+    accountId: searchParams.get('account_id'),
+    recipientId: searchParams.get('recipient'),
+    recipientNumber: searchParams.get('recipient_number'),
+    bankName: searchParams.get('bank'),
   };
 
-  type User = {
-    id: string;
-    user_name: string;
-    user_email: string;
-    user_phone: string;
-    user_address: string;
-    user_birth: string;
-    user_register: string;
-    user_google: string;
-    user_kakao: string;
-    user_naver: string;
-  };
-
-  const { data: accounts } = useApi<Account>('account');
+  const [account, setAccount] = useState<Account | null>();
   const { data: users } = useApi<User>('user');
 
-  const balance: number | string =
-    accounts.find((account) => account.id === accountId)?.balance ||
-    '정보 확인되지 않음';
+  const balance: number | string = account?.balance || '정보 확인되지 않음';
 
-  const handleNumberClick = (num: string) => {
+  const handleAmountChange = (input: string | number) => {
     setAmount((prev) => {
-      const newAmount = String(prev) + num;
-      return Number(newAmount) > Number(balance)
-        ? balance.toString()
-        : newAmount.toString();
-    });
-  };
+      const newAmount =
+        typeof input === 'string' ? Number(prev + input) : Number(prev) + input;
 
-  const handleSpecialAmount = (value: number) => {
-    setAmount((prev) => {
-      const newAmount = Number(prev) + value;
       return newAmount > Number(balance)
         ? balance.toString()
         : newAmount.toString();
     });
   };
 
-  const handleBackspace = () => {
-    setAmount((prev) => prev.slice(0, -1));
-  };
-
-  const handleMaxAmount = () => {
-    setAmount(balance.toString());
-  };
-
   const handleClick = () => {
-    if (accountId && recipientId && recipientNumber && bankName && amount) {
-      router.push(
-        `/transfer/validation?account_id=${accountId}&recipient=${recipientId}&bank=${bankName}&recipient_number=${recipientNumber}&amount=${amount}`
-      );
-    } else {
+    // 추후 수정
+    const { accountId, recipientId, bankName, recipientNumber } = params;
+
+    if (!amount) {
       alert('금액을 입력해주세요.');
+      return;
+    }
+
+    if (accountId && recipientId && recipientNumber && bankName) {
+      const searchParams = new URLSearchParams({
+        account_id: accountId,
+        recipient: recipientId,
+        bank: bankName,
+        recipient_number: recipientNumber,
+        amount,
+      });
+
+      router.push(`/transfer/validation?${searchParams.toString()}`);
     }
   };
+
+  //레디스 적용 후 수정 필요
   useEffect(() => {
-    if (users && recipientId) {
-      const recipient = users.find((user) => user.id === recipientId);
+    if (users && params.recipientId) {
+      const recipient = users.find((user) => user.id === params.recipientId);
       if (recipient) {
         setRecipientName(recipient.user_name);
       } else {
         setRecipientName('알 수 없는 사용자');
       }
     }
-  }, [users, recipientId]);
+  }, [users, params.recipientId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (params.accountId) {
+          const data = await getData<Account>('account', params.accountId);
+          setAccount(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [params.accountId]);
 
   return (
     <div
@@ -105,7 +111,7 @@ export default function AmountInput() {
               {recipientName}
             </span>
             <span className='text-gray-400 text-sm'>
-              ({bankName} {recipientNumber})
+              ({params.bankName} {params.recipientNumber})
             </span>
           </div>
           <p
@@ -128,41 +134,23 @@ export default function AmountInput() {
           </div>
         </div>
         <div className='flex justify-end mb-4 space-x-2'>
-          <TypeButton
-            onClick={() => handleSpecialAmount(10000)}
-            button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF] hover:bg-[#95D0BF] hover:text-white'
-          >
-            +1만
-          </TypeButton>
-          <TypeButton
-            onClick={() => handleSpecialAmount(50000)}
-            button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF] hover:bg-[#95D0BF] hover:text-white'
-          >
-            +5만
-          </TypeButton>
-          <TypeButton
-            onClick={() => handleSpecialAmount(100000)}
-            button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF] hover:bg-[#95D0BF] hover:text-white'
-          >
-            +10만
-          </TypeButton>
-          <TypeButton
-            onClick={() => handleSpecialAmount(1000000)}
-            button_type={'231'}
-            className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF] hover:bg-[#95D0BF] hover:text-white'
-          >
-            +100만
-          </TypeButton>
-          <TypeButton
-            onClick={handleMaxAmount}
-            button_type={'231'}
+          {AMOUNT_BUTTONS.map(({ value, label }) => (
+            <Button
+              key={value}
+              id='231'
+              onClick={() => handleAmountChange(value)}
+              className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF] hover:bg-[#95D0BF] hover:text-white'
+            >
+              {label}
+            </Button>
+          ))}
+          <Button
+            id='231'
+            onClick={() => setAmount(balance.toString())}
             className='bg-[#DCEFEA] text-[#635666] flex-1 p-2 rounded-[2rem] focus:bg-[#95D0BF] hover:bg-[#95D0BF] hover:text-white'
           >
             전액
-          </TypeButton>
+          </Button>
         </div>
 
         {/* 숫자 키패드 */}
@@ -170,14 +158,14 @@ export default function AmountInput() {
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, '00', 0].map((num) => (
             <button
               key={num}
-              onClick={() => handleNumberClick(num.toString())}
+              onClick={() => handleAmountChange(num.toString())}
               className='p-4 bg-gray-100 rounded text-xl shadow'
             >
               {num}
             </button>
           ))}
           <button
-            onClick={handleBackspace}
+            onClick={() => setAmount((prev) => prev.slice(0, -1))}
             className='p-4 bg-gray-100 rounded text-xl shadow'
           >
             ⌫

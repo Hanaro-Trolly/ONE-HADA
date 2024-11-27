@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import useApi from '@/hooks/useApi';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Account, User } from '@/lib/datatypes';
 
 export default function Checking({
   searchParams: {
@@ -22,34 +23,6 @@ export default function Checking({
     recipient: string;
   };
 }) {
-  // const accountId = searchParams.get('account_id');
-  // const recipientNumber = searchParams.get('recipient_number');
-  // const bankName = searchParams.get('bank');
-  // const amount = searchParams.get('amount');
-
-  type Account = {
-    id: string;
-    user_id: string;
-    account_number: number;
-    balance: number;
-    account_type: string;
-    bank: string;
-    account_name: string;
-  };
-
-  type User = {
-    id: string;
-    user_name: string;
-    user_email: string;
-    user_phone: string;
-    user_address: string;
-    user_birth: string;
-    user_register: string;
-    user_google: string;
-    user_kakao: string;
-    user_naver: string;
-  };
-
   const [recipientName, setRecipientName] = useState('');
   const [senderName, setSenderName] = useState('');
   const router = useRouter();

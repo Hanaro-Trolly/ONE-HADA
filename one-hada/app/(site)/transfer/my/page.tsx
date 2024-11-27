@@ -9,26 +9,41 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import useApi from '@/hooks/useApi';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getDataByUserId } from '@/lib/api';
 import { Account } from '@/lib/datatypes';
 
 export default function TransferPage() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const { data: accounts } = useApi<Account>('account');
-  const userId = session?.user?.id;
+  const [userAccount, setUserAccount] = useState<Account[]>();
   const [selectedAccount, setSelectedAccount] = useState<string>();
 
-  const filteredAccounts =
-    accounts?.filter((account) => account.user_id === userId) || [];
-
+  // 레디스 적용하고 url 수정하기
   const handleClick = (selectedAccount: string) => {
     router.push(`/transfer/recipient?account_id=${selectedAccount}`);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (session?.user) {
+          const data = await getDataByUserId<Account>(
+            'account',
+            session.user.id
+          );
+          setUserAccount(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [session]);
 
   return (
     <div
@@ -51,7 +66,7 @@ export default function TransferPage() {
             />
           </SelectTrigger>
           <SelectContent className='absolute w-[300px] max-h-44 overflow-y-auto focus:outline-none'>
-            {filteredAccounts.map((account) => (
+            {userAccount?.map((account) => (
               <SelectItem
                 key={account.id}
                 value={account.id}
