@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { addData, fetchAllData, getData } from '@/lib/api';
-import { History, Shortcut } from '@/lib/datatypes';
+import { addData, fetchAllData, getData, getDataByUserId } from '@/lib/api';
+import { History, Shortcut, Account } from '@/lib/datatypes';
 
-type HistoryElementType = {
+export type HistoryElementType = {
   type: string;
   myAccount?: string;
   receiverAccount?: string;
@@ -33,6 +33,8 @@ export default function HistoryModalPage({
   });
   const { data: session } = useSession();
 
+  const parsedElementsRef = useRef<HistoryElementType | null>(null);
+
   const handleSave = async () => {
     const inputValue = inputRef.current?.value;
     if (!inputValue) {
@@ -40,14 +42,26 @@ export default function HistoryModalPage({
       return;
     }
 
+    const shortcutElements = { ...historyElements };
+
+    if (parsedElementsRef.current) {
+      if (parsedElementsRef.current.myAccount) {
+        shortcutElements.myAccount = parsedElementsRef.current.myAccount;
+      }
+      if (parsedElementsRef.current.receiverAccount) {
+        shortcutElements.receiverAccount =
+          parsedElementsRef.current.receiverAccount;
+      }
+    }
+
     const checkedElements = checkedList.reduce(
       (acc, key) => {
-        if (key in historyElements) {
-          acc[key] = historyElements[key as keyof HistoryElementType];
+        if (key in shortcutElements) {
+          acc[key] = shortcutElements[key as keyof HistoryElementType];
         }
         return acc;
       },
-      { type: historyElements.type } as Record<string, any>
+      { type: shortcutElements.type } as Record<string, any>
     );
 
     try {
@@ -74,7 +88,7 @@ export default function HistoryModalPage({
 
   const filteredElements = useMemo(() => {
     return Object.entries(historyElements)
-      .filter(([key]) => key !== 'type' && key !== 'myAccount')
+      .filter(([key]) => key !== 'type' && key != 'myAccount')
       .map(([key, value]) => ({
         key,
         value,
@@ -113,7 +127,34 @@ export default function HistoryModalPage({
         const data = await getData<History>('history', historyId);
         if (data) {
           setHistory(data);
-          setHistoryElements(JSON.parse(data.history_elements));
+          const parsedElements = JSON.parse(data.history_elements);
+          parsedElementsRef.current = parsedElements;
+
+          setHistoryElements(parsedElements);
+          if (parsedElements.myAccount) {
+            const accountData = await getData<Account>(
+              'account',
+              parsedElements.myAccount
+            );
+            if (accountData) {
+              setHistoryElements((prev) => ({
+                ...prev,
+                myAccount: `${accountData.bank} ${accountData.account_number}`,
+              }));
+            }
+          }
+          if (parsedElements.receiverAccount) {
+            const receiverAccountData = await getData<Account>(
+              'account',
+              parsedElements.receiverAccount
+            );
+            if (receiverAccountData) {
+              setHistoryElements((prev) => ({
+                ...prev,
+                receiverAccount: `${receiverAccountData.bank} ${receiverAccountData.account_number}`,
+              }));
+            }
+          }
         } else {
           console.error('No history found for the user.');
         }
@@ -126,7 +167,7 @@ export default function HistoryModalPage({
 
   useEffect(() => {
     const initialCheckedList = filteredElements.map(({ key }) => key);
-    setCheckedList(initialCheckedList);
+    setCheckedList(['myAccount', ...initialCheckedList]);
   }, [filteredElements]);
 
   return (

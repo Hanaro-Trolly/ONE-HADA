@@ -35,6 +35,7 @@ const ShortCutPage = () => {
       })
     );
   };
+
   const handleCheckboxChange = useCallback((id: string) => {
     setCheckedItems((prev) => {
       const newCheckedItems = new Set(prev);
@@ -88,8 +89,9 @@ const ShortCutPage = () => {
       loadShortCuts();
     }
   }, [loadShortCuts, userId]);
-  if (shortCuts === null) {
-    return <></>;
+
+  if (shortCuts.length === 0) {
+    return <div></div>;
   }
 
   return (
@@ -121,7 +123,7 @@ const ShortCutPage = () => {
               isFavorite={item.is_Favorite}
               onCheckboxChange={handleCheckboxChange}
               favoriteToggle={toggleFavorite}
-              shortcutUrl={item.shortcut_elements} //TODO: 여기 고쳐야함 기억해 시온아
+              shortcutElements={item.shortcut_elements}
             />
           </li>
         ))}
