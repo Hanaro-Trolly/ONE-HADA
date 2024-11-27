@@ -71,28 +71,25 @@ const ShortCutPage = () => {
   const favoriteList = shortCuts.filter(({ is_Favorite }) => is_Favorite);
   const normalList = shortCuts.filter(({ is_Favorite }) => !is_Favorite);
 
-  const loadShortCuts = useCallback(async () => {
-    try {
-      const data = await getDataByUserId<Shortcut>('shortcut', userId);
-      if (data) {
-        setShortCuts(data.reverse());
-      } else {
-        console.error('No shortcuts found for the user.');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, [userId]);
-
   useEffect(() => {
-    if (userId) {
+    const loadShortCuts = async () => {
+      if (session?.user.id) {
+        try {
+          const shortcuts = await getDataByUserId<Shortcut>(
+            'shortcut',
+            session.user.id
+          );
+          setShortCuts(shortcuts.reverse());
+        } catch (error) {
+          console.error('Error fetching shortcuts:', error);
+        }
+      }
+    };
+
+    if (session?.user.id) {
       loadShortCuts();
     }
-  }, [loadShortCuts, userId]);
-
-  if (shortCuts.length === 0) {
-    return <div></div>;
-  }
+  }, [session]);
 
   return (
     <div>
