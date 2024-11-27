@@ -6,9 +6,6 @@ interface AccountHeaderProps {
 }
 
 export default function AccountHeader({ account }: AccountHeaderProps) {
-  console.log('Account:', account);
-  console.log('Account Bank:', account?.bank);
-
   if (!account) {
     return <div>계좌 정보를 불러오는 중입니다...</div>;
   }

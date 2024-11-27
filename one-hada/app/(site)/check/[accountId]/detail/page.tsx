@@ -2,8 +2,7 @@
 
 import AccountHeader from '@/components/check/AccountHeader';
 import TransactionList from '@/components/check/TransactionList';
-import { useRouter } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useMemo } from 'react';
 import { getData, fetchAllData } from '@/lib/api';
 import { Account, Transaction } from '@/lib/datatypes';
@@ -16,6 +15,7 @@ export default function DetailPage({
   const { accountId } = params;
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [accountInfo, setAccountInfo] = useState<Account | null>(null);
 
@@ -26,8 +26,6 @@ export default function DetailPage({
           getData<Account>('account', accountId),
           fetchAllData<Transaction>('transaction'),
         ]);
-
-        console.log('Fetched Account Info:', account);
         setAccountInfo(account);
         setTransactions(transactionData);
       } catch (error) {
@@ -38,7 +36,7 @@ export default function DetailPage({
     fetchData();
   }, [accountId]);
 
-  // Hooks는 조건 없이 호출되어야 합니다.
+  // 검색 파라미터를 객체로 정리
   const filterParams = useMemo(
     () => ({
       period: searchParams.get('period') || undefined,
@@ -50,8 +48,8 @@ export default function DetailPage({
     [searchParams]
   );
 
+  // 필터링된 거래 내역
   const filteredTransactions = useMemo(() => {
-    // accountInfo가 없으면 빈 배열을 반환
     if (!accountInfo) return [];
 
     return transactions.filter((transaction) => {
@@ -88,7 +86,7 @@ export default function DetailPage({
         }
       }
 
-      // 키워드 검색
+      // 키워드 검색 조건
       const searchTarget =
         transaction.sender_account_id === accountInfo.id
           ? transaction.receiver_viewer
@@ -101,8 +99,8 @@ export default function DetailPage({
     });
   }, [transactions, accountInfo, filterParams]);
 
+  // 날짜별 거래 내역 그룹화
   const groupedTransactions = useMemo(() => {
-    // accountInfo 또는 filteredTransactions가 없으면 빈 객체 반환
     if (!accountInfo || filteredTransactions.length === 0) return {};
 
     return filteredTransactions.reduce(
@@ -120,7 +118,6 @@ export default function DetailPage({
     );
   }, [filteredTransactions, accountInfo]);
 
-  // accountInfo가 null 또는 undefined인 경우를 체크
   if (!accountInfo) {
     return <div className='p-4'>거래 내역 로딩 중...</div>;
   }

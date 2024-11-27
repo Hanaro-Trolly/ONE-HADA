@@ -8,35 +8,40 @@ import { useEffect, useState, useMemo } from 'react';
 import { fetchAllData } from '@/lib/api';
 import { Account } from '@/lib/datatypes';
 
+// 공통 상수는 상단에 정의
 const ACCOUNT_TYPES = ['입출금', '예적금', '대출', '펀드'] as const;
 type AccountType = (typeof ACCOUNT_TYPES)[number];
 
 export default function CheckPage() {
   const { data: session } = useSession();
   const userId = session?.user.id;
+
   const [accountData, setAccountData] = useState<Account[]>([]);
   const [selectedType, setSelectedType] = useState<AccountType | null>(null);
 
+  // 계좌 데이터를 불러오는 함수
+  const fetchAccounts = async (userId: string) => {
+    try {
+      const data = await fetchAllData<Account>(`account?user_id=${userId}`);
+      setAccountData(data);
+    } catch (error) {
+      console.error('계좌 데이터를 가져오는 중 오류 발생:', error);
+    }
+  };
+
   useEffect(() => {
-    if (!userId) return;
-
-    const fetchAccounts = async () => {
-      try {
-        const data = await fetchAllData<Account>(`account?user_id=${userId}`);
-        setAccountData(data);
-      } catch (error) {
-        console.error('계좌 데이터를 가져오는 중 오류 발생:', error);
-      }
-    };
-
-    fetchAccounts();
+    if (userId) {
+      fetchAccounts(userId);
+    }
   }, [userId]);
 
+  // 총 잔액 계산 (불필요한 상태를 제거하고 useMemo로 최적화)
   const totalBalance = useMemo(
     () => accountData.reduce((total, account) => total + account.balance, 0),
     [accountData]
   );
 
+  // 선택된 계좌 유형에 따라 필터링
   const filteredAccounts = useMemo(
     () =>
       selectedType
@@ -49,6 +54,7 @@ export default function CheckPage() {
     <div className='p-8'>
       <h1 className='text-center text-xl font-medium'>내 계좌</h1>
 
+      {/* 총 금액 표시 */}
       <div className='bg-[#95D0BF] shadow-md rounded-xl my-6 px-8 py-6 flex items-center justify-between'>
         <span className='text-lg text-white ml-2'>총 금액</span>
         <span className='text-lg text-white mr-2'>
@@ -56,6 +62,7 @@ export default function CheckPage() {
         </span>
       </div>
 
+      {/* 계좌 유형 필터 버튼 */}
       <div className='flex justify-center space-x-4 mb-4'>
         {ACCOUNT_TYPES.map((type) => (
           <AccountTypeButton
@@ -69,6 +76,7 @@ export default function CheckPage() {
         ))}
       </div>
 
+      {/* 계좌 카드 리스트 */}
       <div>
         {filteredAccounts.map((account) => (
           <Link key={account.id} href={`/check/${account.id}`}>
