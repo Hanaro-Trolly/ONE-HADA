@@ -24,25 +24,15 @@ type History = {
   id: string;
   user_id: string;
   history_name: string;
-  history_type: 'inquiry' | 'transaction' | 'acc';
-  history_params: string;
+  history_elements: string;
   activity_date: Date;
-  is_Shortcut: boolean;
 };
-
-// type History = {
-//   id: string;
-//   user_id: string;
-//   history_name: string;
-//   history_url : string;
-//   activity_date: Date;
-// };
 
 type Shortcut = {
   id: string;
   user_id: string;
   shortcut_name: string;
-  shortcutUrl: string;
+  shortcut_elements: string;
   is_Favorite: boolean;
 };
 

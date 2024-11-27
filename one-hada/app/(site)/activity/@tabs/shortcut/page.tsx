@@ -121,7 +121,7 @@ const ShortCutPage = () => {
               isFavorite={item.is_Favorite}
               onCheckboxChange={handleCheckboxChange}
               favoriteToggle={toggleFavorite}
-              shortcutUrl={item.shortcutUrl}
+              shortcutUrl={item.shortcut_elements} //TODO: 여기 고쳐야함 기억해 시온아
             />
           </li>
         ))}
