@@ -1,3 +1,8 @@
+// 개별 거래내역 항목을 표시하는 컴포넌트
+// - 거래 상대방 정보 표시
+// - 거래 시간 표시
+// - 입금/출금 금액을 색상으로 구분하여 표시
+// - 금액 포맷팅 처리
 import { Transaction } from '@/lib/datatypes';
 
 interface TransactionItemProps {

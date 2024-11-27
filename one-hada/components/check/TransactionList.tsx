@@ -1,3 +1,7 @@
+// 전체 거래내역 목록을 관리하는 컴포넌트
+// - 거래내역 헤더와 검색 버튼 표시
+// - 날짜별로 그룹화된 거래내역을 정렬하여 표시
+// - TransactionGroup 컴포넌트들을 포함
 import { Button } from '@/components/ui/button';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { Transaction } from '@/lib/datatypes';

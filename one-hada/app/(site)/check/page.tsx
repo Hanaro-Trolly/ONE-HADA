@@ -1,5 +1,10 @@
 'use client';
 
+// 계좌 목록 페이지
+// - 사용자의 전체 계좌 목록 표시
+// - 계좌 유형별 필터링 기능
+// - 총 잔액 계산 및 표시
+// - 각 계좌 카드를 클릭하면 상세 페이지로 이동
 import AccountCard from '@/components/molecules/AccountCard';
 import AccountTypeButton from '@/components/molecules/AccountTypeButton';
 import { useSession } from 'next-auth/react';

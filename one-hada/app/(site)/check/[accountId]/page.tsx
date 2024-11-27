@@ -1,5 +1,10 @@
 'use client';
 
+// 계좌 검색 페이지
+// - 계좌 상세 정보 표시
+// - 검색 폼 제공
+// - 검색 히스토리 저장 기능
+// - 검색 결과를 URL 파라미터로 변환하여 detail 페이지로 이동
 import AccountHeader from '@/components/check/AccountHeader';
 import SearchForm from '@/components/check/SearchForm';
 import { useRouter } from 'next/navigation';

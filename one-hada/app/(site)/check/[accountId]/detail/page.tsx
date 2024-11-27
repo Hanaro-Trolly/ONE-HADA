@@ -1,5 +1,10 @@
 'use client';
 
+// 계좌 거래내역 상세 페이지
+// - URL 파라미터 기반 거래내역 필터링
+// - 계좌 정보와 거래내역 동시 로딩
+// - 필터링된 거래내역을 날짜별로 그룹화
+// - 실시간 검색 결과 표시
 import AccountHeader from '@/components/check/AccountHeader';
 import TransactionList from '@/components/check/TransactionList';
 import { useRouter, useSearchParams } from 'next/navigation';

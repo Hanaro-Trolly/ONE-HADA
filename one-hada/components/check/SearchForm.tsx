@@ -1,3 +1,9 @@
+// 거래내역 검색을 위한 폼 컴포넌트
+// - 조회기간 선택 (전체/1개월/3개월/6개월/1년)
+// - 날짜 직접 선택 기능
+// - 거래 구분 필터 (전체/입금/출금)
+// - 검색어 입력
+// - 모든 검색 조건을 단일 상태로 관리
 import TypeButton from '@/components/molecules/TypeButton';
 import { useState } from 'react';
 

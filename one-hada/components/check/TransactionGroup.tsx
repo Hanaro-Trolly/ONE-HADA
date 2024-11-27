@@ -1,3 +1,7 @@
+// 날짜별로 그룹화된 거래내역을 표시하는 컴포넌트
+// - 날짜 헤더 표시
+// - 해당 날짜의 모든 거래내역을 리스트로 표시
+// - TransactionItem 컴포넌트들을 포함
 import { Transaction } from '@/lib/datatypes';
 import TransactionItem from './TransactionItem';
 
