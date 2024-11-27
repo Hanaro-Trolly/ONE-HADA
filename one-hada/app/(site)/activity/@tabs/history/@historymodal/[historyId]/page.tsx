@@ -61,7 +61,7 @@ export default function HistoryModalPage({
         id: '' + newId,
         user_id: session?.user.id || '',
         shortcut_name: inputRef.current.value,
-        shortcut_elements: JSON.stringify(checkedElements), // 직렬화된 데이터
+        shortcut_elements: JSON.stringify(checkedElements),
         is_Favorite: false,
       };
 
@@ -72,12 +72,6 @@ export default function HistoryModalPage({
     }
   };
 
-  const handleCheckedItem = (key: string, isChecked: boolean) => {
-    setCheckedList((prev) =>
-      isChecked ? [...prev, key] : prev.filter((item) => item !== key)
-    );
-  };
-
   const filteredElements = useMemo(() => {
     return Object.entries(historyElements)
       .filter(([key]) => key !== 'type' && key !== 'myAccount')
@@ -86,6 +80,32 @@ export default function HistoryModalPage({
         value,
       }));
   }, [historyElements]);
+
+  const handleCheckedItem = (key: string, isChecked: boolean) => {
+    const index = filteredElements.findIndex((item) => item.key === key);
+
+    if (historyElements.type === 'transfer') {
+      if (isChecked) {
+        const updatedCheckedList = [
+          ...filteredElements.slice(0, index + 1).map((item) => item.key),
+          ...checkedList,
+        ];
+        setCheckedList(updatedCheckedList);
+      } else {
+        const updatedCheckedList = checkedList.filter((item) => {
+          const itemIndex = filteredElements.findIndex((el) => el.key === item);
+          return itemIndex < index;
+        });
+        setCheckedList(updatedCheckedList);
+      }
+    } else {
+      if (isChecked) {
+        setCheckedList((prev) => [...prev, key]);
+      } else {
+        setCheckedList((prev) => prev.filter((item) => item !== key));
+      }
+    }
+  };
 
   useEffect(() => {
     const loadHistory = async () => {
