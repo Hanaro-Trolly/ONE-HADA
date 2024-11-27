@@ -4,11 +4,10 @@ import AccountCard from '@/components/molecules/AccountCard';
 import AccountTypeButton from '@/components/molecules/AccountTypeButton';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { fetchAllData } from '@/lib/api';
 import { Account } from '@/lib/datatypes';
 
-// 계좌 유형 상수 정의
 const ACCOUNT_TYPES = ['입출금', '예적금', '대출', '펀드'] as const;
 type AccountType = (typeof ACCOUNT_TYPES)[number];
 
@@ -19,28 +18,32 @@ export default function CheckPage() {
   const [selectedType, setSelectedType] = useState<AccountType | null>(null);
 
   useEffect(() => {
-    const fetchAccounts = async () => {
-      if (!userId) return;
+    if (!userId) return;
 
+    const fetchAccounts = async () => {
       try {
         const data = await fetchAllData<Account>(`account?user_id=${userId}`);
         setAccountData(data);
       } catch (error) {
-        console.error('Error fetching account data:', error);
+        console.error('계좌 데이터를 가져오는 중 오류 발생:', error);
       }
     };
 
     fetchAccounts();
   }, [userId]);
 
-  const totalBalance = accountData.reduce(
-    (total, account) => total + account.balance,
-    0
+  const totalBalance = useMemo(
+    () => accountData.reduce((total, account) => total + account.balance, 0),
+    [accountData]
   );
 
-  const filteredAccounts = selectedType
-    ? accountData.filter((account) => account.account_type === selectedType)
-    : accountData;
+  const filteredAccounts = useMemo(
+    () =>
+      selectedType
+        ? accountData.filter((account) => account.account_type === selectedType)
+        : accountData,
+    [accountData, selectedType]
+  );
 
   return (
     <div className='p-8'>
@@ -59,6 +62,7 @@ export default function CheckPage() {
             key={type}
             account_type={type}
             onClick={() => setSelectedType(type)}
+            isSelected={selectedType === type}
           >
             {type}
           </AccountTypeButton>
@@ -68,7 +72,11 @@ export default function CheckPage() {
       <div>
         {filteredAccounts.map((account) => (
           <Link key={account.id} href={`/check/${account.id}`}>
-            <AccountCard accountNumber={0} accountType={''} {...account} />
+            <AccountCard
+              accountNumber={account.account_number}
+              accountType={account.account_type}
+              {...account}
+            />
           </Link>
         ))}
       </div>

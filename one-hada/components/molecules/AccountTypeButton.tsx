@@ -1,27 +1,34 @@
-import { ButtonHTMLAttributes } from 'react';
-import { Button } from '../ui/button';
+// components/molecules/AccountTypeButton.tsx
+import React, { ButtonHTMLAttributes } from 'react';
 
-type AccountTypeButtonProps = {
+interface AccountTypeButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   account_type: string;
   onClick: () => void;
-  children: React.ReactNode; // children 속성 추가
-} & ButtonHTMLAttributes<HTMLButtonElement>;
+  isSelected?: boolean;
+}
 
-export default function AccountTypeButton({
+const AccountTypeButton: React.FC<AccountTypeButtonProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   account_type,
   onClick,
+  isSelected = false,
   children,
   ...rest
-}: AccountTypeButtonProps) {
+}) => {
+  const buttonClassName = isSelected
+    ? 'bg-[#95D0BF] text-white'
+    : 'bg-[#ffffff] text-black shadow-none hover:bg-[#95D0BF] hover:text-white';
+
   return (
-    <Button
-      id={account_type}
-      className='px-4 py-2 bg-[#61B89F] text-white rounded-full hover:bg-[#377b68]'
+    <button
       onClick={onClick}
+      className={`${buttonClassName} rounded-full px-4 py-2 focus:outline-none`}
       {...rest}
     >
       {children}
-    </Button>
+    </button>
   );
-}
+};
+
+export default AccountTypeButton;
