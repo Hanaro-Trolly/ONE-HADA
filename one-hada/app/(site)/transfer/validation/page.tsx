@@ -4,17 +4,12 @@ import { Button } from '@/components/ui/button';
 import useApi from '@/hooks/useApi';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Account, User } from '@/lib/datatypes';
 
 export default function TransferConfirmation() {
-  const searchParams = useSearchParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const accountId = searchParams.get('account_id');
-  const recipientNumber = searchParams.get('recipient_number');
-  const recipientId = searchParams.get('recipient');
-  const bankName = searchParams.get('bank');
-  const amount = searchParams.get('amount');
-  const bankId = searchParams.get('bank');
   const [recipientName, setRecipientName] = useState('');
   const [senderName, setSenderName] = useState('');
   const [senderLabel, setSenderLabel] = useState('');
@@ -23,30 +18,14 @@ export default function TransferConfirmation() {
   const [recipientAccountId, setRecipientAccountId] = useState<string | null>(
     null
   );
+
+  const accountId = searchParams.get('account_id');
+  const recipientNumber = searchParams.get('recipient_number');
+  const recipientId = searchParams.get('recipient');
+  const bankName = searchParams.get('bank');
+  const amount = searchParams.get('amount');
+  const bankId = searchParams.get('bank');
   const pathname = usePathname(); // 현재 경로를 가져옴
-
-  type Account = {
-    id: string;
-    user_id: string;
-    account_number: number;
-    balance: number;
-    account_type: string;
-    bank: string;
-    account_name: string;
-  };
-
-  type User = {
-    id: string;
-    user_name: string;
-    user_email: string;
-    user_phone: string;
-    user_address: string;
-    user_birth: string;
-    user_register: string;
-    user_google: string;
-    user_kakao: string;
-    user_naver: string;
-  };
 
   const { data: accounts } = useApi<Account>('account');
   const { data: users } = useApi<User>('user');
@@ -86,12 +65,12 @@ export default function TransferConfirmation() {
   }, [accounts, recipientNumber, bankName]);
 
   const handleClick = () => {
+    // 추후 수정
     if (accountId && recipientNumber && bankId && amount) {
       const queryString = `?account_id=${accountId}&sender_name=${senderName}&recipient_name=${recipientName}&recipient_account_id=${recipientAccountId}&recipient=${recipientId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`;
       const fullRoute = `${pathname}${queryString}`;
       const targetRoute = `/transfer/checking${queryString}`;
       router.push(
-        // `/transfer/checking?account_id=${accountId}&recipient=${recipientId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`
         `/api/auth/checkPassword?userId=${userId}&route=${encodeURIComponent(fullRoute)}&redirectTo=${encodeURIComponent(targetRoute)}`
       );
     } else {
