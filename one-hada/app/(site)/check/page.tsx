@@ -1,6 +1,5 @@
 'use client';
 
-// API 호출 함수 가져오기
 import AccountCard from '@/components/molecules/AccountCard';
 import AccountTypeButton from '@/components/molecules/AccountTypeButton';
 import { useSession } from 'next-auth/react';
@@ -9,24 +8,29 @@ import { useEffect, useState } from 'react';
 import { fetchAllData } from '@/lib/api';
 import { Account } from '@/lib/datatypes';
 
+// 계좌 유형 상수 정의
+const ACCOUNT_TYPES = ['입출금', '예적금', '대출', '펀드'] as const;
+type AccountType = (typeof ACCOUNT_TYPES)[number];
+
 export default function CheckPage() {
   const { data: session } = useSession();
   const userId = session?.user.id;
   const [accountData, setAccountData] = useState<Account[]>([]);
-  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [selectedType, setSelectedType] = useState<AccountType | null>(null);
 
   useEffect(() => {
-    // API에서 account 데이터를 가져오는 함수
-    const fetchData = async () => {
+    const fetchAccounts = async () => {
+      if (!userId) return;
+
       try {
-        const data = await fetchAllData<Account>(`account?user_id=${userId}`); // account는 API 리소스 경로
+        const data = await fetchAllData<Account>(`account?user_id=${userId}`);
         setAccountData(data);
       } catch (error) {
         console.error('Error fetching account data:', error);
       }
     };
 
-    fetchData();
+    fetchAccounts();
   }, [userId]);
 
   const totalBalance = accountData.reduce(
@@ -34,13 +38,14 @@ export default function CheckPage() {
     0
   );
 
-  const filteredaccount = selectedType
+  const filteredAccounts = selectedType
     ? accountData.filter((account) => account.account_type === selectedType)
     : accountData;
-  console.log(filteredaccount);
+
   return (
     <div className='p-8'>
-      <h1 className='text-center text-xl font-medium '>내 계좌</h1>
+      <h1 className='text-center text-xl font-medium'>내 계좌</h1>
+
       <div className='bg-[#95D0BF] shadow-md rounded-xl my-6 px-8 py-6 flex items-center justify-between'>
         <span className='text-lg text-white ml-2'>총 금액</span>
         <span className='text-lg text-white mr-2'>
@@ -49,45 +54,21 @@ export default function CheckPage() {
       </div>
 
       <div className='flex justify-center space-x-4 mb-4'>
-        <AccountTypeButton
-          account_type='입출금'
-          onClick={() => setSelectedType('입출금')}
-        >
-          입출금
-        </AccountTypeButton>
-        <AccountTypeButton
-          account_type='예적금'
-          onClick={() => setSelectedType('예적금')}
-        >
-          예적금
-        </AccountTypeButton>
-        <AccountTypeButton
-          account_type='대출'
-          onClick={() => setSelectedType('대출')}
-        >
-          대출
-        </AccountTypeButton>
-        <AccountTypeButton
-          account_type='펀드'
-          onClick={() => setSelectedType('펀드')}
-        >
-          펀드
-        </AccountTypeButton>
+        {ACCOUNT_TYPES.map((type) => (
+          <AccountTypeButton
+            key={type}
+            account_type={type}
+            onClick={() => setSelectedType(type)}
+          >
+            {type}
+          </AccountTypeButton>
+        ))}
       </div>
 
       <div>
-        {filteredaccount.map((account) => (
+        {filteredAccounts.map((account) => (
           <Link key={account.id} href={`/check/${account.id}`}>
-            <div>
-              <AccountCard
-                id={account.id}
-                user_id={account.user_id}
-                accountNumber={account.account_number}
-                balance={account.balance}
-                accountType={account.account_type}
-                bank={account.bank}
-              />
-            </div>
+            <AccountCard accountNumber={0} accountType={''} {...account} />
           </Link>
         ))}
       </div>
