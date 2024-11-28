@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import JSONtoUrl from '@/lib/JSONtoUrl';
 import { Shortcut } from '@/lib/datatypes';
 import { Button } from '../ui/button';
 import {
@@ -19,7 +20,7 @@ const FavoriteCarousel = ({ favoriteList }: { favoriteList: Shortcut[] }) => (
       <CarouselContent>
         {favoriteList.map((item, idx) => (
           <CarouselItem key={idx}>
-            <Link href={item.shortcutUrl}>
+            <Link href={JSONtoUrl(JSON.parse(item.shortcut_elements))}>
               <Button
                 id={'favoriteBtn-' + item.id}
                 variant='home'

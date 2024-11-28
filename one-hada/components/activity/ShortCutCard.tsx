@@ -1,5 +1,6 @@
 import { HistoryElementType } from '@/app/(site)/activity/@tabs/history/@historymodal/[historyId]/page';
 import { StarFilledIcon } from '@radix-ui/react-icons';
+import JSONtoUrl from '@/lib/JSONtoUrl';
 import { Button } from '../ui/button';
 
 type ShortCutCardProps = {
@@ -21,22 +22,6 @@ export default function ShortCutCard({
   favoriteToggle,
   shortcutElements,
 }: ShortCutCardProps) {
-  const JSONtoUrl = (elements: HistoryElementType) => {
-    if (elements.type === 'transfer') {
-      if (elements.myAccount && elements.receiverAccount && elements.amount) {
-        return `/transfer/validation`;
-      }
-      if (elements.myAccount && elements.receiverAccount) {
-        return `/transfer/amount`;
-      }
-      if (elements.myAccount) {
-        return `/transfer/recipient`;
-      }
-    } else if (elements.type === 'inquiry' && elements.myAccount) {
-      return `/check/${elements.myAccount}/detail`;
-    }
-    return `/${elements.type}`;
-  };
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (e.target === e.currentTarget) {
       window.location.href = JSONtoUrl(JSON.parse(shortcutElements));
