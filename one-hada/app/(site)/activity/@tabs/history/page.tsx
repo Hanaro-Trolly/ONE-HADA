@@ -10,22 +10,26 @@ import { formatDate } from '@/lib/formatDate';
 const HistoryPage = () => {
   const [historyData, setHistoryData] = useState<History[]>([]);
   const { data: session } = useSession();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (session?.user) {
+        if (session?.user?.id) {
           const data = await getDataByUserId<History>(
             'history',
-            session?.user.id
+            session.user.id
           );
           setHistoryData(data);
+        } else {
+          console.log('User session not found');
         }
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching history data:', error);
       }
     };
-
-    fetchData();
+    if (session) {
+      fetchData();
+    }
   }, [session]);
 
   return (

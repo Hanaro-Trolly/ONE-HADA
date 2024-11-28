@@ -45,9 +45,9 @@ export default function Header() {
             <Button
               variant='ghost'
               className='rounded-none hover:bg-main-background w-14'
-              onClick={() => router.push('/settings')}
+              onClick={() => router.push('/myInfo')}
             >
-              설정
+              내 정보
             </Button>
           ) : (
             <Button

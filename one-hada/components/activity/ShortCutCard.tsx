@@ -1,4 +1,6 @@
+import { HistoryElementType } from '@/app/(site)/activity/@tabs/history/@historymodal/[historyId]/page';
 import { StarFilledIcon } from '@radix-ui/react-icons';
+import JSONtoUrl from '@/lib/JSONtoUrl';
 import { Button } from '../ui/button';
 
 type ShortCutCardProps = {
@@ -8,7 +10,7 @@ type ShortCutCardProps = {
   isFavorite: boolean;
   onCheckboxChange?: (id: string) => void;
   favoriteToggle: (id: string) => void;
-  shortcutUrl: string;
+  shortcutElements: string;
 };
 
 export default function ShortCutCard({
@@ -18,11 +20,11 @@ export default function ShortCutCard({
   isFavorite = false,
   onCheckboxChange,
   favoriteToggle,
-  shortcutUrl,
+  shortcutElements,
 }: ShortCutCardProps) {
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (e.target === e.currentTarget) {
-      window.location.href = shortcutUrl;
+      window.location.href = JSONtoUrl(JSON.parse(shortcutElements));
     }
   };
   return (
@@ -55,7 +57,7 @@ export default function ShortCutCard({
             id='deleteFavorite'
             className='[&_svg]:size-6 cursor-pointer'
             onClick={(e) => {
-              e.stopPropagation(); // 클릭 이벤트 전파 방지
+              e.stopPropagation();
               favoriteToggle(id);
             }}
           >
@@ -66,7 +68,7 @@ export default function ShortCutCard({
             id='addFavorite'
             className='[&_svg]:size-6 cursor-pointer'
             onClick={(e) => {
-              e.stopPropagation(); // 클릭 이벤트 전파 방지
+              e.stopPropagation();
               favoriteToggle(id);
             }}
           >
