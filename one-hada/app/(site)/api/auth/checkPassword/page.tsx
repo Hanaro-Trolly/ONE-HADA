@@ -74,9 +74,7 @@ export default function CheckPassword() {
             queryParams.get('amount') || 0
           }원 송금`,
           activity_date: new Date().toISOString(),
-          is_Shortcut: false,
-          history_type: 'transaction',
-          history_params: `${queryParams.get('account_id')}#${queryParams.get('recipient_account_id')}#${queryParams.get(
+          history_elements: `${queryParams.get('account_id')}#${queryParams.get('recipient_account_id')}#${queryParams.get(
             'amount'
           )}`,
         };

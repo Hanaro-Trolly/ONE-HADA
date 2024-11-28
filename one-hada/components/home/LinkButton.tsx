@@ -19,8 +19,10 @@ const LinkButton = ({
 }) => (
   <Link href={href}>
     <Button id={id} variant={variant} className={`w-full h-full ${style}`}>
-      <div className='tossface-icon text-[2rem]'>{icon}</div>
-      {text}
+      <div className='flex flex-col justify-center items-center gap-2'>
+        <div className='tossface-icon text-[2rem]'>{icon}</div>
+        {text}
+      </div>
     </Button>
   </Link>
 );

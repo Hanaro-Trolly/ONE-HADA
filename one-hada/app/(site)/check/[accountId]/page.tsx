@@ -47,10 +47,8 @@ export default function AccountDetailPage({
       id: String(historyLength),
       user_id: account.user_id,
       history_name: createHistoryName(searchParams),
-      history_type: 'inquiry',
-      history_params: createHistoryParams(searchParams),
+      history_elements: createHistoryParams(searchParams),
       activity_date: new Date(),
-      is_Shortcut: false,
     };
 
     try {

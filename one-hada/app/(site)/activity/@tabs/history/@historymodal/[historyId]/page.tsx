@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { addData, fetchAllData, getData, getDataByUserId } from '@/lib/api';
+import { addData, fetchAllData, getData } from '@/lib/api';
 import { History, Shortcut, Account } from '@/lib/datatypes';
 
 export type HistoryElementType = {
@@ -61,7 +61,7 @@ export default function HistoryModalPage({
         }
         return acc;
       },
-      { type: shortcutElements.type } as Record<string, any>
+      { type: shortcutElements.type } as Record<string, unknown>
     );
 
     try {

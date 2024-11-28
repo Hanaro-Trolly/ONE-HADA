@@ -23,7 +23,7 @@ const AccountTypeButton: React.FC<AccountTypeButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      className={`${buttonClassName} rounded-full px-4 py-2 focus:outline-none`}
+      className={`${buttonClassName} rounded-full px-4 py-2 focus:outline-none text-sm`}
       {...rest}
     >
       {children}
