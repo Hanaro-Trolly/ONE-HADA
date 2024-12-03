@@ -36,8 +36,8 @@ jobs:
       - name: Install dependencies and build
         run: |
           cd one-hada
-          pnpm install
-          pnpm run build  # 빌드 커맨드 (예: React, Vue 등)
+          npm install
+          npm run build  # 빌드 커맨드 (예: React, Vue 등)
 
       # 5. Docker 설치 및 설정
       - name: Set up Docker Buildx
