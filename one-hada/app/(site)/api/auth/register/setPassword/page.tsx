@@ -1,34 +1,14 @@
 'use client';
 
 import PasswordKeypad from '@/components/ui/PasswordKeypad';
+import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
-import { getData, updateData } from '@/lib/api';
-import { User } from '@/lib/datatypes';
 
 export default function SetPassword() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const userId = searchParams.get('userId');
   const thisRoute = searchParams.get('route');
-  const [userData, setUserData] = useState<User>();
-
-  const getUserData = useCallback(async () => {
-    try {
-      if (userId) {
-        const data = await getData<User>('user', userId);
-        if (data) {
-          setUserData(data);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching user:', error);
-    }
-  }, [userId]);
-
-  useEffect(() => {
-    getUserData();
-  }, [userId, getUserData]);
+  const { data: session } = useSession();
 
   const handleSubmit = async (password: string[]) => {
     if (password.length !== 6) {
@@ -37,18 +17,26 @@ export default function SetPassword() {
     }
 
     try {
-      if (userId && userData) {
-        // 비밀번호 업데이트
-        await updateData<User>('user', userId, {
-          ...userData,
-          simple_password: password,
-        });
+      const response = await fetch(
+        `${process.env.BASE_URL}/api/auth/password`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            provider: session?.user.provider,
+            email: session?.user.email,
+            password: password,
+          }),
+        }
+      );
 
+      const data = await response.json();
+
+      if (data.code == 200 && data.status == 'OK') {
         alert('간편 비밀번호가 설정되었습니다.');
-
         if (thisRoute) {
           const route: string = '/';
-          router.push(`${thisRoute}?userId=${userId}&route=${route}`);
+          router.push(`${thisRoute}?route=${route}`);
         }
       }
     } catch (error) {

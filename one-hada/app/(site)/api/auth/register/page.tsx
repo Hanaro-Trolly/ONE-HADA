@@ -11,15 +11,12 @@ import {
 } from '@/components/ui/select';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useCallback, useRef, useState } from 'react';
-import { fetchAllData, updateData, addData } from '@/lib/api';
-import { User } from '@/lib/datatypes';
+import { FormEvent, useRef, useState } from 'react';
 
 export default function Register() {
   const { data: session, update } = useSession();
   const router = useRouter();
 
-  const userId = Date.now().toString();
   const nameRef = useRef<HTMLInputElement>(null);
   const birthDateRef = useRef<HTMLInputElement>(null);
   const phoneRefs = [
@@ -30,80 +27,74 @@ export default function Register() {
   const addressRef = useRef<HTMLTextAreaElement>(null);
   const [userGender, setUserGender] = useState<string>('');
 
-  const fetchUserData = async () => {
-    return await fetchAllData<User>('user');
-  };
-
-  const updateSession = useCallback(async () => {
+  const login = async () => {
     try {
-      const users = await fetchUserData();
-      const provider = `user_${session?.user?.provider}` as keyof User;
-      const foundUser = users.find(
-        (user) => user[provider] === session?.user.id
-      );
-      if (foundUser) {
-        await update({ id: foundUser.id });
+      const response = await fetch(`${process.env.BASE_URL}/api/auth/jwt`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: session?.user.provider,
+          email: session?.user.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.code == 200 && data.status === 'EXIST') {
+        try {
+          await update({
+            id: data.id,
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken,
+          });
+        } catch (error) {
+          console.error('Error updating user data:', error);
+        }
       }
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.error('Error during login:', error);
     }
-  }, [session, update]);
+  };
 
   const createFormData = () => ({
-    id: userId,
-    user_name: nameRef.current!.value,
-    user_gender: userGender,
-    user_birth: birthDateRef.current!.value,
-    user_phone: phoneRefs.map((ref) => ref.current!.value).join('-'),
-    user_address: addressRef.current!.value,
-    user_email: session?.user?.email || '',
-    user_register: new Date(),
-    user_google: session?.user.provider === 'google' ? session.user.id : null,
-    user_kakao: session?.user.provider === 'kakao' ? session.user.id : null,
-    user_naver: session?.user.provider === 'naver' ? session.user.id : null,
-    simple_password: null,
+    name: nameRef.current!.value,
+    gender: userGender,
+    birth: birthDateRef.current!.value,
+    phone: phoneRefs.map((ref) => ref.current!.value).join('-'),
+    address: addressRef.current!.value,
+    google: session?.user.provider === 'google' ? session.user.email : null,
+    kakao: session?.user.provider === 'kakao' ? session.user.email : null,
+    naver: session?.user.provider === 'naver' ? session.user.email : null,
   });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = createFormData();
-    const users = await fetchUserData();
+    //[todo] //기존에 있는 유저가 다른 소셜 로그인으로 로그인(계정과 연동)
+    try {
+      const response = await fetch(
+        `${process.env.BASE_URL}/api/auth/register`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        }
+      );
 
-    const existingUser = users.find(
-      (user) =>
-        user.user_name === formData.user_name &&
-        user.user_gender === formData.user_gender &&
-        user.user_birth === formData.user_birth &&
-        user.user_phone === formData.user_phone
-    );
+      const data = await response.json();
 
-    if (existingUser) {
-      try {
-        await updateData<User>('user', existingUser.id, {
-          // resource와 id, updatedData 순서 조정
-          [`user_${session?.user.provider}`]: session?.user.id,
-        });
+      if (data == 'EXIST') {
         alert('기존 계정과 연동하였습니다');
+        login();
         router.push('/');
-      } catch (err) {
-        console.error('Error updating user:', err);
-      }
-    } else {
-      // 유저가 존재하지 않으면 추가
-
-      try {
-        await addData<User>('user', formData);
+      } else if (data == 'NEW') {
         alert('회원등록에 성공하였습니다');
         const route: string = '/api/auth/checkPassword';
-        router.push(
-          `/api/auth/register/setPassword?userId=${userId}&route=${route}`
-        );
-      } catch (err) {
-        console.error('Error adding user:', err);
+        router.push(`/api/auth/register/setPassword?route=${route}`);
       }
+    } catch (error) {
+      console.error('회원가입 중 오류 발생', error);
     }
-
-    updateSession();
   };
 
   return (
