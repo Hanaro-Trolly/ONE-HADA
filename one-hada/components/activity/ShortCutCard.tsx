@@ -1,4 +1,3 @@
-import { HistoryElementType } from '@/app/(site)/activity/@tabs/history/@historymodal/[historyId]/page';
 import { StarFilledIcon } from '@radix-ui/react-icons';
 import JSONtoUrl from '@/lib/JSONtoUrl';
 import { Button } from '../ui/button';

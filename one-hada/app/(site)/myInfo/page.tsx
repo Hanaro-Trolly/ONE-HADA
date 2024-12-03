@@ -96,7 +96,7 @@ export default function MyInfoPage() {
           </div>
           <ProfileContent
             isEditing={isEditing}
-            userProfile={userProfile}
+            userProfile={userProfile!}
             phoneNumberRef={phoneNumberRef}
             addressRef={addressRef}
           />

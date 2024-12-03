@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { ChevronRightIcon } from 'lucide-react';
-import React from 'react';
 
 const WithdrawButton = () => (
   <div className='flex items-center h-5 text-gray-500'>

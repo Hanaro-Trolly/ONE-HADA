@@ -14,8 +14,6 @@ const ShortCutPage = () => {
   const [shortCuts, setShortCuts] = useState<Shortcut[]>([]);
   const { data: session } = useSession();
 
-  const userId = session?.user.id || '';
-
   const toggleDeleteMode = useCallback(() => setIsDelete((prev) => !prev), []);
 
   const cancelDeleteMode = () => {

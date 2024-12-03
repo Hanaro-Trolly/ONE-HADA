@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ChevronRightIcon } from 'lucide-react';
 import { signIn } from 'next-auth/react';
-import React from 'react';
 
 const LoginPrompt = () => {
   return (

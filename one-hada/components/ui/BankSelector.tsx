@@ -34,7 +34,7 @@ export default function BankSelector({
   selectedBank,
   onSelect,
 }: BankSelectorProps) {
-  const [isToggleOpen, setIsToggleOpen] = useState<Boolean>(false);
+  const [isToggleOpen, setIsToggleOpen] = useState<boolean>(false);
 
   const onToggle = () => {
     setIsToggleOpen(!isToggleOpen);
