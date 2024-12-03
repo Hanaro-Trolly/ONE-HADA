@@ -17,6 +17,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 1.1 환경변수 설정
+      - name: Set environment variables from ENV_SECRET
+        run: |
+          echo "${{ secrets.ENV_SECRET }}" > .env.local
+          export $(cat .env.local | xargs)
+
       # 2. Node.js 설치 (프론트엔드 빌드에 필요)
       - name: Set up Node.js
         uses: actions/setup-node@v3
