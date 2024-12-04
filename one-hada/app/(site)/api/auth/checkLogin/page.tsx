@@ -10,7 +10,7 @@ export default function CheckLogin() {
 
   const login = async () => {
     try {
-      const response = await fetch(`${process.env.BASE_URL}/api/auth/jwt`, {
+      const response = await fetch(`http://localhost:8080/api/auth/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -22,12 +22,15 @@ export default function CheckLogin() {
       const data = await response.json();
 
       if (data.code == 200 && data.status === 'EXIST') {
+        console.log('로그인 성공');
         try {
           await update({
-            id: data.id,
+            id: data.data.userId,
             accessToken: data.accessToken,
             refreshToken: data.refreshToken,
           });
+          console.log('업데이트');
+          console.log(session?.user.id);
         } catch (error) {
           console.error('Error updating user data:', error);
         }

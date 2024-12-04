@@ -40,13 +40,13 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: process.env.AUTH_SECRET,
   callbacks: {
-    async signIn({ user }) {
-      const provider = user.provider;
+    async signIn({ user, account }) {
+      const provider = account?.provider;
       const email = user.email;
       let isFirstLogin = false;
 
       try {
-        const response = await fetch(`${process.env.BASE_URL}/api/auth/jwt`, {
+        const response = await fetch(`http://localhost:8080/api/auth/signin`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -58,6 +58,8 @@ export const authOptions: NextAuthOptions = {
         if (!response.ok) throw new Error('Failed to generate session ID');
 
         const data = await response.json();
+        console.log('data', data);
+        console.log(data.status);
 
         if (data.status === 'NEW') {
           isFirstLogin = true;
