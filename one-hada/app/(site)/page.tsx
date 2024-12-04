@@ -7,8 +7,8 @@ import { useSession } from 'next-auth/react';
 import { FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { getData, getDataByUserId } from '@/lib/api';
-import { Shortcut, User } from '@/lib/datatypes';
+import { getDataByUserId } from '@/lib/api';
+import { Shortcut } from '@/lib/datatypes';
 
 const buttonStyles = {
   activity: 'bg-[#D2DAE0] hover:bg-[#AAB8C1]',
@@ -18,7 +18,7 @@ const buttonStyles = {
 
 export default function Home() {
   const [favoriteList, setFavoriteList] = useState<Shortcut[]>([]);
-  const [user, setUser] = useState<string>();
+  // const [user, setUser] = useState<string>();
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Home() {
           const userId = session.user.id;
           const shortcuts = await getDataByUserId<Shortcut>('shortcut', userId);
           setFavoriteList(shortcuts.filter((item) => item.is_Favorite));
-          setUser(session?.user?.id);
+          // setUser(session?.user?.id);
         }
       } catch (error) {
         console.error(error);
