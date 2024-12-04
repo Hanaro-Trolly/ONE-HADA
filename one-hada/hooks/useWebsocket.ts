@@ -20,7 +20,8 @@ export const useWebSocket = ({}: UseWebSocketProps) => {
     }
 
     const client = new Client({
-      webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+      webSocketFactory: () =>
+        new SockJS(`${process.env.NEXT_PUBLIC_BASE_URL}/ws`),
       onConnect: () => {
         setConnected(true);
         console.log('웹소켓 연결 성공!');
