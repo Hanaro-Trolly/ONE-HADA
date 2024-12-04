@@ -29,7 +29,7 @@ export default function Register() {
 
   const login = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/auth/register`, {
+      const response = await fetch(`http://localhost:8080/api/cert/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -72,7 +72,7 @@ export default function Register() {
     const formData = createFormData();
     //[todo] //기존에 있는 유저가 다른 소셜 로그인으로 로그인(계정과 연동)
     try {
-      const response = await fetch(`http://localhost:8080/api/auth/register`, {
+      const response = await fetch(`http://localhost:8080/api/cert/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
