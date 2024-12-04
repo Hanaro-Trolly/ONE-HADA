@@ -81,6 +81,6 @@ jobs:
           script: |
             # 서버에서 Docker Compose로 이미지를 Pull하고 배포
             cd /usr/local/bin/  # Docker Compose 파일이 위치한 디렉토리로 이동
-            docker-compose down # 도커 컴포즈 종료
-            docker-compose pull  # 프론트엔드, 백엔드 이미지 풀
-            docker-compose up -d  # 모든 서비스 실행
+            docker-compose stop frontend  # frontend 서비스만 중지
+            docker-compose pull frontend  # frontend 이미지만 최신 버전으로 풀
+            docker-compose --env-file .env up -d frontend  # 서비스 실행
