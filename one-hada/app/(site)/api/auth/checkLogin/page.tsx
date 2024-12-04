@@ -10,14 +10,17 @@ export default function CheckLogin() {
 
   const login = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/cert/signin`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          provider: session?.user.provider,
-          email: session?.user.email,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/signin`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            provider: session?.user.provider,
+            email: session?.user.email,
+          }),
+        }
+      );
 
       const data = await response.json();
 

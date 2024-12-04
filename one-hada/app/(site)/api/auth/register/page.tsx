@@ -29,14 +29,17 @@ export default function Register() {
 
   const login = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/cert/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          provider: session?.user.provider,
-          email: session?.user.email,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/register`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            provider: session?.user.provider,
+            email: session?.user.email,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -72,11 +75,14 @@ export default function Register() {
     const formData = createFormData();
     //[todo] //기존에 있는 유저가 다른 소셜 로그인으로 로그인(계정과 연동)
     try {
-      const response = await fetch(`http://localhost:8080/api/cert/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/register`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
       console.log(data);
