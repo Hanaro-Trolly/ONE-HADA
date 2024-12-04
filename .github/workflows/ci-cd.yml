@@ -20,6 +20,7 @@ jobs:
       # 1.1 환경변수 설정
       - name: Set environment variables from ENV_SECRET
         run: |
+          cd one-hada
           echo "${{ secrets.ENV_SECRET }}" > .env
           export $(cat .env | xargs)
 
@@ -83,4 +84,4 @@ jobs:
             cd /usr/local/bin/  # Docker Compose 파일이 위치한 디렉토리로 이동
             docker-compose stop frontend  # frontend 서비스만 중지
             docker-compose pull frontend  # frontend 이미지만 최신 버전으로 풀
-            docker-compose --env-file .env up -d frontend  # 서비스 실행
+            docker-compose up -d frontend  # 서비스 실행
