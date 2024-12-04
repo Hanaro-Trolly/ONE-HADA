@@ -10,12 +10,16 @@ declare module 'next-auth' {
       id: string;
       isNewUser: boolean;
       provider: string | undefined;
+      accessToken?: string;
+      refreshToken?: string;
     } & DefaultSession['user'];
   }
 
   interface User {
     isNewUser: boolean;
     provider: string | undefined;
+    accessToken?: string;
+    refreshToken?: string;
   }
 }
 
@@ -38,40 +42,51 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account }) {
       const provider = account?.provider;
-      const userId = user.id;
+      const email = user.email;
       let isFirstLogin = false;
 
       try {
-        const response = await fetch(`http://localhost:3000/api/checkUser`, {
-          method: 'POST', // POST 메서드로 변경
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ userId, provider }), // userId와 provider를 요청 본문에 포함
+        const response = await fetch(`http://localhost:8080/api/auth/signin`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            provider: provider,
+            email: email,
+          }),
         });
 
-        const { exists } = await response.json();
+        if (!response.ok) throw new Error('Failed to generate session ID');
 
-        if (!exists) {
-          isFirstLogin = true; // 사용자가 존재하지 않으면 최초 로그인으로 처리
+        const data = await response.json();
+        console.log('data', data);
+        console.log(data.status);
+
+        if (data.status === 'NEW') {
+          isFirstLogin = true;
         }
-      } catch (error) {
-        console.error('Error fetching users:', error);
-        return false; // 오류가 발생하면 로그인 실패
-      }
 
-      user.isNewUser = isFirstLogin;
-      user.provider = provider;
-      return true;
+        user.isNewUser = isFirstLogin;
+        user.provider = provider;
+
+        return true;
+      } catch (error) {
+        console.error('처음 로그인 유저인지 조회중 오류', error);
+        return false;
+      }
     },
     async jwt({ token, user, trigger, session }) {
       if (user) {
         token.sub = user.id;
         token.isNewUser = user.isNewUser;
         token.provider = user.provider;
+
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
       }
-      if (trigger === 'update' && session?.id) {
+      if (trigger === 'update') {
         token.sub = session.id;
+        token.accessToken = token.accessToken;
+        token.refreshToken = token.refreshToken;
       }
       return token;
     },
@@ -80,6 +95,8 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.sub as string;
         session.user.isNewUser = token.isNewUser as boolean;
         session.user.provider = token.provider as string;
+        session.user.accessToken = token.accessToken as string;
+        session.user.refreshToken = token.refreshToken as string;
       }
       return session;
     },

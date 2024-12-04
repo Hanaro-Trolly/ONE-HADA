@@ -18,7 +18,7 @@ const buttonStyles = {
 
 export default function Home() {
   const [favoriteList, setFavoriteList] = useState<Shortcut[]>([]);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<string>();
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -27,9 +27,8 @@ export default function Home() {
         if (session?.user.id) {
           const userId = session.user.id;
           const shortcuts = await getDataByUserId<Shortcut>('shortcut', userId);
-          const userData = await getData<User>('user', userId);
           setFavoriteList(shortcuts.filter((item) => item.is_Favorite));
-          setUser(userData);
+          setUser(session?.user?.id);
         }
       } catch (error) {
         console.error(error);
@@ -57,7 +56,7 @@ export default function Home() {
         {session?.user ? (
           <div className='text-[#635666]'>
             <label className='text-xl font-medium text-[#698596]'>
-              {user?.user_name}
+              {session.user.id}
             </label>{' '}
             님, <div>안녕하세요.</div>
           </div>

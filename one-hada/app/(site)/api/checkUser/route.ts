@@ -3,6 +3,7 @@ import axios from 'axios';
 import { User } from '@/lib/datatypes';
 
 export async function POST(req: Request) {
+  //나증에 페이지 지우기!!!!!!!!!!!(오류가 없다면)
   const { userId, provider } = await req.json();
 
   try {
