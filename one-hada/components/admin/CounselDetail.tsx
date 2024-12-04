@@ -38,7 +38,7 @@ export default function CounselDetail({ userId }: CounselDetailProps) {
             birth: currentUser.user_birth,
             phone: currentUser.user_phone,
             name: currentUser.user_name,
-            gender: currentUser.user_gender as 'male' | 'female' | null,
+            gender: currentUser.user_gender as 'M' | 'F' | null,
           });
         }
       } catch (error) {
@@ -63,9 +63,9 @@ export default function CounselDetail({ userId }: CounselDetailProps) {
 
   const getGenderIcon = () => {
     switch (userData?.gender) {
-      case 'male':
+      case 'M':
         return <IoMale className='text-blue-500' size={24} />;
-      case 'female':
+      case 'F':
         return <IoFemale className='text-pink-500' size={24} />;
       default:
         return null;

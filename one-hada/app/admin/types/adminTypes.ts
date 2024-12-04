@@ -6,7 +6,7 @@ export interface User {
   name: string;
   birth: string;
   phone: string;
-  gender: 'male' | 'female' | null;
+  gender: 'M' | 'F' | null;
 }
 
 // 상담 데이터 타입
@@ -62,7 +62,7 @@ export interface UserData {
   birth: string;
   phone: string;
   name: string;
-  gender: 'male' | 'female' | null;
+  gender: 'M' | 'F' | null;
 }
 
 export interface UserAPIResponse {

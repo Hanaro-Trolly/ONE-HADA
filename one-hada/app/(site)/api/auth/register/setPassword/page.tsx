@@ -17,18 +17,15 @@ export default function SetPassword() {
     }
 
     try {
-      const response = await fetch(
-        `${process.env.BASE_URL}/api/auth/password`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            provider: session?.user.provider,
-            email: session?.user.email,
-            password: password,
-          }),
-        }
-      );
+      const response = await fetch(`http://localhost:8080/api/auth/password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: session?.user.provider,
+          email: session?.user.email,
+          password: password.join(''),
+        }),
+      });
 
       const data = await response.json();
 

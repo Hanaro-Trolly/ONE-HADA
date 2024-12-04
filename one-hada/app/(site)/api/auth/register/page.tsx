@@ -29,7 +29,7 @@ export default function Register() {
 
   const login = async () => {
     try {
-      const response = await fetch(`${process.env.BASE_URL}/api/auth/jwt`, {
+      const response = await fetch(`http://localhost:8080/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -72,22 +72,19 @@ export default function Register() {
     const formData = createFormData();
     //[todo] //기존에 있는 유저가 다른 소셜 로그인으로 로그인(계정과 연동)
     try {
-      const response = await fetch(
-        `${process.env.BASE_URL}/api/auth/register`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`http://localhost:8080/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
       const data = await response.json();
-
-      if (data == 'EXIST') {
+      console.log(data);
+      if (data.status == 'EXIST') {
         alert('기존 계정과 연동하였습니다');
         login();
         router.push('/');
-      } else if (data == 'NEW') {
+      } else if (data.status == 'NEW') {
         alert('회원등록에 성공하였습니다');
         const route: string = '/api/auth/checkPassword';
         router.push(`/api/auth/register/setPassword?route=${route}`);
@@ -137,8 +134,8 @@ export default function Register() {
                 <SelectValue placeholder='선택해주세요' />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='male'>남성</SelectItem>
-                <SelectItem value='female'>여성</SelectItem>
+                <SelectItem value='M'>남성</SelectItem>
+                <SelectItem value='F'>여성</SelectItem>
               </SelectContent>
             </Select>
           </div>
