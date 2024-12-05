@@ -17,13 +17,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 1.1 환경변수 설정
+      # 1.1 환경변수 설정하기
       - name: Set environment variables from ENV_SECRET
         run: |
-          echo "${{ secrets.ENV_SECRET }}" > .env.local
-          export $(cat .env.local | xargs)
+          cd one-hada
+          echo "${{ secrets.ENV_SECRET }}" > .env
+          export $(cat .env | xargs)
 
-      # 2. Node.js 설치 (프론트엔드 빌드에 필요)
+      # 2. Node.js 설치
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -81,6 +82,6 @@ jobs:
           script: |
             # 서버에서 Docker Compose로 이미지를 Pull하고 배포
             cd /usr/local/bin/  # Docker Compose 파일이 위치한 디렉토리로 이동
-            docker-compose down # 도커 컴포즈 종료
-            docker-compose pull  # 프론트엔드, 백엔드 이미지 풀
-            docker-compose up -d  # 모든 서비스 실행
+            docker-compose down  # 전체 서비스 중지
+            docker-compose pull  # 이미지만 최신 버전으로 풀
+            docker-compose up -d  # 서비스 실행
