@@ -2,12 +2,10 @@
 
 import PasswordKeypad from '@/components/ui/PasswordKeypad';
 import { useSession } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function SetPassword() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const thisRoute = searchParams.get('route');
   const { data: session } = useSession();
 
   const handleSubmit = async (password: string[]) => {
@@ -34,10 +32,8 @@ export default function SetPassword() {
 
       if (data.code == 200 && data.status == 'OK') {
         alert('간편 비밀번호가 설정되었습니다.');
-        if (thisRoute) {
-          const route: string = '/';
-          router.push(`${thisRoute}?route=${route}`);
-        }
+        const route: string = '/';
+        router.push(`/api/auth/checkPassword?route=${route}`);
       }
     } catch (error) {
       console.error('Error updating password:', error);

@@ -68,11 +68,8 @@ export default function TransferConfirmation() {
     // 추후 수정
     if (accountId && recipientNumber && bankId && amount) {
       const queryString = `?account_id=${accountId}&sender_name=${senderName}&recipient_name=${recipientName}&recipient_account_id=${recipientAccountId}&recipient=${recipientId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`;
-      const fullRoute = `${pathname}${queryString}`;
-      const targetRoute = `/transfer/checking${queryString}`;
-      router.push(
-        `/api/auth/checkPassword?userId=${userId}&route=${encodeURIComponent(fullRoute)}&redirectTo=${encodeURIComponent(targetRoute)}`
-      );
+      const route: string = '/tansfer/saveTransaction';
+      router.push(`/api/auth/checkPassword?route=${route}`);
     } else {
       alert('은행과 계좌번호를 모두 입력해주세요.');
     }

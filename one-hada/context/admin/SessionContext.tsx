@@ -1,5 +1,6 @@
 'use client';
 
+import { useFetch } from '@/hooks/useAdminFetch';
 import React, {
   createContext,
   useContext,
@@ -7,8 +8,6 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-
-const API_URL = 'http://localhost:8080/api/admin';
 
 type LoginUser = {
   id: string;
@@ -20,20 +19,27 @@ type Session = {
   loginUser: LoginUser | null;
 };
 
-// type Agent = {
-//   id: string;
-//   agentName: string;
-//   agentEmail: string;
-// };
-
-// type LoginResponse = {
-//   code: number;
-//   status: string;
-//   message: string;
-//   data: Agent;
-// };
-
 type Action = { type: 'LOGIN'; payload: LoginUser } | { type: 'LOGOUT' };
+
+interface LoginRequest {
+  agentEmail: string;
+  agentPw: string;
+}
+
+interface LoginResponse {
+  code: number;
+  status: string;
+  message: string;
+  data: {
+    id: string;
+    agentName: string;
+    agentEmail: string;
+  } | null;
+}
+
+interface ErrorWithMessage {
+  message: string;
+}
 
 // 세션스토리지 유틸리티 함수
 const getSessionStorageItem = (key: string) => {
@@ -101,6 +107,7 @@ export const AdminSessionProvider: React.FC<{ children: React.ReactNode }> = ({
   const [mounted, setMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [session, dispatch] = useReducer(sessionReducer, { loginUser: null });
+  const { fetchData } = useFetch<LoginResponse, LoginRequest>();
 
   // 마운트 및 초기 세션 복원
   useEffect(() => {
@@ -136,33 +143,23 @@ export const AdminSessionProvider: React.FC<{ children: React.ReactNode }> = ({
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_URL}/login`, {
+      const result = await fetchData(`/api/admin/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        credentials: 'include', // CORS 인증 정보 포함
-        body: JSON.stringify({
+        body: {
           agentEmail: email,
           agentPw: password,
-        }),
+        },
       });
 
-      if (!response.ok) {
-        console.error('Login failed:', response.status, response.statusText);
-        return false;
-      }
-
-      const result = await response.text(); // 먼저 텍스트로 받아서 확인
-      if (!result) return false;
-
-      const data = JSON.parse(result);
-      if (data.code === 200 && data.data) {
+      if (result.code === 200 && result.data) {
         const loginUser = {
-          id: data.data.id,
-          agent_name: data.data.agentName,
-          agent_email: data.data.agentEmail,
+          id: result.data.id,
+          agent_name: result.data.agentName,
+          agent_email: result.data.agentEmail,
         };
         dispatch({ type: 'LOGIN', payload: loginUser });
         return true;

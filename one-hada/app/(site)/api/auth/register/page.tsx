@@ -30,7 +30,7 @@ export default function Register() {
   const login = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/register`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/signin`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -92,8 +92,8 @@ export default function Register() {
         router.push('/');
       } else if (data.status == 'NEW') {
         alert('회원등록에 성공하였습니다');
-        const route: string = '/api/auth/checkPassword';
-        router.push(`/api/auth/register/setPassword?route=${route}`);
+        login();
+        router.push(`/api/auth/register/setPassword`);
       }
     } catch (error) {
       console.error('회원가입 중 오류 발생', error);

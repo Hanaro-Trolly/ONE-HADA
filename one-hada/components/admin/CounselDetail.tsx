@@ -5,7 +5,7 @@ import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
 import { IoEye, IoFemale, IoMale } from 'react-icons/io5';
 import { useState, useEffect } from 'react';
-import { fetchUserData } from '@/lib/newapi';
+import { fetchUserData } from '@/lib/adminApi';
 import AdminCard from './AdminCard';
 import AdminInfo from './AdminInfo';
 import Modal from './Modal';
