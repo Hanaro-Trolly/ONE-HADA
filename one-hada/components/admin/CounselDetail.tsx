@@ -1,15 +1,11 @@
 'use client';
 
-import {
-  Counsel,
-  UserData,
-  UserAPIResponse,
-} from '@/app/admin/types/adminTypes';
+import { Counsel, UserData } from '@/app/admin/types/adminTypes';
 import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
 import { IoEye, IoFemale, IoMale } from 'react-icons/io5';
 import { useState, useEffect } from 'react';
-import { fetchAllData } from '@/lib/api';
+import { fetchUserData } from '@/lib/newapi';
 import AdminCard from './AdminCard';
 import AdminInfo from './AdminInfo';
 import Modal from './Modal';
@@ -22,23 +18,26 @@ interface CounselDetailProps {
 export default function CounselDetail({ userId }: CounselDetailProps) {
   const [isLogOpen, setIsLogOpen] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
-
   const { counselData } = useCounsel();
   const { session } = useAdminSession();
+
   const decodedUserId = decodeURIComponent(userId);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const loadUserData = async () => {
       try {
-        const allUsers = await fetchAllData<UserAPIResponse>('user');
-        const currentUser = allUsers.find((user) => user.id === decodedUserId);
-
-        if (currentUser) {
+        const response = await fetchUserData(decodedUserId);
+        if (response.code === 200 && response.data) {
           setUserData({
-            birth: currentUser.user_birth,
-            phone: currentUser.user_phone,
-            name: currentUser.user_name,
-            gender: currentUser.user_gender as 'M' | 'F' | null,
+            birth: response.data.userBirth,
+            phone: response.data.userPhone,
+            name: response.data.userName,
+            gender:
+              response.data.userGender === 'male'
+                ? 'M'
+                : response.data.userGender === 'female'
+                  ? 'F'
+                  : null,
           });
         }
       } catch (error) {
@@ -46,7 +45,7 @@ export default function CounselDetail({ userId }: CounselDetailProps) {
       }
     };
 
-    fetchUserData();
+    loadUserData();
   }, [decodedUserId]);
 
   const userCounsels = counselData

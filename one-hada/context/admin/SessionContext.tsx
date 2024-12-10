@@ -7,7 +7,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { fetchAllData } from '@/lib/api';
+
+const API_URL = 'http://localhost:8080/api/admin';
 
 type LoginUser = {
   id: string;
@@ -19,12 +20,18 @@ type Session = {
   loginUser: LoginUser | null;
 };
 
-type Agent = {
-  id: string;
-  agent_name: string;
-  agent_email: string;
-  agent_pw: string;
-};
+// type Agent = {
+//   id: string;
+//   agentName: string;
+//   agentEmail: string;
+// };
+
+// type LoginResponse = {
+//   code: number;
+//   status: string;
+//   message: string;
+//   data: Agent;
+// };
 
 type Action = { type: 'LOGIN'; payload: LoginUser } | { type: 'LOGOUT' };
 
@@ -129,16 +136,33 @@ export const AdminSessionProvider: React.FC<{ children: React.ReactNode }> = ({
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     try {
-      const agents = await fetchAllData<Agent>('agent');
-      const agent = agents.find(
-        (agent) => agent.agent_email === email && agent.agent_pw === password
-      );
+      const response = await fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        credentials: 'include', // CORS 인증 정보 포함
+        body: JSON.stringify({
+          agentEmail: email,
+          agentPw: password,
+        }),
+      });
 
-      if (agent) {
+      if (!response.ok) {
+        console.error('Login failed:', response.status, response.statusText);
+        return false;
+      }
+
+      const result = await response.text(); // 먼저 텍스트로 받아서 확인
+      if (!result) return false;
+
+      const data = JSON.parse(result);
+      if (data.code === 200 && data.data) {
         const loginUser = {
-          id: agent.id,
-          agent_name: agent.agent_name,
-          agent_email: agent.agent_email,
+          id: data.data.id,
+          agent_name: data.data.agentName,
+          agent_email: data.data.agentEmail,
         };
         dispatch({ type: 'LOGIN', payload: loginUser });
         return true;
