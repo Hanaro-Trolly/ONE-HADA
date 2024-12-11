@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.AUTH_KAKAO_SECRET!,
     }),
   ],
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, account }) {
       const provider = account?.provider;
