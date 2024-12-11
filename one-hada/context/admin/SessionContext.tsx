@@ -1,6 +1,6 @@
 'use client';
 
-import { useFetch } from '@/hooks/useAdminFetch';
+import { useFetch } from '@/hooks/useFetch';
 import React, {
   createContext,
   useContext,
@@ -35,10 +35,6 @@ interface LoginResponse {
     agentName: string;
     agentEmail: string;
   } | null;
-}
-
-interface ErrorWithMessage {
-  message: string;
 }
 
 // 세션스토리지 유틸리티 함수
