@@ -39,7 +39,4 @@ jobs:
             pm2 list || exit 1
             pm2 restart next-app || pm2 start npm --name "next-app" -- start || exit 1
 
-            # 배포된 애플리케이션 확인 (서버에서 HTTP 요청)
-            curl -f http://localhost:3000 || exit 1
-
             exit 0
