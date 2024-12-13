@@ -25,7 +25,8 @@ jobs:
             cd /home/${{ secrets.EC2_USERNAME }}/ONE-HADA/one-hada || exit 1
 
             # 최신 코드 가져오기
-            git pull origin main || exit 1
+            git fetch origin || exit 1
+            git reset --hard origin/main || exit 1
 
             # 환경변수 설정
             echo "${{ secrets.ENV_SECRET }}" > .env || exit 1
@@ -35,4 +36,10 @@ jobs:
             npm run build || exit 1
 
             # PM2로 앱 실행/재시작
-            pm2 restart next-app 2>/dev/null || pm2 start npm --name "next-app" -- start || exit 1
+            pm2 list || exit 1
+            pm2 restart next-app || pm2 start npm --name "next-app" -- start || exit 1
+
+            # 배포된 애플리케이션 확인 (서버에서 HTTP 요청)
+            curl -f http://localhost:3000 || exit 1
+
+            exit 0
