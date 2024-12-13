@@ -22,20 +22,17 @@ jobs:
           port: 22
           script: |
             # 프로젝트 디렉토리로 이동
-            cd /home/${{ secrets.EC2_USERNAME }}/ONE-HADA/one-hada
+            cd /home/${{ secrets.EC2_USERNAME }}/ONE-HADA/one-hada || exit 1
 
             # 최신 코드 가져오기
-            git pull origin main
+            git pull origin main || exit 1
 
             # 환경변수 설정
-            echo "${{ secrets.ENV_SECRET }}" > .env
+            echo "${{ secrets.ENV_SECRET }}" > .env || exit 1
 
             # 의존성 설치 및 빌드
-            npm install
-            npm run build
+            npm install || exit 1
+            npm run build || exit 1
 
             # PM2로 앱 실행/재시작
-            pm2 restart next-app 2>/dev/null || pm2 start npm --name "next-app" -- start
-
-            # 완료 메시지 출력
-            echo "Deployment completed successfully"
+            pm2 restart next-app 2>/dev/null || pm2 start npm --name "next-app" -- start || exit 1
