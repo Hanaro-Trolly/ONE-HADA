@@ -1,64 +1,74 @@
 'use client';
 
-import { Counsel } from '@/app/admin/types/adminTypes';
+import { UserResponse, Counsel } from '@/app/admin/types/adminTypes';
 import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
+import { useFetch } from '@/hooks/useFetch';
 import { useFormattedDate } from '@/hooks/useFormattedDate';
 import { useWebSocket } from '@/hooks/useWebsocket';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { fetchAllData } from '@/lib/api';
 import Title from './AdminTitle';
 
-// Types
-interface UserData {
+interface UserMap {
   [key: string]: string;
 }
 
-// Constants
 const SKELETON_COUNT = 3;
 
 export default function AdminHeader() {
   const router = useRouter();
   const { counselData, setSelectedUserId, fetchCounselData } = useCounsel();
   const { session, logout } = useAdminSession();
-  const { disconnectWebSocket } = useWebSocket({
-    role: 'consultant',
-  });
+  const { disconnectWebSocket } = useWebSocket({ role: 'consultant' });
   const { userId: currentUserId } = useParams<{ userId: string }>();
   const { formatDateLong } = useFormattedDate();
+  const { fetchData, isLoading } = useFetch<UserResponse>();
 
-  // State
   const [uniqueUsers, setUniqueUsers] = useState<Counsel[]>([]);
-  const [userData, setUserData] = useState<UserData>({});
+  const [userData, setUserData] = useState<UserMap>({});
   const [mounted, setMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // Effects
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
     const loadUserData = async () => {
+      if (!session.loginUser?.id || !counselData) return;
+
+      // 고유한 사용자 ID 추출
+      const uniqueUserIds = Array.from(
+        new Set(counselData.map((counsel) => counsel.user_id))
+      );
+
       try {
-        const users = await fetchAllData<{ id: string; user_name: string }>(
-          'user'
+        const userDataPromises = uniqueUserIds.map((userId) =>
+          fetchData(`/api/admin/user/${userId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          })
         );
-        const userMap = users.reduce((acc, user) => {
-          acc[user.id] = user.user_name;
-          return acc;
-        }, {} as UserData);
-        setUserData(userMap);
+
+        const responses = await Promise.all(userDataPromises);
+        const newUserData: UserMap = {};
+
+        responses.forEach((response) => {
+          if (response?.data) {
+            newUserData[response.data.id] = response.data.userName;
+          }
+        });
+
+        setUserData(newUserData);
       } catch (error) {
         console.error('Failed to load user data:', error);
       }
     };
 
-    if (mounted) {
+    if (mounted && counselData) {
       loadUserData();
     }
-  }, [mounted]);
+  }, [mounted, counselData, session.loginUser?.id, fetchData]);
 
   useEffect(() => {
     const loadCounselData = async () => {
@@ -66,22 +76,23 @@ export default function AdminHeader() {
         await fetchCounselData();
       } catch (error) {
         console.error('Failed to load counsel data:', error);
-      } finally {
-        setIsLoading(false);
       }
     };
-
     if (mounted) {
       loadCounselData();
     }
   }, [mounted, fetchCounselData]);
 
   useEffect(() => {
-    if (counselData.length > 0 && session.loginUser?.id && mounted) {
+    if (
+      counselData &&
+      counselData.length > 0 &&
+      session.loginUser?.id &&
+      mounted
+    ) {
       const userLatestCounsels = new Map<string, Counsel>();
-
       counselData
-        .filter((item: Counsel) => item.agent_id === session.loginUser?.id)
+        .filter((item: Counsel) => item.agent_id == session.loginUser?.id)
         .forEach((counsel: Counsel) => {
           const existingCounsel = userLatestCounsels.get(counsel.user_id);
           if (
@@ -103,7 +114,6 @@ export default function AdminHeader() {
     }
   }, [counselData, session.loginUser?.id, mounted]);
 
-  // Handlers
   const handleUserClick = (userId: string) => {
     setSelectedUserId(userId);
     router.push(`/admin/${encodeURIComponent(userId)}`, { scroll: false });
@@ -121,7 +131,6 @@ export default function AdminHeader() {
     }
   };
 
-  // Render functions
   const renderSkeletonUI = () => (
     <div className='min-h-screen bg-gray-50'>
       <div className='max-w-4xl mx-auto p-4'>
@@ -145,7 +154,6 @@ export default function AdminHeader() {
     </div>
   );
 
-  // Conditional renders
   if (!mounted || isLoading) return renderSkeletonUI();
   if (!session.loginUser) return renderLoginMessage();
 
@@ -161,7 +169,6 @@ export default function AdminHeader() {
             로그아웃
           </button>
         </div>
-
         <div className='space-y-4'>
           {uniqueUsers.map((counsel) => {
             const isSelected = currentUserId === counsel.user_id;
@@ -170,13 +177,13 @@ export default function AdminHeader() {
                 key={counsel.user_id}
                 onClick={() => handleUserClick(counsel.user_id)}
                 className={`
-                  w-full p-4 rounded-lg transition-all duration-200 group relative overflow-hidden
-                  ${
-                    isSelected
-                      ? 'bg-main-green/5 border-2 border-main-green shadow-md'
-                      : 'bg-white border border-gray-100 shadow-sm hover:shadow-md hover:border-main-green/30'
-                  }
-                `}
+        w-full p-4 rounded-lg transition-all duration-200 group relative overflow-hidden
+        ${
+          isSelected
+            ? 'bg-main-green/5 border-2 border-main-green shadow-md'
+            : 'bg-white border border-gray-100 shadow-sm hover:shadow-md hover:border-main-green/30'
+        }
+      `}
               >
                 {isSelected && (
                   <div className='absolute left-0 top-0 w-1 h-full bg-main-green' />
@@ -207,7 +214,6 @@ export default function AdminHeader() {
               </button>
             );
           })}
-
           {uniqueUsers.length === 0 && (
             <div className='flex items-center justify-center h-40 bg-white rounded-lg border border-gray-200'>
               <p className='text-gray-500 text-center'>상담 내역이 없습니다.</p>
