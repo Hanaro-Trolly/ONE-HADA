@@ -3,11 +3,16 @@ import { useCallback, useState } from 'react';
 interface FetchOptions<TBody> {
   method: string;
   headers?: Record<string, string>;
-  body: TBody;
+  body?: TBody;
   token?: string;
   cache?: boolean;
 }
-
+interface ApiResponse<T> {
+  code: number;
+  status: string;
+  message: string;
+  data?: T;
+}
 interface ErrorWithMessage {
   message: string;
 }
@@ -33,8 +38,8 @@ const toErrorWithMessage = (error: unknown): ErrorWithMessage => {
   }
 };
 
-export const useFetch = <TData, TBody = unknown>() => {
-  const [data, setData] = useState<TData | undefined>();
+export const useFetch = <T = unknown, TBody = unknown>() => {
+  const [data, setData] = useState<ApiResponse<T> | undefined>();
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<ErrorWithMessage | undefined>();
 
@@ -49,8 +54,8 @@ export const useFetch = <TData, TBody = unknown>() => {
         setError(undefined);
 
         if (options.cache && cache[cacheKey]) {
-          setData(cache[cacheKey] as TData);
-          return cache[cacheKey] as TData;
+          setData(cache[cacheKey] as ApiResponse<T>);
+          return cache[cacheKey] as ApiResponse<T>;
         }
 
         const headers: Record<string, string> = {

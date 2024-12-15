@@ -40,6 +40,11 @@ export default function BankSelector({
     setIsToggleOpen(!isToggleOpen);
   };
 
+  const handleBankSelect = (bank: string) => {
+    onSelect(bank);
+    setIsToggleOpen(false); // 은행 선택 시 토글 닫기
+  };
+
   return (
     <>
       <button onClick={onToggle} className='w-full mb-8 p-2 border-b-2'>
@@ -61,7 +66,7 @@ export default function BankSelector({
                 key={bank.bank_id}
                 bankName={bank.bank_name}
                 selected={selectedBank === bank.bank_id}
-                onClick={onSelect}
+                onClick={handleBankSelect}
               />
             ))}
           </div>

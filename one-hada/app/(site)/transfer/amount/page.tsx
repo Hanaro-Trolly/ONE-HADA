@@ -1,17 +1,22 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import useApi from '@/hooks/useApi';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useFetch } from '@/hooks/useFetch';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { getData } from '@/lib/api';
-import { Account, User } from '@/lib/datatypes';
+import { Account } from '@/lib/datatypes';
 
-interface Params {
-  accountId: string | null;
-  recipientId: string | null;
-  recipientNumber: string | null;
-  bankName: string | null;
+interface SetRedisData {
+  key: string;
+  value: string;
+}
+
+interface GetRedisData {
+  senderAccountId: string;
+  receiverName: string;
+  receiverAccountBank: string;
+  receiverAccountNumber: string;
 }
 
 const AMOUNT_BUTTONS = [
@@ -22,22 +27,17 @@ const AMOUNT_BUTTONS = [
 ];
 
 export default function AmountInput() {
+  const { fetchData, error } = useFetch<
+    Account | SetRedisData | GetRedisData
+  >();
+  const { data: session } = useSession();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [amount, setAmount] = useState('');
-  const [recipientName, setRecipientName] = useState('');
-
-  const params: Params = {
-    accountId: searchParams.get('account_id'),
-    recipientId: searchParams.get('recipient'),
-    recipientNumber: searchParams.get('recipient_number'),
-    bankName: searchParams.get('bank'),
-  };
-
-  const [account, setAccount] = useState<Account | null>();
-  const { data: users } = useApi<User>('user');
-
-  const balance: number | string = account?.balance || '정보 확인되지 않음';
+  const [amount, setAmount] = useState<string>('0');
+  const [receiverName, setReceiverName] = useState<string>('');
+  const [receiverBank, setReceiverBank] = useState<string>('');
+  const [receiverAccountNumber, setReceiverAccountNumber] =
+    useState<string>('');
+  const [balance, setBalance] = useState<number>(0);
 
   const handleAmountChange = (input: string | number) => {
     setAmount((prev) => {
@@ -50,54 +50,63 @@ export default function AmountInput() {
     });
   };
 
-  const handleClick = () => {
-    // 추후 수정
-    const { accountId, recipientId, bankName, recipientNumber } = params;
-
+  const handleClick = async () => {
     if (!amount) {
       alert('금액을 입력해주세요.');
       return;
     }
 
-    if (accountId && recipientId && recipientNumber && bankName) {
-      const searchParams = new URLSearchParams({
-        account_id: accountId,
-        recipient: recipientId,
-        bank: bankName,
-        recipient_number: recipientNumber,
-        amount,
-      });
+    const response = await fetchData(`/api/redis`, {
+      method: 'POST',
+      body: {
+        amount: amount,
+      },
+    });
 
-      router.push(`/transfer/validation?${searchParams.toString()}`);
+    if (response.code == 200) {
+      router.push(`/transfer/validation`);
     }
   };
 
-  //레디스 적용 후 수정 필요
   useEffect(() => {
-    if (users && params.recipientId) {
-      const recipient = users.find((user) => user.id === params.recipientId);
-      if (recipient) {
-        setRecipientName(recipient.user_name);
-      } else {
-        setRecipientName('알 수 없는 사용자');
-      }
-    }
-  }, [users, params.recipientId]);
+    const getRedisValues = async () => {
+      const response = await fetchData('/api/redis', {
+        method: 'GET',
+        body: [
+          'senderAccountId',
+          'receiverName',
+          'receiverAccountBank',
+          'receiverAccountNumber',
+        ],
+      });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (params.accountId) {
-          const data = await getData<Account>('account', params.accountId);
-          setAccount(data);
+      if (response.code == 200) {
+        const accountId = response.data.senderAccountId;
+        setReceiverName(response.data.receiverName as string);
+        setReceiverBank(response.data.receiverAccountBank as string);
+        setReceiverAccountNumber(response.data.receiverAccountNumber as string);
+
+        if (accountId && session?.accessToken) {
+          const response = await fetchData(`/api/accounts/${accountId}`, {
+            method: 'GET',
+            token: session.accessToken,
+          });
+
+          if (response && 'data' in response) {
+            setBalance(response.data.balance);
+          }
         }
-      } catch (error) {
-        console.error(error);
       }
     };
 
-    fetchData();
-  }, [params.accountId]);
+    getRedisValues();
+  }, [session, fetchData]);
+
+  useEffect(() => {
+    if (error) {
+      console.error('Fetch 에러 발생:', error);
+    }
+  }, [error]);
 
   return (
     <div
@@ -108,10 +117,10 @@ export default function AmountInput() {
         <div className='mb-5'>
           <div className='border-b-2 py-2'>
             <span className='font-medium text-lg text-gray-700 mt-2'>
-              {recipientName}
+              {receiverName}
             </span>
             <span className='text-gray-400 text-sm'>
-              ({params.bankName} {params.recipientNumber})
+              ({receiverBank} {receiverAccountNumber})
             </span>
           </div>
           <p

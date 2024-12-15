@@ -15,9 +15,9 @@ export default function LoginButton() {
     signOut();
   };
 
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
+  // useEffect(() => {
+  //   console.log(session);
+  // }, [session]);
 
   return session ? (
     <div className='flex items-center space-x-4'>

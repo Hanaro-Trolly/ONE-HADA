@@ -1,79 +1,79 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import useApi from '@/hooks/useApi';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { Account, User } from '@/lib/datatypes';
+import { useFetch } from '@/hooks/useFetch';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+
+interface GetRedisData {
+  amount: string;
+  senderName: string;
+  receiverName: string;
+  receiverAccountBank: string;
+  receiverAccountNumber: string;
+}
 
 export default function TransferConfirmation() {
+  const { fetchData, error } = useFetch<GetRedisData>();
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const [recipientName, setRecipientName] = useState('');
-  const [senderName, setSenderName] = useState('');
-  const [senderLabel, setSenderLabel] = useState('');
-  const [recipientLabel, setRecipientLabel] = useState('');
-  const [userId, setUserId] = useState('');
-  const [recipientAccountId, setRecipientAccountId] = useState<string | null>(
-    null
-  );
+  const senderNameRef = useRef<HTMLInputElement>(null);
+  const receiverNameRef = useRef<HTMLInputElement>(null);
 
-  const accountId = searchParams.get('account_id');
-  const recipientNumber = searchParams.get('recipient_number');
-  const recipientId = searchParams.get('recipient');
-  const bankName = searchParams.get('bank');
-  const amount = searchParams.get('amount');
-  const bankId = searchParams.get('bank');
-  const pathname = usePathname(); // 현재 경로를 가져옴
+  const [senderName, setSenderName] = useState<string>('');
+  const [receiverName, setReceiverName] = useState<string>('');
+  const [receiverBank, setReceiverBank] = useState<string>('');
+  const [receiverAccountNumber, setReceiverAccountNumber] =
+    useState<string>('');
+  const [amount, setAmount] = useState<string>('0');
 
-  const { data: accounts } = useApi<Account>('account');
-  const { data: users } = useApi<User>('user');
+  const handleClick = async () => {
+    if (senderNameRef.current && receiverNameRef.current) {
+      const response = await fetchData('/api/redis', {
+        method: 'PATCH',
+        body: {
+          senderName: senderNameRef.current.value,
+          receiverName: receiverNameRef.current.value,
+        },
+      });
 
-  useEffect(() => {
-    if (accounts && accountId) {
-      const account = accounts.find((acc) => acc.id === accountId);
-      if (account) {
-        setUserId(account.user_id);
+      if (response.code == 200) {
+        const route: string = '/tansfer/save';
+        router.push(`/api/auth/checkPassword?route=${route}`);
       }
     }
-  }, [accounts, accountId]);
-
-  useEffect(() => {
-    if (users && userId) {
-      const user = users.find((u) => u.id === userId);
-      setSenderName(user ? user.user_name : '알 수 없는 사용자');
-    }
-  }, [users, userId]);
-
-  useEffect(() => {
-    if (users && recipientId) {
-      const recipient = users.find((user) => user.id === recipientId);
-      setRecipientName(recipient ? recipient.user_name : '알 수 없는 사용자');
-    }
-  }, [users, recipientId]);
-
-  useEffect(() => {
-    if (accounts && recipientNumber && bankName) {
-      const account = accounts.find(
-        (acc) =>
-          acc.account_number === Number(recipientNumber) &&
-          acc.bank === bankName
-      );
-      setRecipientAccountId(account ? account.id : null);
-    }
-  }, [accounts, recipientNumber, bankName]);
-
-  const handleClick = () => {
-    // 추후 수정
-    if (accountId && recipientNumber && bankId && amount) {
-      const queryString = `?account_id=${accountId}&sender_name=${senderName}&recipient_name=${recipientName}&recipient_account_id=${recipientAccountId}&recipient=${recipientId}&bank=${bankId}&recipient_number=${recipientNumber}&amount=${amount}`;
-      const route: string = '/tansfer/saveTransaction';
-      router.push(`/api/auth/checkPassword?route=${route}`);
-    } else {
-      alert('은행과 계좌번호를 모두 입력해주세요.');
-    }
   };
+
+  useEffect(() => {
+    const getRedisValues = async () => {
+      const response = await fetchData('/api/redis/transfer', {
+        method: 'GET',
+        body: [
+          'amount',
+          'senderName',
+          'receiverName',
+          'receiverAccountBank',
+          'receiverAccountNumber',
+        ],
+      });
+
+      if (response.code == 200) {
+        setSenderName(response.data.senderName as string);
+        setAmount(response.data.amount as string);
+        setReceiverName(response.data.receiverName as string);
+        setReceiverBank(response.data.receiverBank as string);
+        setReceiverAccountNumber(response.data.receiverAccountNumber as string);
+      }
+    };
+
+    getRedisValues();
+  }, [fetchData]);
+
+  useEffect(() => {
+    if (error) {
+      console.error('Fetch 에러 발생:', error);
+    }
+  }, [error]);
 
   return (
     <div
@@ -82,7 +82,7 @@ export default function TransferConfirmation() {
     >
       <div className='tossface-icon text-[4rem] pt-10 text-center'>❔</div>
       <h2 className='text-center font-medium text-xl mb-12'>
-        <span className='text-[#479E86]'>{recipientName}</span>
+        <span className='text-[#479E86]'>{receiverName}</span>
         <span className='font-medium'>님께 </span>
         <span className='text-[#479E86] '>
           {Number(amount).toLocaleString()}원
@@ -95,7 +95,7 @@ export default function TransferConfirmation() {
         <div className='flex justify-between mt-4 mb-10'>
           <p className='font-bold text-sm text-gray-600'>받는 계좌</p>
           <p className='text-gray-800'>
-            {bankName} {recipientNumber}
+            {receiverBank} {receiverAccountNumber}
           </p>
         </div>
         <div className='flex justify-between items-center mb-10'>
@@ -103,8 +103,8 @@ export default function TransferConfirmation() {
           <input
             type='text'
             placeholder={senderName}
-            value={senderLabel}
-            onChange={(e) => setSenderLabel(e.target.value)}
+            ref={senderNameRef}
+            defaultValue={senderName}
             className='border-b border-gray-400 w-1/2 text-right focus:outline-none'
           />
         </div>
@@ -112,9 +112,9 @@ export default function TransferConfirmation() {
           <p className='font-bold text-sm text-gray-600'>나에게 표기</p>
           <input
             type='text'
-            placeholder={recipientName}
-            value={recipientLabel}
-            onChange={(e) => setRecipientLabel(e.target.value)}
+            placeholder={receiverName}
+            ref={receiverNameRef}
+            defaultValue={receiverName}
             className='border-b border-gray-400 w-1/2 text-right focus:outline-none'
           />
         </div>
