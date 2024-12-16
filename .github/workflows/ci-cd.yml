@@ -68,6 +68,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: next-build
+          path: next-build
 
       # EC2 인스턴스에 배포
       - name: Deploy to EC2
@@ -87,7 +88,7 @@ jobs:
             fi
 
             # 새 버전 파일 복사
-            cp -r .next/ package.json package-lock.json public/ .env ~/next-temp/
+            cp -r next-build/.next/ next-build/package.json next-build/package-lock.json next-build/public/ next-build/.env ~/next-temp/
 
             # 실행 중인 서비스 중지
             pm2 stop next-app || true
