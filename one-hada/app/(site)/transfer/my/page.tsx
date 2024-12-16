@@ -9,41 +9,58 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { getDataByUserId } from '@/lib/api';
 import { Account } from '@/lib/datatypes';
 
 export default function TransferPage() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const [userAccount, setUserAccount] = useState<Account[]>();
+  const [userAccount, setUserAccount] = useState<Account[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<string>();
+  const { fetchData, error } = useFetch<Account[]>();
 
   // 레디스 적용하고 url 수정하기
-  const handleClick = (selectedAccount: string) => {
-    router.push(`/transfer/recipient?account_id=${selectedAccount}`);
+  const handleClick = async (selectedAccount: number) => {
+    await fetchData(`/api/redis`, {
+      method: 'POST',
+      body: {
+        senderAccountId: selectedAccount,
+      },
+    });
+    router.push('/transfer/recipient');
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (session?.user) {
-          const data = await getDataByUserId<Account>(
-            'account',
-            session.user.id
-          );
-          setUserAccount(data);
+    const getAccounts = async () => {
+      console.log('토큰', session?.accessToken);
+      if (session?.accessToken) {
+        const response = await fetchData('/api/accounts', {
+          method: 'GET',
+          token: session.accessToken,
+          cache: true,
+        });
+
+        if (response && response.data) {
+          setUserAccount(response.data);
+          console.log('계좌조회성공');
         }
-      } catch (error) {
-        console.error(error);
+      } else {
+        console.error('계좌조회 오류');
       }
     };
 
-    fetchData();
-  }, [session]);
+    getAccounts();
+  }, [session, fetchData]);
+
+  useEffect(() => {
+    if (error) {
+      console.error('Fetch 에러 발생:', error);
+    }
+  }, [error]);
 
   return (
     <div
@@ -68,8 +85,8 @@ export default function TransferPage() {
           <SelectContent className='absolute w-[300px] max-h-44 overflow-y-auto focus:outline-none'>
             {userAccount?.map((account) => (
               <SelectItem
-                key={account.id}
-                value={account.id}
+                key={account.accountId}
+                value={account.accountId}
                 className='bg-white w-[300px] focus:outline-none'
               >
                 <div className='w-full p-2'>
@@ -78,10 +95,10 @@ export default function TransferPage() {
                       <BankIcon bankId={account.bank} />
                       <div className='flex flex-col'>
                         <h1 className='font-medium text-left text-lg'>
-                          {account.account_type}
+                          {account.accountType}
                         </h1>
                         <label className='font-light text-gray-500 text-left text-sm'>
-                          {`${account.bank} • ${account.account_number}`}
+                          {`${account.bank} • ${account.accountNumber}`}
                         </label>
                       </div>
                     </div>
@@ -97,7 +114,7 @@ export default function TransferPage() {
         className='w-full h-10 mx-8 bg-main-green text-white text-lg hover:bg-[#479e86] focus:bg-[#479e86]'
         onClick={() => {
           if (selectedAccount) {
-            handleClick(selectedAccount);
+            handleClick(Number(selectedAccount));
           } else {
             alert('계좌를 선택해주세요.');
           }

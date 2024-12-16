@@ -2,13 +2,17 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function CheckLogin() {
-  const { data: session, status, update } = useSession();
+  const { data: session, update } = useSession();
   const router = useRouter();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const login = async () => {
+  const login = useCallback(async () => {
+    if (!session?.user || isLoggingIn) return;
+    setIsLoggingIn(true);
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/signin`,
@@ -25,34 +29,31 @@ export default function CheckLogin() {
       const data = await response.json();
 
       if (data.code == 200 && data.status === 'EXIST') {
-        console.log('로그인 성공');
         try {
           await update({
             id: data.data.userId,
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken,
+            accessToken: data.data.accessToken,
+            refreshToken: data.data.refreshToken,
           });
-          console.log('업데이트');
-          console.log(session?.user.id);
         } catch (error) {
           console.error('Error updating user data:', error);
         }
       }
     } catch (error) {
       console.error('Error during login:', error);
+    } finally {
+      setIsLoggingIn(false);
     }
-  };
+  }, [session, update, isLoggingIn]);
 
   useEffect(() => {
-    if (session?.user) {
-      if (session.user.isNewUser) {
-        router.push('/api/auth/register');
-      } else {
-        login();
-        router.push('/');
-      }
+    if (session?.user.isNewUser) {
+      router.push('/api/auth/register');
+    } else {
+      login();
+      router.push('/');
     }
-  }, [status, session, router]);
+  }, [session?.user?.isNewUser, login, router]);
 
   return (
     <div

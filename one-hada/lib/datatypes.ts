@@ -46,13 +46,13 @@ type Consultation = {
 };
 
 type Account = {
-  id: string;
-  user_id: string;
-  account_number: number;
+  accountId: string;
+  userId: string;
+  accountNumber: number;
   balance: number;
-  account_type: string;
+  accountType: string;
   bank: string;
-  account_name: string;
+  accountName: string;
 };
 
 type Transaction = {

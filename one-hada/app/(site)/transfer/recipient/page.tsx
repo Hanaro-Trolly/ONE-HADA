@@ -2,45 +2,93 @@
 
 import BankSelector from '@/components/ui/BankSelector';
 import { Button } from '@/components/ui/button';
-import useApi from '@/hooks/useApi';
+import { useFetch } from '@/hooks/useFetch';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
-import { Account } from '@/lib/datatypes';
+import { useEffect, useRef, useState } from 'react';
 
-export default function RecipientPage({
-  searchParams,
-}: {
-  searchParams: { account_id: string };
-}) {
+interface UserData {
+  userId: number;
+  userName: string;
+  userEmail: string;
+  userPhone: string;
+  userAddress: string;
+  userBirth: string;
+  userRegister: string;
+  userGender: string;
+  userPassword: string;
+}
+
+interface ReceiverAccount {
+  userName: string;
+  accountNumber: string;
+  bank: string;
+}
+
+export default function RecipientPage() {
+  const { data: session } = useSession();
+  const userId = session?.user.id;
   const router = useRouter();
-  const { account_id } = searchParams;
-  const { data: recipientAccounts } = useApi<Account>('account');
   const [selectedBank, setSelectedBank] = useState<string>('');
+  const [senderName, setSenderName] = useState<string>('');
   const accountInputRef = useRef<HTMLInputElement>(null);
+  const { fetchData, error } = useFetch<UserData | ReceiverAccount>();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const accountNumber = accountInputRef.current?.value || '';
-    const matchingAccount = recipientAccounts?.find(
-      (account) =>
-        account.account_number.toString() === accountNumber &&
-        account.bank === selectedBank
-    );
-
-    if (!matchingAccount) {
-      alert('일치하는 계좌가 없습니다.');
-      return;
-    }
-
-    // 레디스, api 적용!!!
-    const searchParams = new URLSearchParams({
-      account_id,
-      recipient: matchingAccount.user_id,
-      bank: matchingAccount.bank,
-      recipient_number: matchingAccount.account_number.toString(),
+    const response = await fetchData(`/api/accounts/exist/${accountNumber}`, {
+      method: 'GET',
+      token: session?.accessToken,
     });
 
-    router.push(`/transfer/amount?${searchParams.toString()}`);
+    if (!Boolean(response.status)) {
+      return;
+    }
+    console.log(
+      senderName,
+      response.data.userName,
+      response.data.accountId,
+      response.data.bank,
+      accountNumber
+    );
+    // 계좌가 존재하면 레디스에 저장
+    const result = await fetchData('/api/redis', {
+      method: 'POST',
+      body: {
+        senderName: senderName,
+        receiverName: response.data.userName,
+        receiverAccountId: response.data.accountId,
+        receiverAccountBank: response.data.bank,
+        receiverAccountNumber: accountNumber,
+      },
+    });
+
+    if (result.code == 200) {
+      router.push('/transfer/amount');
+    }
   };
+
+  useEffect(() => {
+    const getUserName = async () => {
+      if (!userId || !session?.accessToken) return;
+      const response = await fetchData(`/api/users/${userId}`, {
+        method: 'GET',
+        token: session.accessToken,
+      });
+
+      if (response.code === 200) {
+        setSenderName(response.data.user_name);
+      }
+    };
+
+    getUserName();
+  }, [userId, session?.accessToken, fetchData]);
+
+  useEffect(() => {
+    if (error) {
+      console.error('Fetch 에러 발생:', error);
+    }
+  }, [error]);
 
   return (
     <div
@@ -55,9 +103,10 @@ export default function RecipientPage({
         <div className=' p-8 rounded-xl mb-6'>
           <BankSelector
             selectedBank={selectedBank}
-            onSelect={(bank) => setSelectedBank(bank)}
+            onSelect={(bank) => {
+              setSelectedBank(bank);
+            }}
           />
-
           <input
             ref={accountInputRef}
             type='text'

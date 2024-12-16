@@ -1,55 +1,80 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import useApi from '@/hooks/useApi';
+import { useFetch } from '@/hooks/useFetch';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Account, User } from '@/lib/datatypes';
 
-export default function Checking({
-  searchParams: {
-    account_id: accountId,
-    recipient_number: recipientNumber,
-    bank: bankName,
-    amount,
-    recipient: recipientId,
-  },
-}: {
-  searchParams: {
-    account_id: string;
-    recipient_number: string;
-    bank: string;
-    amount: string;
-    recipient: string;
-  };
-}) {
-  const [recipientName, setRecipientName] = useState('');
-  const [senderName, setSenderName] = useState('');
+interface RedisData {
+  senderName: string;
+  receiverName: string;
+  receiverAccountBank: string;
+  receiverAccountNumber: string;
+  amount: string;
+}
+
+export default function Checking() {
+  const { fetchData, error } = useFetch<RedisData>();
   const router = useRouter();
 
-  const { data: accounts } = useApi<Account>('account');
-  const { data: users } = useApi<User>('user');
+  const [senderName, setSenderName] = useState<string>('');
+  const [receiverName, setReceiverName] = useState<string>('');
+  const [receiverBank, setReceiverBank] = useState<string>('');
+  const [receiverAccountNumber, setReceiverAccountNumber] =
+    useState<string>('');
+  const [amount, setAmount] = useState<string>('');
 
-  useEffect(() => {
-    if (accounts && users && accountId) {
-      const account = accounts.find((acc) => acc.id === accountId);
-      if (account) {
-        const user = users.find((u) => u.id === account.user_id);
-        setSenderName(user ? user.user_name : '알 수 없는 사용자');
-      }
+  const handleClick = async () => {
+    const response = await fetchData('api/redis', {
+      method: 'DELETE',
+      body: [
+        'senderName',
+        'senderAccountId',
+        'receiverName',
+        'receiverAccountId',
+        'receiverAccountBank',
+        'receiverAccountNumber',
+        'amount',
+      ],
+    });
+
+    if (response.code == 200) {
+      router.push(`/`);
+    } else {
+      console.error('레디스 정보 삭제 중 오류발생');
     }
-  }, [accounts, users, accountId]);
-
-  useEffect(() => {
-    if (users && recipientId) {
-      const recipient = users.find((user) => user.id === recipientId);
-      setRecipientName(recipient ? recipient.user_name : '알 수 없는 사용자');
-    }
-  }, [users, recipientId]);
-
-  const handleClick = () => {
-    router.push(`/`);
   };
+
+  useEffect(() => {
+    const getRedis = async () => {
+      const response = await fetchData('/api/redis', {
+        method: 'GET',
+        body: [
+          'senderName',
+          'receiverName',
+          'receiverAccountBank',
+          'receiverAccountNumber',
+          'amount',
+        ],
+      });
+
+      if (response.code == 200) {
+        setSenderName(response.data.senderName);
+        setReceiverName(response.data.receiverName);
+        setReceiverBank(response.data.receiverAccountBank);
+        setReceiverAccountNumber(response.data.receiverAccountNumber);
+        setAmount(response.data.amount);
+      }
+    };
+
+    getRedis();
+  }, [fetchData]);
+
+  useEffect(() => {
+    if (error) {
+      console.error('API 요청 중 오류 발생:', error);
+    }
+  }, [error]);
 
   return (
     <div
@@ -58,7 +83,7 @@ export default function Checking({
     >
       <div className='tossface-icon text-[3rem] pt-10 text-center'>✅</div>
       <h2 className='text-center font-medium text-lg mb-12'>
-        <span className='text-[#479E86]'>{recipientName}</span>
+        <span className='text-[#479E86]'>{receiverName}</span>
         <span className='font-medium'> 님께 </span>
         <span className='text-[#479E86]'>
           {Number(amount).toLocaleString()}원을
@@ -70,7 +95,7 @@ export default function Checking({
         <div className='flex justify-between mt-4 mb-10'>
           <p className='font-bold text-sm text-gray-600'>받는 계좌</p>
           <p className='text-gray-800'>
-            {bankName} {recipientNumber}
+            {receiverBank} {receiverAccountNumber}
           </p>
         </div>
         <div className='flex justify-between items-center mb-10'>
@@ -86,7 +111,7 @@ export default function Checking({
           <p className='font-bold text-sm text-gray-600'>나에게 표기</p>
           <input
             type='text'
-            value={recipientName}
+            value={receiverName}
             readOnly
             className='border-b border-gray-400 w-1/2 text-right focus:outline-none'
           />

@@ -1,59 +1,59 @@
 'use client';
 
-// 계좌 목록 페이지
-// - 사용자의 전체 계좌 목록 표시
-// - 계좌 유형별 필터링 기능
-// - 총 잔액 계산 및 표시
-// - 각 계좌 카드를 클릭하면 상세 페이지로 이동
 import AccountCard from '@/components/molecules/AccountCard';
 import AccountTypeButton from '@/components/molecules/AccountTypeButton';
+import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useEffect, useState, useMemo } from 'react';
-import { fetchAllData } from '@/lib/api';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Account } from '@/lib/datatypes';
 
-// 공통 상수는 상단에 정의
 const ACCOUNT_TYPES = ['입출금', '예적금', '대출', '펀드'] as const;
 type AccountType = (typeof ACCOUNT_TYPES)[number];
 
 export default function CheckPage() {
   const { data: session } = useSession();
   const userId = session?.user.id;
+  const { fetchData, error } = useFetch<Account[]>();
 
   const [accountData, setAccountData] = useState<Account[]>([]);
   const [selectedType, setSelectedType] = useState<AccountType | null>(null);
 
-  // 계좌 데이터를 불러오는 함수
-  const fetchAccounts = async (userId: string) => {
-    try {
-      const data = await fetchAllData<Account>(`account?user_id=${userId}`);
-      setAccountData(data);
-    } catch (error) {
-      console.error('계좌 데이터를 가져오는 중 오류 발생:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (userId) {
-      fetchAccounts(userId);
-    }
-  }, [userId]);
-
-  // 총 잔액 계산 (불필요한 상태를 제거하고 useMemo로 최적화)
   const totalBalance = useMemo(
     () => accountData.reduce((total, account) => total + account.balance, 0),
     [accountData]
   );
 
-  // 선택된 계좌 유형에 따라 필터링
   const filteredAccounts = useMemo(
     () =>
       selectedType
-        ? accountData.filter((account) => account.account_type === selectedType)
+        ? accountData.filter((account) => account.accountType === selectedType)
         : accountData,
     [accountData, selectedType]
   );
+
+  const fetchAccounts = useCallback(async () => {
+    const response = await fetchData('/api/accounts', {
+      method: 'GET',
+      token: session?.accessToken,
+    });
+
+    if (response.code == 200) {
+      setAccountData(response.data);
+    }
+  }, [fetchData, session?.accessToken]);
+
+  useEffect(() => {
+    if (userId) {
+      fetchAccounts();
+    }
+  }, [userId, fetchAccounts]);
+
+  useEffect(() => {
+    if (error) {
+      console.error('Fetch 에러 발생:', error);
+    }
+  }, [error]);
 
   return (
     <div className='p-8'>
@@ -84,11 +84,13 @@ export default function CheckPage() {
       {/* 계좌 카드 리스트 */}
       <div>
         {filteredAccounts.map((account) => (
-          <Link key={account.id} href={`/check/${account.id}`}>
+          <Link key={account.accountId} href={`/check/${account.accountId}`}>
             <AccountCard
-              accountNumber={account.account_number}
-              accountType={account.account_type}
-              {...account}
+              accountId={account.accountId}
+              accountNumber={account.accountNumber}
+              accountType={account.accountType}
+              balance={account.balance}
+              bank={account.bank}
             />
           </Link>
         ))}

@@ -6,20 +6,18 @@ import NaverProvider from 'next-auth/providers/naver';
 
 declare module 'next-auth' {
   interface Session {
+    accessToken?: string;
+    refreshToken?: string;
     user: {
       id: string;
       isNewUser: boolean;
       provider: string | undefined;
-      accessToken?: string;
-      refreshToken?: string;
     } & DefaultSession['user'];
   }
 
   interface User {
     isNewUser: boolean;
     provider: string | undefined;
-    accessToken?: string;
-    refreshToken?: string;
   }
 }
 
@@ -77,29 +75,33 @@ export const authOptions: NextAuthOptions = {
         return false;
       }
     },
-    async jwt({ token, user, trigger, session }) {
+    async jwt({ token, account, user, trigger, session }) {
       if (user) {
         token.sub = user.id;
         token.isNewUser = user.isNewUser;
         token.provider = user.provider;
-
-        token.accessToken = user.accessToken;
-        token.refreshToken = user.refreshToken;
       }
-      if (trigger === 'update') {
-        token.sub = session.id;
-        token.accessToken = token.accessToken;
-        token.refreshToken = token.refreshToken;
+      if (account) {
+        token.accessToken = account.access_token;
+        token.refreshToken = account.refresh_token;
+      }
+      if (trigger === 'update' && session) {
+        return {
+          ...token,
+          sub: session.id,
+          accessToken: session.accessToken,
+          refreshToken: session.refreshToken,
+        };
       }
       return token;
     },
     async session({ session, token }) {
+      session.accessToken = token.accessToken as string | undefined;
+      session.refreshToken = token.refreshToken as string | undefined;
       if (session.user) {
         session.user.id = token.sub as string;
         session.user.isNewUser = token.isNewUser as boolean;
         session.user.provider = token.provider as string;
-        session.user.accessToken = token.accessToken as string;
-        session.user.refreshToken = token.refreshToken as string;
       }
       return session;
     },

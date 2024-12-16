@@ -139,7 +139,7 @@ export default function HistoryModalPage({
             if (accountData) {
               setHistoryElements((prev) => ({
                 ...prev,
-                myAccount: `${accountData.bank} ${accountData.account_number}`,
+                myAccount: `${accountData.bank} ${accountData.accountNumber}`,
               }));
             }
           }
@@ -151,7 +151,7 @@ export default function HistoryModalPage({
             if (receiverAccountData) {
               setHistoryElements((prev) => ({
                 ...prev,
-                receiverAccount: `${receiverAccountData.bank} ${receiverAccountData.account_number}`,
+                receiverAccount: `${receiverAccountData.bank} ${receiverAccountData.accountNumber}`,
               }));
             }
           }

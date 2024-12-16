@@ -1,7 +1,6 @@
 'use client';
 
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
 import { Button } from '../ui/button';
 
 export default function LoginButton() {
@@ -15,9 +14,9 @@ export default function LoginButton() {
     signOut();
   };
 
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
+  // useEffect(() => {
+  //   console.log(session);
+  // }, [session]);
 
   return session ? (
     <div className='flex items-center space-x-4'>
