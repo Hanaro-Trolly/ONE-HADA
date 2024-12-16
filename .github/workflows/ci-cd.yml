@@ -31,17 +31,31 @@ jobs:
           npm install
           npm run build
 
-      # 필요한 파일만 아티팩트로 저장
+      # 빌드 결과 확인
+      - name: Check build output
+        run: |
+          cd one-hada
+          ls -la
+          ls -la .next/ || echo ".next directory not found!"
+
+      # 빌드 파일 압축
+      - name: Create deployment package
+        run: |
+          cd one-hada
+          tar -czvf ../deployment.tar.gz .next/ public/ package.json package-lock.json .env
+
+      # 압축 파일 확인
+      - name: Check deployment package
+        run: |
+          ls -la deployment.tar.gz
+          tar -tvf deployment.tar.gz
+
+      # 압축된 아티팩트 저장
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: next-build
-          path: |
-            one-hada/.next/
-            one-hada/public/
-            one-hada/package.json
-            one-hada/package-lock.json
-            one-hada/.env
+          path: deployment.tar.gz
 
   deploy:
     needs: build
@@ -53,9 +67,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: next-build
-          path: next-build
 
-      # EC2로 빌드 파일 전송
+      # 다운로드된 아티팩트 확인
+      - name: Check downloaded artifact
+        run: |
+          ls -la
+          tar -tvf deployment.tar.gz
+
+      # EC2로 압축 파일 전송
       - name: Copy build files to EC2
         uses: appleboy/scp-action@master
         with:
@@ -63,9 +82,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
-          source: 'next-build/*'
-          target: '~/next-temp'
-          strip_components: 1
+          source: 'deployment.tar.gz'
+          target: '~/'
 
       # EC2 인스턴스에 배포
       - name: Deploy to EC2
@@ -76,20 +94,42 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+            # 디버깅을 위한 초기 상태 확인
+            echo "Current directory: $(pwd)"
+            ls -la ~/deployment.tar.gz
+
             # PM2 프로세스 정리
             pm2 delete next-app || true
             pm2 save --force
 
             # 새 버전 배포
-            rm -rf ~/ONE-HADA/one-hada
-            mv ~/next-temp ~/ONE-HADA/one-hada
+            mkdir -p ~/ONE-HADA/one-hada
+            cd ~/ONE-HADA/one-hada
+
+            # 압축 해제 전 디렉토리 확인
+            echo "Before extraction:"
+            ls -la
+
+            # 압축 해제
+            tar -xzvf ~/deployment.tar.gz
+
+            # 압축 해제 후 디렉토리 확인
+            echo "After extraction:"
+            ls -la
 
             # 의존성 설치
-            cd ~/ONE-HADA/one-hada
             npm install --omit=dev
+
+            # 최종 확인
+            echo "Final directory structure:"
+            ls -la
+            ls -la .next/ || echo ".next directory still missing!"
 
             # 서비스 시작
             pm2 start npm --name "next-app" -- start
+
+            # 정리
+            rm ~/deployment.tar.gz
 
             # PM2 프로세스 목록 저장
             pm2 save --force
