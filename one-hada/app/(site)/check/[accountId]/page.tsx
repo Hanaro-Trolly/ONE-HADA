@@ -2,10 +2,11 @@
 
 import AccountHeader from '@/components/check/AccountHeader';
 import SearchForm from '@/components/check/SearchForm';
+import TransactionList from '@/components/check/TransactionList';
 import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
-import { useCallback, useEffect, useState } from 'react';
-import { Account } from '@/lib/datatypes';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Account, Transaction } from '@/lib/datatypes';
 
 export default function AccountDetailPage({
   params,
@@ -16,7 +17,12 @@ export default function AccountDetailPage({
   const { data: session } = useSession();
   const { fetchData, error } = useFetch<Account>();
   const [account, setAccount] = useState<Account>();
-  // const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [searchParams, setSearchParams] = useState<Record<string, string>>({
+    type: '전체',
+    period: '전체',
+    searchKeyword: '',
+  });
 
   const fetchAccountData = useCallback(async () => {
     const response = await fetchData(`/api/accounts/${accountId}`, {
@@ -31,6 +37,7 @@ export default function AccountDetailPage({
 
   useEffect(() => {
     fetchAccountData();
+    setTransactions([]);
   }, [fetchAccountData]);
 
   useEffect(() => {
@@ -47,8 +54,8 @@ export default function AccountDetailPage({
   //   return `${periodText} 동안 ${searchParams.type} 내역 ${searchParams.searchKeyword} 조회하기`;
   // };
 
-  const handleSearch = (searchParams: Record<string, string>) => {
-    console.log(searchParams);
+  const handleSearch = (newSearchParams: Record<string, string>) => {
+    setSearchParams(newSearchParams);
   };
 
   // const handleSearch = async (searchParams: Record<string, string>) => {
@@ -77,12 +84,85 @@ export default function AccountDetailPage({
   // }
   // };
 
+  // 필터링된 거래 내역
+  const filteredTransactions = useMemo(() => {
+    if (!account) return [];
+
+    return transactions.filter((transaction) => {
+      const transactionType =
+        transaction.senderAccountId === account.accountId
+          ? '출금'
+          : transaction.receiverAccountId === account.accountId
+            ? '입금'
+            : null;
+
+      if (!transactionType) return false;
+      if (searchParams.type !== '전체' && transactionType !== searchParams.type)
+        return false;
+
+      const transactionDate = new Date(transaction.transactionDate);
+      const now = new Date();
+
+      // 기간 필터링
+      let periodCondition = true;
+      if (searchParams.startDate && searchParams.endDate) {
+        const start = new Date(searchParams.startDate);
+        const end = new Date(searchParams.endDate);
+        periodCondition = transactionDate >= start && transactionDate <= end;
+      } else if (searchParams.period && searchParams.period !== '전체') {
+        const periodMap: Record<string, number> = {
+          '1개월': now.setMonth(now.getMonth() - 1),
+          '3개월': now.setMonth(now.getMonth() - 3),
+          '6개월': now.setMonth(now.getMonth() - 6),
+          '1년': now.setFullYear(now.getFullYear() - 1),
+        };
+        const periodDate = periodMap[searchParams.period];
+        if (periodDate) {
+          periodCondition = transactionDate >= new Date(periodDate);
+        }
+      }
+
+      // 키워드 검색 조건
+      const searchTarget =
+        transaction.senderAccountId === account.accountId
+          ? transaction.receiverViewer
+          : transaction.senderViewer;
+      const keywordCondition = searchParams.searchKeyword
+        ? searchTarget.includes(searchParams.searchKeyword)
+        : true;
+
+      return periodCondition && keywordCondition;
+    });
+  }, [transactions, account, searchParams]);
+
+  // 날짜별 거래 내역 그룹화
+  const groupedTransactions = useMemo(() => {
+    if (!account || filteredTransactions.length === 0) return {};
+
+    return filteredTransactions.reduce(
+      (groups: Record<string, Transaction[]>, transaction) => {
+        const date = new Date(transaction.transactionDate)
+          .toISOString()
+          .split('T')[0];
+        if (!groups[date]) {
+          groups[date] = [];
+        }
+        groups[date].push(transaction);
+        return groups;
+      },
+      {}
+    );
+  }, [filteredTransactions, account]);
+
   if (!account) return <div>계좌 조회 중...</div>;
 
   return (
     <div className='w-full min-h-screen flex flex-col'>
       <AccountHeader account={account} />
-
+      <TransactionList
+        groupedTransactions={groupedTransactions}
+        accountId={accountId}
+      />
       <SearchForm onSearch={handleSearch} />
     </div>
   );
