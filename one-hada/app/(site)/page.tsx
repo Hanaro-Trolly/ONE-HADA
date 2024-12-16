@@ -1,5 +1,6 @@
 'use client';
 
+import AutoMessageCarousel from '@/components/home/AutoRecommendCarousel';
 import FavoriteCarousel from '@/components/home/FavoriteCarousel';
 import LinkButton from '@/components/home/LinkButton';
 import { Button } from '@/components/ui/button';
@@ -63,16 +64,19 @@ export default function Home() {
       style={{ height: 'calc(100vh - 56px)' }}
       className='flex flex-col pt-2 px-6'
     >
-      <div className='w-1/3 h-[12%] pt-3 px-2'>
+      <div className='w-full h-[18%] pt-3'>
         {session?.user ? (
-          <div className='text-[#635666]'>
-            <label className='text-xl font-medium text-[#698596]'>
-              {userName}
-            </label>{' '}
-            님, <div>안녕하세요.</div>
+          <div>
+            <span className='text-sm pl-3'>
+              <span className='tossface-icon text-lg'>✨박시온 </span> 님을 위한
+              추천!{' '}
+            </span>
+            <div className='flex items-center gap-1 bg-gray-200 rounded-md mx-2 justify-center mb-2'>
+              <AutoMessageCarousel />
+            </div>
           </div>
         ) : (
-          <div className='text-[#635666]'>로그인 후 이용해주세요</div>
+          <div>로그인 후 이용해주세요</div>
         )}
       </div>
 

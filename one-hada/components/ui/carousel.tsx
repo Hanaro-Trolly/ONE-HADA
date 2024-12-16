@@ -151,8 +151,8 @@ Carousel.displayName = 'Carousel';
 
 const CarouselContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLDivElement> & { showDots?: boolean }
+>(({ className, showDots = true, ...props }, ref) => {
   const { carouselRef, orientation, api } = useCarousel();
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
@@ -181,16 +181,18 @@ const CarouselContent = React.forwardRef<
         )}
         {...props}
       />
-      <div className='flex justify-center gap-2 w-full mt-2 items-center'>
-        {Array.from({ length: itemCount }, (_, idx) => (
-          <FaCircle
-            key={idx}
-            className={cn('text-[#E9E9E9] text-[10px]', {
-              'text-[#D2DAE0] text-sm': idx === currentIndex,
-            })}
-          />
-        ))}
-      </div>
+      {showDots && ( // showDots prop에 따라 조건부 렌더링
+        <div className='flex justify-center gap-2 w-full mt-2 items-center'>
+          {Array.from({ length: itemCount }, (_, idx) => (
+            <FaCircle
+              key={idx}
+              className={cn('text-[#E9E9E9] text-[10px]', {
+                'text-[#D2DAE0] text-sm': idx === currentIndex,
+              })}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 });
