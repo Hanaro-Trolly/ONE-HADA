@@ -96,8 +96,9 @@ jobs:
               cp -r ~/ONE-HADA/one-hada ~/next-backup
             fi
 
-            # 실행 중인 서비스 중지
-            pm2 stop next-app || true
+            # PM2 프로세스 정리
+            pm2 delete next-app || true
+            pm2 save
 
             # 새 버전 배포
             rm -rf ~/ONE-HADA/one-hada
@@ -105,14 +106,22 @@ jobs:
 
             # 의존성 설치 및 서비스 시작
             cd ~/ONE-HADA/one-hada
-            npm install --production
-            pm2 start npm --name "next-app" -- start || pm2 restart next-app
+            npm install --omit=dev  # --production 대신 --omit=dev 사용
+
+            # 보안 취약점 수정
+            npm audit fix
+
+            # PM2로 서비스 시작
+            pm2 start npm --name "next-app" -- start
 
             # 배포 후 정리
             rm -rf ~/next-backup
 
             # PM2 프로세스 목록 저장
             pm2 save
+
+            # 서비스 상태 확인
+            pm2 list
 
             # 정상 종료
             exit 0
