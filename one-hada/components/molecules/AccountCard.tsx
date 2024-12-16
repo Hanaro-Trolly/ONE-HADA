@@ -3,16 +3,15 @@
 import BankIcon from './BankIcon';
 
 type AccountCardProps = {
-  id: string;
+  accountId: string;
   accountNumber: number;
   balance?: number; // balance를 선택적 속성으로 정의
   accountType: string;
   bank: string;
-  user_id: string;
 };
 
 export default function AccountCard({
-  id,
+  accountId,
   accountNumber,
   balance,
   accountType,
@@ -20,7 +19,7 @@ export default function AccountCard({
 }: AccountCardProps) {
   return (
     <div
-      key={id}
+      key={accountId}
       className='bg-white shadow-md rounded-lg w-full h-full flex items-start justify-center flex-col space-y-3 p-4 mb-4'
     >
       <div className='flex items-center gap-4'>

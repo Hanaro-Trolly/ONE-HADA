@@ -7,7 +7,7 @@
 // - 실시간 검색 결과 표시
 import AccountHeader from '@/components/check/AccountHeader';
 import TransactionList from '@/components/check/TransactionList';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, useMemo } from 'react';
 import { getData, fetchAllData } from '@/lib/api';
 import { Account, Transaction } from '@/lib/datatypes';
@@ -18,7 +18,7 @@ export default function DetailPage({
   params: { accountId: string };
 }) {
   const { accountId } = params;
-  const router = useRouter();
+  // const router = useRouter();
   const searchParams = useSearchParams();
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -59,9 +59,9 @@ export default function DetailPage({
 
     return transactions.filter((transaction) => {
       const transactionType =
-        transaction.sender_account_id === accountInfo.id
+        transaction.sender_account_id === accountInfo.accountId
           ? '출금'
-          : transaction.receiver_account_id === accountInfo.id
+          : transaction.receiver_account_id === accountInfo.accountId
             ? '입금'
             : null;
 
@@ -93,7 +93,7 @@ export default function DetailPage({
 
       // 키워드 검색 조건
       const searchTarget =
-        transaction.sender_account_id === accountInfo.id
+        transaction.sender_account_id === accountInfo.accountId
           ? transaction.receiver_viewer
           : transaction.sender_viewer;
       const keywordCondition = filterParams.searchKeyword
@@ -133,7 +133,6 @@ export default function DetailPage({
       <TransactionList
         groupedTransactions={groupedTransactions}
         accountId={accountId}
-        onSearchClick={() => router.push(`/check/${accountInfo.id}`)}
       />
     </div>
   );
