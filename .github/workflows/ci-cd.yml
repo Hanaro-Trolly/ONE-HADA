@@ -17,15 +17,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Next.js 프로젝트 디렉토리로 이동
-      - name: Change to project directory
-        run: cd one-hada
-
       # Node.js 설치 및 설정
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
+
+      # Next.js 프로젝트 디렉토리로 이동
+      - name: Change to project directory
+        run: cd one-hada
 
       # .env 파일 생성
       - name: Create env file
