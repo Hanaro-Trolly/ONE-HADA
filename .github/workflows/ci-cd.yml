@@ -23,27 +23,12 @@ jobs:
         with:
           node-version: '20'
 
-      # Next.js 프로젝트 디렉토리로 이동
-      - name: Change to project directory
-        run: cd one-hada
-
-      # .env 파일 생성
-      - name: Create env file
+      # 프로젝트 디렉토리로 이동 및 빌드
+      - name: Build Next.js app
         run: |
           cd one-hada
           echo "${{ secrets.ENV_SECRET }}" > .env
-
-      # package-lock.json 생성을 위한 clean install
-      - name: Install dependencies
-        run: |
-          cd one-hada
-          rm -rf node_modules
           npm install
-
-      # Next.js 프로젝트 빌드
-      - name: Build
-        run: |
-          cd one-hada
           npm run build
 
       # 빌드 결과물을 아티팩트로 저장
@@ -51,12 +36,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: next-build
-          path: |
-            one-hada/.next/
-            one-hada/package.json
-            one-hada/package-lock.json
-            one-hada/public/
-            one-hada/.env
+          path: one-hada/
 
   deploy:
     needs: build
@@ -91,37 +71,25 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            # 기존 배포본 백업
-            if [ -d ~/ONE-HADA/one-hada ]; then
-              cp -r ~/ONE-HADA/one-hada ~/next-backup
-            fi
-
             # PM2 프로세스 정리
             pm2 delete next-app || true
-            pm2 save
+            pm2 save --force
 
             # 새 버전 배포
             rm -rf ~/ONE-HADA/one-hada
             mv ~/next-temp ~/ONE-HADA/one-hada
 
-            # 의존성 설치 및 서비스 시작
+            # 의존성 설치
             cd ~/ONE-HADA/one-hada
-            npm install --omit=dev  # --production 대신 --omit=dev 사용
+            npm install --omit=dev
 
-            # 보안 취약점 수정
-            npm audit fix
-
-            # PM2로 서비스 시작
+            # 서비스 시작
             pm2 start npm --name "next-app" -- start
 
-            # 배포 후 정리
-            rm -rf ~/next-backup
-
             # PM2 프로세스 목록 저장
-            pm2 save
+            pm2 save --force
 
             # 서비스 상태 확인
             pm2 list
 
-            # 정상 종료
             exit 0
