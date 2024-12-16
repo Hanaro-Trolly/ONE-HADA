@@ -24,16 +24,17 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm' # npm 캐시 활성화로 빌드 속도 향상
 
       # .env 파일 생성
       - name: Create env file
         run: |
           echo "${{ secrets.ENV_SECRET }}" > .env
 
-      # 프로젝트 의존성 설치
+      # package-lock.json 생성을 위한 clean install
       - name: Install dependencies
-        run: npm install
+        run: |
+          rm -rf node_modules
+          npm install
 
       # Next.js 프로젝트 빌드
       - name: Build
