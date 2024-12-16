@@ -1,8 +1,13 @@
 'use client';
 
-import { Counsel, CounselContextType } from '@/app/admin/types/adminTypes';
+import {
+  ConsultationSummary,
+  Counsel,
+  CounselContextType,
+} from '@/app/admin/types/adminTypes';
 import { useFetch } from '@/hooks/useFetch';
 import { createContext, useCallback, useContext, useState } from 'react';
+import { useAdminSession } from './SessionContext';
 
 interface ConsultationResponse {
   userId: string;
@@ -22,6 +27,10 @@ const CounselContext = createContext<CounselContextType | undefined>(undefined);
 export function CounselProvider({ children }: { children: React.ReactNode }) {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [counselData, setCounselData] = useState<Counsel[]>([]);
+  const [consultationList, setConsultationList] = useState<
+    ConsultationSummary[]
+  >([]);
+  const { session } = useAdminSession();
   const { fetchData, isLoading, error } = useFetch<ConsultationResponse>();
 
   const fetchCounselData = useCallback(
@@ -30,7 +39,7 @@ export function CounselProvider({ children }: { children: React.ReactNode }) {
         const response = await fetchData(`/api/admin/consultation/${userId}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
-          cache: false, // 캐시 비활성화
+          cache: false,
         });
 
         if (response?.data) {
@@ -53,11 +62,36 @@ export function CounselProvider({ children }: { children: React.ReactNode }) {
     [fetchData]
   );
 
-  const refetchCounselData = useCallback(
-    (userId: string) => {
-      return fetchCounselData(userId);
+  const fetchConsultationList = useCallback(
+    async (agentId: string) => {
+      try {
+        const response = await fetchData(
+          `/api/admin/consultationList/${agentId}`,
+          {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            cache: false,
+          }
+        );
+
+        if (response?.data) {
+          setConsultationList(response.data);
+        }
+      } catch (error) {
+        console.error('Failed to load consultation list:', error);
+      }
     },
-    [fetchCounselData]
+    [fetchData]
+  );
+
+  const refetchCounselData = useCallback(
+    async (userId: string) => {
+      await fetchCounselData(userId);
+      if (session?.loginUser?.id) {
+        await fetchConsultationList(session.loginUser.id);
+      }
+    },
+    [fetchCounselData, fetchConsultationList, session]
   );
 
   return (
@@ -67,6 +101,8 @@ export function CounselProvider({ children }: { children: React.ReactNode }) {
         setSelectedUserId,
         counselData,
         setCounselData,
+        consultationList,
+        fetchConsultationList,
         fetchCounselData,
         refetchCounselData,
         isLoading,

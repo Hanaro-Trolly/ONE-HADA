@@ -2,14 +2,12 @@
 
 import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
-import { useFetch } from '@/hooks/useFetch';
 import { useFormattedDate } from '@/hooks/useFormattedDate';
 import { useWebSocket } from '@/hooks/useWebsocket';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Title from './AdminTitle';
 
-// 새로운 타입 정의
 interface ConsultationSummary {
   userId: number;
   userName: string;
@@ -17,25 +15,20 @@ interface ConsultationSummary {
   lastConsultationTitle: string;
 }
 
-interface ConsultationListResponse {
-  code: number;
-  status: string;
-  message: string;
-  data: ConsultationSummary[];
-}
-
 const SKELETON_COUNT = 3;
 
 export default function AdminHeader() {
   const router = useRouter();
-  const { setSelectedUserId } = useCounsel();
+  const {
+    setSelectedUserId,
+    consultationList,
+    fetchConsultationList,
+    isLoading,
+  } = useCounsel();
   const { session, logout } = useAdminSession();
   const { disconnectWebSocket } = useWebSocket({ role: 'consultant' });
   const { userId: currentUserId } = useParams<{ userId: string }>();
   const { formatDateLong } = useFormattedDate();
-  const { fetchData, isLoading } = useFetch<ConsultationListResponse>();
-
-  const [consultations, setConsultations] = useState<ConsultationSummary[]>([]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -45,26 +38,11 @@ export default function AdminHeader() {
   useEffect(() => {
     const loadConsultationList = async () => {
       if (!session.loginUser?.id || !mounted) return;
-
-      try {
-        const response = await fetchData(
-          `/api/admin/consultationList/${session.loginUser.id}`,
-          {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-          }
-        );
-
-        if (response?.data) {
-          setConsultations(response.data);
-        }
-      } catch (error) {
-        console.error('Failed to load consultation list:', error);
-      }
+      await fetchConsultationList(session.loginUser.id);
     };
 
     loadConsultationList();
-  }, [mounted, session.loginUser?.id, fetchData]);
+  }, [mounted, session.loginUser?.id, fetchConsultationList]);
 
   const handleUserClick = (userId: number) => {
     setSelectedUserId(userId.toString());
@@ -124,7 +102,7 @@ export default function AdminHeader() {
           </button>
         </div>
         <div className='space-y-4'>
-          {consultations.map((consultation) => {
+          {consultationList.map((consultation: ConsultationSummary) => {
             const isSelected = currentUserId === consultation.userId.toString();
             return (
               <button
@@ -168,7 +146,7 @@ export default function AdminHeader() {
               </button>
             );
           })}
-          {consultations.length === 0 && (
+          {consultationList.length === 0 && (
             <div className='flex items-center justify-center h-40 bg-white rounded-lg border border-gray-200'>
               <p className='text-gray-500 text-center'>상담 내역이 없습니다.</p>
             </div>

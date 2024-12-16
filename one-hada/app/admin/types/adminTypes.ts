@@ -98,3 +98,24 @@ export interface ConsultationResponse {
     }[];
   } | null;
 }
+
+export interface ConsultationSummary {
+  userId: number;
+  userName: string;
+  lastConsultationDate: string;
+  lastConsultationTitle: string;
+}
+
+// CounselContextType에 새로운 속성들 추가
+export interface CounselContextType {
+  selectedUserId: string | null;
+  setSelectedUserId: (id: string | null) => void;
+  counselData: Counsel[];
+  setCounselData: (data: Counsel[]) => void;
+  consultationList: ConsultationSummary[]; // 추가
+  fetchConsultationList: (agentId: string) => Promise<void>; // 추가
+  fetchCounselData: (userId: string) => Promise<void>;
+  refetchCounselData: (userId: string) => void;
+  isLoading?: boolean;
+  error?: ErrorWithMessage | undefined;
+}
