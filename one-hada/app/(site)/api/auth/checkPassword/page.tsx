@@ -17,7 +17,7 @@ export default function CheckPassword() {
   const searchParams = useSearchParams();
 
   const userId = session?.user.id;
-  const accessToken = session?.user.accessToken;
+  const accessToken = session?.accessToken;
   const route = searchParams.get('route');
   const [userPassword, setUserPassword] = useState<string>();
 
