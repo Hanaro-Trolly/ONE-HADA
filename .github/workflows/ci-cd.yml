@@ -9,34 +9,97 @@ on:
       - main
 
 jobs:
-  deploy:
+  # 빌드 작업
+  build:
+    # Ubuntu 최신 버전에서 실행
     runs-on: ubuntu-latest
 
     steps:
+      # GitHub 저장소 코드 체크아웃
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Node.js 설치 및 설정
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm' # npm 캐시 활성화로 빌드 속도 향상
+
+      # .env 파일 생성
+      - name: Create env file
+        run: |
+          echo "${{ secrets.ENV_SECRET }}" > .env
+
+      # 프로젝트 의존성 설치
+      - name: Install dependencies
+        run: npm install
+
+      # Next.js 프로젝트 빌드
+      - name: Build
+        run: npm run build
+
+      # 빌드 결과물을 아티팩트로 저장
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: next-build
+          path: |
+            .next/
+            package.json
+            package-lock.json
+            public/
+            .env
+
+  # 배포 작업
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      # 빌드된 아티팩트 다운로드
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: next-build
+
+      # EC2 인스턴스에 배포
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v0.1.8
         with:
+          # EC2 접속 정보
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
+          # 배포 스크립트
           script: |
-            # 프로젝트 디렉토리로 이동
-            cd /home/${{ secrets.EC2_USERNAME }}/ONE-HADA/one-hada || exit 1
+            # 배포를 위한 임시 디렉토리 생성
+            mkdir -p ~/next-temp
 
-            # 최신 코드 가져오기
-            git fetch origin || exit 1
-            git reset --hard origin/main || exit 1
+            # 기존 배포본 백업
+            if [ -d ~/ONE-HADA/one-hada ]; then
+              cp -r ~/ONE-HADA/one-hada ~/next-backup
+            fi
 
-            # 환경변수 설정
-            echo "${{ secrets.ENV_SECRET }}" > .env || exit 1
+            # 새 버전 파일 복사
+            cp -r .next/ package.json package-lock.json public/ .env ~/next-temp/
 
-            # 의존성 설치 및 빌드
-            npm install || exit 1
-            npm run build || exit 1
+            # 실행 중인 서비스 중지
+            pm2 stop next-app || true
 
-            # PM2로 앱 실행/재시작
-            pm2 list || exit 1
-            pm2 restart next-app || pm2 start npm --name "next-app" -- start || exit 1
+            # 새 버전 배포
+            rm -rf ~/ONE-HADA/one-hada
+            mv ~/next-temp ~/ONE-HADA/one-hada
 
+            # 의존성 설치 및 서비스 시작
+            cd ~/ONE-HADA/one-hada
+            npm install --production
+            pm2 start npm --name "next-app" -- start || pm2 restart next-app
+
+            # 배포 후 정리
+            rm -rf ~/next-temp
+            rm -rf ~/next-backup
+
+            # 정상 종료
             exit 0
