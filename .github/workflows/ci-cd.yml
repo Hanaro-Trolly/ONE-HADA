@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: '20'
 
-      # 프로젝트 디렉토리로 이동 및 빌드
+      # 프로젝트 빌드
       - name: Build Next.js app
         run: |
           cd one-hada
@@ -31,12 +31,17 @@ jobs:
           npm install
           npm run build
 
-      # 빌드 결과물을 아티팩트로 저장
+      # 필요한 파일만 아티팩트로 저장
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: next-build
-          path: one-hada/
+          path: |
+            one-hada/.next/
+            one-hada/public/
+            one-hada/package.json
+            one-hada/package-lock.json
+            one-hada/.env
 
   deploy:
     needs: build
