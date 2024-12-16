@@ -46,9 +46,9 @@ export default function Register() {
       if (data.code == 200 && data.status === 'EXIST') {
         try {
           await update({
-            id: data.id,
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken,
+            id: data.data.userId,
+            accessToken: data.data.accessToken,
+            refreshToken: data.data.refreshToken,
           });
         } catch (error) {
           console.error('Error updating user data:', error);
@@ -61,6 +61,7 @@ export default function Register() {
 
   const createFormData = () => ({
     name: nameRef.current!.value,
+    email: session?.user.email,
     gender: userGender,
     birth: birthDateRef.current!.value,
     phone: phoneRefs.map((ref) => ref.current!.value).join('-'),
@@ -88,11 +89,11 @@ export default function Register() {
       console.log(data);
       if (data.status == 'EXIST') {
         alert('기존 계정과 연동하였습니다');
-        login();
+        await login();
         router.push('/');
       } else if (data.status == 'NEW') {
         alert('회원등록에 성공하였습니다');
-        login();
+        await login();
         router.push(`/api/auth/register/setPassword`);
       }
     } catch (error) {

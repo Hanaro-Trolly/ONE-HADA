@@ -3,6 +3,7 @@
 import PasswordKeypad from '@/components/ui/PasswordKeypad';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function SetPassword() {
   const router = useRouter();
@@ -40,6 +41,10 @@ export default function SetPassword() {
       alert('비밀번호 설정에 실패했습니다.');
     }
   };
+
+  useEffect(() => {
+    console.log(session?.accessToken);
+  }, [session?.accessToken]);
 
   return (
     <div className='py-8 px-10 w-full flex flex-col items-center justify-center'>

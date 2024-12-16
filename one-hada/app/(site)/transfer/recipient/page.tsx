@@ -77,7 +77,7 @@ export default function RecipientPage() {
       });
 
       if (response.code === 200) {
-        setSenderName(response.data.user_name);
+        setSenderName(response.data.userName);
       }
     };
 

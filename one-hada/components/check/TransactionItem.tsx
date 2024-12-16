@@ -14,9 +14,9 @@ export default function TransactionItem({
   transaction,
   accountId,
 }: TransactionItemProps) {
-  const isWithdrawal = transaction.sender_account_id === accountId;
+  const isWithdrawal = transaction.senderAccountId === accountId;
   const transactionTime = new Date(
-    transaction.transaction_date
+    transaction.transactionDate
   ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
   return (
@@ -24,9 +24,7 @@ export default function TransactionItem({
       {/* 거래 상대방 및 시간 */}
       <div>
         <p className='font-medium'>
-          {isWithdrawal
-            ? transaction.receiver_viewer
-            : transaction.sender_viewer}
+          {isWithdrawal ? transaction.receiverViewer : transaction.senderViewer}
         </p>
         <p className='text-sm text-gray-500'>{transactionTime}</p>
       </div>

@@ -47,18 +47,9 @@ export default function AccountDetailPage({
   //   return `${periodText} 동안 ${searchParams.type} 내역 ${searchParams.searchKeyword} 조회하기`;
   // };
 
-  // const createHistoryParams = (searchParams: Record<string, string>) => {
-  //   return [
-  //     accountId,
-  //     searchParams.period,
-  //     searchParams.startDate,
-  //     searchParams.endDate,
-  //     searchParams.type,
-  //     searchParams.searchKeyword,
-  //   ].join('#');
-  // };
-
-  const handleSearch = () => {};
+  const handleSearch = (searchParams: Record<string, string>) => {
+    console.log(searchParams);
+  };
 
   // const handleSearch = async (searchParams: Record<string, string>) => {
   //   if (!account) return;

@@ -48,7 +48,6 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
     async (url: string, options: FetchOptions<TBody>) => {
       const controller = new AbortController();
       const cacheKey = `${url}-${JSON.stringify(options)}`;
-      let isMounted = true;
 
       try {
         setLoading(true);
@@ -87,27 +86,19 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
         if (options.cache) {
           cache[cacheKey] = result;
         }
-
-        if (isMounted) {
-          setData(result);
-          setError(undefined);
-        }
-
+        setData(result);
         return result;
       } catch (err) {
-        if (String(err) !== ABORT_REASON && isMounted) {
+        if (String(err) !== ABORT_REASON) {
           const errorMessage = toErrorWithMessage(err);
           setError(errorMessage);
           throw err;
         }
       } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
 
       return () => {
-        isMounted = false;
         controller.abort(ABORT_REASON);
       };
     },

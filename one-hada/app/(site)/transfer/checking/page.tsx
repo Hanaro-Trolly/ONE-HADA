@@ -25,8 +25,8 @@ export default function Checking() {
   const [amount, setAmount] = useState<string>('');
 
   const handleClick = async () => {
-    const response = await fetchData('api/redis', {
-      method: 'DELETE',
+    const response = await fetchData('/api/redis/delete', {
+      method: 'POST',
       body: [
         'senderName',
         'senderAccountId',
@@ -47,8 +47,8 @@ export default function Checking() {
 
   useEffect(() => {
     const getRedis = async () => {
-      const response = await fetchData('/api/redis', {
-        method: 'GET',
+      const response = await fetchData('/api/redis/get', {
+        method: 'POST',
         body: [
           'senderName',
           'receiverName',

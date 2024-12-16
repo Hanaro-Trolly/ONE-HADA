@@ -59,9 +59,9 @@ export default function DetailPage({
 
     return transactions.filter((transaction) => {
       const transactionType =
-        transaction.sender_account_id === accountInfo.accountId
+        transaction.senderAccountId === accountInfo.accountId
           ? '출금'
-          : transaction.receiver_account_id === accountInfo.accountId
+          : transaction.receiverAccountId === accountInfo.accountId
             ? '입금'
             : null;
 
@@ -69,7 +69,7 @@ export default function DetailPage({
       if (filterParams.type !== '전체' && transactionType !== filterParams.type)
         return false;
 
-      const transactionDate = new Date(transaction.transaction_date);
+      const transactionDate = new Date(transaction.transactionDate);
       const now = new Date();
 
       // 기간 필터링
@@ -93,9 +93,9 @@ export default function DetailPage({
 
       // 키워드 검색 조건
       const searchTarget =
-        transaction.sender_account_id === accountInfo.accountId
-          ? transaction.receiver_viewer
-          : transaction.sender_viewer;
+        transaction.senderAccountId === accountInfo.accountId
+          ? transaction.receiverViewer
+          : transaction.senderViewer;
       const keywordCondition = filterParams.searchKeyword
         ? searchTarget.includes(filterParams.searchKeyword)
         : true;
@@ -110,7 +110,7 @@ export default function DetailPage({
 
     return filteredTransactions.reduce(
       (groups: Record<string, Transaction[]>, transaction) => {
-        const date = new Date(transaction.transaction_date)
+        const date = new Date(transaction.transactionDate)
           .toISOString()
           .split('T')[0];
         if (!groups[date]) {

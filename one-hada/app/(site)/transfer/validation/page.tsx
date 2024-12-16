@@ -38,7 +38,7 @@ export default function TransferConfirmation() {
       });
 
       if (response.code == 200) {
-        const route: string = '/tansfer/save';
+        const route: string = '/transfer/save';
         router.push(`/api/auth/checkPassword?route=${route}`);
       }
     }
@@ -46,8 +46,8 @@ export default function TransferConfirmation() {
 
   useEffect(() => {
     const getRedisValues = async () => {
-      const response = await fetchData('/api/redis/transfer', {
-        method: 'GET',
+      const response = await fetchData('/api/redis/get', {
+        method: 'POST',
         body: [
           'amount',
           'senderName',

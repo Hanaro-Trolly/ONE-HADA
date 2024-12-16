@@ -57,12 +57,12 @@ type Account = {
 
 type Transaction = {
   id: string;
-  sender_account_id: string;
-  receiver_account_id: string;
+  senderAccountId: string;
+  receiverAccountId: string;
   amount: number;
-  sender_viewer: string;
-  receiver_viewer: string;
-  transaction_date: Date;
+  senderViewer: string;
+  receiverViewer: string;
+  transactionDate: Date;
 };
 
 export type {

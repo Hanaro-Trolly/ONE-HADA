@@ -70,8 +70,8 @@ export default function AmountInput() {
 
   useEffect(() => {
     const getRedisValues = async () => {
-      const response = await fetchData('/api/redis', {
-        method: 'GET',
+      const response = await fetchData('/api/redis/get', {
+        method: 'POST',
         body: [
           'senderAccountId',
           'receiverName',

@@ -29,7 +29,7 @@ export default function CheckPassword() {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`, // 토큰 추가
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -37,7 +37,7 @@ export default function CheckPassword() {
       const data = await response.json();
 
       if (data.code == 200 && data.status == 'OK') {
-        setUserPassword(data.data.userPassword);
+        setUserPassword(data.data.simplePassword);
       } else {
         console.log('비밀번호 조회 오류', data.code, data.status, data.message);
       }
@@ -58,6 +58,8 @@ export default function CheckPassword() {
       alert('6자리 숫자를 모두 입력해주세요.');
       return;
     }
+
+    console.log(userPassword, password);
 
     if (userPassword === password.join('')) {
       alert('인증에 성공하였습니다');
