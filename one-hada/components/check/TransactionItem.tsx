@@ -39,9 +39,12 @@ export default function TransactionItem({
           {isWithdrawal ? '-' : '+'} {transaction.amount.toLocaleString()} 원
         </p>
         {/* 잔액 정보가 필요하다면 아래 코드를 활성화하고 필요한 데이터를 전달해야 합니다 */}
-        {/* <p className="text-sm text-gray-500">
-          {transaction.balanceAfterTransaction.toLocaleString()} 원
-        </p> */}
+        <p className='text-sm text-gray-500'>
+          {isWithdrawal
+            ? transaction.senderBalance.toLocaleString()
+            : transaction.receiverBalance.toLocaleString()}{' '}
+          원
+        </p>
       </div>
     </div>
   );

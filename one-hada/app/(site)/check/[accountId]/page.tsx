@@ -19,8 +19,10 @@ export default function AccountDetailPage({
   const [account, setAccount] = useState<Account>();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [searchParams, setSearchParams] = useState<Record<string, string>>({
-    type: '전체',
     period: '전체',
+    type: '전체',
+    startDate: '',
+    endDate: '',
     searchKeyword: '',
   });
 
@@ -35,10 +37,56 @@ export default function AccountDetailPage({
     }
   }, [fetchData, accountId, session?.accessToken]);
 
+  const fetchTransactionData = useCallback(async () => {
+    const now = new Date();
+    let endDate = now.toDateString();
+    let startDate = '';
+
+    switch (searchParams.period) {
+      case '1개월':
+        startDate = new Date(now.setMonth(now.getMonth() - 1)).toDateString();
+        break;
+
+      case '3개월':
+        startDate = new Date(now.setMonth(now.getMonth() - 3)).toDateString();
+        break;
+
+      case '6개월':
+        startDate = new Date(now.setMonth(now.getMonth() - 6)).toDateString();
+        break;
+
+      case '1년':
+        startDate = new Date(
+          now.setFullYear(now.getFullYear() - 1)
+        ).toDateString();
+        break;
+
+      default:
+        endDate = searchParams.endDate;
+        startDate = searchParams.startDate;
+        break;
+    }
+
+    const response = await fetchData(`/api/transaction/${accountId}`, {
+      method: 'POST',
+      token: session?.accessToken,
+      body: {
+        startDate: startDate,
+        endDate: endDate,
+        transactionType: searchParams.type,
+        keword: searchParams.searchKeyword,
+      },
+    });
+
+    if (response.code == 200) {
+      setTransactions(response.data);
+    } else '거래내역 조회 오류';
+  }, []);
+
   useEffect(() => {
     fetchAccountData();
-    setTransactions([]);
-  }, [fetchAccountData]);
+    fetchTransactionData();
+  }, [fetchAccountData, fetchTransactionData]);
 
   useEffect(() => {
     if (error) {
@@ -84,62 +132,11 @@ export default function AccountDetailPage({
   // }
   // };
 
-  // 필터링된 거래 내역
-  const filteredTransactions = useMemo(() => {
-    if (!account) return [];
-
-    return transactions.filter((transaction) => {
-      const transactionType =
-        transaction.senderAccountId === account.accountId
-          ? '출금'
-          : transaction.receiverAccountId === account.accountId
-            ? '입금'
-            : null;
-
-      if (!transactionType) return false;
-      if (searchParams.type !== '전체' && transactionType !== searchParams.type)
-        return false;
-
-      const transactionDate = new Date(transaction.transactionDate);
-      const now = new Date();
-
-      // 기간 필터링
-      let periodCondition = true;
-      if (searchParams.startDate && searchParams.endDate) {
-        const start = new Date(searchParams.startDate);
-        const end = new Date(searchParams.endDate);
-        periodCondition = transactionDate >= start && transactionDate <= end;
-      } else if (searchParams.period && searchParams.period !== '전체') {
-        const periodMap: Record<string, number> = {
-          '1개월': now.setMonth(now.getMonth() - 1),
-          '3개월': now.setMonth(now.getMonth() - 3),
-          '6개월': now.setMonth(now.getMonth() - 6),
-          '1년': now.setFullYear(now.getFullYear() - 1),
-        };
-        const periodDate = periodMap[searchParams.period];
-        if (periodDate) {
-          periodCondition = transactionDate >= new Date(periodDate);
-        }
-      }
-
-      // 키워드 검색 조건
-      const searchTarget =
-        transaction.senderAccountId === account.accountId
-          ? transaction.receiverViewer
-          : transaction.senderViewer;
-      const keywordCondition = searchParams.searchKeyword
-        ? searchTarget.includes(searchParams.searchKeyword)
-        : true;
-
-      return periodCondition && keywordCondition;
-    });
-  }, [transactions, account, searchParams]);
-
   // 날짜별 거래 내역 그룹화
   const groupedTransactions = useMemo(() => {
-    if (!account || filteredTransactions.length === 0) return {};
+    if (!account || !transactions) return {};
 
-    return filteredTransactions.reduce(
+    return transactions.reduce(
       (groups: Record<string, Transaction[]>, transaction) => {
         const date = new Date(transaction.transactionDate)
           .toISOString()
@@ -152,7 +149,7 @@ export default function AccountDetailPage({
       },
       {}
     );
-  }, [filteredTransactions, account]);
+  }, [transactions, account]);
 
   if (!account) return <div>계좌 조회 중...</div>;
 

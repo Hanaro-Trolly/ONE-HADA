@@ -63,6 +63,8 @@ type Transaction = {
   senderViewer: string;
   receiverViewer: string;
   transactionDate: Date;
+  senderBalance: number;
+  receiverBalance: number;
 };
 
 export type {
