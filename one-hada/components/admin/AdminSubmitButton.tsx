@@ -1,13 +1,18 @@
 // Types
 interface AdminSubmitButtonProps {
   onClick: () => void;
+  disabled?: boolean; // disabled prop 추가
 }
 
-export default function AdminSubmitButton({ onClick }: AdminSubmitButtonProps) {
+export default function AdminSubmitButton({
+  onClick,
+  disabled,
+}: AdminSubmitButtonProps) {
   return (
     <button
       type='submit'
       onClick={onClick}
+      disabled={disabled} // disabled 속성 추가
       className='
         flex 
         justify-center 
