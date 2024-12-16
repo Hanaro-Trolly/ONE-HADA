@@ -9,10 +9,83 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
+      # GitHub 저장소 코드 체크아웃
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Node.js 설치 및 설정
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # 프로젝트 빌드
+      - name: Build Next.js app
+        run: |
+          cd one-hada
+          echo "${{ secrets.ENV_SECRET }}" > .env
+          npm install
+          npm run build
+
+      # 빌드 결과 확인
+      - name: Check build output
+        run: |
+          cd one-hada
+          ls -la
+          ls -la .next/ || echo ".next directory not found!"
+
+      # 빌드 파일 압축
+      - name: Create deployment package
+        run: |
+          cd one-hada
+          tar -czvf ../deployment.tar.gz .next/ public/ package.json package-lock.json .env
+
+      # 압축 파일 확인
+      - name: Check deployment package
+        run: |
+          ls -la deployment.tar.gz
+          tar -tvf deployment.tar.gz
+
+      # 압축된 아티팩트 저장
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: next-build
+          path: deployment.tar.gz
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      # 빌드된 아티팩트 다운로드
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: next-build
+
+      # 다운로드된 아티팩트 확인
+      - name: Check downloaded artifact
+        run: |
+          ls -la
+          tar -tvf deployment.tar.gz
+
+      # EC2로 압축 파일 전송
+      - name: Copy build files to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          source: 'deployment.tar.gz'
+          target: '~/'
+
+      # EC2 인스턴스에 배포
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -21,22 +94,47 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            # 프로젝트 디렉토리로 이동
-            cd /home/${{ secrets.EC2_USERNAME }}/ONE-HADA/one-hada || exit 1
+            # 디버깅을 위한 초기 상태 확인
+            echo "Current directory: $(pwd)"
+            ls -la ~/deployment.tar.gz
 
-            # 최신 코드 가져오기
-            git fetch origin || exit 1
-            git reset --hard origin/main || exit 1
+            # PM2 프로세스 정리
+            pm2 delete next-app || true
+            pm2 save --force
 
-            # 환경변수 설정
-            echo "${{ secrets.ENV_SECRET }}" > .env || exit 1
+            # 새 버전 배포
+            mkdir -p ~/ONE-HADA/one-hada
+            cd ~/ONE-HADA/one-hada
 
-            # 의존성 설치 및 빌드
-            npm install || exit 1
-            npm run build || exit 1
+            # 압축 해제 전 디렉토리 확인
+            echo "Before extraction:"
+            ls -la
 
-            # PM2로 앱 실행/재시작
-            pm2 list || exit 1
-            pm2 restart next-app || pm2 start npm --name "next-app" -- start || exit 1
+            # 압축 해제
+            tar -xzvf ~/deployment.tar.gz
+
+            # 압축 해제 후 디렉토리 확인
+            echo "After extraction:"
+            ls -la
+
+            # 의존성 설치
+            npm install --omit=dev
+
+            # 최종 확인
+            echo "Final directory structure:"
+            ls -la
+            ls -la .next/ || echo ".next directory still missing!"
+
+            # 서비스 시작
+            pm2 start npm --name "next-app" -- start
+
+            # 정리
+            rm ~/deployment.tar.gz
+
+            # PM2 프로세스 목록 저장
+            pm2 save --force
+
+            # 서비스 상태 확인
+            pm2 list
 
             exit 0
