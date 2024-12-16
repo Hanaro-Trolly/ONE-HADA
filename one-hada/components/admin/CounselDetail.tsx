@@ -33,9 +33,9 @@ export default function CounselDetail({ userId }: CounselDetailProps) {
             phone: response.data.userPhone,
             name: response.data.userName,
             gender:
-              response.data.userGender === 'male'
+              response.data.userGender === 'M'
                 ? 'M'
-                : response.data.userGender === 'female'
+                : response.data.userGender === 'F'
                   ? 'F'
                   : null,
           });
