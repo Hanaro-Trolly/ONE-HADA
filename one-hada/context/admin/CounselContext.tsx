@@ -3,24 +3,16 @@
 import { Counsel, CounselContextType } from '@/app/admin/types/adminTypes';
 import { useFetch } from '@/hooks/useFetch';
 import { createContext, useCallback, useContext, useState } from 'react';
-import { useAdminSession } from './SessionContext';
-
-interface Consultation {
-  id: string;
-  agentId: string;
-  consultationTitle: string;
-  consultationContent: string;
-  consultationDate: string;
-}
 
 interface ConsultationResponse {
-  code: number;
-  status: string;
-  message: string;
-  data: {
-    userId: string;
-    consultations: Consultation[];
-  } | null;
+  userId: string;
+  consultations: {
+    id: string;
+    agentId: string;
+    consultationTitle: string;
+    consultationContent: string;
+    consultationDate: string;
+  }[];
 }
 
 const CounselContext = createContext<CounselContextType | undefined>(undefined);
@@ -28,49 +20,47 @@ const CounselContext = createContext<CounselContextType | undefined>(undefined);
 export function CounselProvider({ children }: { children: React.ReactNode }) {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [counselData, setCounselData] = useState<Counsel[]>([]);
-  const { session } = useAdminSession();
-  const { fetchData } = useFetch<ConsultationResponse>();
+  const { fetchData, isLoading, error } = useFetch<ConsultationResponse>();
 
-  const fetchCounselData = useCallback(async () => {
-    if (!session.loginUser?.id) return;
-
-    try {
-      const result = await fetchData(
-        `/api/admin/consultation/${session.loginUser.id}`,
-        {
+  const fetchCounselData = useCallback(
+    async (userId: string) => {
+      try {
+        console.log(userId);
+        const response = await fetchData(`/api/admin/consultation/${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
+          cache: true,
+        });
+
+        if (response?.data) {
+          const transformedData = response.data.consultations.map(
+            (consultation: ConsultationResponse['consultations'][0]) => ({
+              id: consultation.id,
+              agent_id: consultation.agentId,
+              consultation_title: consultation.consultationTitle,
+              consultation_content: consultation.consultationContent,
+              consultation_date: consultation.consultationDate,
+              user_id: response.data.userId,
+            })
+          );
+
+          setCounselData(transformedData);
         }
-      );
-
-      if (result?.code === 200 && result.data) {
-        const formattedData = result.data.consultations.map(
-          (consultation: Consultation) => ({
-            id: consultation.id,
-            agent_id: String(consultation.agentId), // agent_id도 문자열로 변환
-            user_id: String(result.data!.userId),
-            consultation_title: consultation.consultationTitle,
-            consultation_content: consultation.consultationContent,
-            consultation_date: consultation.consultationDate,
-          })
-        );
-
-        setCounselData(formattedData);
-      } else {
-        console.error('상담 데이터 조회 실패:', result?.message);
-        setCounselData([]);
+      } catch (error) {
+        console.error('상담 데이터 조회 중 오류 발생:', error);
       }
-    } catch (error) {
-      console.error('상담 데이터 조회 중 오류 발생:', error);
-      setCounselData([]);
-    }
-  }, [session.loginUser?.id, fetchData]);
+    },
+    [fetchData]
+  );
 
-  const refetchCounselData = useCallback(() => {
-    fetchCounselData();
-  }, [fetchCounselData]);
+  const refetchCounselData = useCallback(
+    (userId: string) => {
+      fetchCounselData(userId);
+    },
+    [fetchCounselData]
+  );
 
   return (
     <CounselContext.Provider
@@ -81,6 +71,8 @@ export function CounselProvider({ children }: { children: React.ReactNode }) {
         setCounselData,
         fetchCounselData,
         refetchCounselData,
+        isLoading,
+        error,
       }}
     >
       {children}

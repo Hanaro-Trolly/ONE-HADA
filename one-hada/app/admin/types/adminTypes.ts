@@ -25,8 +25,14 @@ export interface CounselContextType {
   setSelectedUserId: (id: string | null) => void;
   counselData: Counsel[];
   setCounselData: (data: Counsel[]) => void;
-  fetchCounselData: () => Promise<void>;
-  refetchCounselData: () => void;
+  fetchCounselData: (userId: string) => Promise<void>; // ffetchCounselData에서 수정
+  refetchCounselData: (userId: string) => void;
+  isLoading?: boolean; // isLoading 추가
+  error?: ErrorWithMessage | undefined;
+}
+
+export interface ErrorWithMessage {
+  message: string;
 }
 
 // 활동 로그 관련 타입
