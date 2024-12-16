@@ -64,11 +64,31 @@ export interface UserData {
   name: string;
   gender: 'M' | 'F' | null;
 }
+export interface UserResponse {
+  code: number;
+  status: string;
+  message: string;
+  data: {
+    id: string;
+    userName: string;
+    userBirth: string;
+    userPhone: string;
+    userGender: string;
+  };
+}
 
-export interface UserAPIResponse {
-  id: string;
-  user_birth: string;
-  user_phone: string;
-  user_name: string;
-  user_gender: string;
+export interface ConsultationResponse {
+  code: number;
+  status: string;
+  message: string;
+  data: {
+    userId: string;
+    consultations: {
+      id: string;
+      agentId: string;
+      consultationTitle: string;
+      consultationContent: string;
+      consultationDate: string;
+    }[];
+  } | null;
 }

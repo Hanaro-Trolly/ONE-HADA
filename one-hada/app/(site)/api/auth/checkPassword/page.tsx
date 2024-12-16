@@ -1,6 +1,7 @@
 'use client';
 
 import PasswordKeypad from '@/components/ui/PasswordKeypad';
+import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Dispatch,
@@ -9,86 +10,45 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { getData, addData, fetchAllData } from '@/lib/api';
-import { History, User } from '@/lib/datatypes';
 
 export default function CheckPassword() {
+  const { data: session } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const userId = searchParams.get('userId');
-  let route = searchParams.get('route');
-  const redirectTo = searchParams.get('redirectTo');
-  const recipientNumber = searchParams.get('recipient');
-  const [userPassword, setUserPassword] = useState<string[] | null>(null);
-  const [historyLength, setHistoryLength] = useState<number>(0);
+  const userId = session?.user.id;
+  const accessToken = session?.user.accessToken;
+  const route = searchParams.get('route');
+  const [userPassword, setUserPassword] = useState<string>();
 
   const getUserPassword = useCallback(async () => {
     try {
-      if (userId) {
-        const userData = await getData<User>('user', userId);
-        setUserPassword(userData?.simple_password || null);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${userId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`, // 토큰 추가
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.code == 200 && data.status == 'OK') {
+        setUserPassword(data.data.userPassword);
+      } else {
+        console.log('비밀번호 조회 오류', data.code, data.status, data.message);
       }
     } catch (error) {
       console.error('Error fetching user password:', error);
     }
-  }, [userId]);
+  }, [userId, accessToken]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await getUserPassword();
-        const histories = await fetchAllData<History>('history');
-        if (histories) setHistoryLength(histories.length + 1);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, [userId, recipientNumber, getUserPassword]);
-
-  const handleTransactionAndHistory = async (route: string) => {
-    const queryParams = new URLSearchParams(route.split('?')[1]);
-    const queryCount = Array.from(queryParams.keys()).length;
-
-    if (queryCount === 8) {
-      const transactionId = String(Date.now());
-      const newTransaction = {
-        id: transactionId,
-        sender_account_id: queryParams.get('account_id') || '',
-        receiver_account_id: queryParams.get('recipient_account_id'),
-        amount: Number(queryParams.get('amount')) || 0,
-        sender_viewer: queryParams.get('sender_name') || '',
-        receiver_viewer: queryParams.get('recipient_name') || '',
-        transaction_date: new Date().toISOString(),
-      };
-
-      try {
-        await addData('transaction', newTransaction);
-
-        const newHistory = {
-          id: '' + historyLength,
-          user_id: userId || '',
-          history_name: `${queryParams.get('recipient_name') || '수신자'}님께 ${
-            queryParams.get('amount') || 0
-          }원 송금`,
-          activity_date: new Date().toISOString(),
-          history_elements: `${queryParams.get('account_id')}#${queryParams.get('recipient_account_id')}#${queryParams.get(
-            'amount'
-          )}`,
-        };
-
-        await addData('history', newHistory);
-      } catch (error) {
-        console.error('Error adding transaction or history:', error);
-      }
-    }
-  };
-
-  if (route) {
-    route = decodeURIComponent(route);
-  }
+    getUserPassword();
+  }, [getUserPassword]);
 
   const handleSubmit = (
     password: string[],
@@ -99,10 +59,9 @@ export default function CheckPassword() {
       return;
     }
 
-    if (userPassword?.join('') === '000000') {
+    if (userPassword === password.join('')) {
       alert('인증에 성공하였습니다');
-      handleTransactionAndHistory(route || '');
-      router.push(redirectTo || route || '/');
+      router.push(`${route}`);
     } else {
       setPassword([]);
       alert('비밀번호가 일치하지 않습니다.');

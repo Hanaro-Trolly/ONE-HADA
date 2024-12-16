@@ -1,16 +1,9 @@
-// app/admin/page.tsx
 'use client';
 
 import Login from '@/components/admin/Login';
 import Profile from '@/components/admin/Profile';
 import { useAdminSession } from '@/context/admin/SessionContext';
 import { Suspense } from 'react';
-
-// app/admin/page.tsx
-
-// app/admin/page.tsx
-
-// app/admin/page.tsx
 
 /**
  * 관리자 페이지의 메인 컴포넌트
