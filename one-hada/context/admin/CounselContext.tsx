@@ -17,6 +17,8 @@ interface ConsultationResponse {
 
 const CounselContext = createContext<CounselContextType | undefined>(undefined);
 
+// context/admin/CounselContext.tsx
+
 export function CounselProvider({ children }: { children: React.ReactNode }) {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [counselData, setCounselData] = useState<Counsel[]>([]);
@@ -25,13 +27,10 @@ export function CounselProvider({ children }: { children: React.ReactNode }) {
   const fetchCounselData = useCallback(
     async (userId: string) => {
       try {
-        console.log(userId);
         const response = await fetchData(`/api/admin/consultation/${userId}`, {
           method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          cache: true,
+          headers: { 'Content-Type': 'application/json' },
+          cache: false, // 캐시 비활성화
         });
 
         if (response?.data) {
@@ -45,7 +44,6 @@ export function CounselProvider({ children }: { children: React.ReactNode }) {
               user_id: response.data.userId,
             })
           );
-
           setCounselData(transformedData);
         }
       } catch (error) {
@@ -57,7 +55,7 @@ export function CounselProvider({ children }: { children: React.ReactNode }) {
 
   const refetchCounselData = useCallback(
     (userId: string) => {
-      fetchCounselData(userId);
+      return fetchCounselData(userId);
     },
     [fetchCounselData]
   );
