@@ -5,7 +5,7 @@ import LoginPrompt from '@/components/myInfo/LoginPrompt';
 import ProfileContent from '@/components/myInfo/ProfileContent';
 import WithdrawButton from '@/components/myInfo/WithdrawButton';
 import { useFetch } from '@/hooks/useFetch';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { User } from '@/lib/datatypes';
 
@@ -57,6 +57,16 @@ export default function MyInfoPage() {
     setIsEditing(false);
   };
 
+  const handleWithDraw = useCallback(async () => {
+    const response = await fetchData('/api/user', {
+      method: 'DELETE',
+      token: session?.accessToken,
+    });
+    if (response.code === 200) {
+      signOut();
+    }
+  }, [fetchData, session?.accessToken]);
+
   const handleEdit = useCallback(() => setIsEditing(true), []);
 
   useEffect(() => {
@@ -96,7 +106,7 @@ export default function MyInfoPage() {
                 handleCancel={handleCancel}
                 handleEdit={handleEdit}
               />
-              <WithdrawButton />
+              <WithdrawButton handleWithDraw={handleWithDraw} />
             </div>
           </div>
           <ProfileContent

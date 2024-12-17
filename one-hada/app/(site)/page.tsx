@@ -4,12 +4,12 @@ import AutoMessageCarousel from '@/components/home/AutoRecommendCarousel';
 import FavoriteCarousel from '@/components/home/FavoriteCarousel';
 import LinkButton from '@/components/home/LinkButton';
 import { Button } from '@/components/ui/button';
+import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import { FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { getDataByUserId } from '@/lib/api';
-import { Shortcut } from '@/lib/datatypes';
+import { useCallback, useEffect, useState } from 'react';
+import { Shortcut, User } from '@/lib/datatypes';
 
 const buttonStyles = {
   activity: 'bg-[#D2DAE0] hover:bg-[#AAB8C1]',
@@ -19,27 +19,46 @@ const buttonStyles = {
 
 export default function Home() {
   const [favoriteList, setFavoriteList] = useState<Shortcut[]>([]);
-  // const [user, setUser] = useState<string>();
   const { data: session } = useSession();
+  const { fetchData: fetchUser, error: userError } = useFetch<User>();
+  const { fetchData: fetchFavorite, error: favoriteError } =
+    useFetch<Shortcut>();
+  const [userName, setUserName] = useState<string>('');
+
+  const getUserName = useCallback(async () => {
+    const response = await fetchUser(`/api/users/51`, {
+      method: 'GET',
+      token: session?.accessToken,
+    });
+
+    if (response.code == 200) {
+      setUserName(response.data.userName);
+    }
+  }, [fetchUser, session?.accessToken]);
+
+  const getFavoriteList = useCallback(async () => {
+    const response = await fetchFavorite(`/api/shortcut/favorite`, {
+      method: 'GET',
+      token: session?.accessToken,
+    });
+    setFavoriteList(response.data.shortcuts);
+  }, [fetchFavorite, session?.accessToken]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (session?.user.id) {
-          const userId = session.user.id;
-          const shortcuts = await getDataByUserId<Shortcut>('shortcut', userId);
-          setFavoriteList(shortcuts.filter((item) => item.is_Favorite));
-          // setUser(session?.user?.id);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    if (session?.user.id) {
-      fetchData();
+    if (session?.accessToken) {
+      getUserName();
+      getFavoriteList();
     }
-  }, [session]);
+  }, [getFavoriteList, getUserName, session?.accessToken]);
+
+  useEffect(() => {
+    if (userError) {
+      console.error('userFetch 에러 발생:', userError);
+    }
+    if (favoriteError) {
+      console.error('favoriteFetch 에러 발생:', favoriteError);
+    }
+  }, [userError, favoriteError]);
 
   const handleCallClick = () => {
     if (typeof window !== 'undefined') {
@@ -57,8 +76,8 @@ export default function Home() {
         {session?.user ? (
           <div>
             <span className='text-sm pl-3'>
-              <span className='tossface-icon text-lg'>✨박시온 </span> 님을 위한
-              추천!{' '}
+              <span className='tossface-icon text-lg'>✨{userName} </span> 님을
+              위한 추천!{' '}
             </span>
             <div className='flex items-center gap-1 bg-gray-200 rounded-md mx-2 justify-center mb-2'>
               <AutoMessageCarousel />

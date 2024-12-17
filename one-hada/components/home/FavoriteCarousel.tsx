@@ -20,14 +20,14 @@ const FavoriteCarousel = ({ favoriteList }: { favoriteList: Shortcut[] }) => (
       <CarouselContent>
         {favoriteList.map((item, idx) => (
           <CarouselItem key={idx}>
-            <Link href={JSONtoUrl(JSON.parse(item.shortcut_elements))}>
+            <Link href={JSONtoUrl(JSON.parse(item.shortcutElements))}>
               <Button
-                id={'favoriteBtn-' + item.id}
+                id={'favoriteBtn-' + item.shortcutId}
                 variant='home'
                 className='h-16 w-full mx-2 font-medium rounded-x bg-white hover:bg-[#F0F0F0]'
               >
                 <label className='overflow-ellipsis overflow-hidden whitespace-nowrap'>
-                  {item.shortcut_name}
+                  {item.shortcutName}
                 </label>
               </Button>
             </Link>
