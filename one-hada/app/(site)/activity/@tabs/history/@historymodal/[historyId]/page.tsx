@@ -7,17 +7,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { History } from '@/lib/datatypes';
-
-export type HistoryElementType = {
-  type: string;
-  myAccount?: string;
-  receiverAccount?: string;
-  amount?: string;
-  period?: string;
-  transferType?: string;
-  searchWord?: string;
-};
+import { History, HistoryElementType } from '@/lib/datatypes';
 
 export default function HistoryModalPage({
   params: { historyId },
@@ -66,13 +56,13 @@ export default function HistoryModalPage({
     );
 
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/shortcut`, {
+      await fetchData(`/api/shortcut`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          shortcut_name: inputRef.current.value,
-          shortcut_elements: JSON.stringify(checkedElements),
-        }),
+        token: session?.accessToken,
+        body: {
+          shortcutName: inputRef.current.value,
+          shortcutElements: checkedElements,
+        },
       });
 
       router.back();
@@ -83,7 +73,9 @@ export default function HistoryModalPage({
 
   const filteredElements = useMemo(() => {
     return Object.entries(historyElements)
-      .filter(([key]) => key !== 'type' && key != 'myAccount')
+      .filter(
+        ([key, value]) => key !== 'type' && key != 'myAccount' && value !== ''
+      )
       .map(([key, value]) => ({
         key,
         value,
@@ -126,10 +118,8 @@ export default function HistoryModalPage({
         if (response.code === 200) {
           const data = response.data;
           setHistory(data);
-          const parsedElements = JSON.parse(data.historyElements);
-          parsedElementsRef.current = parsedElements;
-
-          setHistoryElements(parsedElements);
+          parsedElementsRef.current = data.historyElements;
+          setHistoryElements(data.historyElements);
         }
       } catch (error) {
         console.error(error);

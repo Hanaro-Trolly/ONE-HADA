@@ -24,7 +24,7 @@ type History = {
   historyId: string;
   userId: string;
   historyName: string;
-  historyElements: string;
+  historyElements: HistoryElementType[];
   activityDate: Date;
 };
 
@@ -32,7 +32,7 @@ type Shortcut = {
   shortcutId: string;
   userId: string;
   shortcutName: string;
-  shortcutElements: string;
+  shortcutElements: HistoryElementType[];
   isFavorite: boolean;
 };
 
@@ -65,6 +65,16 @@ type Transaction = {
   balance: number;
 };
 
+type HistoryElementType = {
+  type: string;
+  myAccount?: string;
+  receiverAccount?: string;
+  amount?: string;
+  period?: string;
+  transferType?: string;
+  searchWord?: string;
+};
+
 export type {
   User,
   Agent,
@@ -73,4 +83,5 @@ export type {
   Consultation,
   Account,
   Transaction,
+  HistoryElementType,
 };

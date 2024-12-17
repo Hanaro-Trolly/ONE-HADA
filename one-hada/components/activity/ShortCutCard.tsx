@@ -1,5 +1,6 @@
 import { StarFilledIcon } from '@radix-ui/react-icons';
 import JSONtoUrl from '@/lib/JSONtoUrl';
+import { HistoryElementType } from '@/lib/datatypes';
 import { Button } from '../ui/button';
 
 type ShortCutCardProps = {
@@ -9,7 +10,7 @@ type ShortCutCardProps = {
   isFavorite: boolean;
   onCheckboxChange?: (id: string) => void;
   favoriteToggle: (id: string) => void;
-  shortcutElements: string;
+  shortcutElements: HistoryElementType[];
 };
 
 export default function ShortCutCard({
@@ -23,7 +24,7 @@ export default function ShortCutCard({
 }: ShortCutCardProps) {
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (e.target === e.currentTarget) {
-      window.location.href = JSONtoUrl(JSON.parse(shortcutElements));
+      window.location.href = JSONtoUrl(shortcutElements);
     }
   };
   return (

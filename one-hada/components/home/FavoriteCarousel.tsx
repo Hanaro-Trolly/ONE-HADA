@@ -20,7 +20,7 @@ const FavoriteCarousel = ({ favoriteList }: { favoriteList: Shortcut[] }) => (
       <CarouselContent>
         {favoriteList.map((item, idx) => (
           <CarouselItem key={idx}>
-            <Link href={JSONtoUrl(JSON.parse(item.shortcutElements))}>
+            <Link href={JSONtoUrl(item.shortcutElements)}>
               <Button
                 id={'favoriteBtn-' + item.shortcutId}
                 variant='home'
