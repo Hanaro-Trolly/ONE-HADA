@@ -1,16 +1,16 @@
 type User = {
-  id: string;
-  user_name: string;
-  user_email: string | undefined;
-  user_gender: string;
-  user_phone: string;
-  user_address: string;
-  user_birth: string;
-  user_register: Date;
-  user_google: string | null;
-  user_kakao: string | null;
-  user_naver: string | null;
-  simple_password: string[] | null;
+  userId: string;
+  userName: string;
+  userEmail: string | undefined;
+  userGender: string;
+  userPhone: string;
+  userAddress: string;
+  userBirth: string;
+  userRegister: Date;
+  userGoogle: string | null;
+  userKakao: string | null;
+  userNaver: string | null;
+  simplePassword: string[] | null;
 };
 
 type Agent = {
@@ -21,28 +21,28 @@ type Agent = {
 };
 
 type History = {
-  id: string;
-  user_id: string;
-  history_name: string;
-  history_elements: string;
-  activity_date: Date;
+  historyId: string;
+  userId: string;
+  historyName: string;
+  historyElements: string;
+  activityDate: Date;
 };
 
 type Shortcut = {
-  id: string;
-  user_id: string;
-  shortcut_name: string;
-  shortcut_elements: string;
-  is_Favorite: boolean;
+  shortcutId: string;
+  userId: string;
+  shortcutName: string;
+  shortcutElements: string;
+  isFavorite: boolean;
 };
 
 type Consultation = {
-  id: string;
-  agent_id: string;
-  user_id: string;
-  consultation_title: string;
-  consultation_content: string;
-  consultation_date: Date;
+  consultationId: string;
+  agentId: string;
+  userId: string;
+  consultationTitle: string;
+  consultationContent: string;
+  consultationDate: Date;
 };
 
 type Account = {

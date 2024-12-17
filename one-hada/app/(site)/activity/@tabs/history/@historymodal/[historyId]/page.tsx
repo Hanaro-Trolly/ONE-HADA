@@ -3,11 +3,11 @@
 import CheckBoxCard from '@/components/activity/CheckBoxCard';
 import Modal from '@/components/layout/Modal';
 import { Button } from '@/components/ui/button';
+import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { addData, fetchAllData, getData } from '@/lib/api';
-import { History, Shortcut, Account } from '@/lib/datatypes';
+import { History } from '@/lib/datatypes';
 
 export type HistoryElementType = {
   type: string;
@@ -32,6 +32,7 @@ export default function HistoryModalPage({
     type: '',
   });
   const { data: session } = useSession();
+  const { fetchData } = useFetch();
 
   const parsedElementsRef = useRef<HistoryElementType | null>(null);
 
@@ -65,21 +66,15 @@ export default function HistoryModalPage({
     );
 
     try {
-      const existingShortcuts = await fetchAllData<Shortcut>('shortcut');
-      const newId =
-        existingShortcuts.length > 0
-          ? Math.max(...existingShortcuts.map((shortcut) => +shortcut.id)) + 1
-          : 1;
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/shortcut`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          shortcut_name: inputRef.current.value,
+          shortcut_elements: JSON.stringify(checkedElements),
+        }),
+      });
 
-      const new_shortcut: Shortcut = {
-        id: '' + newId,
-        user_id: session?.user.id || '',
-        shortcut_name: inputRef.current.value,
-        shortcut_elements: JSON.stringify(checkedElements),
-        is_Favorite: false,
-      };
-
-      await addData('shortcut', new_shortcut);
       router.back();
     } catch (error) {
       console.error('Shortcut 저장 중 오류 발생:', error);
@@ -124,46 +119,24 @@ export default function HistoryModalPage({
   useEffect(() => {
     const loadHistory = async () => {
       try {
-        const data = await getData<History>('history', historyId);
-        if (data) {
+        const response = await fetchData(`/api/history/${historyId}`, {
+          method: 'GET',
+          token: session?.accessToken,
+        });
+        if (response.code === 200) {
+          const data = response.data;
           setHistory(data);
-          const parsedElements = JSON.parse(data.history_elements);
+          const parsedElements = JSON.parse(data.historyElements);
           parsedElementsRef.current = parsedElements;
 
           setHistoryElements(parsedElements);
-          if (parsedElements.myAccount) {
-            const accountData = await getData<Account>(
-              'account',
-              parsedElements.myAccount
-            );
-            if (accountData) {
-              setHistoryElements((prev) => ({
-                ...prev,
-                myAccount: `${accountData.bank} ${accountData.accountNumber}`,
-              }));
-            }
-          }
-          if (parsedElements.receiverAccount) {
-            const receiverAccountData = await getData<Account>(
-              'account',
-              parsedElements.receiverAccount
-            );
-            if (receiverAccountData) {
-              setHistoryElements((prev) => ({
-                ...prev,
-                receiverAccount: `${receiverAccountData.bank} ${receiverAccountData.accountNumber}`,
-              }));
-            }
-          }
-        } else {
-          console.error('No history found for the user.');
         }
       } catch (error) {
         console.error(error);
       }
     };
     loadHistory();
-  }, [historyId]);
+  }, [fetchData, historyId, session?.accessToken]);
 
   useEffect(() => {
     const initialCheckedList = filteredElements.map(({ key }) => key);
@@ -178,8 +151,8 @@ export default function HistoryModalPage({
           <div className='flex justify-around pt-3'>
             <input
               ref={inputRef}
-              defaultValue={history?.history_name}
-              placeholder={history?.history_name}
+              defaultValue={history?.historyName}
+              placeholder={history?.historyName}
               className='flex justify-center border border-gray-300 rounded-md p-3 bg-white focus:outline-none focus:ring-0 transition duration-200 w-full'
             />
           </div>

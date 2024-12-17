@@ -1,36 +1,39 @@
 'use client';
 
 import HistoryCard from '@/components/activity/HistoryCard';
+import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import { getDataByUserId } from '@/lib/api';
+import { useCallback, useEffect, useState } from 'react';
 import { History } from '@/lib/datatypes';
 import { formatDate } from '@/lib/formatDate';
 
 const HistoryPage = () => {
   const [historyData, setHistoryData] = useState<History[]>([]);
   const { data: session } = useSession();
+  const { fetchData, error } = useFetch<History[]>();
+
+  const fetchHistory = useCallback(async () => {
+    const response = await fetchData('/api/history', {
+      method: 'GET',
+      token: session?.accessToken,
+    });
+
+    if (response.code === 200) {
+      setHistoryData(response.data.histories);
+    }
+  }, [fetchData, session?.accessToken]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (session?.user?.id) {
-          const data = await getDataByUserId<History>(
-            'history',
-            session.user.id
-          );
-          setHistoryData(data);
-        } else {
-          console.log('User session not found');
-        }
-      } catch (error) {
-        console.error('Error fetching history data:', error);
-      }
-    };
-    if (session) {
-      fetchData();
+    if (session?.accessToken) {
+      fetchHistory();
     }
-  }, [session]);
+  }, [session?.accessToken, fetchHistory]);
+
+  useEffect(() => {
+    if (error) {
+      console.error('History 데이터 fetch 에러:', error);
+    }
+  }, [error]);
 
   return (
     <div
@@ -39,11 +42,11 @@ const HistoryPage = () => {
     >
       <ul>
         {historyData.toReversed().map((item) => (
-          <li key={item.id}>
+          <li key={item.historyId}>
             <HistoryCard
-              id={item.id}
-              date={formatDate(item.activity_date)}
-              name={item.history_name}
+              id={item.historyId}
+              date={formatDate(item.activityDate)}
+              name={item.historyName}
             />
           </li>
         ))}

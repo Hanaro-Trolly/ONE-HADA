@@ -4,36 +4,18 @@ import EditButtons from '@/components/myInfo/EditButtons';
 import LoginPrompt from '@/components/myInfo/LoginPrompt';
 import ProfileContent from '@/components/myInfo/ProfileContent';
 import WithdrawButton from '@/components/myInfo/WithdrawButton';
+import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState, useRef } from 'react';
-import { getData, updateData } from '@/lib/api';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { User } from '@/lib/datatypes';
 
 export default function MyInfoPage() {
   const { data: session } = useSession();
   const [isEditing, setIsEditing] = useState(false);
   const [userProfile, setUserProfile] = useState<User | null>(null);
-
+  const { fetchData } = useFetch<User>();
   const phoneNumberRef = useRef<HTMLInputElement | null>(null);
   const addressRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useEffect(() => {
-    if (session?.user) {
-      const loadUserProfile = async () => {
-        try {
-          const data = await getData<User>('user', session.user.id);
-          setUserProfile(data);
-          if (data) {
-            phoneNumberRef.current!.value = data.user_phone;
-            addressRef.current!.value = data.user_address;
-          }
-        } catch (error) {
-          console.error('Failed to load user data:', error);
-        }
-      };
-      loadUserProfile();
-    }
-  }, [session]);
 
   const handleSave = async () => {
     const phoneNumber = phoneNumberRef.current?.value;
@@ -44,17 +26,21 @@ export default function MyInfoPage() {
       return;
     }
 
-    if (session?.user && userProfile) {
+    if (session?.accessToken) {
       try {
-        await updateData<User>('user', session.user.id, {
-          ...userProfile,
-          user_phone: phoneNumber,
-          user_address: address,
+        await fetchData('/api/user', {
+          method: 'PATCH',
+          token: session.accessToken,
+          body: {
+            ...userProfile,
+            userPhone: phoneNumber,
+            userAddress: address,
+          },
         });
         setUserProfile((prev) => ({
           ...prev!,
-          user_phone: phoneNumber,
-          user_address: address,
+          userPhone: phoneNumber,
+          userAddress: address,
         }));
         setIsEditing(false);
       } catch (error) {
@@ -65,13 +51,32 @@ export default function MyInfoPage() {
 
   const handleCancel = () => {
     if (userProfile) {
-      phoneNumberRef.current!.value = userProfile.user_phone;
-      addressRef.current!.value = userProfile.user_address;
+      phoneNumberRef.current!.value = userProfile.userPhone;
+      addressRef.current!.value = userProfile.userAddress;
     }
     setIsEditing(false);
   };
 
-  const handleEdit = () => setIsEditing(true);
+  const handleEdit = useCallback(() => setIsEditing(true), []);
+
+  useEffect(() => {
+    if (session?.accessToken) {
+      const loadUserProfile = async () => {
+        try {
+          const response = await fetchData('/api/user', {
+            method: 'GET',
+            token: session.accessToken,
+          });
+          if (response.code === 200) {
+            setUserProfile(response.data);
+          }
+        } catch (error) {
+          console.error('Failed to load user data:', error);
+        }
+      };
+      loadUserProfile();
+    }
+  }, [fetchData, session]);
 
   return (
     <div className='bg-[#DCEFEA] w-full overflow-y-scroll mt-3 shadow-sm'>
@@ -80,7 +85,7 @@ export default function MyInfoPage() {
           <div className='mx-6 px-5 flex flex-col justify-center'>
             <div className='flex items-center h-14 text-[#635666]'>
               <label className='text-xl text-[#698596] font-semibold'>
-                {userProfile?.user_name}
+                {userProfile?.userName}
               </label>{' '}
               님
             </div>

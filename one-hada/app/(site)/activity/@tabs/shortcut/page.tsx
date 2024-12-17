@@ -3,15 +3,17 @@
 import CancelDeleteBtns from '@/components/activity/CancleDeleteBtns';
 import EditButton from '@/components/activity/EditButton';
 import ShortCutCard from '@/components/activity/ShortCutCard';
+import '@/hooks/useFetch';
+import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import { useState, useEffect, useCallback } from 'react';
-import { deleteData, getDataByUserId, updateData } from '@/lib/api';
 import { Shortcut } from '@/lib/datatypes';
 
 const ShortCutPage = () => {
   const [isDelete, setIsDelete] = useState(false);
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
   const [shortCuts, setShortCuts] = useState<Shortcut[]>([]);
+  const { fetchData, error } = useFetch<Shortcut[]>();
   const { data: session } = useSession();
 
   const toggleDeleteMode = useCallback(() => setIsDelete((prev) => !prev), []);
@@ -20,27 +22,35 @@ const ShortCutPage = () => {
     setCheckedItems(new Set());
     toggleDeleteMode();
   };
-
-  const toggleFavorite = async (id: string) => {
-    setShortCuts((prev) =>
-      prev.map((item) => {
-        if (item.id === id) {
-          const updatedItem = { ...item, is_Favorite: !item.is_Favorite };
-          updateData('shortcut', id, updatedItem);
-          return updatedItem;
-        }
-        return item;
-      })
-    );
+  const toggleFavorite = async (shortcutId: string) => {
+    try {
+      const updatedShortcuts = await Promise.all(
+        shortCuts.map(async (item) => {
+          if (item.shortcutId === shortcutId) {
+            const updatedItem = { ...item, isFavorite: !item.isFavorite };
+            await fetchData(`/api/shortcut/${shortcutId}/favorite`, {
+              method: 'PATCH',
+              token: session?.accessToken,
+              body: JSON.stringify({ Favorite: !item.isFavorite }),
+            });
+            return updatedItem;
+          }
+          return item;
+        })
+      );
+      setShortCuts(updatedShortcuts);
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    }
   };
 
-  const handleCheckboxChange = useCallback((id: string) => {
+  const handleCheckboxChange = useCallback((shortcutId: string) => {
     setCheckedItems((prev) => {
       const newCheckedItems = new Set(prev);
-      if (newCheckedItems.has(id)) {
-        newCheckedItems.delete(id);
+      if (newCheckedItems.has(shortcutId)) {
+        newCheckedItems.delete(shortcutId);
       } else {
-        newCheckedItems.add(id);
+        newCheckedItems.add(shortcutId);
       }
       return newCheckedItems;
     });
@@ -53,41 +63,49 @@ const ShortCutPage = () => {
     }
     try {
       await Promise.all(
-        Array.from(checkedItems).map(async (id) => {
-          await deleteData('shortcut', id);
+        Array.from(checkedItems).map(async (shortcutId) => {
+          await fetchData(`/api/shortcut/${shortcutId}`, {
+            method: 'DELETE',
+            token: session?.accessToken,
+          });
         })
       );
-      setShortCuts((prev) => prev.filter((item) => !checkedItems.has(item.id)));
+      setShortCuts((prev) =>
+        prev.filter((item) => !checkedItems.has(item.shortcutId))
+      );
     } catch (error) {
-      console.error('Error deleting shortcuts:', error);
+      console.error('Error deleting shortcut:', error);
     } finally {
       setCheckedItems(new Set());
       toggleDeleteMode();
     }
-  }, [checkedItems, toggleDeleteMode]);
+  }, [checkedItems, fetchData, session?.accessToken, toggleDeleteMode]);
 
-  const favoriteList = shortCuts.filter(({ is_Favorite }) => is_Favorite);
-  const normalList = shortCuts.filter(({ is_Favorite }) => !is_Favorite);
+  const favoriteList = shortCuts.filter(({ isFavorite }) => isFavorite);
+  const normalList = shortCuts.filter(({ isFavorite }) => !isFavorite);
+
+  const fetchShortcuts = useCallback(async () => {
+    const response = await fetchData('/api/shortcut', {
+      method: 'GET',
+      token: session?.accessToken,
+    });
+
+    if (response.code === 200) {
+      setShortCuts(response.data.shortcuts);
+    }
+  }, [fetchData, session?.accessToken]);
 
   useEffect(() => {
-    const loadShortCuts = async () => {
-      if (session?.user.id) {
-        try {
-          const shortcuts = await getDataByUserId<Shortcut>(
-            'shortcut',
-            session.user.id
-          );
-          setShortCuts(shortcuts.reverse());
-        } catch (error) {
-          console.error('Error fetching shortcuts:', error);
-        }
-      }
-    };
-
-    if (session?.user.id) {
-      loadShortCuts();
+    if (session?.accessToken) {
+      fetchShortcuts();
     }
-  }, [session]);
+  }, [session?.accessToken, fetchShortcuts]);
+
+  useEffect(() => {
+    if (error) {
+      console.error('Shortcut 데이터 fetch 에러:', error);
+    }
+  }, [error]);
 
   return (
     <div>
@@ -110,15 +128,15 @@ const ShortCutPage = () => {
         style={{ maxHeight: 'calc(100vh - 150px)' }}
       >
         {[...favoriteList, ...normalList].map((item) => (
-          <li key={item.id} className='flex'>
+          <li key={item.shortcutId} className='flex'>
             <ShortCutCard
-              id={item.id}
-              name={item.shortcut_name}
+              id={item.shortcutId}
+              name={item.shortcutName}
               isEdit={isDelete}
-              isFavorite={item.is_Favorite}
+              isFavorite={item.isFavorite}
               onCheckboxChange={handleCheckboxChange}
               favoriteToggle={toggleFavorite}
-              shortcutElements={item.shortcut_elements}
+              shortcutElements={item.shortcutElements}
             />
           </li>
         ))}
