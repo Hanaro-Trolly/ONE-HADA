@@ -16,7 +16,8 @@ interface SearchResult {
   id: string;
   userName: string;
   userBirth: string;
-  lastConsultationDate?: string;
+  userPhone: string;
+  userGender: string;
 }
 
 export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
@@ -34,25 +35,18 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
     setIsSearching(true);
     try {
-      const koreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-      let encodedTerm = searchTerm;
+      const requestBody: { userName?: string; userBirth?: string } = {};
 
       if (searchType === 'birth') {
-        // 생년월일 형식을 YYYYMMDD로 변환
-        encodedTerm = formatBirthForDatabase(searchTerm);
-      } else if (koreanRegex.test(searchTerm)) {
-        encodedTerm = encodeURIComponent(searchTerm);
+        requestBody.userBirth = formatBirthForDatabase(searchTerm);
+      } else {
+        requestBody.userName = searchTerm;
       }
 
-      const params = new URLSearchParams();
-      params.append(
-        searchType === 'name' ? 'userName' : 'userBirth',
-        encodedTerm
-      );
-
-      const response = await fetchData(`/api/admin/user/search?${params}`, {
-        method: 'GET',
+      const response = await fetchData('/api/admin/user/search', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
       });
 
       if (response && response.data) {
@@ -118,12 +112,18 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               className='w-full p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors'
             >
               <div className='flex justify-between items-center'>
-                <span className='font-medium'>{result.userName}</span>
-                <span className='text-sm text-gray-500'>
-                  {result.userBirth
-                    ? formatDateLong(result.userBirth)
-                    : '날짜 없음'}
-                </span>
+                <div>
+                  <span className='font-medium mr-2'>{result.userName}</span>
+                  <span className='text-sm text-gray-500'>
+                    {result.userPhone}
+                  </span>
+                </div>
+                <div className='text-sm text-gray-500'>
+                  <span className='mr-2'>
+                    {formatDateLong(result.userBirth)}
+                  </span>
+                  <span>{result.userGender === 'male' ? '남' : '여'}</span>
+                </div>
               </div>
             </button>
           ))}
@@ -139,20 +139,16 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 }
 
 function formatBirthForDatabase(dateString: string): string {
-  // 입력된 날짜에서 숫자만 추출
   const numbers = dateString.replace(/[^0-9]/g, '');
 
-  // 8자리가 아닌 경우 원래 값 반환
   if (numbers.length !== 8) {
     return dateString;
   }
 
-  // YYYYMMDD 형식 검증
   const year = parseInt(numbers.substring(0, 4));
   const month = parseInt(numbers.substring(4, 6));
   const day = parseInt(numbers.substring(6, 8));
 
-  // 날짜 유효성 검사
   const date = new Date(year, month - 1, day);
   if (
     date.getFullYear() !== year ||
