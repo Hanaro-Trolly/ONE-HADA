@@ -31,7 +31,7 @@ const ShortCutPage = () => {
             await fetchData(`/api/shortcut/${shortcutId}/favorite`, {
               method: 'PATCH',
               token: session?.accessToken,
-              body: JSON.stringify({ Favorite: !item.isFavorite }),
+              body: JSON.stringify({ isFavorite: !item.isFavorite }),
             });
             return updatedItem;
           }
