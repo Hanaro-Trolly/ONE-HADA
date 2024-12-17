@@ -55,15 +55,13 @@ type Account = {
 };
 
 type Transaction = {
-  id: string;
-  senderAccountId: string;
-  receiverAccountId: string;
+  transactionId: string;
+  transactionType: string;
   amount: number;
-  senderViewer: string;
+  viewer: string;
   receiverViewer: string;
-  transactionDate: Date;
-  senderBalance: number;
-  receiverBalance: number;
+  transactionDate: string;
+  balance: number;
 };
 
 export type {

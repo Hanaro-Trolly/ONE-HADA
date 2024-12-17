@@ -1,7 +1,3 @@
-// 계좌 상세 정보를 표시하는 헤더 컴포넌트
-// - 은행 아이콘 표시
-// - 계좌명과 계좌번호 표시
-// - 계좌 정보 로딩 중 상태 처리
 import BankIcon from '@/components/molecules/BankIcon';
 import { Account } from '@/lib/datatypes';
 

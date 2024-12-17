@@ -7,6 +7,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Account, Transaction } from '@/lib/datatypes';
+import { formatDate } from '@/lib/formatDate';
 
 export default function AccountDetailPage({
   params,
@@ -39,26 +40,26 @@ export default function AccountDetailPage({
 
   const fetchTransactionData = useCallback(async () => {
     const now = new Date();
-    let endDate = now.toDateString();
+    let endDate = now.toISOString();
     let startDate = '';
 
     switch (searchParams.period) {
       case '1개월':
-        startDate = new Date(now.setMonth(now.getMonth() - 1)).toDateString();
+        startDate = new Date(now.setMonth(now.getMonth() - 1)).toISOString();
         break;
 
       case '3개월':
-        startDate = new Date(now.setMonth(now.getMonth() - 3)).toDateString();
+        startDate = new Date(now.setMonth(now.getMonth() - 3)).toISOString();
         break;
 
       case '6개월':
-        startDate = new Date(now.setMonth(now.getMonth() - 6)).toDateString();
+        startDate = new Date(now.setMonth(now.getMonth() - 6)).toISOString();
         break;
 
       case '1년':
         startDate = new Date(
           now.setFullYear(now.getFullYear() - 1)
-        ).toDateString();
+        ).toISOString();
         break;
 
       default:
@@ -83,6 +84,43 @@ export default function AccountDetailPage({
     } else '거래내역 조회 오류';
   }, []);
 
+  const createPeriodText = (searchParams: Record<string, string>) => {
+    return searchParams.startDate && searchParams.endDate
+      ? `${formatDate(searchParams.startDate)}부터 ${formatDate(searchParams.endDate)}`
+      : searchParams.period;
+  };
+
+  const saveHistory = async () => {
+    const periodText = createPeriodText(searchParams);
+    const response = await fetchData('/api/history', {
+      method: 'POST',
+      token: session?.accessToken,
+      body: {
+        historyName: `${periodText} 동안 ${searchParams.type} 내역 ${searchParams.searchKeyword} 조회하기`,
+        historyElements: {
+          type: 'inquiry',
+          myAccount: accountId,
+          period: periodText,
+          transferType: searchParams.type,
+          searchWord: searchParams.searchKeyword,
+        },
+      },
+    });
+
+    if (response.code == 200) {
+      console.log('활동내역 저장 성공');
+    } else {
+      console.error('활동내역 저장 실패');
+    }
+  };
+
+  const handleSearch = async (newSearchParams: Record<string, string>) => {
+    if (!account) return;
+    setSearchParams(newSearchParams);
+    saveHistory();
+    fetchTransactionData();
+  };
+
   useEffect(() => {
     fetchAccountData();
     fetchTransactionData();
@@ -94,53 +132,13 @@ export default function AccountDetailPage({
     }
   }, [error]);
 
-  // const createHistoryName = (searchParams: Record<string, string>) => {
-  //   const periodText =
-  //     searchParams.startDate && searchParams.endDate
-  //       ? `${searchParams.startDate}부터 ${searchParams.endDate}`
-  //       : searchParams.period;
-  //   return `${periodText} 동안 ${searchParams.type} 내역 ${searchParams.searchKeyword} 조회하기`;
-  // };
-
-  const handleSearch = (newSearchParams: Record<string, string>) => {
-    setSearchParams(newSearchParams);
-  };
-
-  // const handleSearch = async (searchParams: Record<string, string>) => {
-  //   if (!account) return;
-
-  // const response = await fetchData('/api/history', {
-  //   method: 'POST',
-  //   token: session?.accessToken,
-  //   body: {
-
-  //   }
-  // })
-
-  // const historyData: History = {
-  //   user_id: account.userId,
-  //   history_name: createHistoryName(searchParams),
-  //   history_elements: createHistoryParams(searchParams),
-  //   activity_date: new Date(),
-  // };
-
-  // try {
-  //   await addData<History>('history', historyData);
-  //   const queryString = new URLSearchParams(searchParams).toString();
-  // } catch (error) {
-  //   console.error('조회 기록 저장 오류:', error);
-  // }
-  // };
-
   // 날짜별 거래 내역 그룹화
   const groupedTransactions = useMemo(() => {
     if (!account || !transactions) return {};
 
     return transactions.reduce(
       (groups: Record<string, Transaction[]>, transaction) => {
-        const date = new Date(transaction.transactionDate)
-          .toISOString()
-          .split('T')[0];
+        const date = transaction.transactionDate.split('T')[0];
         if (!groups[date]) {
           groups[date] = [];
         }
@@ -156,10 +154,7 @@ export default function AccountDetailPage({
   return (
     <div className='w-full min-h-screen flex flex-col'>
       <AccountHeader account={account} />
-      <TransactionList
-        groupedTransactions={groupedTransactions}
-        accountId={accountId}
-      />
+      <TransactionList groupedTransactions={groupedTransactions} />
       <SearchForm onSearch={handleSearch} />
     </div>
   );

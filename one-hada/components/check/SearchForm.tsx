@@ -25,9 +25,12 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
   });
 
   const handleFormChange = (field: string, value: string) => {
+    const date = new Date(value);
+    const dateTimeString = date.toISOString();
+
     setFormState((prev) => ({
       ...prev,
-      [field]: value,
+      [field]: dateTimeString,
       ...(field === 'period' ? { startDate: '', endDate: '' } : {}),
       ...(field === 'startDate' || field === 'endDate'
         ? { period: '전체' }
