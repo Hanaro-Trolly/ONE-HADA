@@ -33,7 +33,7 @@ export default function AdminCard({
       <div className='w-full h-20 flex justify-between border-b p-2 px-5 bg-white'>
         <div className='ml-2 flex flex-col gap-1 justify-center'>
           <time className='text-[#839AA8] text-xs'>
-            {formatDateWithTime(date)}
+            {date ? formatDateWithTime(date) : '날짜 없음'}
           </time>
           <h3
             className={cn(

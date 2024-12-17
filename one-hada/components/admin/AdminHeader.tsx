@@ -7,6 +7,7 @@ import { useWebSocket } from '@/hooks/useWebsocket';
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Title from './AdminTitle';
+import SearchModal from './SearchModal';
 
 interface ConsultationSummary {
   userId: number;
@@ -30,6 +31,7 @@ export default function AdminHeader() {
   const { userId: currentUserId } = useParams<{ userId: string }>();
   const { formatDateLong } = useFormattedDate();
   const [mounted, setMounted] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -94,13 +96,22 @@ export default function AdminHeader() {
       <div className='max-w-4xl mx-auto p-4'>
         <div className='flex justify-between items-center mb-8'>
           <Title text='목록' />
-          <button
-            onClick={handleLogout}
-            className='inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main-green transition-all duration-200'
-          >
-            로그아웃
-          </button>
+          <div className='flex gap-4'>
+            <button
+              onClick={() => setIsSearchModalOpen(true)}
+              className='inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-main-green rounded-md shadow-sm hover:bg-main-green/80 transition-all duration-200'
+            >
+              고객 검색
+            </button>
+            <button
+              onClick={handleLogout}
+              className='inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main-green transition-all duration-200'
+            >
+              로그아웃
+            </button>
+          </div>
         </div>
+
         <div className='space-y-4'>
           {consultationList.map((consultation: ConsultationSummary) => {
             const isSelected = currentUserId === consultation.userId.toString();
@@ -153,6 +164,11 @@ export default function AdminHeader() {
           )}
         </div>
       </div>
+
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        onClose={() => setIsSearchModalOpen(false)}
+      />
     </div>
   );
 }
