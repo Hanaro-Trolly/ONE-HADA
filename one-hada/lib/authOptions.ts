@@ -22,6 +22,7 @@ declare module 'next-auth' {
 }
 
 export const authOptions: NextAuthOptions = {
+  session: { strategy: 'jwt' },
   providers: [
     GoogleProvider({
       clientId: process.env.AUTH_GOOGLE_ID!,
@@ -41,7 +42,8 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account }) {
       const provider = account?.provider;
-      const email = user.email;
+      const email = user.id;
+
       let isFirstLogin = false;
 
       try {
@@ -60,8 +62,6 @@ export const authOptions: NextAuthOptions = {
         if (!response.ok) throw new Error('Failed to generate session ID');
 
         const data = await response.json();
-        console.log('data', data);
-        console.log(data.status);
 
         if (data.status === 'NEW') {
           isFirstLogin = true;
@@ -81,6 +81,7 @@ export const authOptions: NextAuthOptions = {
         token.sub = user.id;
         token.isNewUser = user.isNewUser;
         token.provider = user.provider;
+        token.email = user.id;
       }
       if (account) {
         token.accessToken = account.access_token;
@@ -103,6 +104,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.sub as string;
         session.user.isNewUser = token.isNewUser as boolean;
         session.user.provider = token.provider as string;
+        session.user.email = token.email as string;
       }
       return session;
     },

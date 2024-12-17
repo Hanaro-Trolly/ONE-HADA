@@ -17,9 +17,8 @@ export default function Save() {
   const { data: session } = useSession();
   const { fetchData, error } = useFetch<RedisData>();
   const router = useRouter();
-  // const userId = session?.user.id;
   const [isSaveTransfer, setIsSaveTransfer] = useState<boolean>(false);
-  // const [isSaveHistory, setIsSaveHistory] = useState<boolean>(false);
+  const [isSaveHistory, setIsSaveHistory] = useState<boolean>(false);
 
   const saveTransfer = useCallback(
     async (transferData: RedisData) => {
@@ -60,39 +59,35 @@ export default function Save() {
     [session?.accessToken, fetchData]
   );
 
-  // const saveHistory = useCallback(
-  //   async (historyData: RedisData) => {
-  //     const { senderAccountId, receiverAccountId, receiverName, amount } =
-  //       historyData;
+  const saveHistory = useCallback(
+    async (historyData: RedisData) => {
+      const { senderAccountId, receiverAccountId, receiverName, amount } =
+        historyData;
 
-  //     if (senderAccountId && receiverAccountId && receiverName && amount) {
-  //       const response = await fetchData('api/history', {
-  //         method: 'POST',
-  //         token: session?.accessToken,
-  //         body: {
-  //           userId: userId,
-  //           historyName: `${receiverName}에게 ${amount} 이체`,
-  //           historyElements: {
-  //             type: 'transfer',
-  //             myAccount: senderAccountId,
-  //             receiverAccount: receiverAccountId,
-  //             amount: amount,
-  //             transferType: 'instant',
-  //           },
-  //           historyUrl: '/',
-  //           activity_date: '2024-12-03T11:28:14', //필요없을거 같은데??
-  //         },
-  //       });
+      if (senderAccountId && receiverAccountId && receiverName && amount) {
+        const response = await fetchData('api/history', {
+          method: 'POST',
+          token: session?.accessToken,
+          body: {
+            historyName: `${receiverName}에게 ${amount} 이체`,
+            historyElements: {
+              type: 'transfer',
+              myAccount: senderAccountId,
+              receiverAccount: receiverAccountId,
+              amount: amount,
+            },
+          },
+        });
 
-  //       if (response.code == 200) {
-  //         setIsSaveHistory(true);
-  //       }
-  //     } else {
-  //       console.error('히스토리 저장 중 오류 발생');
-  //     }
-  //   },
-  //   [userId, session?.accessToken, fetchData]
-  // );
+        if (response.code == 200) {
+          setIsSaveHistory(true);
+        }
+      } else {
+        console.error('히스토리 저장 중 오류 발생');
+      }
+    },
+    [session?.accessToken, fetchData]
+  );
 
   const handleTransfer = useCallback(async () => {
     const response = await fetchData('/api/redis/get', {
@@ -108,7 +103,7 @@ export default function Save() {
 
     if (response.code === 200) {
       await saveTransfer(response.data);
-      // await saveHistory(response.data);
+      await saveHistory(response.data);
       //활동내역 저장 api
     }
   }, [fetchData, saveTransfer]);
@@ -116,7 +111,7 @@ export default function Save() {
   useEffect(() => {
     handleTransfer();
 
-    if (isSaveTransfer) {
+    if (isSaveTransfer && isSaveHistory) {
       router.push('/transfer/checking');
     }
   }, [handleTransfer, isSaveTransfer, router]);

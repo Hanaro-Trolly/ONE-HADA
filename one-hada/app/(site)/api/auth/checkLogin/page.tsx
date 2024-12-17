@@ -35,6 +35,8 @@ export default function CheckLogin() {
             accessToken: data.data.accessToken,
             refreshToken: data.data.refreshToken,
           });
+
+          router.push('/');
         } catch (error) {
           console.error('Error updating user data:', error);
         }
@@ -51,7 +53,6 @@ export default function CheckLogin() {
       router.push('/api/auth/register');
     } else {
       login();
-      router.push('/');
     }
   }, [session?.user?.isNewUser, login, router]);
 

@@ -74,6 +74,7 @@ export default function Register() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = createFormData();
+    console.log('session', session);
     //[todo] //기존에 있는 유저가 다른 소셜 로그인으로 로그인(계정과 연동)
     try {
       const response = await fetch(

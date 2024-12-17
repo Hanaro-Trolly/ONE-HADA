@@ -16,6 +16,7 @@ export default function SetPassword() {
     }
 
     try {
+      console.log(session);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/password`,
         {

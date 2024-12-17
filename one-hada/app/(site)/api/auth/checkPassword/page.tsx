@@ -26,7 +26,7 @@ export default function CheckPassword() {
       method: 'POST',
       token: session?.accessToken,
       body: {
-        simplePassword: password,
+        simplePassword: password.join('').toString(),
       },
     });
 

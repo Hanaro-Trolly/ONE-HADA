@@ -3,12 +3,12 @@
 import FavoriteCarousel from '@/components/home/FavoriteCarousel';
 import LinkButton from '@/components/home/LinkButton';
 import { Button } from '@/components/ui/button';
+import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import { FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { getDataByUserId } from '@/lib/api';
-import { Shortcut } from '@/lib/datatypes';
+import { Shortcut, User } from '@/lib/datatypes';
 
 const buttonStyles = {
   activity: 'bg-[#D2DAE0] hover:bg-[#AAB8C1]',
@@ -18,27 +18,38 @@ const buttonStyles = {
 
 export default function Home() {
   const [favoriteList, setFavoriteList] = useState<Shortcut[]>([]);
-  // const [user, setUser] = useState<string>();
   const { data: session } = useSession();
+  const { fetchData, error } = useFetch<User>();
+  const [userName, setUserName] = useState<string>('');
+
+  const getUserName = async () => {
+    console.log('11', session?.user.id);
+    const response = await fetchData(`/api/users/${session?.user.id}`, {
+      method: 'GET',
+      token: session?.accessToken,
+    });
+
+    if (response.code == 200) {
+      setUserName(response.data.userName);
+    }
+  };
+
+  const getFavoriteList = () => {
+    setFavoriteList([]);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (session?.user.id) {
-          const userId = session.user.id;
-          const shortcuts = await getDataByUserId<Shortcut>('shortcut', userId);
-          setFavoriteList(shortcuts.filter((item) => item.is_Favorite));
-          // setUser(session?.user?.id);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     if (session?.user.id) {
-      fetchData();
+      getUserName();
+      getFavoriteList();
     }
-  }, [session]);
+  }, [session?.user.id]);
+
+  useEffect(() => {
+    if (error) {
+      console.error('Fetch 에러 발생:', error);
+    }
+  }, [error]);
 
   const handleCallClick = () => {
     if (typeof window !== 'undefined') {
@@ -56,7 +67,7 @@ export default function Home() {
         {session?.user ? (
           <div className='text-[#635666]'>
             <label className='text-xl font-medium text-[#698596]'>
-              {session.user.id}
+              {userName}
             </label>{' '}
             님, <div>안녕하세요.</div>
           </div>

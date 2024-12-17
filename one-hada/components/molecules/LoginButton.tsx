@@ -1,22 +1,34 @@
 'use client';
 
+import { useFetch } from '@/hooks/useFetch';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 import { Button } from '../ui/button';
 
 export default function LoginButton() {
   const { data: session } = useSession();
+  const { fetchData, error } = useFetch();
 
   const handleSignIn = () => {
     signIn();
   };
 
-  const handleSignOut = () => {
-    signOut();
+  const handleSignOut = async () => {
+    const response = await fetchData(`/api/cert/logout`, {
+      method: 'POST',
+      token: session?.accessToken,
+    });
+
+    if (response.code == 200) {
+      signOut();
+    } else '로그아웃 실패';
   };
 
-  // useEffect(() => {
-  //   console.log(session);
-  // }, [session]);
+  useEffect(() => {
+    if (error) {
+      console.error('Fetch 에러 발생:', error);
+    }
+  }, [error]);
 
   return session ? (
     <div className='flex items-center space-x-4'>

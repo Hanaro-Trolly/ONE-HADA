@@ -10,7 +10,6 @@ type User = {
   user_google: string | null;
   user_kakao: string | null;
   user_naver: string | null;
-  simple_password: string[] | null;
 };
 
 type Agent = {
