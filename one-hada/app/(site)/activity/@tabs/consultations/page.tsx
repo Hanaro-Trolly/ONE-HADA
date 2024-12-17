@@ -1,30 +1,39 @@
 'use client';
 
 import ConsultationCard from '@/components/activity/ConsultationCard';
+import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import { getDataByUserId } from '@/lib/api';
+import { useCallback, useEffect, useState } from 'react';
 import { Consultation } from '@/lib/datatypes';
 import { formatDate } from '@/lib/formatDate';
 
 const ConsultationsPage = () => {
   const [consultationData, setConsultationData] = useState<Consultation[]>([]);
+  const { fetchData, error } = useFetch<Consultation[]>();
   const { data: session } = useSession();
 
-  const fetchConsultations = async (userId: string) => {
-    try {
-      const data = await getDataByUserId<Consultation>('consultation', userId);
-      setConsultationData(data.reverse());
-    } catch (error) {
-      console.error('Error fetching consultations:', error);
+  const fetchConsultations = useCallback(async () => {
+    const response = await fetchData('/api/consultations', {
+      method: 'GET',
+      token: session?.accessToken,
+    });
+
+    if (response.code === 200) {
+      setConsultationData(response.data.consultations);
     }
-  };
+  }, [fetchData, session?.accessToken]);
 
   useEffect(() => {
-    if (session?.user?.id) {
-      fetchConsultations(session.user.id);
+    if (session?.accessToken) {
+      fetchConsultations();
     }
-  }, [session?.user?.id]);
+  }, [fetchConsultations, session?.accessToken]);
+
+  useEffect(() => {
+    if (error) {
+      console.error('Consultation 데이터 fetch 에러:', error);
+    }
+  }, [error]);
 
   return (
     <>
@@ -39,16 +48,16 @@ const ConsultationsPage = () => {
       >
         {consultationData.map(
           ({
-            id,
-            consultation_title,
-            consultation_date,
-            consultation_content,
+            consultationId,
+            consultationTitle,
+            consultationDate,
+            consultationContent,
           }) => (
-            <li key={id}>
+            <li key={consultationId}>
               <ConsultationCard
-                title={consultation_title}
-                date={formatDate(consultation_date)}
-                content={consultation_content}
+                title={consultationTitle}
+                date={formatDate(consultationDate)}
+                content={consultationContent}
               />
             </li>
           )

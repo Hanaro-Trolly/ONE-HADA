@@ -12,7 +12,7 @@ const LoginStatus = ({ userProfile }: { userProfile: User | null }) => {
         <div className='mx-6 px-5 h-14 w-full flex justify-between items-center'>
           <div className='text-[#635666]'>
             <label className='text-xl text-[#698596] font-semibold'>
-              {userProfile?.user_name}
+              {userProfile?.userName}
             </label>
             님
           </div>

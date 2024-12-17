@@ -5,31 +5,37 @@ import LoginStatus from '@/components/menu/LoginStatus';
 import MenuCard from '@/components/menu/MenuCard';
 import MenuSection from '@/components/menu/MenuSection';
 import { Button } from '@/components/ui/button';
+import { useFetch } from '@/hooks/useFetch';
 import useScrollToTopButton from '@/hooks/useScrollToTopButton ';
 import { ChevronUp } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { getData } from '@/lib/api';
 import { User } from '@/lib/datatypes';
 import { buttons, menuData } from '@/lib/menuData';
 
 export default function MenuPage() {
   const { data: session } = useSession();
   const [userProfile, setUserProfile] = useState<User | null>(null);
+  const { fetchData } = useFetch<User>();
 
   useEffect(() => {
     const loadUser = async () => {
-      if (session?.user) {
+      if (session?.accessToken) {
         try {
-          const data = await getData<User>('user', session.user.id);
-          setUserProfile(data || null);
+          const response = await fetchData('/api/user', {
+            method: 'GET',
+            token: session.accessToken,
+          });
+          if (response.code === 200) {
+            setUserProfile(response.data);
+          }
         } catch (error) {
           console.error('유저 정보를 불러오는데 실패했습니다.', error);
         }
       }
     };
     loadUser();
-  }, [session]);
+  }, [fetchData, session?.accessToken]);
 
   const { isVisible, scrollToTop, scrollContainerRef } = useScrollToTopButton();
 

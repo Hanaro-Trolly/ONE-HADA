@@ -18,9 +18,7 @@ const ProfileContent = ({
     <div className='flex flex-col justify-between bg-white shadow-md rounded-xl mx-6 p-4 px-5'>
       <div>
         <label className='font-medium'>생년월일</label>
-        <p className='w-full border p-2 rounded-lg'>
-          {userProfile?.user_birth}
-        </p>
+        <p className='w-full border p-2 rounded-lg'>{userProfile?.userBirth}</p>
       </div>
 
       <div className='mt-4'>
@@ -29,12 +27,12 @@ const ProfileContent = ({
           <input
             ref={phoneNumberRef}
             type='tel'
-            defaultValue={userProfile?.user_phone || ''}
+            defaultValue={userProfile?.userPhone || ''}
             className='w-full border p-2 rounded-lg focus:outline-[#61B89F]'
           />
         ) : (
           <p className='w-full border p-2 rounded-lg'>
-            {userProfile?.user_phone}
+            {userProfile?.userPhone}
           </p>
         )}
       </div>
@@ -45,12 +43,12 @@ const ProfileContent = ({
           {isEditing ? (
             <textarea
               ref={addressRef}
-              defaultValue={userProfile?.user_address || ''}
+              defaultValue={userProfile?.userAddress || ''}
               className='w-full h-full border p-2 rounded-lg resize-none focus:outline-[#61B89F]'
             />
           ) : (
             <p className='w-full h-full border p-2 rounded-lg'>
-              {userProfile?.user_address}
+              {userProfile?.userAddress}
             </p>
           )}
         </div>
