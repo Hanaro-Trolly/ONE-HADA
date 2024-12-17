@@ -27,7 +27,7 @@ export default function Home() {
   const [userName, setUserName] = useState<string>('');
 
   const getUserName = useCallback(async () => {
-    const response = await fetchUser(`/api/users/51`, {
+    const response = await fetchUser(`/api/user`, {
       method: 'GET',
       token: session?.accessToken,
     });
