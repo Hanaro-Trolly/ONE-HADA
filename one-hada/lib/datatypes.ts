@@ -59,9 +59,9 @@ type Transaction = {
   transactionId: string;
   transactionType: string;
   amount: number;
-  viewer: string;
+  view: string;
   receiverViewer: string;
-  transactionDate: string;
+  transactionDateTime: string;
   balance: number;
 };
 

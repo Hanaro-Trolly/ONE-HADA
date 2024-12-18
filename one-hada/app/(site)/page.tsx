@@ -2,29 +2,26 @@
 
 import AutoMessageCarousel from '@/components/home/AutoRecommendCarousel';
 import FavoriteCarousel from '@/components/home/FavoriteCarousel';
-import LinkButton from '@/components/home/LinkButton';
 import { Button } from '@/components/ui/button';
 import { useFetch } from '@/hooks/useFetch';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Shortcut, User } from '@/lib/datatypes';
 
-const buttonStyles = {
-  activity: 'bg-[#D2DAE0] hover:bg-[#AAB8C1]',
-  inquiry: 'bg-[#D3EBCD] hover:bg-[#B8E3C7]',
-  transfer: 'bg-[#AEDBCE] hover:bg-[#8CCFC2]',
-};
-
 export default function Home() {
-  const [favoriteList, setFavoriteList] = useState<Shortcut[]>([]);
   const { data: session } = useSession();
+  const router = useRouter();
   const [userName, setUserName] = useState<string>('');
+  const [favoriteList, setFavoriteList] = useState<Shortcut[]>([]);
 
   const { fetchData: fetchUser, error: userError } = useFetch<User>();
   const { fetchData: fetchFavorite, error: favoriteError } =
     useFetch<Shortcut>();
+
+  const buttonClassName = 'w-full h-full text-[#635666] text-lg flex flex-col';
 
   useEffect(() => {
     if (!session?.accessToken) return;
@@ -61,6 +58,14 @@ export default function Home() {
     }
   }, [userError, favoriteError]);
 
+  const routerPage = (url: string) => {
+    if (session?.isLogin) {
+      router.push(url);
+    } else {
+      signIn();
+    }
+  };
+
   const handleCallClick = () => {
     if (typeof window !== 'undefined') {
       sessionStorage.setItem('consultationState', 'true');
@@ -73,7 +78,7 @@ export default function Home() {
       style={{ height: 'calc(100vh - 56px)' }}
       className='flex flex-col pt-2 px-6'
     >
-      <div className='w-full h-[18%] pt-3'>
+      <div className='w-full h-[18%] pt-3 '>
         {session?.isLogin ? (
           <div>
             <span className='text-sm pl-3'>
@@ -85,38 +90,40 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div>로그인 후 이용해주세요</div>
+          <div className='h-full flex items-center justify-center'>
+            <div className='text-center'>로그인 후 이용해주세요</div>
+          </div>
         )}
       </div>
 
       <div className='h-1/2 mb-4 flex flex-col'>
         <div className='w-full h-1/2 p-2'>
-          <LinkButton
+          <Button
             id='activityBtn'
-            href={session?.isLogin ? '/activity' : '/signin'}
-            text='내 활동 보기'
-            icon='📥'
-            style={buttonStyles.activity}
-          />
+            onClick={() => routerPage('/history')}
+            className={`bg-[#D2DAE0] hover:bg-[#AAB8C1] ${buttonClassName}`}
+          >
+            <p className='tossface-icon text-4xl'>📥</p>내 활동 보기
+          </Button>
         </div>
         <div className='flex h-1/2'>
           <div className='w-1/2 p-2'>
-            <LinkButton
+            <Button
               id='checkBtn'
-              href={session?.isLogin ? '/check' : '/signin'}
-              text='조회하기'
-              icon='💰'
-              style={buttonStyles.inquiry}
-            />
+              onClick={() => routerPage('/check')}
+              className={`bg-[#D3EBCD] hover:bg-[#B8E3C7] ${buttonClassName}`}
+            >
+              <p className='tossface-icon text-4xl'>💰</p>조회하기
+            </Button>
           </div>
           <div className='w-1/2 p-2'>
-            <LinkButton
+            <Button
               id='transferBtn'
-              href={session?.isLogin ? '/transfer/my' : '/signin'}
-              text='이체하기'
-              icon='💸'
-              style={buttonStyles.transfer}
-            />
+              onClick={() => routerPage('/transfer/my')}
+              className={`bg-[#AEDBCE] hover:bg-[#8CCFC2] ${buttonClassName}`}
+            >
+              <p className='tossface-icon text-4xl'>💸</p>이체하기
+            </Button>
           </div>
         </div>
       </div>

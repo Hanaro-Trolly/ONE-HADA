@@ -75,7 +75,7 @@ export default function AccountDetailPage({
         startDate: startDate,
         endDate: endDate,
         transactionType: searchParams.type,
-        keword: searchParams.searchKeyword,
+        keyword: searchParams.searchKeyword,
       },
     });
 
@@ -124,9 +124,11 @@ export default function AccountDetailPage({
   };
 
   useEffect(() => {
-    fetchAccountData();
-    fetchTransactionData();
-  }, [fetchAccountData, fetchTransactionData]);
+    if (session?.accessToken) {
+      fetchAccountData();
+      fetchTransactionData();
+    }
+  }, [session?.accessToken]);
 
   useEffect(() => {
     if (error) {
@@ -136,28 +138,36 @@ export default function AccountDetailPage({
 
   // 날짜별 거래 내역 그룹화
   const groupedTransactions = useMemo(() => {
-    if (!account || !transactions) return {};
+    if (!transactions || transactions.length === 0) {
+      return {};
+    }
 
-    return transactions.reduce(
-      (groups: Record<string, Transaction[]>, transaction) => {
-        const date = transaction.transactionDate.split('T')[0];
-        if (!groups[date]) {
-          groups[date] = [];
-        }
-        groups[date].push(transaction);
-        return groups;
-      },
-      {}
-    );
-  }, [transactions, account]);
+    const groups: Record<string, Transaction[]> = {};
+
+    transactions.forEach((transaction) => {
+      if (!transaction?.transactionDateTime) {
+        return;
+      }
+
+      const date = transaction.transactionDateTime.split('T')[0];
+
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(transaction);
+    });
+
+    console.log('Grouped result:', groups);
+    return groups;
+  }, [transactions]);
 
   if (!account) return <div>계좌 조회 중...</div>;
 
   return (
     <div className='w-full min-h-screen flex flex-col'>
       <AccountHeader account={account} />
-      <TransactionList groupedTransactions={groupedTransactions} />
       <SearchForm onSearch={handleSearch} />
+      <TransactionList groupedTransactions={groupedTransactions} />
     </div>
   );
 }

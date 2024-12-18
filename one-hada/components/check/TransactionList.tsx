@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Transaction } from '@/lib/datatypes';
 import TransactionGroup from './TransactionGroup';
 
@@ -8,6 +9,10 @@ interface TransactionListProps {
 export default function TransactionList({
   groupedTransactions,
 }: TransactionListProps) {
+  useEffect(() => {
+    console.log(groupedTransactions);
+  }, [groupedTransactions]);
+
   return (
     <>
       {/* 거래 내역 리스트 */}

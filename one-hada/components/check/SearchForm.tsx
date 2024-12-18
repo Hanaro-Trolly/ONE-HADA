@@ -9,7 +9,7 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface SearchFormProps {
   onSearch: (params: Record<string, string>) => void;
@@ -26,6 +26,9 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
     endDate: '',
     searchKeyword: '',
   });
+
+  const startDateRef = useRef<HTMLInputElement>(null);
+  const endDateRef = useRef<HTMLInputElement>(null);
 
   const handleFormChange = (field: string, value: string) => {
     // 날짜 필드가 아닌 경우 또는 period인 경우 직접 값 설정
@@ -73,7 +76,12 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
 
   const formatDateForInput = (isoString: string) => {
     if (!isoString) return '';
-    return isoString.split('T')[0];
+    const date = new Date(isoString);
+    return date.toISOString().split('T')[0];
+  };
+
+  const handleDateClick = (inputRef: React.RefObject<HTMLInputElement>) => {
+    inputRef.current?.showPicker();
   };
 
   return (
@@ -112,19 +120,25 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
               <div className='flex justify-between items-center mt-2'>
                 <input
                   type='date'
+                  ref={startDateRef}
+                  name='startDate'
                   value={formatDateForInput(formState.startDate)}
                   onChange={(e) =>
                     handleFormChange('startDate', e.target.value)
                   }
-                  className='w-36 border text-sm rounded-md px-4 py-2 focus:ring-2 focus:ring-inset focus:ring-main-green focus:outline-none'
+                  onClick={() => handleDateClick(startDateRef)}
+                  className='w-36 border text-sm rounded-md px-4 py-2 focus:ring-2 focus:ring-inset focus:ring-main-green focus:outline-none cursor-pointer'
                   placeholder='시작 날짜'
                 />
                 <span>~</span>
                 <input
                   type='date'
+                  ref={endDateRef}
+                  name='endDate'
                   value={formatDateForInput(formState.endDate)}
                   onChange={(e) => handleFormChange('endDate', e.target.value)}
-                  className='w-36 border text-sm rounded-md px-4 py-2 focus:ring-2 focus:ring-inset focus:ring-main-green focus:outline-none'
+                  onClick={() => handleDateClick(endDateRef)}
+                  className='w-36 border text-sm rounded-md px-4 py-2 focus:ring-2 focus:ring-inset focus:ring-main-green focus:outline-none cursor-pointer'
                   placeholder='종료 날짜'
                 />
               </div>

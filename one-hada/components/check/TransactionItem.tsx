@@ -6,15 +6,15 @@ interface TransactionItemProps {
 
 export default function TransactionItem({ transaction }: TransactionItemProps) {
   const transactionTime = new Date(
-    transaction.transactionDate
+    transaction.transactionDateTime
   ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
   return (
     <div className='mt-2 ml-8 border-b pb-2 flex justify-between'>
       {/* 거래 상대방 및 시간 */}
       <div>
-        <p className='font-medium'>{transaction.viewer}</p>
-        <p className='text-sm text-gray-500'>{transactionTime}</p>
+        <p className='font-medium'>{transaction.view}</p>
+        <p className='text-sm text-gray-500 mt-1'>{transactionTime}</p>
       </div>
 
       {/* 금액 및 잔액 */}
