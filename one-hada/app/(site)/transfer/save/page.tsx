@@ -3,7 +3,7 @@
 import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 interface RedisData {
   amount: string;
@@ -17,8 +17,7 @@ export default function Save() {
   const { data: session } = useSession();
   const { fetchData, error } = useFetch<RedisData>();
   const router = useRouter();
-  const [isSaveTransfer, setIsSaveTransfer] = useState<boolean>(false);
-  const [isSaveHistory, setIsSaveHistory] = useState<boolean>(false);
+  const isProcessingRef = useRef(false);
 
   const saveTransfer = useCallback(
     async (transferData: RedisData) => {
@@ -44,17 +43,18 @@ export default function Save() {
             fromAccountId: senderAccountId,
             toAccountId: receiverAccountId,
             amount: Number(amount),
-            senderName: senderName,
-            receiverName: receiverName,
+            senderMessage: receiverName,
+            receiverMessage: senderName,
           },
         });
 
         if (response.code === 200) {
-          setIsSaveTransfer(true);
+          return true;
         }
       } else {
         console.error('계좌이체 중 오류 발생');
       }
+      return false;
     },
     [session?.accessToken, fetchData]
   );
@@ -79,44 +79,48 @@ export default function Save() {
           },
         });
 
-        if (response.code == 200) {
-          setIsSaveHistory(true);
-        }
+        return response.code === 200;
       } else {
         console.error('히스토리 저장 중 오류 발생');
       }
+      return false;
     },
     [session?.accessToken, fetchData]
   );
 
   const handleTransfer = useCallback(async () => {
-    if (!session?.accessToken) return;
+    if (!session?.accessToken || isProcessingRef.current) return;
 
-    const response = await fetchData('/api/redis/get', {
-      method: 'POST',
-      body: [
-        'amount',
-        'senderName',
-        'senderAccountId',
-        'receiverName',
-        'receiverAccountId',
-      ],
-    });
+    isProcessingRef.current = true;
 
-    if (response.code === 200) {
-      await saveTransfer(response.data);
-      await saveHistory(response.data);
-      //활동내역 저장 api
+    try {
+      const response = await fetchData('/api/redis/get', {
+        method: 'POST',
+        body: [
+          'amount',
+          'senderName',
+          'senderAccountId',
+          'receiverName',
+          'receiverAccountId',
+        ],
+      });
+
+      if (response.code === 200) {
+        const transferSuccess = await saveTransfer(response.data);
+        const historySuccess = await saveHistory(response.data);
+
+        if (transferSuccess && historySuccess) {
+          router.push('/transfer/checking');
+        }
+      }
+    } catch (error) {
+      console.error('Transfer process failed:', error);
     }
-  }, [fetchData, saveTransfer, saveHistory, session?.accessToken]);
+  }, [fetchData, saveTransfer, saveHistory, session?.accessToken, router]);
 
   useEffect(() => {
     handleTransfer();
-
-    if (isSaveTransfer && isSaveHistory) {
-      router.push('/transfer/checking');
-    }
-  }, [handleTransfer, isSaveTransfer, isSaveHistory, router]);
+  }, [handleTransfer]);
 
   useEffect(() => {
     if (error) {
