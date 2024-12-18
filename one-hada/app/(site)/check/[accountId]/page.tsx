@@ -81,8 +81,10 @@ export default function AccountDetailPage({
 
     if (response.code == 200) {
       setTransactions(response.data);
-    } else '거래내역 조회 오류';
-  }, []);
+    } else {
+      console.log('거래내역 조회 오류');
+    }
+  }, [accountId, fetchData, searchParams, session?.accessToken]);
 
   const createPeriodText = (searchParams: Record<string, string>) => {
     return searchParams.startDate && searchParams.endDate

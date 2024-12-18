@@ -22,28 +22,27 @@ export default function Home() {
   const { fetchData, error } = useFetch<User>();
   const [userName, setUserName] = useState<string>('');
 
-  const getUserName = async () => {
-    console.log('11', session?.user.id);
-    const response = await fetchData(`/api/users/${session?.user.id}`, {
-      method: 'GET',
-      token: session?.accessToken,
-    });
-
-    if (response.code == 200) {
-      setUserName(response.data.userName);
-    }
-  };
-
   const getFavoriteList = () => {
     setFavoriteList([]);
   };
 
   useEffect(() => {
-    if (session?.user.id) {
-      getUserName();
-      getFavoriteList();
-    }
-  }, [session?.user.id]);
+    const getUserName = async () => {
+      if (!session?.user.id) return;
+
+      const response = await fetchData(`/api/user`, {
+        method: 'GET',
+        token: session?.accessToken,
+      });
+
+      if (response.code == 200) {
+        setUserName(response.data.userName);
+      }
+    };
+
+    getUserName();
+    getFavoriteList();
+  }, [session?.user.id, fetchData, session?.accessToken]);
 
   useEffect(() => {
     if (error) {
@@ -64,7 +63,7 @@ export default function Home() {
       className='flex flex-col pt-2 px-6'
     >
       <div className='w-1/3 h-[12%] pt-3 px-2'>
-        {session?.user ? (
+        {session?.isLogin ? (
           <div className='text-[#635666]'>
             <label className='text-xl font-medium text-[#698596]'>
               {userName}
@@ -112,7 +111,7 @@ export default function Home() {
         <div className='text-lg text-[#635666] flex gap-1 items-stretch mb-6 font-medium'>
           <FaStar className='text-yellow-400 text-2xl' /> 즐겨찾기
         </div>
-        {session?.user ? (
+        {session?.isLogin ? (
           favoriteList.length > 0 ? (
             <FavoriteCarousel favoriteList={favoriteList} />
           ) : (

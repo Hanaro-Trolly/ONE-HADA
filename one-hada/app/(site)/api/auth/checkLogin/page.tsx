@@ -34,6 +34,7 @@ export default function CheckLogin() {
             id: data.data.userId,
             accessToken: data.data.accessToken,
             refreshToken: data.data.refreshToken,
+            isLogin: true,
           });
 
           router.push('/');
@@ -46,7 +47,7 @@ export default function CheckLogin() {
     } finally {
       setIsLoggingIn(false);
     }
-  }, [session, update, isLoggingIn]);
+  }, [session, update, isLoggingIn, router]);
 
   useEffect(() => {
     if (session?.user.isNewUser) {
