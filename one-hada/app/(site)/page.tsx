@@ -20,37 +20,37 @@ const buttonStyles = {
 export default function Home() {
   const [favoriteList, setFavoriteList] = useState<Shortcut[]>([]);
   const { data: session } = useSession();
+  const [userName, setUserName] = useState<string>('');
 
   const { fetchData: fetchUser, error: userError } = useFetch<User>();
   const { fetchData: fetchFavorite, error: favoriteError } =
     useFetch<Shortcut>();
-  const [userName, setUserName] = useState<string>('');
-
-  const getUserName = useCallback(async () => {
-    const response = await fetchUser(`/api/user`, {
-      method: 'GET',
-      token: session?.accessToken,
-    });
-
-    if (response.code == 200) {
-      setUserName(response.data.userName);
-    }
-  }, [fetchUser, session?.accessToken]);
-
-  const getFavoriteList = useCallback(async () => {
-    const response = await fetchFavorite(`/api/shortcut/favorite`, {
-      method: 'GET',
-      token: session?.accessToken,
-    });
-    setFavoriteList(response.data.shortcuts);
-  }, [fetchFavorite, session?.accessToken]);
 
   useEffect(() => {
-    if (session?.accessToken) {
-      getUserName();
-      getFavoriteList();
-    }
-  }, [getFavoriteList, getUserName, session?.accessToken]);
+    if (!session?.accessToken) return;
+
+    const getUserName = async () => {
+      const response = await fetchUser(`/api/user`, {
+        method: 'GET',
+        token: session?.accessToken,
+      });
+
+      if (response.code == 200) {
+        setUserName(response.data.userName);
+      }
+    };
+
+    const getFavoriteList = async () => {
+      const response = await fetchFavorite(`/api/shortcut/favorite`, {
+        method: 'GET',
+        token: session?.accessToken,
+      });
+      setFavoriteList(response.data.shortcuts);
+    };
+
+    getUserName();
+    getFavoriteList();
+  }, [fetchUser, fetchFavorite, session?.accessToken]);
 
   useEffect(() => {
     if (userError) {
@@ -93,7 +93,7 @@ export default function Home() {
         <div className='w-full h-1/2 p-2'>
           <LinkButton
             id='activityBtn'
-            href='/activity'
+            href={session?.isLogin ? '/activity' : '/signin'}
             text='내 활동 보기'
             icon='📥'
             style={buttonStyles.activity}
@@ -103,7 +103,7 @@ export default function Home() {
           <div className='w-1/2 p-2'>
             <LinkButton
               id='checkBtn'
-              href='/check'
+              href={session?.isLogin ? '/check' : '/signin'}
               text='조회하기'
               icon='💰'
               style={buttonStyles.inquiry}
@@ -112,7 +112,7 @@ export default function Home() {
           <div className='w-1/2 p-2'>
             <LinkButton
               id='transferBtn'
-              href='/transfer/my'
+              href={session?.isLogin ? '/transfer/my' : '/signin'}
               text='이체하기'
               icon='💸'
               style={buttonStyles.transfer}
