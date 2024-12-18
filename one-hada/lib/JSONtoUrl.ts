@@ -14,7 +14,7 @@ const JSONtoUrl = (elements: HistoryElementType) => {
   } else if (elements.type === 'inquiry' && elements.myAccount) {
     return `/check/${elements.myAccount}`;
   }
-  return `/${elements.type}`;
+  return `/menu/${elements.type}`;
 };
 
 export default JSONtoUrl;
