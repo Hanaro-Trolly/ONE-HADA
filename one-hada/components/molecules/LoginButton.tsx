@@ -9,19 +9,26 @@ export default function LoginButton() {
   const { data: session } = useSession();
   const { fetchData, error } = useFetch();
 
-  const handleSignIn = () => {
-    signIn();
+  const handleSignIn = async () => {
+    await signOut();
+    await signIn();
   };
 
-  const handleSignOut = async () => {
-    const response = await fetchData(`/api/cert/logout`, {
-      method: 'POST',
-      token: session?.accessToken,
-    });
+  // const handleSignOut = async () => {
+  //   const response = await fetchData(`/api/cert/logout`, {
+  //     method: 'POST',
+  //     token: session?.accessToken,
+  //   });
 
-    if (response.code == 200) {
-      signOut();
-    } else '로그아웃 실패';
+  //   if (response.code == 200) {
+  //     signOut();
+  //   } else {
+  //     console.log('로그아웃 실패');
+  //   }
+  // };
+
+  const handleSignOut = async () => {
+    signOut();
   };
 
   useEffect(() => {
@@ -30,7 +37,7 @@ export default function LoginButton() {
     }
   }, [error]);
 
-  return session ? (
+  return session?.isLogin ? (
     <div className='flex items-center space-x-4'>
       <Button
         id='lo'

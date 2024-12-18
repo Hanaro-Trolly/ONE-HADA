@@ -44,8 +44,8 @@ export default function Save() {
             fromAccountId: senderAccountId,
             toAccountId: receiverAccountId,
             amount: Number(amount),
-            senderMessage: senderName,
-            receiverMessage: receiverName,
+            senderName: senderName,
+            receiverName: receiverName,
           },
         });
 
@@ -65,7 +65,7 @@ export default function Save() {
         historyData;
 
       if (senderAccountId && receiverAccountId && receiverName && amount) {
-        const response = await fetchData('api/history', {
+        const response = await fetchData('/api/history', {
           method: 'POST',
           token: session?.accessToken,
           body: {
@@ -90,6 +90,8 @@ export default function Save() {
   );
 
   const handleTransfer = useCallback(async () => {
+    if (!session?.accessToken) return;
+
     const response = await fetchData('/api/redis/get', {
       method: 'POST',
       body: [
@@ -106,7 +108,7 @@ export default function Save() {
       await saveHistory(response.data);
       //활동내역 저장 api
     }
-  }, [fetchData, saveTransfer]);
+  }, [fetchData, saveTransfer, saveHistory, session?.accessToken]);
 
   useEffect(() => {
     handleTransfer();
@@ -114,7 +116,7 @@ export default function Save() {
     if (isSaveTransfer && isSaveHistory) {
       router.push('/transfer/checking');
     }
-  }, [handleTransfer, isSaveTransfer, router]);
+  }, [handleTransfer, isSaveTransfer, isSaveHistory, router]);
 
   useEffect(() => {
     if (error) {

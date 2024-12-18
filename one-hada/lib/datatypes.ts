@@ -75,6 +75,19 @@ type HistoryElementType = {
   searchWord?: string;
 };
 
+type UserInput = {
+  name: string | undefined;
+  email: string | null | undefined;
+  gender: 'M' | 'F' | undefined;
+  birth: string | undefined;
+  phone: string;
+  address: string;
+  google: string | null | undefined;
+  kakao: string | null | undefined;
+  naver: string | null | undefined;
+  simplePassword: string | undefined;
+};
+
 export type {
   User,
   Agent,
@@ -84,4 +97,5 @@ export type {
   Account,
   Transaction,
   HistoryElementType,
+  UserInput,
 };

@@ -71,7 +71,7 @@ export default function RecipientPage() {
   useEffect(() => {
     const getUserName = async () => {
       if (!userId || !session?.accessToken) return;
-      const response = await fetchData(`/api/users/${userId}`, {
+      const response = await fetchData(`/api/user`, {
         method: 'GET',
         token: session.accessToken,
       });

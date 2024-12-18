@@ -8,6 +8,7 @@ declare module 'next-auth' {
   interface Session {
     accessToken?: string;
     refreshToken?: string;
+    isLogin?: boolean;
     user: {
       id: string;
       isNewUser: boolean;
@@ -93,6 +94,7 @@ export const authOptions: NextAuthOptions = {
           sub: session.id,
           accessToken: session.accessToken,
           refreshToken: session.refreshToken,
+          isLogin: true,
         };
       }
       return token;
@@ -105,6 +107,7 @@ export const authOptions: NextAuthOptions = {
         session.user.isNewUser = token.isNewUser as boolean;
         session.user.provider = token.provider as string;
         session.user.email = token.email as string;
+        session.isLogin = !!token.isLogin;
       }
       return session;
     },

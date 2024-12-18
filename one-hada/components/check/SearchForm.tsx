@@ -3,6 +3,9 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
@@ -25,17 +28,38 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
   });
 
   const handleFormChange = (field: string, value: string) => {
-    const date = new Date(value);
-    const dateTimeString = date.toISOString();
+    // 날짜 필드가 아닌 경우 또는 period인 경우 직접 값 설정
+    if (field !== 'startDate' && field !== 'endDate') {
+      setFormState((prev) => ({
+        ...prev,
+        [field]: value,
+        ...(field === 'period' ? { startDate: '', endDate: '' } : {}),
+      }));
+      return;
+    }
 
-    setFormState((prev) => ({
-      ...prev,
-      [field]: dateTimeString,
-      ...(field === 'period' ? { startDate: '', endDate: '' } : {}),
-      ...(field === 'startDate' || field === 'endDate'
-        ? { period: '전체' }
-        : {}),
-    }));
+    // 날짜 필드인 경우 (startDate, endDate)
+    if (value) {
+      // 입력된 날짜를 UTC 기준으로 변환
+      const date = new Date(value);
+      // 시간을 현지 시간대로 설정
+      const localDate = new Date(
+        date.getTime() - date.getTimezoneOffset() * 60000
+      );
+      const isoString = localDate.toISOString();
+
+      setFormState((prev) => ({
+        ...prev,
+        [field]: isoString,
+        period: '전체', // 날짜 직접 입력 시 period 초기화
+      }));
+    } else {
+      // 날짜가 비어있는 경우
+      setFormState((prev) => ({
+        ...prev,
+        [field]: '',
+      }));
+    }
   };
 
   const handleSubmit = () => {
@@ -47,15 +71,26 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
     rounded-full px-4 py-2 focus:bg-[#95D0BF] focus:text-white
   `;
 
+  const formatDateForInput = (isoString: string) => {
+    if (!isoString) return '';
+    return isoString.split('T')[0];
+  };
+
   return (
     <Drawer>
       <div className='bg-white flex justify-center items-center relative'>
         <h1 className='text-center mt-6 mb-6 text-xl font-medium'>거래 내역</h1>
-        <DrawerTrigger className='mt-6 mb-6 px-4 py-2 absolute right-8 tossface-icon bg-[#61B89F] rounded-full hover:bg-[#479e86]'>
-          <MagnifyingGlassIcon className='text-white size-4' />
+        <DrawerTrigger asChild>
+          <button className='mt-6 mb-6 px-4 py-2 absolute right-8 tossface-icon bg-[#61B89F] rounded-full hover:bg-[#479e86]'>
+            <MagnifyingGlassIcon className='text-white size-4' />
+          </button>
         </DrawerTrigger>
       </div>
       <DrawerContent>
+        <DrawerHeader className='sr-only'>
+          <DrawerTitle>거래 내역</DrawerTitle>
+          <DrawerDescription>검색 조건 설정</DrawerDescription>
+        </DrawerHeader>
         <div className='bg-white shadow-md rounded-lg mt-8 p-8 flex-grow flex flex-col justify-between items-start'>
           {/* 조회기간 섹션 */}
           <div className='w-full my-2'>
@@ -77,7 +112,7 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
               <div className='flex justify-between items-center mt-2'>
                 <input
                   type='date'
-                  value={formState.startDate}
+                  value={formatDateForInput(formState.startDate)}
                   onChange={(e) =>
                     handleFormChange('startDate', e.target.value)
                   }
@@ -87,7 +122,7 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
                 <span>~</span>
                 <input
                   type='date'
-                  value={formState.endDate}
+                  value={formatDateForInput(formState.endDate)}
                   onChange={(e) => handleFormChange('endDate', e.target.value)}
                   className='w-36 border text-sm rounded-md px-4 py-2 focus:ring-2 focus:ring-inset focus:ring-main-green focus:outline-none'
                   placeholder='종료 날짜'
@@ -131,9 +166,10 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
 
           {/* 조회하기 버튼 */}
           <div className='flex justify-center w-full mt-2'>
-            <DrawerClose className='w-full'>
+            <DrawerClose asChild className='w-full'>
               <button
                 onClick={handleSubmit}
+                tabIndex={0}
                 className='w-4/5 mt-6 px-6 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377B68]'
               >
                 조회하기

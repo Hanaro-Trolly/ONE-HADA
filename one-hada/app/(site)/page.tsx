@@ -74,7 +74,7 @@ export default function Home() {
       className='flex flex-col pt-2 px-6'
     >
       <div className='w-full h-[18%] pt-3'>
-        {session?.user ? (
+        {session?.isLogin ? (
           <div>
             <span className='text-sm pl-3'>
               <span className='tossface-icon text-lg'>✨{userName} </span> 님을
@@ -125,7 +125,7 @@ export default function Home() {
         <div className='text-lg text-[#635666] flex gap-1 items-stretch mb-6 font-medium'>
           <FaStar className='text-yellow-400 text-2xl' /> 즐겨찾기
         </div>
-        {session?.user ? (
+        {session?.isLogin ? (
           favoriteList.length > 0 ? (
             <FavoriteCarousel favoriteList={favoriteList} />
           ) : (
