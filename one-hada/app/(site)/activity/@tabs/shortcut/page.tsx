@@ -6,8 +6,10 @@ import ShortCutCard from '@/components/activity/ShortCutCard';
 import '@/hooks/useFetch';
 import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
-import { Shortcut } from '@/lib/datatypes';
+import { HistoryElementType, Shortcut } from '@/lib/datatypes';
+import { handleShortcutClick } from '@/lib/shortcutUtils';
 
 const ShortCutPage = () => {
   const [isDelete, setIsDelete] = useState(false);
@@ -15,6 +17,7 @@ const ShortCutPage = () => {
   const [shortCuts, setShortCuts] = useState<Shortcut[]>([]);
   const { fetchData, error } = useFetch<Shortcut[]>();
   const { data: session } = useSession();
+  const router = useRouter();
 
   const toggleDeleteMode = useCallback(() => setIsDelete((prev) => !prev), []);
 
@@ -107,6 +110,17 @@ const ShortCutPage = () => {
     }
   }, [error]);
 
+  const handleButtonClick = async (shortcutElements: HistoryElementType) => {
+    const success = await handleShortcutClick(
+      shortcutElements,
+      fetchData,
+      session?.accessToken
+    );
+    if (success) {
+      router.push(JSON.stringify(shortcutElements));
+    }
+  };
+
   return (
     <div>
       <li className='h-10 flex items-center w-full justify-between pr-4 py-1'>
@@ -137,6 +151,7 @@ const ShortCutPage = () => {
               onCheckboxChange={handleCheckboxChange}
               favoriteToggle={toggleFavorite}
               shortcutElements={item.shortcutElements}
+              onButtonClick={() => handleButtonClick(item.shortcutElements)}
             />
           </li>
         ))}

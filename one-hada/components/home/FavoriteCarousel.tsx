@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import JSONtoUrl from '@/lib/JSONtoUrl';
-import { Shortcut } from '@/lib/datatypes';
+import { HistoryElementType, Shortcut } from '@/lib/datatypes';
 import { Button } from '../ui/button';
 import {
   Carousel,
@@ -10,7 +10,13 @@ import {
   CarouselPrevious,
 } from '../ui/carousel';
 
-const FavoriteCarousel = ({ favoriteList }: { favoriteList: Shortcut[] }) => (
+const FavoriteCarousel = ({
+  favoriteList,
+  handleButtonClick,
+}: {
+  favoriteList: Shortcut[];
+  handleButtonClick: (shortcutElements: HistoryElementType) => void;
+}) => (
   <div className='flex justify-center'>
     <Carousel
       opts={{ align: 'start', loop: true }}
@@ -25,6 +31,7 @@ const FavoriteCarousel = ({ favoriteList }: { favoriteList: Shortcut[] }) => (
                 id={'favoriteBtn-' + item.shortcutId}
                 variant='home'
                 className='h-16 w-full mx-2 font-medium rounded-x bg-white hover:bg-[#F0F0F0]'
+                onClick={() => handleButtonClick(item.shortcutElements)}
               >
                 <label className='overflow-ellipsis overflow-hidden whitespace-nowrap'>
                   {item.shortcutName}

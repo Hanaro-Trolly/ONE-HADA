@@ -8,7 +8,8 @@ import { signIn, useSession } from 'next-auth/react';
 import { FaStar } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Shortcut, User } from '@/lib/datatypes';
+import { HistoryElementType, Shortcut, User } from '@/lib/datatypes';
+import { handleShortcutClick } from '@/lib/shortcutUtils';
 
 type Recommend = {
   name: string;
@@ -21,6 +22,7 @@ export default function Home() {
   const [favoriteList, setFavoriteList] = useState<Shortcut[]>([]);
 
   const [recommendList, setRecommendList] = useState<string[]>([]);
+  const { fetchData } = useFetch();
   const { fetchData: fetchUser, error: userError } = useFetch<User>();
   const { fetchData: fetchFavorite, error: favoriteError } =
     useFetch<Shortcut>();
@@ -81,6 +83,17 @@ export default function Home() {
       router.push(url);
     } else {
       signIn();
+    }
+  };
+
+  const handleButtonClick = async (shortcutElements: HistoryElementType) => {
+    const success = await handleShortcutClick(
+      shortcutElements,
+      fetchData,
+      session?.accessToken
+    );
+    if (success) {
+      router.push(JSON.stringify(shortcutElements));
     }
   };
 
@@ -157,7 +170,10 @@ export default function Home() {
         </div>
         {session?.isLogin ? (
           favoriteList.length > 0 ? (
-            <FavoriteCarousel favoriteList={favoriteList} />
+            <FavoriteCarousel
+              favoriteList={favoriteList}
+              handleButtonClick={handleButtonClick}
+            />
           ) : (
             <div className='text-center'>즐겨찾기를 설정해주세요</div>
           )
