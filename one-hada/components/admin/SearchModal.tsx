@@ -35,12 +35,18 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
     setIsSearching(true);
     try {
-      const requestBody: { userName?: string; userBirth?: string } = {};
+      const requestBody: {
+        userName?: string;
+        userBirth?: string;
+        userPhone?: string;
+      } = {};
 
       if (searchType === 'birth') {
         requestBody.userBirth = formatBirthForDatabase(searchTerm);
-      } else {
+      } else if (searchType === 'name') {
         requestBody.userName = searchTerm;
+      } else {
+        requestBody.userPhone = searchTerm;
       }
 
       const response = await fetchData('/api/admin/user/search', {
@@ -83,6 +89,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           >
             <option value='name'>이름</option>
             <option value='birth'>생년월일</option>
+            <option value='phone'>전화번호</option>
           </select>
           <input
             type='text'
@@ -91,7 +98,9 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
             placeholder={
               searchType === 'name'
                 ? '고객 이름을 입력하세요'
-                : '생년월일을 입력하세요 (YYYYMMDD)'
+                : searchType === 'birth'
+                  ? '생년월일을 입력하세요 (YYYYMMDD)'
+                  : '전화번호를 입력하세요 (000-0000-0000)'
             }
             className='flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-main-green'
           />
