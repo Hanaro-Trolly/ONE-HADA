@@ -7,7 +7,7 @@ import { Button } from '../ui/button';
 
 export default function LoginButton() {
   const { data: session } = useSession();
-  const { fetchData, error } = useFetch();
+  const { error } = useFetch();
 
   const handleSignIn = async () => {
     await signOut();
