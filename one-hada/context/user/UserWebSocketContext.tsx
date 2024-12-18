@@ -1,7 +1,7 @@
 'use client';
 
 import { useWebSocket } from '@/hooks/useWebsocket';
-import { Client } from '@stomp/stompjs';
+import { Client, StompSubscription } from '@stomp/stompjs';
 import { useSession } from 'next-auth/react';
 import React, {
   createContext,
@@ -101,11 +101,18 @@ export const WebSocketProvider: React.FC<{ children: ReactNode }> = ({
         disconnectWebSocket();
       }
     };
-  }, [isConsultation, session?.user?.id, connectWebSocket, connectionAttempts]);
+  }, [
+    isConsultation,
+    session?.user?.id,
+    connectWebSocket,
+    connectionAttempts,
+    stompClient,
+    disconnectWebSocket,
+  ]);
 
   // 구독 관리
   useEffect(() => {
-    let subscription: any;
+    let subscription: StompSubscription | null = null;
     let retryTimeout: NodeJS.Timeout;
 
     const setupSubscription = async () => {

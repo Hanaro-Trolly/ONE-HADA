@@ -128,7 +128,7 @@ export default function AccountDetailPage({
       fetchAccountData();
       fetchTransactionData();
     }
-  }, [session?.accessToken]);
+  }, [fetchAccountData, fetchTransactionData, session?.accessToken]);
 
   useEffect(() => {
     if (error) {
