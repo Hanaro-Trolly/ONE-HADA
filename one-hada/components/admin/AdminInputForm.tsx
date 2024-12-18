@@ -72,18 +72,31 @@ export default function AdminInputForm({ userId }: AdminInputFormProps) {
         // 상담 데이터 즉시 갱신
         await refetchCounselData(userId);
 
-        alert('상담 정보가 등록되었습니다.');
+        alert('1번 상담 정보가 등록되었습니다.');
 
-        if (stompClient && stompClient.connected) {
-          stompClient.publish({
-            destination: `/topic/customer/${userId}/end-consultation`,
-            body: JSON.stringify({
-              message: 'consultation_ended',
-              timestamp: new Date().toISOString(),
-            }),
-          });
-          setButtonLogs([]);
+        if (stompClient?.connected) {
+          console.log('야야');
+          try {
+            await stompClient.publish({
+              destination: `/topic/customer/${userId}/end-consultation`,
+              body: JSON.stringify({
+                message: 'consultation_ended',
+                timestamp: new Date().toISOString(),
+              }),
+              headers: {
+                'content-type': 'application/json',
+              },
+            });
+            console.log('상담 종료 메시지 전송 완료');
+            setButtonLogs([]);
+          } catch (error) {
+            console.error('웹소켓 메시지 전송 실패:', error);
+          }
+        } else {
+          console.error('웹소켓 연결이 없습니다');
         }
+
+        alert('2번 상담 정보가 등록되었습니다.');
       } else {
         throw new Error('상담 데이터 추가 실패');
       }
