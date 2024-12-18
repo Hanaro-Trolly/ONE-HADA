@@ -46,7 +46,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       const response = await fetchData('/api/admin/user/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody),
+        body: requestBody,
       });
 
       if (response && response.data) {
@@ -122,7 +122,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                   <span className='mr-2'>
                     {formatDateLong(result.userBirth)}
                   </span>
-                  <span>{result.userGender === 'male' ? '남' : '여'}</span>
+                  <span>{result.userGender === 'M' ? '남' : '여'}</span>
                 </div>
               </div>
             </button>
