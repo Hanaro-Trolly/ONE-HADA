@@ -7,9 +7,13 @@ import {
 } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
-const messages = ['원하다 짱', '시온이 짱', '캐러셀'];
+interface AutoMessageCarouselProps {
+  messages: string[];
+}
 
-export default function AutoMessageCarousel() {
+export default function AutoMessageCarousel({
+  messages,
+}: AutoMessageCarouselProps) {
   return (
     <Carousel
       opts={{

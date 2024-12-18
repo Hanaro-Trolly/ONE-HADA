@@ -1,6 +1,7 @@
 'use client';
 
 import { useWebSocketContext } from '@/context/user/UserWebSocketContext';
+import { useFetch } from '@/hooks/useFetch';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
@@ -50,11 +51,22 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const { sendButtonClick } = useWebSocketContext();
+    const { fetchData } = useFetch();
 
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
       if (id) {
         console.log(`Button ID: ${id}`);
         sendButtonClick(id);
+        try {
+          await fetchData(`/button/${id}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+        } catch (error) {
+          console.error('Error posting button click:', error);
+        }
       }
       if (onClick) {
         onClick(event);
