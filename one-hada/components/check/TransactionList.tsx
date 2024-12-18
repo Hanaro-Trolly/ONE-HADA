@@ -9,9 +9,7 @@ interface TransactionListProps {
 export default function TransactionList({
   groupedTransactions,
 }: TransactionListProps) {
-  useEffect(() => {
-    console.log(groupedTransactions);
-  }, [groupedTransactions]);
+  useEffect(() => {}, [groupedTransactions]);
 
   return (
     <>

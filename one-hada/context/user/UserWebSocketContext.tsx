@@ -33,19 +33,11 @@ export const WebSocketProvider: React.FC<{
     });
 
   useEffect(() => {
-    const handleConsultationState = () => {
-      const consultationState = Boolean(
-        sessionStorage.getItem('consultationState')
-      );
-      setIsConsultation(consultationState);
-    };
-
     const handleStateChange = (event: CustomEvent) => {
       setIsConsultation(event.detail.state);
     };
 
     if (typeof window !== 'undefined') {
-      handleConsultationState();
       window.addEventListener(
         'consultationStateChange',
         handleStateChange as EventListener
