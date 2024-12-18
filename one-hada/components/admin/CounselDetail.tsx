@@ -3,9 +3,9 @@
 import { Counsel, UserData } from '@/app/admin/types/adminTypes';
 import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
+import { useFetch } from '@/hooks/useFetch';
 import { IoEye, IoFemale, IoMale } from 'react-icons/io5';
 import { useState, useEffect } from 'react';
-import { fetchUserData } from '@/lib/adminApi';
 import AdminCard from './AdminCard';
 import AdminInfo from './AdminInfo';
 import Modal from './Modal';
@@ -15,27 +15,41 @@ interface CounselDetailProps {
   userId: string;
 }
 
+interface UserResponse {
+  id: string;
+  userName: string;
+  userBirth: string;
+  userPhone: string;
+  userGender: string;
+}
+
 export default function CounselDetail({ userId }: CounselDetailProps) {
   const [isLogOpen, setIsLogOpen] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
-  const { counselData } = useCounsel();
+  const { counselData, fetchCounselData } = useCounsel();
   const { session } = useAdminSession();
+  const { fetchData, isLoading, error } = useFetch<UserResponse>();
 
   const decodedUserId = decodeURIComponent(userId);
 
   useEffect(() => {
-    const loadUserData = async () => {
+    const loadData = async () => {
+      await fetchCounselData(decodedUserId);
       try {
-        const response = await fetchUserData(decodedUserId);
-        if (response.code === 200 && response.data) {
+        const response = await fetchData(`/api/admin/user/${decodedUserId}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (response && response.data) {
           setUserData({
             birth: response.data.userBirth,
             phone: response.data.userPhone,
             name: response.data.userName,
             gender:
-              response.data.userGender === 'male'
+              response.data.userGender === 'M'
                 ? 'M'
-                : response.data.userGender === 'female'
+                : response.data.userGender === 'F'
                   ? 'F'
                   : null,
           });
@@ -45,14 +59,13 @@ export default function CounselDetail({ userId }: CounselDetailProps) {
       }
     };
 
-    loadUserData();
-  }, [decodedUserId]);
+    loadData();
+  }, [decodedUserId, fetchCounselData, fetchData]);
 
   const userCounsels = counselData
     .filter(
       (item: Counsel) =>
-        item.agent_id === session.loginUser?.id &&
-        item.user_id === decodedUserId
+        item.agent_id == session.loginUser?.id && item.user_id == decodedUserId
     )
     .sort(
       (a: Counsel, b: Counsel) =>
@@ -70,6 +83,14 @@ export default function CounselDetail({ userId }: CounselDetailProps) {
         return null;
     }
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <>

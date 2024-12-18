@@ -25,8 +25,14 @@ export interface CounselContextType {
   setSelectedUserId: (id: string | null) => void;
   counselData: Counsel[];
   setCounselData: (data: Counsel[]) => void;
-  fetchCounselData: () => Promise<void>;
-  refetchCounselData: () => void;
+  fetchCounselData: (userId: string) => Promise<void>; // ffetchCounselData에서 수정
+  refetchCounselData: (userId: string) => void;
+  isLoading?: boolean; // isLoading 추가
+  error?: ErrorWithMessage | undefined;
+}
+
+export interface ErrorWithMessage {
+  message: string;
 }
 
 // 활동 로그 관련 타입
@@ -91,4 +97,25 @@ export interface ConsultationResponse {
       consultationDate: string;
     }[];
   } | null;
+}
+
+export interface ConsultationSummary {
+  userId: number;
+  userName: string;
+  lastConsultationDate: string;
+  lastConsultationTitle: string;
+}
+
+// CounselContextType에 새로운 속성들 추가
+export interface CounselContextType {
+  selectedUserId: string | null;
+  setSelectedUserId: (id: string | null) => void;
+  counselData: Counsel[];
+  setCounselData: (data: Counsel[]) => void;
+  consultationList: ConsultationSummary[]; // 추가
+  fetchConsultationList: (agentId: string) => Promise<void>; // 추가
+  fetchCounselData: (userId: string) => Promise<void>;
+  refetchCounselData: (userId: string) => void;
+  isLoading?: boolean;
+  error?: ErrorWithMessage | undefined;
 }

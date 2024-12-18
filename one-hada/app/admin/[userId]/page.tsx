@@ -1,18 +1,7 @@
-// app/admin/[userId]/page.tsx
 'use client';
 
 import AdminForm from '@/components/admin/AdminForm';
 import { Suspense } from 'react';
-
-// app/admin/[userId]/page.tsx
-
-// app/admin/[userId]/page.tsx
-
-// app/admin/[userId]/page.tsx
-
-// app/admin/[userId]/page.tsx
-
-// app/admin/[userId]/page.tsx
 
 /**
  * 사용자별 상담 페이지 컴포넌트

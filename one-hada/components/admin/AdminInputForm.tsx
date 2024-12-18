@@ -3,40 +3,41 @@
 import { useAdminWebSocket } from '@/context/admin/AdminWebSocketContext';
 import { useCounsel } from '@/context/admin/CounselContext';
 import { useAdminSession } from '@/context/admin/SessionContext';
+import { useFetch } from '@/hooks/useFetch';
 import { useState } from 'react';
-import { addData } from '@/lib/api';
 import AdminInput from './AdminInput';
 import AdminSubmitButton from './AdminSubmitButton';
 
-// Types
 interface AdminInputFormProps {
   userId: string;
 }
 
 interface ConsultationData {
   id: string;
-  agent_id: string | undefined;
-  user_id: string;
-  consultation_title: string;
-  consultation_content: string;
-  consultation_date: string;
+  agentId: string;
+  userId: string;
+  consultationTitle: string;
+  consultationContent: string;
+  consultationDate: string;
+}
+
+interface ConsultationResponse {
+  id: string;
 }
 
 export default function AdminInputForm({ userId }: AdminInputFormProps) {
   const { stompClient, setButtonLogs } = useAdminWebSocket();
-  const currentTime = new Date().toDateString;
-
-  // State
+  const { refetchCounselData } = useCounsel();
+  const { session } = useAdminSession();
+  const { fetchData, isLoading, error } = useFetch<
+    ConsultationResponse,
+    ConsultationData
+  >();
   const [formData, setFormData] = useState({
     title: '',
     content: '',
   });
 
-  // Hooks
-  const { refetchCounselData } = useCounsel();
-  const { session } = useAdminSession();
-
-  // Handlers
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: 'title' | 'content'
@@ -50,30 +51,41 @@ export default function AdminInputForm({ userId }: AdminInputFormProps) {
   const handleSubmit = async () => {
     const consultationData: ConsultationData = {
       id: Date.now().toString(),
-      agent_id: session.loginUser?.id,
-      user_id: userId,
-      consultation_title: formData.title,
-      consultation_content: formData.content,
-      consultation_date: new Date().toISOString(),
+      agentId: session.loginUser?.id || '',
+      userId: userId,
+      consultationTitle: formData.title,
+      consultationContent: formData.content,
+      consultationDate: new Date().toISOString(),
     };
 
     try {
-      await addData('consultation', consultationData);
-      await refetchCounselData();
+      const response = await fetchData('/api/admin/consultation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: consultationData,
+      });
 
-      setFormData({ title: '', content: '' });
-      alert('상담 정보가 등록되었습니다.');
+      if (response && response.code === 201) {
+        // 폼 초기화
+        setFormData({ title: '', content: '' });
 
-      if (stompClient && stompClient.connected) {
-        stompClient.publish({
-          destination: `/topic/customer/${userId}/end-consultation`,
-          body: JSON.stringify({
-            message: 'consultation_ended',
-            timestamp: currentTime,
-          }),
-        });
-        setButtonLogs([]);
-        console.log('상담 종료 요청 전송');
+        // 상담 데이터 즉시 갱신
+        await refetchCounselData(userId);
+
+        alert('상담 정보가 등록되었습니다.');
+
+        if (stompClient && stompClient.connected) {
+          stompClient.publish({
+            destination: `/topic/customer/${userId}/end-consultation`,
+            body: JSON.stringify({
+              message: 'consultation_ended',
+              timestamp: new Date().toISOString(),
+            }),
+          });
+          setButtonLogs([]);
+        }
+      } else {
+        throw new Error('상담 데이터 추가 실패');
       }
     } catch (error) {
       console.error('Error submitting data:', error);
@@ -98,8 +110,10 @@ export default function AdminInputForm({ userId }: AdminInputFormProps) {
       />
 
       <div className='flex justify-center'>
-        <AdminSubmitButton onClick={handleSubmit} />
+        <AdminSubmitButton onClick={handleSubmit} disabled={isLoading} />
       </div>
+
+      {error && <p className='text-red-500'>{error.message}</p>}
     </div>
   );
 }
