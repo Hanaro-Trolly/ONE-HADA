@@ -58,7 +58,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         console.log(`Button ID: ${id}`);
         sendButtonClick(id);
         try {
-          await fetchData(`/button/${id}`, {
+          await fetchData(`/api/button/${id}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
