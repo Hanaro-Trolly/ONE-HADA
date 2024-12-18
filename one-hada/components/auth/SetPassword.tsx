@@ -3,7 +3,13 @@
 import PasswordKeypad from '@/components/ui/PasswordKeypad';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { UserInput } from '@/lib/datatypes';
 
 type SetPasswordProps = {
@@ -20,7 +26,7 @@ export default function SetPassword({
   const [isFist, setIsfirst] = useState<boolean>(true);
   const [firstPassword, setFirstPassword] = useState<string | null>(null);
 
-  const login = async () => {
+  const login = useCallback(async () => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/signin`,
@@ -53,9 +59,9 @@ export default function SetPassword({
     } catch (error) {
       console.error('Error during login:', error);
     }
-  };
+  }, [router, session?.user.email, session?.user.provider, update]);
 
-  const register = async () => {
+  const register = useCallback(async () => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/register`,
@@ -77,7 +83,7 @@ export default function SetPassword({
     } catch (error) {
       console.error('회원가입 중 오류 발생', error);
     }
-  };
+  }, [login, userData]);
 
   const handleSubmit = async (
     password: string[],
@@ -113,7 +119,7 @@ export default function SetPassword({
     if (userData?.simplePassword) {
       register();
     }
-  }, [userData]);
+  }, [register, userData]);
 
   return (
     <div className='py-8 px-10 w-full flex flex-col items-center justify-center'>

@@ -10,7 +10,7 @@ type ShortCutCardProps = {
   isFavorite: boolean;
   onCheckboxChange?: (id: string) => void;
   favoriteToggle: (id: string) => void;
-  shortcutElements: HistoryElementType[];
+  shortcutElements: HistoryElementType;
 };
 
 export default function ShortCutCard({

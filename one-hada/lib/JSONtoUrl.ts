@@ -1,4 +1,4 @@
-import { HistoryElementType } from '@/app/(site)/activity/@tabs/history/@historymodal/[historyId]/page';
+import { HistoryElementType } from './datatypes';
 
 const JSONtoUrl = (elements: HistoryElementType) => {
   if (elements.type === 'transfer') {

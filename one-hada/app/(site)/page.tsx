@@ -6,10 +6,13 @@ import { Button } from '@/components/ui/button';
 import { useFetch } from '@/hooks/useFetch';
 import { signIn, useSession } from 'next-auth/react';
 import { FaStar } from 'react-icons/fa6';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Shortcut, User } from '@/lib/datatypes';
+
+type Recommend = {
+  name: string;
+};
 
 export default function Home() {
   const { data: session } = useSession();
@@ -17,9 +20,12 @@ export default function Home() {
   const [userName, setUserName] = useState<string>('');
   const [favoriteList, setFavoriteList] = useState<Shortcut[]>([]);
 
+  const [recommendList, setRecommendList] = useState<string[]>([]);
   const { fetchData: fetchUser, error: userError } = useFetch<User>();
   const { fetchData: fetchFavorite, error: favoriteError } =
     useFetch<Shortcut>();
+  const { fetchData: fetchRecommend, error: recommendError } =
+    useFetch<Recommend[]>();
 
   const buttonClassName = 'w-full h-full text-[#635666] text-lg flex flex-col';
 
@@ -45,9 +51,18 @@ export default function Home() {
       setFavoriteList(response.data.shortcuts);
     };
 
+    const getRecommend = async () => {
+      const response = await fetchRecommend(`/api/product/recommend`, {
+        method: 'GET',
+        token: session?.accessToken,
+      });
+      setRecommendList(response.data.map(({ name }: { name: string }) => name));
+    };
+
     getUserName();
     getFavoriteList();
-  }, [fetchUser, fetchFavorite, session?.accessToken]);
+    getRecommend();
+  }, [fetchUser, fetchFavorite, session?.accessToken, fetchRecommend]);
 
   useEffect(() => {
     if (userError) {
@@ -56,7 +71,10 @@ export default function Home() {
     if (favoriteError) {
       console.error('favoriteFetch 에러 발생:', favoriteError);
     }
-  }, [userError, favoriteError]);
+    if (recommendError) {
+      console.error('recommendFetch 에러 발생:', recommendError);
+    }
+  }, [userError, favoriteError, recommendError]);
 
   const routerPage = (url: string) => {
     if (session?.isLogin) {
@@ -86,7 +104,7 @@ export default function Home() {
               위한 추천!{' '}
             </span>
             <div className='flex items-center gap-1 bg-gray-200 rounded-md mx-2 justify-center mb-2'>
-              <AutoMessageCarousel />
+              <AutoMessageCarousel messages={recommendList} />
             </div>
           </div>
         ) : (

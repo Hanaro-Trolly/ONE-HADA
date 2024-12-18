@@ -24,7 +24,7 @@ type History = {
   historyId: string;
   userId: string;
   historyName: string;
-  historyElements: HistoryElementType[];
+  historyElements: HistoryElementType;
   activityDate: Date;
 };
 
@@ -32,7 +32,7 @@ type Shortcut = {
   shortcutId: string;
   userId: string;
   shortcutName: string;
-  shortcutElements: HistoryElementType[];
+  shortcutElements: HistoryElementType;
   isFavorite: boolean;
 };
 
