@@ -100,7 +100,7 @@ export default function Home() {
         <div className='w-full h-1/2 p-2'>
           <Button
             id='activityBtn'
-            onClick={() => routerPage('/history')}
+            onClick={() => routerPage('/activity')}
             className={`bg-[#D2DAE0] hover:bg-[#AAB8C1] ${buttonClassName}`}
           >
             <p className='tossface-icon text-4xl'>📥</p>내 활동 보기
@@ -146,16 +146,16 @@ export default function Home() {
       <div className='flex-grow'></div>
       <footer>
         <div className='h-14 w-full'>
-          <Link href='tel:010-2905-5905'>
-            <Button
-              id='callBtn'
-              variant='ghost'
-              className='w-full h-full text-[#635666] text-xl'
-              onClick={handleCallClick}
-            >
-              <div className='tossface-icon'>📞</div>전화상담
-            </Button>
-          </Link>
+          {/* <Link href='tel:010-2905-5905'> */}
+          <Button
+            id='callBtn'
+            variant='ghost'
+            className='w-full h-full text-[#635666] text-xl'
+            onClick={handleCallClick}
+          >
+            <div className='tossface-icon'>📞</div>전화상담
+          </Button>
+          {/* </Link> */}
         </div>
       </footer>
     </div>
