@@ -57,7 +57,7 @@ export const menuData = [
       { title: '입출금통장 가입', link: '/' },
       { title: '적금 가입', link: '/' },
       { title: '청약 가입', link: '/' },
-      { title: '예금 가입', link: '/' },
+      { title: '예금 가입', link: '/menu/deposit' },
       { title: '내아이통장 만들기', link: '/' },
       { title: '예금관리', link: '/' },
       { title: '모임통장서비스', link: '/' },
@@ -101,7 +101,7 @@ export const menuData = [
   {
     title: '대출',
     items: [
-      { title: '대출신청', link: '/' },
+      { title: '대출신청', link: '/menu/loan' },
       { title: '대출관리', link: '/' },
       { title: '대출신청관리', link: '/' },
     ],
@@ -123,7 +123,7 @@ export const menuData = [
   {
     title: '보험',
     items: [
-      { title: '보험/노란우산 가입', link: '/' },
+      { title: '보험/노란우산 가입', link: '/menu/insurance' },
       { title: '보험관리', link: '/' },
     ],
   },
