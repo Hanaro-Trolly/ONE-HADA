@@ -37,10 +37,9 @@ export const AdminWebSocketProvider = ({
   const [buttonLogs, setButtonLogs] = useState<ButtonLog[]>([]);
   const [subscription, setSubscription] = useState<StompSubscription>();
   const [shouldConnect, setShouldConnect] = useState<Boolean>(false);
-  const { stompClient, connected, connectWebSocket, disconnectWebSocket } =
-    useWebSocket({
-      role: 'consultant',
-    });
+  const { stompClient, connected, connectWebSocket } = useWebSocket({
+    role: 'consultant',
+  });
 
   useEffect(() => {
     sessionStorage.setItem('wsConnected', 'true');
@@ -50,6 +49,7 @@ export const AdminWebSocketProvider = ({
   useEffect(() => {
     if (shouldConnect) {
       connectWebSocket();
+      console.log('웹소켓 연결 성공');
     }
 
     return () => {
@@ -64,7 +64,6 @@ export const AdminWebSocketProvider = ({
       const buttonSub = stompClient.subscribe(
         '/topic/consultant/button-logs',
         (message) => {
-          console.log('new message');
           const log = JSON.parse(message.body);
           setButtonLogs((prev) => [...prev, log]);
         }

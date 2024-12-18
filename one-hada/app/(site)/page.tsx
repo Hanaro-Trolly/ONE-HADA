@@ -101,6 +101,11 @@ export default function Home() {
     if (typeof window !== 'undefined') {
       sessionStorage.setItem('consultationState', 'true');
       window.dispatchEvent(new Event('storage'));
+      window.dispatchEvent(
+        new CustomEvent('consultationStateChange', {
+          detail: { state: true },
+        })
+      );
     }
   };
 

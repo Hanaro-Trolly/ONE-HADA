@@ -43,8 +43,8 @@ export default function Save() {
             fromAccountId: senderAccountId,
             toAccountId: receiverAccountId,
             amount: Number(amount),
-            senderMessage: receiverName,
-            receiverMessage: senderName,
+            senderMessage: senderName,
+            receiverMessage: receiverName,
           },
         });
 
