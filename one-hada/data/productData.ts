@@ -2,10 +2,18 @@ type menuDetail = {
   title: string;
   subButtons: string[];
   products: string[];
-  details?: string[];
+  details: string[];
+  oneline: string[];
 };
 
 export const PRODUCT_LIST: Record<string, menuDetail> = {
+  none: {
+    title: '',
+    subButtons: [],
+    products: [],
+    details: [],
+    oneline: [],
+  },
   deposit: {
     title: '예금',
     subButtons: [
@@ -23,6 +31,11 @@ export const PRODUCT_LIST: Record<string, menuDetail> = {
       '노후자금, 생활자금, 재투자자금까지! 행복knowhow 연금예금으로 설계하세요!',
       '이자 지급 방법도 내 맘대로! 이자 지급 시기도 내 맘대로!',
     ],
+    oneline: [
+      '3개월마다 높은 금리로 찾을 수 있는 예금',
+      '노후와 생활자금을 한번에 설계하는 연금',
+      '이자 지급방식을 자유롭게 선택하는 예금',
+    ],
   },
   loan: {
     title: '대출',
@@ -32,6 +45,11 @@ export const PRODUCT_LIST: Record<string, menuDetail> = {
       '주택도시보증공사의 전세자금대출특약보증과 전세보증금반환보증의 결합상품으로 보증서를 담보로 전세대출 지원하고 반환보증을 통해 임대차계약 만료 시 전세보증금을 안전하게 반환하여 대출금을 상환할 수 있는 상품입니다.',
       '정책서민금융상품을 이용한 손님 대상으로 고금리대출을 반복 이용하지 않고, 신용도 상승을 통해 제도권 금융에 안착할 수 있도록 징검다리 역할을 수행하는 서민금융진흥원 보증부 정책서민금융상품',
       '청년층 주거비용 경감을 위해 임차보증금의 90%이내, 최대 2억원까지(전세,반전세 계약 모두 가능합니다)',
+    ],
+    oneline: [
+      '전세보증금 안전 반환 보장 대출',
+      '서민을 위한 저금리 징검다리 대출',
+      '청년 맞춤형 90% 전월세 대출',
     ],
   },
   insurance: {
@@ -50,6 +68,11 @@ export const PRODUCT_LIST: Record<string, menuDetail> = {
       '다양한 펀드 선택으로 수익성과 안정성을 동시에 추구하며, 노후설계와 함께 유연한 자금운용이 가능한 변액연금보험입니다.',
       '시간분산 투자로 리스크는 줄이고 수익은 높이는 스마트한 연금보험으로, 은퇴 후 안정적인 생활을 준비할 수 있습니다.',
       '5년만 납입하고 평생 연금을 수령할 수 있는 연금보험으로, 노후 생활비를 든든하게 준비할 수 있습니다.',
+    ],
+    oneline: [
+      '수익성과 안정성을 동시에 누리는 연금',
+      '시간분산으로 안전하게 투자하는 연금',
+      '5년 납입으로 평생 받는 든든한 연금',
     ],
   },
 };

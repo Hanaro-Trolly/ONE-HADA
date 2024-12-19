@@ -115,7 +115,7 @@ export default function Home() {
       style={{ height: 'calc(100vh - 56px)' }}
       className='flex flex-col pt-2 px-6'
     >
-      <div className='h-[18%] pt-3 '>
+      <div className='h-[18%] pt-3 mb-2'>
         {session?.isLogin ? (
           <div>
             <span className='text-sm pl-3'>
