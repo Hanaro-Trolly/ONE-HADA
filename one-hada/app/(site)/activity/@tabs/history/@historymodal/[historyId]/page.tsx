@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { History, HistoryElementType } from '@/lib/datatypes';
+import { reorderObject } from '@/lib/reorderObject';
 
 export default function HistoryModalPage({
   params: { historyId },
@@ -117,6 +118,7 @@ export default function HistoryModalPage({
         });
         if (response.code === 200) {
           const data = response.data;
+          data.historyElements = reorderObject(data.historyElements);
           setHistory(data);
           parsedElementsRef.current = data.historyElements;
           setHistoryElements(data.historyElements);

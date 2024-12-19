@@ -4,6 +4,7 @@ import { useWebSocketContext } from '@/context/user/UserWebSocketContext';
 import { useFetch } from '@/hooks/useFetch';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { useSession } from 'next-auth/react';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 
@@ -52,6 +53,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const { sendButtonClick } = useWebSocketContext();
     const { fetchData } = useFetch();
+    const { data: session } = useSession();
 
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
       if (id) {
@@ -60,9 +62,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         try {
           await fetchData(`/api/button/${id}`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            token: session?.accessToken,
           });
         } catch (error) {
           console.error('Error posting button click:', error);

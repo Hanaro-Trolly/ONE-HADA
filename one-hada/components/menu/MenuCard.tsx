@@ -5,14 +5,15 @@ import { Button } from '../ui/button';
 type MenuCardProps = {
   title: string;
   link: string;
+  id: string;
 };
 
-export default function MenuCard({ title, link }: MenuCardProps) {
+export default function MenuCard({ title, link, id }: MenuCardProps) {
   return (
     <div className='flex justify-start text-center items-center pt-4 text-sm'>
       <Link href={link}>
         <Button
-          id={'menuButton' + title}
+          id={'menuButton' + id}
           variant='ghost'
           className='w-full flex justify-between'
         >

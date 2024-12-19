@@ -52,7 +52,12 @@ export default function MenuPage() {
         {menuData.map((section) => (
           <MenuSection key={section.title} title={section.title}>
             {section.items.map((item) => (
-              <MenuCard key={item.title} title={item.title} link={item.link} />
+              <MenuCard
+                key={item.title}
+                title={item.title}
+                link={item.link}
+                id={item.id}
+              />
             ))}
           </MenuSection>
         ))}

@@ -2,11 +2,9 @@
 
 import { Button } from '@/components/ui/button';
 import { PRODUCT_LIST } from '@/data/productData';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function MenuPage({ params }: { params: { menuId: string } }) {
-  const router = useRouter();
   const [selectedButtonIdx, setSelectedButtonIdx] = useState<number>(0);
   const { menuId } = params;
   const menus = PRODUCT_LIST[menuId];
@@ -40,7 +38,6 @@ export default function MenuPage({ params }: { params: { menuId: string } }) {
               variant='ghost'
               className='w-full'
               id={'product' + menuId + selectedButtonIdx}
-              onClick={() => router.push('/')}
             >
               상품 신청
             </Button>

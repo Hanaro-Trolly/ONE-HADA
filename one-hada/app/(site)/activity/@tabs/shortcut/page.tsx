@@ -8,6 +8,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
+import JSONtoUrl from '@/lib/JSONtoUrl';
 import { HistoryElementType, Shortcut } from '@/lib/datatypes';
 import { handleShortcutClick } from '@/lib/shortcutUtils';
 
@@ -117,7 +118,7 @@ const ShortCutPage = () => {
       session?.accessToken
     );
     if (success) {
-      router.push(JSON.stringify(shortcutElements));
+      router.push(JSONtoUrl(shortcutElements));
     }
   };
 

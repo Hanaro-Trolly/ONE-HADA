@@ -8,6 +8,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { FaStar } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import JSONtoUrl from '@/lib/JSONtoUrl';
 import { HistoryElementType, Shortcut, User } from '@/lib/datatypes';
 import { handleShortcutClick } from '@/lib/shortcutUtils';
 
@@ -93,7 +94,7 @@ export default function Home() {
       session?.accessToken
     );
     if (success) {
-      router.push(JSON.stringify(shortcutElements));
+      router.push(JSONtoUrl(shortcutElements));
     }
   };
 
@@ -114,14 +115,14 @@ export default function Home() {
       style={{ height: 'calc(100vh - 56px)' }}
       className='flex flex-col pt-2 px-6'
     >
-      <div className='w-full h-[18%] pt-3 '>
+      <div className='h-[18%] pt-3 '>
         {session?.isLogin ? (
           <div>
             <span className='text-sm pl-3'>
               <span className='tossface-icon text-lg'>✨{userName} </span> 님을
               위한 추천!{' '}
             </span>
-            <div className='flex items-center gap-1 bg-gray-200 rounded-md mx-2 justify-center mb-2'>
+            <div>
               <AutoMessageCarousel messages={recommendList} />
             </div>
           </div>
