@@ -30,28 +30,31 @@ export default function AccountDetailPage({
     }
   }, [fetchData, accountId, session?.accessToken]);
 
-  const getTransactions = async (
-    startDate: string,
-    endDate: string,
-    transferType: string,
-    searchWord: string
-  ) => {
-    const response = await fetchData(`/api/transaction/${accountId}`, {
-      method: 'POST',
-      token: session?.accessToken,
-      body: {
-        startDate: startDate,
-        endDate: endDate,
-        transactionType: transferType,
-        keyword: searchWord,
-      },
-    });
-    if (response.code == 200) {
-      setTransactions(response.data);
-    } else {
-      console.log('거래내역 조회 오류');
-    }
-  };
+  const getTransactions = useCallback(
+    async (
+      startDate: string,
+      endDate: string,
+      transferType: string,
+      searchWord: string
+    ) => {
+      const response = await fetchData(`/api/transaction/${accountId}`, {
+        method: 'POST',
+        token: session?.accessToken,
+        body: {
+          startDate: startDate,
+          endDate: endDate,
+          transactionType: transferType,
+          keyword: searchWord,
+        },
+      });
+      if (response.code == 200) {
+        setTransactions(response.data);
+      } else {
+        console.log('거래내역 조회 오류');
+      }
+    },
+    [fetchData, accountId, session?.accessToken]
+  );
 
   const changePeriod = async (period: string) => {
     const now = new Date();
@@ -115,34 +118,33 @@ export default function AccountDetailPage({
       console.log('레디스 정보 가져오기 실패');
       return undefined;
     }
-  }, [getTransactions]);
+  }, [fetchData, getTransactions]);
 
-  const saveHistory = async (
-    period: string,
-    transferType: string,
-    searchWord: string
-  ) => {
-    const response = await fetchData('/api/history', {
-      method: 'POST',
-      token: session?.accessToken,
-      body: {
-        historyName: `${period} 동안 ${transferType} 내역 ${searchWord} 조회하기`,
-        historyElements: {
-          type: 'inquiry',
-          myAccount: accountId,
-          period: period,
-          transferType: transferType,
-          searchWord: searchWord,
+  const saveHistory = useCallback(
+    async (period: string, transferType: string, searchWord: string) => {
+      const response = await fetchData('/api/history', {
+        method: 'POST',
+        token: session?.accessToken,
+        body: {
+          historyName: `${period} 동안 ${transferType} 내역 ${searchWord} 조회하기`,
+          historyElements: {
+            type: 'inquiry',
+            myAccount: accountId,
+            period: period,
+            transferType: transferType,
+            searchWord: searchWord,
+          },
         },
-      },
-    });
+      });
 
-    if (response.code == 200) {
-      console.log('활동내역 저장 성공');
-    } else {
-      console.error('활동내역 저장 실패');
-    }
-  };
+      if (response.code == 200) {
+        console.log('활동내역 저장 성공');
+      } else {
+        console.error('활동내역 저장 실패');
+      }
+    },
+    [fetchData, accountId, session?.accessToken]
+  );
 
   const handleSearch = useCallback(async () => {
     if (!account) return;
@@ -153,18 +155,16 @@ export default function AccountDetailPage({
     }
   }, [account, saveHistory, fetchTransactionData]);
 
-  const initializeData = async () => {
+  const initializeData = useCallback(async () => {
     if (session?.accessToken) {
       await fetchAccountData();
       await fetchTransactionData();
     }
-  };
+  }, [session?.accessToken, fetchAccountData, fetchTransactionData]);
 
   useEffect(() => {
-    if (session?.accessToken) {
-      initializeData();
-    }
-  }, [session?.accessToken]);
+    initializeData();
+  }, [initializeData]);
 
   useEffect(() => {
     if (error) {
