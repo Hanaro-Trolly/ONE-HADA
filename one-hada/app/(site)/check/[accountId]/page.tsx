@@ -129,7 +129,7 @@ export default function AccountDetailPage({
           historyName: `${period} 동안 ${transferType} 내역 ${searchWord} 조회하기`,
           historyElements: {
             type: 'inquiry',
-            myAccount: accountId,
+            myAccount: account?.accountNumber,
             period: period,
             transferType: transferType,
             searchWord: searchWord,
@@ -143,7 +143,7 @@ export default function AccountDetailPage({
         console.error('활동내역 저장 실패');
       }
     },
-    [fetchData, accountId, session?.accessToken]
+    [fetchData, account, session?.accessToken]
   );
 
   const handleSearch = useCallback(async () => {
