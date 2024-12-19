@@ -123,7 +123,7 @@ export default function Home() {
               위한 추천!{' '}
             </span>
             <div>
-              <AutoMessageCarousel messages={recommendList} />
+              <AutoMessageCarousel recommendProductList={recommendList} />
             </div>
           </div>
         ) : (

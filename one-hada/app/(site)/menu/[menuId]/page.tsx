@@ -38,8 +38,11 @@ export default function MenuPage({ params }: { params: { menuId: string } }) {
         </div>
         <div className='w-full h-full border-2 items-center justify-center flex'>
           <div className='w-full h-full flex flex-col gap-2 items-center justify-center'>
-            <div className='text-center'>
+            <div className='text-center text-xl font-semibold'>
               {menus.products[selectedButtonIdx]}
+            </div>
+            <div className='text-center'>
+              {menus.details && menus.details[selectedButtonIdx]}
             </div>
             <Button
               variant='ghost'

@@ -10,12 +10,20 @@ import Link from 'next/link';
 import { Button } from '../ui/button';
 
 interface AutoMessageCarouselProps {
-  messages: string[];
+  recommendProductList: string[];
 }
 
 export default function AutoMessageCarousel({
-  messages,
+  recommendProductList,
 }: AutoMessageCarouselProps) {
+  const formatMenuUrl = (productId: string) => {
+    const matches = productId.match(/product(\w+)(\d+)/);
+
+    if (!matches) return '/menu';
+
+    const [, menuType, idx] = matches;
+    return `/menu/${menuType}?productIdx=${idx}`;
+  };
   return (
     <div className='flex justify-center'>
       <Carousel
@@ -31,16 +39,16 @@ export default function AutoMessageCarousel({
         className='h-16 w-full flex justify-between items-center'
       >
         <CarouselContent showDots={false}>
-          {messages.map((message, index) => (
+          {recommendProductList.map((productId, index) => (
             <CarouselItem key={index}>
-              <Link href='/menu'>
+              <Link href={formatMenuUrl(productId)}>
                 <Button
-                  id={message}
+                  id={'homeButton' + productId}
                   variant='home'
                   className='h-16 w-full mx-2 font-medium rounded-x bg-white hover:bg-[#F0F0F0]'
                 >
                   <label className='overflow-ellipsis overflow-hidden whitespace-nowrap '>
-                    {message}
+                    {productId}
                   </label>
                 </Button>
               </Link>
