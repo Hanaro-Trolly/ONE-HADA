@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/carousel';
 import { PRODUCT_LIST } from '@/data/productData';
 import Autoplay from 'embla-carousel-autoplay';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
@@ -69,7 +70,13 @@ export default function AutoMessageCarousel({
                     </label>
                   </div>
                   <div>
-                    <p className='tossface-icon text-2xl'>🎁</p>
+                    <Image
+                      src={`/products/${menuType}${index}.png`}
+                      alt={`${menuType} ${index}`}
+                      width={40}
+                      height={40}
+                      priority
+                    />
                   </div>
                 </Button>
               </Link>
