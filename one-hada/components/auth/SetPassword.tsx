@@ -8,6 +8,7 @@ import {
   SetStateAction,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { UserInput } from '@/lib/datatypes';
@@ -25,8 +26,11 @@ export default function SetPassword({
   const { data: session, update } = useSession();
   const [isFist, setIsfirst] = useState<boolean>(true);
   const [firstPassword, setFirstPassword] = useState<string | null>(null);
+  const isRegistering = useRef(false);
+  const isRegistered = useRef(false);
 
   const login = useCallback(async () => {
+    console.log('login function called');
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/signin`,
@@ -41,6 +45,7 @@ export default function SetPassword({
       );
 
       const data = await response.json();
+      console.log('login response received:', data);
 
       if (data.code == 200 && data.status === 'EXIST') {
         try {
@@ -62,6 +67,9 @@ export default function SetPassword({
   }, [router, session?.user.email, session?.user.provider, update]);
 
   const register = useCallback(async () => {
+    if (isRegistering.current) return;
+    isRegistering.current = true;
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/register`,
@@ -75,13 +83,15 @@ export default function SetPassword({
       const data = await response.json();
       if (data.status == 'EXIST') {
         alert('기존 계정과 연동하였습니다');
-        login();
+        await login();
       } else if (data.status == 'NEW') {
         alert('회원등록에 성공하였습니다');
-        login();
+        await login();
       }
     } catch (error) {
       console.error('회원가입 중 오류 발생', error);
+    } finally {
+      isRegistering.current = false;
     }
   }, [login, userData]);
 
@@ -116,10 +126,14 @@ export default function SetPassword({
   };
 
   useEffect(() => {
-    if (userData?.simplePassword) {
-      register();
-    }
-  }, [register, userData]);
+    const registerOnce = async () => {
+      if (userData?.simplePassword && !isRegistered.current) {
+        isRegistered.current = true;
+        await register();
+      }
+    };
+    registerOnce();
+  }, [userData?.simplePassword, register]);
 
   return (
     <div className='py-8 px-10 w-full flex flex-col items-center justify-center'>
