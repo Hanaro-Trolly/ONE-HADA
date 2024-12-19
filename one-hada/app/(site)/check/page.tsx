@@ -4,7 +4,7 @@ import AccountCard from '@/components/molecules/AccountCard';
 import AccountTypeButton from '@/components/molecules/AccountTypeButton';
 import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Account } from '@/lib/datatypes';
 
@@ -13,6 +13,7 @@ type AccountType = (typeof ACCOUNT_TYPES)[number];
 
 export default function CheckPage() {
   const { data: session } = useSession();
+  const router = useRouter();
   const userId = session?.user.id;
   const { fetchData, error } = useFetch<Account[]>();
 
@@ -42,6 +43,24 @@ export default function CheckPage() {
       setAccountData(response.data);
     }
   }, [fetchData, session?.accessToken]);
+
+  const setRedis = async () => {
+    return await fetchData(`/api/redis`, {
+      method: 'POST',
+      body: {
+        period: '전체',
+        transferType: '전체',
+        searchWord: '',
+      },
+    });
+  };
+
+  const handleCheckPage = async (account: Account) => {
+    const response = await setRedis();
+    if (response.code == 200) {
+      router.push(`/check/${account.accountId}`);
+    }
+  };
 
   useEffect(() => {
     if (userId) {
@@ -84,7 +103,11 @@ export default function CheckPage() {
       {/* 계좌 카드 리스트 */}
       <div>
         {filteredAccounts.map((account) => (
-          <Link key={account.accountId} href={`/check/${account.accountId}`}>
+          <button
+            key={account.accountId}
+            onClick={() => handleCheckPage(account)}
+            className='flex flex-col w-full'
+          >
             <AccountCard
               accountId={account.accountId}
               accountNumber={account.accountNumber}
@@ -92,7 +115,7 @@ export default function CheckPage() {
               balance={account.balance}
               bank={account.bank}
             />
-          </Link>
+          </button>
         ))}
       </div>
     </div>
