@@ -23,11 +23,16 @@ export default function ShortCutCard({
   shortcutElements,
   onButtonClick,
 }: ShortCutCardProps) {
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (e.target === e.currentTarget) {
+      onButtonClick(shortcutElements);
+    }
+  };
   return (
     <Button
       key={id}
       className='bg-white shadow-md flex-1 rounded-lg border-l-[10px] border-[#AEDBCE] mx-6 my-2 py-4 h-16 flex justify-between hover:bg-white'
-      onClick={() => onButtonClick(shortcutElements)}
+      onClick={handleButtonClick}
     >
       <div className='flex items-center gap-1 max-w-64 min-w-[170px]'>
         <label className='font-medium text-lg text-[#635666] overflow-ellipsis overflow-hidden whitespace-nowrap'>

@@ -2,12 +2,19 @@
 
 import { Button } from '@/components/ui/button';
 import { PRODUCT_LIST } from '@/data/productData';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function MenuPage({ params }: { params: { menuId: string } }) {
+  const searchParams = useSearchParams();
   const [selectedButtonIdx, setSelectedButtonIdx] = useState<number>(0);
   const { menuId } = params;
   const menus = PRODUCT_LIST[menuId];
+
+  useEffect(() => {
+    const currentProductIdx = Number(searchParams.get('productIdx') || '0');
+    setSelectedButtonIdx(currentProductIdx);
+  }, [searchParams]);
 
   return (
     <div className='bg-[#DCEFEA] min-h-[calc(100vh-64px)] overflow-y-scroll mt-3 shadow-sm flex justify-center'>
