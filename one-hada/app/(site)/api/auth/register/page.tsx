@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { UserInput } from '@/lib/datatypes';
 
@@ -74,10 +75,18 @@ export default function Register() {
       ) : (
         <div
           style={{ height: 'calc(100vh - 56px)' }}
-          className='max-w-md mx-auto p-10 flex'
+          className='max-w-md mx-auto p-5 flex'
         >
           <div className='flex-1 flex flex-col justify-between'>
             <div className='flex flex-col items-center'>
+              <Image
+                src='/images/one-hada.png'
+                alt='One Hada Logo'
+                width={100}
+                height={40}
+                className='mx-auto mb-6'
+                priority
+              />
               <div className='flex flex-wrap items-center justify-center mb-2 text-center gap-1'>
                 <h1 className='text-main-green text-2xl font-medium whitespace-nowrap'>
                   원하다
