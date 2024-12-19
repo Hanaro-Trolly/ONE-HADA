@@ -87,6 +87,24 @@ export default function Home() {
     }
   };
 
+  const setRedis = async () => {
+    return await fetchData(`/api/redis`, {
+      method: 'POST',
+      body: {
+        period: '전체',
+        transferType: '전체',
+        searchWord: '',
+      },
+    });
+  };
+
+  const handleCheckPage = async () => {
+    const response = await setRedis();
+    if (response.code == 200) {
+      routerPage('/check');
+    }
+  };
+
   const handleButtonClick = async (shortcutElements: HistoryElementType) => {
     const success = await handleShortcutClick(
       shortcutElements,
@@ -147,7 +165,7 @@ export default function Home() {
           <div className='w-1/2 p-2'>
             <Button
               id='checkBtn'
-              onClick={() => routerPage('/check')}
+              onClick={handleCheckPage}
               className={`bg-[#D3EBCD] hover:bg-[#B8E3C7] ${buttonClassName}`}
             >
               <p className='tossface-icon text-4xl'>💰</p>조회하기

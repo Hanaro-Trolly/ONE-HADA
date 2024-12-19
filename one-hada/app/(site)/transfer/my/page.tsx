@@ -20,15 +20,20 @@ export default function TransferPage() {
   const { data: session } = useSession();
 
   const [userAccount, setUserAccount] = useState<Account[]>([]);
-  const [selectedAccount, setSelectedAccount] = useState<string>();
+  const [selectedAccountId, setSelectedAccountId] = useState<string>();
   const { fetchData, error } = useFetch<Account[]>();
 
   // 레디스 적용하고 url 수정하기
-  const handleClick = async (selectedAccount: number) => {
+  const handleClick = async (selectedAccountId: string) => {
+    const selectedAccount = userAccount.find(
+      (account) => account.accountId === selectedAccountId
+    );
+
     await fetchData(`/api/redis`, {
       method: 'POST',
       body: {
-        senderAccountId: selectedAccount,
+        senderAccountId: selectedAccount?.accountId,
+        senderAccountNumber: selectedAccount?.accountNumber,
       },
     });
     router.push('/transfer/recipient');
@@ -72,7 +77,7 @@ export default function TransferPage() {
         <h1 className='text-center font-medium text-xl pt-4 mb-10'>
           어떤 계좌로 보낼까요?
         </h1>
-        <Select onValueChange={setSelectedAccount}>
+        <Select onValueChange={setSelectedAccountId}>
           <SelectTrigger
             id='gender'
             className='w-[300px] h-20 text-md flex items-center justify-center space-x-4 data-[placeholder]:text-gray-400 data-[placeholder]:text-center data-[placeholder]:font-light bg-white rounded-xl shadow-none focus:outline-none focus:ring-0 border-0 ring-0'
@@ -113,8 +118,8 @@ export default function TransferPage() {
         id='211'
         className='w-full h-10 mx-8 bg-main-green text-white text-lg hover:bg-[#479e86] focus:bg-[#479e86]'
         onClick={() => {
-          if (selectedAccount) {
-            handleClick(Number(selectedAccount));
+          if (selectedAccountId) {
+            handleClick(selectedAccountId);
           } else {
             alert('계좌를 선택해주세요.');
           }
