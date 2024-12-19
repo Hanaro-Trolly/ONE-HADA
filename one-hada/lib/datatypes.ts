@@ -73,6 +73,15 @@ type HistoryElementType = {
   period?: string;
   transferType?: string;
   searchWord?: string;
+
+  //아래는 Redis
+  senderAccountId?: string;
+  senderAccountName?: string;
+  senderName?: string;
+  receiverName?: string;
+  receiverAccountId?: string;
+  receiverAccountBank?: string;
+  receiverAccountName?: string;
 };
 
 type UserInput = {

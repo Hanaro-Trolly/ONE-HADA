@@ -10,6 +10,16 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { History, HistoryElementType } from '@/lib/datatypes';
 import { reorderObject } from '@/lib/reorderObject';
 
+type RedisElementType = {
+  senderAccountId?: string;
+  senderAccountName?: string;
+  senderName?: string;
+  receiverAccountId?: string;
+  receiverAccountBank?: string;
+  receiverAccountName?: string;
+  receiverName?: string;
+};
+
 export default function HistoryModalPage({
   params: { historyId },
 }: {
@@ -22,6 +32,7 @@ export default function HistoryModalPage({
   const [historyElements, setHistoryElements] = useState<HistoryElementType>({
     type: '',
   });
+  const [redisElements, setRedisElements] = useState<RedisElementType>();
   const { data: session } = useSession();
   const { fetchData } = useFetch();
 
@@ -62,7 +73,7 @@ export default function HistoryModalPage({
         token: session?.accessToken,
         body: {
           shortcutName: inputRef.current.value,
-          shortcutElements: checkedElements,
+          shortcutElements: { ...checkedElements, ...redisElements },
         },
       });
 
@@ -118,6 +129,7 @@ export default function HistoryModalPage({
         });
         if (response.code === 200) {
           const data = response.data;
+          setRedisElements(data.historyElements as RedisElementType);
           data.historyElements = reorderObject(data.historyElements);
           setHistory(data);
           parsedElementsRef.current = data.historyElements;
