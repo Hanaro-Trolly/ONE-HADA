@@ -11,9 +11,16 @@ export default function TransactionList({
 }: TransactionListProps) {
   useEffect(() => {}, [groupedTransactions]);
 
+  if (Object.keys(groupedTransactions).length === 0) {
+    return (
+      <div className='flex-grow bg-white flex justify-center items-center'>
+        <p className='text-gray-500'>거래내역이 없습니다.</p>
+      </div>
+    );
+  }
+
   return (
-    <>
-      {/* 거래 내역 리스트 */}
+    <div className='flex-grow bg-white'>
       {Object.entries(groupedTransactions)
         .sort(
           ([dateA], [dateB]) =>
@@ -26,6 +33,6 @@ export default function TransactionList({
             transactions={transactions}
           />
         ))}
-    </>
+    </div>
   );
 }

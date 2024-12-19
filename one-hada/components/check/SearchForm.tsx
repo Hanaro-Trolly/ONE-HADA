@@ -1,3 +1,5 @@
+'use clinet';
+
 import TypeButton from '@/components/molecules/TypeButton';
 import {
   Drawer,
@@ -8,17 +10,20 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
+import { useFetch } from '@/hooks/useFetch';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { formatDate } from '@/lib/formatDate';
 
 interface SearchFormProps {
-  onSearch: (params: Record<string, string>) => void;
+  onSearch: () => void;
 }
 
 const PERIOD_OPTIONS = ['전체', '1개월', '3개월', '6개월', '1년'] as const;
 const TRANSACTION_TYPES = ['전체', '입금', '출금'] as const;
 
 export default function SearchForm({ onSearch }: SearchFormProps) {
+  const { fetchData, error } = useFetch();
   const [formState, setFormState] = useState({
     period: '전체',
     type: '전체',
@@ -29,6 +34,21 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
 
   const startDateRef = useRef<HTMLInputElement>(null);
   const endDateRef = useRef<HTMLInputElement>(null);
+
+  const buttonClassName = (isSelected: boolean) => `
+  ${isSelected ? 'bg-[#95D0BF] text-white' : 'bg-[#ffffff] text-black shadow-none hover:bg-[#95D0BF] hover:text-white'}
+  rounded-full px-4 py-2 focus:bg-[#95D0BF] focus:text-white
+`;
+
+  const formatDateForInput = (isoString: string) => {
+    if (!isoString) return '';
+    const date = new Date(isoString);
+    return date.toISOString().split('T')[0];
+  };
+
+  const handleDateClick = (inputRef: React.RefObject<HTMLInputElement>) => {
+    inputRef.current?.showPicker();
+  };
 
   const handleFormChange = (field: string, value: string) => {
     // 날짜 필드가 아닌 경우 또는 period인 경우 직접 값 설정
@@ -65,24 +85,40 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
     }
   };
 
-  const handleSubmit = () => {
-    onSearch(formState);
+  const createPeriodText = (formState: Record<string, string>) => {
+    return formState.startDate && formState.endDate
+      ? `${formatDate(formState.startDate)}부터 ${formatDate(formState.endDate)}`
+      : formState.period;
   };
 
-  const buttonClassName = (isSelected: boolean) => `
-    ${isSelected ? 'bg-[#95D0BF] text-white' : 'bg-[#ffffff] text-black shadow-none hover:bg-[#95D0BF] hover:text-white'}
-    rounded-full px-4 py-2 focus:bg-[#95D0BF] focus:text-white
-  `;
+  const setRedis = async () => {
+    const periodText = createPeriodText(formState);
+    const response = await fetchData(`/api/redis`, {
+      method: 'POST',
+      body: {
+        period: periodText,
+        transferType: formState.type,
+        searchWord: formState.searchKeyword,
+      },
+    });
 
-  const formatDateForInput = (isoString: string) => {
-    if (!isoString) return '';
-    const date = new Date(isoString);
-    return date.toISOString().split('T')[0];
+    return response;
   };
 
-  const handleDateClick = (inputRef: React.RefObject<HTMLInputElement>) => {
-    inputRef.current?.showPicker();
+  const handleSubmit = async () => {
+    const response = await setRedis();
+    if (response.code == 200) {
+      onSearch();
+    } else {
+      console.error('레디스 저장 실패');
+    }
   };
+
+  useEffect(() => {
+    if (error) {
+      console.error('Fetch 에러 발생:', error);
+    }
+  }, [error]);
 
   return (
     <Drawer>

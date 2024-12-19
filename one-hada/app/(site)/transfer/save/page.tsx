@@ -9,6 +9,8 @@ interface RedisData {
   amount: string;
   senderAccountId: string;
   senderName: string;
+  senderAccountNumber: string;
+  receiverAccountNumber: string;
   receiverAccountId: string;
   receiverName: string;
 }
@@ -61,10 +63,19 @@ export default function Save() {
 
   const saveHistory = useCallback(
     async (historyData: RedisData) => {
-      const { senderAccountId, receiverAccountId, receiverName, amount } =
-        historyData;
+      const {
+        senderAccountNumber,
+        receiverAccountNumber,
+        receiverName,
+        amount,
+      } = historyData;
 
-      if (senderAccountId && receiverAccountId && receiverName && amount) {
+      if (
+        senderAccountNumber &&
+        receiverAccountNumber &&
+        receiverName &&
+        amount
+      ) {
         const response = await fetchData('/api/history', {
           method: 'POST',
           token: session?.accessToken,
@@ -72,8 +83,8 @@ export default function Save() {
             historyName: `${receiverName}에게 ${amount} 이체`,
             historyElements: {
               type: 'transfer',
-              myAccount: senderAccountId,
-              receiverAccount: receiverAccountId,
+              myAccount: senderAccountNumber,
+              receiverAccount: receiverAccountNumber,
               amount: amount,
             },
           },
@@ -100,6 +111,8 @@ export default function Save() {
           'amount',
           'senderName',
           'senderAccountId',
+          'senderAccountNumber',
+          'receiverAccountNumber',
           'receiverName',
           'receiverAccountId',
         ],

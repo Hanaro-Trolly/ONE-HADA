@@ -7,7 +7,6 @@ import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Account, Transaction } from '@/lib/datatypes';
-import { formatDate } from '@/lib/formatDate';
 
 export default function AccountDetailPage({
   params,
@@ -19,13 +18,6 @@ export default function AccountDetailPage({
   const { fetchData, error } = useFetch<Account>();
   const [account, setAccount] = useState<Account>();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [searchParams, setSearchParams] = useState<Record<string, string>>({
-    period: '전체',
-    type: '전체',
-    startDate: '',
-    endDate: '',
-    searchKeyword: '',
-  });
 
   const fetchAccountData = useCallback(async () => {
     const response = await fetchData(`/api/accounts/${accountId}`, {
@@ -38,73 +30,109 @@ export default function AccountDetailPage({
     }
   }, [fetchData, accountId, session?.accessToken]);
 
-  const fetchTransactionData = useCallback(async () => {
-    const now = new Date();
-    let endDate = now.toISOString();
-    let startDate = '';
-
-    switch (searchParams.period) {
-      case '1개월':
-        startDate = new Date(now.setMonth(now.getMonth() - 1)).toISOString();
-        break;
-
-      case '3개월':
-        startDate = new Date(now.setMonth(now.getMonth() - 3)).toISOString();
-        break;
-
-      case '6개월':
-        startDate = new Date(now.setMonth(now.getMonth() - 6)).toISOString();
-        break;
-
-      case '1년':
-        startDate = new Date(
-          now.setFullYear(now.getFullYear() - 1)
-        ).toISOString();
-        break;
-
-      default:
-        endDate = searchParams.endDate;
-        startDate = searchParams.startDate;
-        break;
-    }
-
+  const getTransactions = async (
+    startDate: string,
+    endDate: string,
+    transferType: string,
+    searchWord: string
+  ) => {
     const response = await fetchData(`/api/transaction/${accountId}`, {
       method: 'POST',
       token: session?.accessToken,
       body: {
         startDate: startDate,
         endDate: endDate,
-        transactionType: searchParams.type,
-        keyword: searchParams.searchKeyword,
+        transactionType: transferType,
+        keyword: searchWord,
       },
     });
-
     if (response.code == 200) {
       setTransactions(response.data);
     } else {
       console.log('거래내역 조회 오류');
     }
-  }, [accountId, fetchData, searchParams, session?.accessToken]);
-
-  const createPeriodText = (searchParams: Record<string, string>) => {
-    return searchParams.startDate && searchParams.endDate
-      ? `${formatDate(searchParams.startDate)}부터 ${formatDate(searchParams.endDate)}`
-      : searchParams.period;
   };
 
-  const saveHistory = async () => {
-    const periodText = createPeriodText(searchParams);
+  const changePeriod = async (period: string) => {
+    const now = new Date();
+    let endDate = now.toISOString();
+    let startDate = '';
+    switch (period) {
+      case '1개월':
+        startDate = new Date(now.setMonth(now.getMonth() - 1)).toISOString();
+        break;
+      case '3개월':
+        startDate = new Date(now.setMonth(now.getMonth() - 3)).toISOString();
+        break;
+      case '6개월':
+        startDate = new Date(now.setMonth(now.getMonth() - 6)).toISOString();
+        break;
+      case '1년':
+        startDate = new Date(
+          now.setFullYear(now.getFullYear() - 1)
+        ).toISOString();
+        break;
+      default:
+        endDate = '';
+        break;
+    }
+
+    return { startDate, endDate };
+  };
+
+  const formatDateToISO = (dateStr: string): string => {
+    const [year, month, day] = dateStr.split('-');
+
+    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    date.setHours(0, 0, 0, 0);
+
+    const utcDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+
+    return utcDate.toISOString();
+  };
+
+  const fetchTransactionData = useCallback(async () => {
+    const response = await fetchData('/api/redis/get', {
+      method: 'POST',
+      body: ['period', 'transferType', 'searchWord'],
+    });
+
+    if (response.code == 200) {
+      const { period, transferType, searchWord } = response.data;
+
+      const periodList: string[] = period.split('부터');
+      if (periodList.length === 2) {
+        const startDate: string = formatDateToISO(periodList[0].trim());
+        const endDate: string = formatDateToISO(periodList[1].trim());
+        await getTransactions(startDate, endDate, transferType, searchWord);
+      } else {
+        const { startDate, endDate } = await changePeriod(period);
+        await getTransactions(startDate, endDate, transferType, searchWord);
+      }
+
+      return { period, transferType, searchWord };
+    } else {
+      console.log('레디스 정보 가져오기 실패');
+      return undefined;
+    }
+  }, [getTransactions]);
+
+  const saveHistory = async (
+    period: string,
+    transferType: string,
+    searchWord: string
+  ) => {
     const response = await fetchData('/api/history', {
       method: 'POST',
       token: session?.accessToken,
       body: {
-        historyName: `${periodText} 동안 ${searchParams.type} 내역 ${searchParams.searchKeyword} 조회하기`,
+        historyName: `${period} 동안 ${transferType} 내역 ${searchWord} 조회하기`,
         historyElements: {
           type: 'inquiry',
           myAccount: accountId,
-          period: periodText,
-          transferType: searchParams.type,
-          searchWord: searchParams.searchKeyword,
+          period: period,
+          transferType: transferType,
+          searchWord: searchWord,
         },
       },
     });
@@ -116,19 +144,27 @@ export default function AccountDetailPage({
     }
   };
 
-  const handleSearch = async (newSearchParams: Record<string, string>) => {
+  const handleSearch = useCallback(async () => {
     if (!account) return;
-    setSearchParams(newSearchParams);
-    saveHistory();
-    fetchTransactionData();
+    const result = await fetchTransactionData();
+    if (result) {
+      const { period, transferType, searchWord } = result;
+      await saveHistory(period, transferType, searchWord);
+    }
+  }, [account, saveHistory, fetchTransactionData]);
+
+  const initializeData = async () => {
+    if (session?.accessToken) {
+      await fetchAccountData();
+      await fetchTransactionData();
+    }
   };
 
   useEffect(() => {
     if (session?.accessToken) {
-      fetchAccountData();
-      fetchTransactionData();
+      initializeData();
     }
-  }, [fetchAccountData, fetchTransactionData, session?.accessToken]);
+  }, [session?.accessToken]);
 
   useEffect(() => {
     if (error) {
