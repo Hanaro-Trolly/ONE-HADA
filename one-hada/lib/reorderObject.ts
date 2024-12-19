@@ -1,5 +1,13 @@
 export const reorderObject = (obj: Record<string, string>) => {
-  const orderedKeys = ['type', 'myAccount', 'receiverAccount', 'amount'];
+  const orderedKeys = [
+    'type',
+    'myAccount',
+    'receiverAccount',
+    'amount',
+    'period',
+    'transferType',
+    'searchWord',
+  ];
   const newObj: Record<string, string> = {};
 
   orderedKeys.forEach((key) => {
