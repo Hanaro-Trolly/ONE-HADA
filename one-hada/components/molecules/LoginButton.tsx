@@ -9,9 +9,8 @@ export default function LoginButton() {
   const { data: session } = useSession();
   const { error } = useFetch();
 
-  const handleSignIn = async () => {
-    await signOut();
-    await signIn();
+  const handleSignIn = () => {
+    signIn();
   };
 
   // const handleSignOut = async () => {
