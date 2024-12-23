@@ -46,6 +46,8 @@ export default function CheckPassword() {
             });
             console.log('Session updated:', session);
             alert('토큰갱신 성공');
+            router.back();
+          } else {
             router.push(route);
           }
         } else if (response.code == 200 && response.status == 'UNAUTHORIZED') {

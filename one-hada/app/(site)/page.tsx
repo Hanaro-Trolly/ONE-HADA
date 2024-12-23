@@ -190,7 +190,7 @@ export default function Home() {
 
       <div className='flex-grow'></div>
       <footer>
-        <div className='h-14 w-full mb-4'>
+        <div className='h-14 w-full pb-2'>
           <Link href='tel:010-2905-5905'>
             <Button
               id='homeButtonCall'
