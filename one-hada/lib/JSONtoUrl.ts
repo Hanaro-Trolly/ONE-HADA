@@ -12,7 +12,7 @@ const JSONtoUrl = (elements: HistoryElementType) => {
       return `/transfer/recipient`;
     }
   } else if (elements.type === 'inquiry' && elements.myAccount) {
-    return `/check/${elements.myAccount}`;
+    return `/check/${elements.senderAccountId}`;
   }
   return `/menu/${elements.type}`;
 };

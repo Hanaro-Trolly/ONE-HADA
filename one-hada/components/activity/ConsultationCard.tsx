@@ -37,7 +37,12 @@ export default function ConsultationCard({
           </div>
         </div>
         <div className='items-center flex justify-center'>
-          <Button variant='ghost' className='[&_svg]:size-6' onClick={toggle}>
+          <Button
+            id='consultationButtonDetailToggle'
+            variant='ghost'
+            className='[&_svg]:size-6'
+            onClick={toggle}
+          >
             {isDetail ? <ChevronUp /> : <ChevronDown />}
           </Button>
         </div>

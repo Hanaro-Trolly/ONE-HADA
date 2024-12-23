@@ -1,4 +1,3 @@
-// components/molecules/AccountTypeButton.tsx
 import React, { ButtonHTMLAttributes } from 'react';
 
 interface AccountTypeButtonProps
@@ -9,11 +8,9 @@ interface AccountTypeButtonProps
 }
 
 const AccountTypeButton: React.FC<AccountTypeButtonProps> = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   account_type,
   onClick,
   isSelected = false,
-  children,
   ...rest
 }) => {
   const buttonClassName = isSelected
@@ -22,11 +19,12 @@ const AccountTypeButton: React.FC<AccountTypeButtonProps> = ({
 
   return (
     <button
+      id='checkButtonAccountType'
       onClick={onClick}
       className={`${buttonClassName} rounded-full px-4 py-2 focus:outline-none text-sm`}
       {...rest}
     >
-      {children}
+      {account_type}
     </button>
   );
 };

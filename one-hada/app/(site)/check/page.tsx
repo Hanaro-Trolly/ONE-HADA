@@ -94,9 +94,7 @@ export default function CheckPage() {
             account_type={type}
             onClick={() => setSelectedType(type)}
             isSelected={selectedType === type}
-          >
-            {type}
-          </AccountTypeButton>
+          />
         ))}
       </div>
 
@@ -104,6 +102,7 @@ export default function CheckPage() {
       <div>
         {filteredAccounts.map((account) => (
           <button
+            id='checkButtonAccountCard'
             key={account.accountId}
             onClick={() => handleCheckPage(account)}
             className='flex flex-col w-full'

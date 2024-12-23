@@ -33,39 +33,42 @@ export default function Home() {
   const buttonClassName = 'w-full h-full text-[#635666] text-lg flex flex-col';
 
   useEffect(() => {
-    if (!session?.accessToken) return;
+    const fetchData = async () => {
+      if (!session?.accessToken) return;
 
-    const getUserName = async () => {
-      const response = await fetchUser(`/api/user`, {
-        method: 'GET',
-        token: session?.accessToken,
-      });
+      try {
+        const userResponse = await fetchUser(`/api/user`, {
+          method: 'GET',
+          token: session?.accessToken,
+        });
 
-      if (response.code == 200) {
-        setUserName(response.data.userName);
+        if (userResponse.code == 200) {
+          setUserName(userResponse.data.userName);
+        }
+
+        const favoriteResponse = await fetchFavorite(`/api/shortcut/favorite`, {
+          method: 'GET',
+          token: session?.accessToken,
+        });
+        setFavoriteList(favoriteResponse.data.shortcuts);
+
+        const recommendResponse = await fetchRecommend(
+          `/api/product/recommend`,
+          {
+            method: 'GET',
+            token: session?.accessToken,
+          }
+        );
+        setRecommendList(
+          recommendResponse.data.map(({ name }: { name: string }) => name)
+        );
+      } catch (error) {
+        console.error('Fetch error:', error);
       }
     };
 
-    const getFavoriteList = async () => {
-      const response = await fetchFavorite(`/api/shortcut/favorite`, {
-        method: 'GET',
-        token: session?.accessToken,
-      });
-      setFavoriteList(response.data.shortcuts);
-    };
-
-    const getRecommend = async () => {
-      const response = await fetchRecommend(`/api/product/recommend`, {
-        method: 'GET',
-        token: session?.accessToken,
-      });
-      setRecommendList(response.data.map(({ name }: { name: string }) => name));
-    };
-
-    getUserName();
-    getFavoriteList();
-    getRecommend();
-  }, [fetchUser, fetchFavorite, session?.accessToken, fetchRecommend]);
+    fetchData();
+  }, [fetchUser, fetchFavorite, fetchRecommend, session?.accessToken]);
 
   useEffect(() => {
     if (userError) {
@@ -119,8 +122,9 @@ export default function Home() {
         {session?.isLogin ? (
           <div>
             <span className='text-sm pl-3'>
-              <span className='tossface-icon text-lg'>✨{userName} </span> 님을
-              위한 추천!{' '}
+              <span className='tossface-icon text-lg'>✨</span>
+              <span className='text-lg'>{userName} </span>
+              님을 위한 추천!{' '}
             </span>
             <div>
               <AutoMessageCarousel recommendProductList={recommendList} />
@@ -136,7 +140,7 @@ export default function Home() {
       <div className='h-1/2 mb-4 flex flex-col'>
         <div className='w-full h-1/2 p-2'>
           <Button
-            id='activityBtn'
+            id='homeButtonActivity'
             onClick={() => routerPage('/activity')}
             className={`bg-[#D2DAE0] hover:bg-[#AAB8C1] ${buttonClassName}`}
           >
@@ -146,7 +150,7 @@ export default function Home() {
         <div className='flex h-1/2'>
           <div className='w-1/2 p-2'>
             <Button
-              id='checkBtn'
+              id='homeButtonCheck'
               onClick={() => routerPage('/check')}
               className={`bg-[#D3EBCD] hover:bg-[#B8E3C7] ${buttonClassName}`}
             >
@@ -155,7 +159,7 @@ export default function Home() {
           </div>
           <div className='w-1/2 p-2'>
             <Button
-              id='transferBtn'
+              id='homeButtonTransfer'
               onClick={() => routerPage('/transfer/my')}
               className={`bg-[#AEDBCE] hover:bg-[#8CCFC2] ${buttonClassName}`}
             >
@@ -185,10 +189,10 @@ export default function Home() {
 
       <div className='flex-grow'></div>
       <footer>
-        <div className='h-14 w-full'>
+        <div className='h-14 w-full mb-4'>
           {/* <Link href='tel:010-2905-5905'> */}
           <Button
-            id='callBtn'
+            id='homeButtonCall'
             variant='ghost'
             className='w-full h-full text-[#635666] text-xl'
             onClick={handleCallClick}

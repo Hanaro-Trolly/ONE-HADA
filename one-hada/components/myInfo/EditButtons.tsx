@@ -18,6 +18,7 @@ const EditButtons = ({
       {isEditing ? (
         <div className='flex gap-4 items-center'>
           <Button
+            id='myInfoButtonCancel'
             variant='ghost'
             className='px-0 py-1 h-5'
             onClick={handleCancel}
@@ -25,6 +26,7 @@ const EditButtons = ({
             취소
           </Button>
           <Button
+            id='myInfoButtonSave'
             variant='ghost'
             className='px-0 py-1 h-5'
             onClick={handleSave}
@@ -34,6 +36,7 @@ const EditButtons = ({
         </div>
       ) : (
         <Button
+          id='myInfoButtonEdit'
           variant='ghost'
           className='px-0 py-0 font-normal'
           onClick={handleEdit}

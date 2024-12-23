@@ -4,42 +4,63 @@ import PasswordKeypad from '@/components/ui/PasswordKeypad';
 import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 
 export default function CheckPassword() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const { fetchData, error } = useFetch();
   const router = useRouter();
   const searchParams = useSearchParams();
   const route = searchParams.get('route');
+  const newAccessToken = searchParams.get('newAccessToken');
+  const newRefreshToken = searchParams.get('newRefreshToken');
 
-  const handleSubmit = async (
-    password: string[],
-    setPassword: Dispatch<SetStateAction<string[]>>
-  ) => {
-    if (password.length !== 6) {
-      alert('6자리 숫자를 모두 입력해주세요.');
-      return;
-    }
+  const handleSubmit = useCallback(
+    async (
+      password: string[],
+      setPassword: Dispatch<SetStateAction<string[]>>
+    ) => {
+      if (password.length !== 6) {
+        alert('6자리 숫자를 모두 입력해주세요.');
+        return;
+      }
+      console.log('Tokens:', newAccessToken, newRefreshToken);
 
-    const response = await fetchData(`/api/cert/verify`, {
-      method: 'POST',
-      token: session?.accessToken,
-      body: {
-        simplePassword: password.join('').toString(),
-      },
-    });
+      try {
+        const response = await fetchData(`/api/cert/verify`, {
+          method: 'POST',
+          token: newAccessToken || session?.accessToken,
+          body: {
+            simplePassword: password.join('').toString(),
+          },
+        });
 
-    if (response.code == 200) {
-      alert('인증에 성공하였습니다');
-      router.push(`${route}`);
-    } else if (response.code == 401) {
-      setPassword([]);
-      alert('비밀번호가 일치하지 않습니다.');
-    } else if (response.code == 404) {
-      alert('사용자를 찾을 수 없습니다.');
-    }
-  };
+        if (response.code == 200 && response.status == 'OK' && route) {
+          alert('인증에 성공하였습니다');
+          if (newAccessToken && newRefreshToken) {
+            await update({
+              id: session?.user.id,
+              accessToken: newAccessToken,
+              refreshToken: newRefreshToken,
+              isLogin: true,
+            });
+            console.log('Session updated:', session);
+            alert('토큰갱신 성공');
+            router.push(route);
+          }
+        } else if (response.code == 200 && response.status == 'UNAUTHORIZED') {
+          setPassword([]);
+          alert('비밀번호가 일치하지 않습니다.');
+        } else if (response.code == 404) {
+          alert('사용자를 찾을 수 없습니다.');
+        }
+      } catch (error) {
+        console.error('Error during verification:', error);
+        alert('인증 중 오류가 발생했습니다.');
+      }
+    },
+    [fetchData, newAccessToken, newRefreshToken, route, router, session, update]
+  );
 
   useEffect(() => {
     if (error) {

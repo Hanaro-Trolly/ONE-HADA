@@ -107,7 +107,15 @@ export default function AccountDetailPage({
       if (periodList.length === 2) {
         const startDate: string = formatDateToISO(periodList[0].trim());
         const endDate: string = formatDateToISO(periodList[1].trim());
-        await getTransactions(startDate, endDate, transferType, searchWord);
+        const startDateObj = new Date(startDate);
+        const endDateObj = new Date(endDate);
+
+        if (startDateObj > endDateObj) {
+          alert('시작일이 종료일보다 클 수 없습니다');
+          return false;
+        } else {
+          await getTransactions(startDate, endDate, transferType, searchWord);
+        }
       } else {
         const { startDate, endDate } = await changePeriod(period);
         await getTransactions(startDate, endDate, transferType, searchWord);
@@ -129,6 +137,7 @@ export default function AccountDetailPage({
           historyName: `${period} 동안 ${transferType} 내역 ${searchWord} 조회하기`,
           historyElements: {
             type: 'inquiry',
+            senderAccountId: accountId,
             myAccount: account?.accountNumber,
             period: period,
             transferType: transferType,
@@ -143,7 +152,7 @@ export default function AccountDetailPage({
         console.error('활동내역 저장 실패');
       }
     },
-    [fetchData, account, session?.accessToken]
+    [fetchData, account, session?.accessToken, accountId]
   );
 
   const handleSearch = useCallback(async () => {

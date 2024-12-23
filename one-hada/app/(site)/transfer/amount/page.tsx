@@ -51,7 +51,7 @@ export default function AmountInput() {
   };
 
   const handleClick = async () => {
-    if (!amount) {
+    if (!amount || Number(amount) <= 0) {
       alert('금액을 입력해주세요.');
       return;
     }
@@ -182,7 +182,7 @@ export default function AmountInput() {
         </div>
       </div>
       <Button
-        id='232'
+        id='transferButtonToValidation'
         className='w-full h-10 text-white text-lg bg-main-green  py-3 rounded hover:bg-[#479e86] focus:bg-[#479e86] transition'
         onClick={() => handleClick()}
       >

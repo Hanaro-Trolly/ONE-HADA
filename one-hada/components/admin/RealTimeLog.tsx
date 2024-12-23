@@ -1,6 +1,7 @@
 'use client';
 
 import { useAdminWebSocket } from '@/context/admin/AdminWebSocketContext';
+import buttonInfo from '@/data/buttonInfo.json';
 import { useFormattedDate } from '@/hooks/useFormattedDate';
 import { IoOpenOutline } from 'react-icons/io5';
 import { useEffect, useRef } from 'react';
@@ -60,7 +61,10 @@ export default function RealTimeLog({ userId, userName }: RealTimeLogProps) {
               key={index}
               className='p-3 bg-gray-50 rounded-lg flex justify-between items-center'
             >
-              <span className='font-medium'>{log.buttonId}을 눌렀습니다.</span>
+              <span className='font-medium'>
+                {(buttonInfo as Record<string, string>)[log.buttonId]}을
+                눌렀습니다.
+              </span>
               <span className='text-sm text-gray-400'>
                 {formatDate(log.timestamp)}
               </span>

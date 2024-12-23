@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 
 type CheckBoxCardProps = {
+  id: string;
   title: string;
   description: string;
   isChecked: boolean;
@@ -12,6 +13,7 @@ type CheckBoxCardProps = {
 };
 
 export default function CheckBoxCard({
+  id,
   title,
   description,
   isChecked,
@@ -33,6 +35,7 @@ export default function CheckBoxCard({
 
   return (
     <Button
+      id={id}
       className={cn(
         'p-2 h-10 rounded-lg flex items-center gap-2 w-full border mb-1',
         isChecked ? 'bg-gray-100 shadow-inner ' : 'bg-white shadow-sm'

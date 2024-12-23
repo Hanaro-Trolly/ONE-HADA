@@ -16,6 +16,7 @@ type RedisElementType = {
   senderName?: string;
   receiverAccountId?: string;
   receiverAccountBank?: string;
+  receiverAccountNumber?: string;
   receiverAccountName?: string;
   receiverName?: string;
 };
@@ -32,7 +33,9 @@ export default function HistoryModalPage({
   const [historyElements, setHistoryElements] = useState<HistoryElementType>({
     type: '',
   });
-  const [redisElements, setRedisElements] = useState<RedisElementType>();
+  const [redisElements, setRedisElements] = useState<RedisElementType>({
+    senderAccountId: '',
+  });
   const { data: session } = useSession();
   const { fetchData } = useFetch();
 
@@ -67,13 +70,35 @@ export default function HistoryModalPage({
       { type: shortcutElements.type } as Record<string, unknown>
     );
 
+    const filteredRedisElements = Object.keys(redisElements).reduce(
+      (acc, key) => {
+        if (
+          [
+            'senderAccountId',
+            'senderAccountName',
+            'senderName',
+            'receiverAccountId',
+            'receiverAccountNumber',
+            'receiverAccountBank',
+            'receiverAccountName',
+            'receiverName',
+          ].includes(key)
+        ) {
+          acc[key as keyof RedisElementType] =
+            redisElements[key as keyof RedisElementType];
+        }
+        return acc;
+      },
+      {} as RedisElementType
+    );
+
     try {
       await fetchData(`/api/shortcut`, {
         method: 'POST',
         token: session?.accessToken,
         body: {
           shortcutName: inputRef.current.value,
-          shortcutElements: { ...checkedElements, ...redisElements },
+          shortcutElements: { ...checkedElements, ...filteredRedisElements },
         },
       });
 
@@ -167,8 +192,9 @@ export default function HistoryModalPage({
               내계좌: {historyElements.myAccount}
             </div>
             <div className='flex flex-col justify-items-start'>
-              {filteredElements.map(({ key, value }) => (
+              {filteredElements.map(({ key, value }, index) => (
                 <CheckBoxCard
+                  id={`historymodalCheckbox${index}`}
                   key={key}
                   title={key}
                   description={value}
@@ -183,7 +209,7 @@ export default function HistoryModalPage({
         )}
         <div className='flex justify-between gap-4'>
           <Button
-            id='cancle_historymodal'
+            id='historymodalButtonCancel'
             variant='outline'
             className='flex-1 rounded-lg hover:bg-gray-100 border-[#527887] border-opacity-30 text-[#61B89F]'
             onClick={() => router.back()}
@@ -191,7 +217,7 @@ export default function HistoryModalPage({
             취소
           </Button>
           <Button
-            id='create_shortcut'
+            id='historymodalButtonRegister'
             className='flex-1 rounded-lg bg-[#61B89F] hover:bg-[#377b68] text-white'
             onClick={handleSave}
           >
