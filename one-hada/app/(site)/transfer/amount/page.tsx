@@ -51,7 +51,7 @@ export default function AmountInput() {
   };
 
   const handleClick = async () => {
-    if (!amount) {
+    if (!amount || Number(amount) <= 0) {
       alert('금액을 입력해주세요.');
       return;
     }
