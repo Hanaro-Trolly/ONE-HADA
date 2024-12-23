@@ -1,4 +1,5 @@
 import { StarFilledIcon } from '@radix-ui/react-icons';
+import JSONtoUrl from '@/lib/JSONtoUrl';
 import { HistoryElementType } from '@/lib/datatypes';
 import { Button } from '../ui/button';
 
@@ -31,9 +32,11 @@ export default function ShortCutCard({
       onButtonClick(shortcutElements);
     }
   };
+  const where = JSONtoUrl(shortcutElements).split('/')[1];
   return (
     <Button
       key={id}
+      id={`shortcutButtonRedirect${where}`}
       className='bg-white shadow-md flex-1 rounded-lg border-l-[10px] border-[#AEDBCE] mx-6 my-2 py-4 h-16 flex justify-between hover:bg-white'
       onClick={handleButtonClick}
     >

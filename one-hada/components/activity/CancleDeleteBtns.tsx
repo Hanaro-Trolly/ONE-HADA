@@ -10,6 +10,7 @@ const CancelDeleteBtns = ({
 }) => (
   <div className='flex gap-2'>
     <SmallButton
+      id='shortcutButtonCancel'
       classNames='text-[#666666] bg-white hover:bg-gray-200'
       onClick={onCancel}
     >
@@ -17,6 +18,7 @@ const CancelDeleteBtns = ({
       취소
     </SmallButton>
     <SmallButton
+      id='shortcutButtonDelete'
       classNames='bg-[#E44B5B] hover:bg-[#B61C2B]'
       onClick={onDelete}
     >

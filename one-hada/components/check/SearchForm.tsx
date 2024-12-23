@@ -14,6 +14,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { useEffect, useRef, useState } from 'react';
 import { formatDate } from '@/lib/formatDate';
+import { Button } from '../ui/button';
 
 interface SearchFormProps {
   onSearch: () => void;
@@ -125,9 +126,12 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
       <div className='bg-white flex justify-center items-center relative'>
         <h1 className='text-center mt-6 mb-6 text-xl font-medium'>거래 내역</h1>
         <DrawerTrigger asChild>
-          <button className='mt-6 mb-6 px-4 py-2 absolute right-8 tossface-icon bg-[#61B89F] rounded-full hover:bg-[#479e86]'>
+          <Button
+            id='checkButtonSearch'
+            className='mt-6 mb-6 px-4 py-2 absolute right-8 tossface-icon bg-[#61B89F] rounded-full hover:bg-[#479e86]'
+          >
             <MagnifyingGlassIcon className='text-white size-4' />
-          </button>
+          </Button>
         </DrawerTrigger>
       </div>
       <DrawerContent>
@@ -217,13 +221,14 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
           {/* 조회하기 버튼 */}
           <div className='flex justify-center w-full mt-2'>
             <DrawerClose asChild className='w-full'>
-              <button
+              <Button
+                id='checkButtonSearchSubmit'
                 onClick={handleSubmit}
                 tabIndex={0}
                 className='w-4/5 mt-6 px-6 py-2 bg-[#61B89F] text-white rounded-md hover:bg-[#377B68]'
               >
                 조회하기
-              </button>
+              </Button>
             </DrawerClose>
           </div>
         </div>

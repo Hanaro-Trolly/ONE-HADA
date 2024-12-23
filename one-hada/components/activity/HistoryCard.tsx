@@ -23,7 +23,7 @@ export default function HistoryCard({ id, name, date }: HistoryCardProps) {
         <div className='flex items-center'>
           <Link href={`/activity/history/${id}`}>
             <Button
-              id={id}
+              id={`historyButtonHistoryModal`}
               className='rounded-full bg-main-green hover:ring-main-green hover:bg-main-green'
               size='sm'
             >

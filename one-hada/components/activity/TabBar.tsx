@@ -6,9 +6,9 @@ import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 
 const tabs = [
-  { name: '활동내역', href: '/activity/history' },
-  { name: '바로가기', href: '/activity/shortcut' },
-  { name: '상담내역', href: '/activity/consultations' },
+  { name: '활동내역', href: '/activity/history', id: 'History' },
+  { name: '바로가기', href: '/activity/shortcut', id: 'Shortcut' },
+  { name: '상담내역', href: '/activity/consultations', id: 'Consultation' },
 ];
 
 const TabBar = () => {
@@ -38,6 +38,7 @@ const TabBar = () => {
         >
           <Link href={tab.href} className='h-10'>
             <Button
+              id={`activityTab${tab.id}`}
               variant='ghost'
               className='w-full rounded-none hover:bg-main-background hover:text-[#3F8D77]'
               onClick={() => setPosition(index)}

@@ -119,8 +119,9 @@ export default function Home() {
         {session?.isLogin ? (
           <div>
             <span className='text-sm pl-3'>
-              <span className='tossface-icon text-lg'>✨{userName} </span> 님을
-              위한 추천!{' '}
+              <span className='tossface-icon text-lg'>✨</span>
+              <span className='text-lg'>{userName} </span>
+              님을 위한 추천!{' '}
             </span>
             <div>
               <AutoMessageCarousel recommendProductList={recommendList} />

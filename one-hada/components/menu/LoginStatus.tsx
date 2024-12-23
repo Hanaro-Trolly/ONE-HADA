@@ -18,6 +18,7 @@ const LoginStatus = ({ userProfile }: { userProfile: User | null }) => {
           </div>
           <div className='flex items-center h-5 text-gray-500'>
             <Button
+              id='menuButtonLogout'
               variant='ghost'
               className='px-0 py-0 gap-0 font-normal'
               onClick={() => signOut()}
@@ -37,6 +38,7 @@ const LoginStatus = ({ userProfile }: { userProfile: User | null }) => {
         로그인을 해주세요.
         <div className='flex items-center h-5 text-gray-500'>
           <Button
+            id='menuButtonLogin'
             variant='ghost'
             className='px-0 py-0 gap-0 font-normal'
             onClick={() => signIn()}

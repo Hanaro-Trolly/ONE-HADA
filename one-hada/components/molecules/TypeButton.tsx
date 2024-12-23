@@ -9,7 +9,6 @@ type TypeButtonProps = {
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function TypeButton({
-  button_type,
   onClick,
   children,
   // classNames,
@@ -17,7 +16,7 @@ export default function TypeButton({
 }: TypeButtonProps) {
   return (
     <Button
-      id={button_type}
+      id='checkButtonSearchType'
       // className='px-3 py-2 bg-[#61B89F] text-xs text-white rounded-3xl hover:bg-[#377b68] w-12 h-8'
       onClick={onClick}
       {...rest}

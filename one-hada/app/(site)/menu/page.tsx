@@ -64,6 +64,7 @@ export default function MenuPage() {
       </div>
       {isVisible && (
         <Button
+          id='menuButtonScrollUp'
           variant='ghost'
           className='fixed z-50 bottom-4 right-2 p-2 [&_svg]:size-5'
           onClick={scrollToTop}
