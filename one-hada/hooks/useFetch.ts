@@ -1,4 +1,4 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
@@ -45,7 +45,8 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
   const [data, setData] = useState<ApiResponse<T> | undefined>();
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<ErrorWithMessage | undefined>();
-  const { data: session } = useSession();
+  const session = useSession();
+  const sessionData = session?.data;
   const router = useRouter();
 
   const refreshToken = async () => {
@@ -58,7 +59,7 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            refreshToken: session?.refreshToken,
+            refreshToken: sessionData?.refreshToken,
           }),
         }
       );
@@ -78,7 +79,7 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
       console.log(newAccessToken, newRefreshToken);
       return { newAccessToken, newRefreshToken };
     } catch (err) {
-      throw new Error('토큰 갱신 중 오류 발생');
+      throw new Error('토큰 갱신 중 오류 발생' + err);
     }
   };
 
