@@ -11,6 +11,7 @@ interface RedisData {
   senderName: string;
   senderAccountNumber: string;
   receiverAccountNumber: string;
+  receiverAccountBank: string;
   receiverAccountId: string;
   receiverName: string;
 }
@@ -71,6 +72,7 @@ export default function Save() {
         senderAccountId,
         senderName,
         receiverAccountId,
+        receiverAccountBank,
       } = historyData;
 
       if (
@@ -95,6 +97,7 @@ export default function Save() {
               receiverAccountNumber: receiverAccountNumber,
               receiverName: receiverName,
               receiverAccountId: receiverAccountId,
+              receiverAccountBank: receiverAccountBank,
             },
           },
         });
@@ -122,6 +125,7 @@ export default function Save() {
           'senderAccountId',
           'senderAccountNumber',
           'receiverAccountNumber',
+          'receiverAccountBank',
           'receiverName',
           'receiverAccountId',
         ],

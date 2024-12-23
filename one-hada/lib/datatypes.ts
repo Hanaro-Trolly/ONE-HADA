@@ -82,6 +82,7 @@ type HistoryElementType = {
   receiverAccountId?: string;
   receiverAccountBank?: string;
   receiverAccountName?: string;
+  receiverAccountNumber?: string;
 };
 
 type UserInput = {

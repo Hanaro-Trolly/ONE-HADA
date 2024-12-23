@@ -16,6 +16,7 @@ type RedisElementType = {
   senderName?: string;
   receiverAccountId?: string;
   receiverAccountBank?: string;
+  receiverAccountNumber?: string;
   receiverAccountName?: string;
   receiverName?: string;
 };
@@ -77,6 +78,7 @@ export default function HistoryModalPage({
             'senderAccountName',
             'senderName',
             'receiverAccountId',
+            'receiverAccountNumber',
             'receiverAccountBank',
             'receiverAccountName',
             'receiverName',
