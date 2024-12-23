@@ -1,4 +1,4 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
@@ -48,7 +48,7 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const refreshToken = async () => {
+  const refreshToken = useCallback(async () => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/refresh`,
@@ -77,10 +77,11 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
       const newRefreshToken = result.data.refreshToken;
       console.log(newAccessToken, newRefreshToken);
       return { newAccessToken, newRefreshToken };
-    } catch (err) {
+    } catch (error) {
+      console.log(error);
       throw new Error('토큰 갱신 중 오류 발생');
     }
-  };
+  }, [session?.refreshToken]); // 필요한 의존성만 포함
 
   const fetchData = useCallback(
     async (url: string, options: FetchOptions<TBody>) => {
@@ -153,7 +154,7 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
         controller.abort(ABORT_REASON);
       };
     },
-    [router, session]
+    [refreshToken, router]
   );
 
   return { data, isLoading, error, fetchData };

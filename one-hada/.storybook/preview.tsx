@@ -26,7 +26,7 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <SessionWrapper>
-        <div className='min-h-screen bg-gray-50 p-4'>
+        <div className=' bg-gray-50 p-4'>
           <Story />
         </div>
       </SessionWrapper>

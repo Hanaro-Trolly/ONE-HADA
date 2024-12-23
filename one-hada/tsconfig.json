@@ -28,7 +28,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/(site)/api/auth/register/registerPassword",
-    "stories/admin/AdminSubmitButton.stories.tsx"
+    "stories/admin/components/AdminInfo.stories.tsx"
   ],
   "exclude": ["node_modules"]
 }
