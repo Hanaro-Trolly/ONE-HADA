@@ -152,7 +152,7 @@ export default function AccountDetailPage({
         console.error('활동내역 저장 실패');
       }
     },
-    [fetchData, account, session?.accessToken]
+    [fetchData, account, session?.accessToken, accountId]
   );
 
   const handleSearch = useCallback(async () => {
