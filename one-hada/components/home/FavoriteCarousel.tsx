@@ -1,5 +1,3 @@
-import Link from 'next/link';
-import JSONtoUrl from '@/lib/JSONtoUrl';
 import { HistoryElementType, Shortcut } from '@/lib/datatypes';
 import { Button } from '../ui/button';
 import {
@@ -26,18 +24,16 @@ const FavoriteCarousel = ({
       <CarouselContent>
         {favoriteList.map((item, idx) => (
           <CarouselItem key={idx}>
-            <Link href={JSONtoUrl(item.shortcutElements)}>
-              <Button
-                id={'favoriteBtn-' + item.shortcutId}
-                variant='home'
-                className='h-16 w-full mx-2 font-medium rounded-x bg-white hover:bg-[#F0F0F0]'
-                onClick={() => handleButtonClick(item.shortcutElements)}
-              >
-                <label className='overflow-ellipsis overflow-hidden whitespace-nowrap'>
-                  {item.shortcutName}
-                </label>
-              </Button>
-            </Link>
+            <Button
+              id={'favoriteBtn-' + item.shortcutId}
+              variant='home'
+              className='h-16 w-full mx-2 font-medium rounded-x bg-white hover:bg-[#F0F0F0]'
+              onClick={() => handleButtonClick(item.shortcutElements)}
+            >
+              <label className='overflow-ellipsis overflow-hidden whitespace-nowrap'>
+                {item.shortcutName}
+              </label>
+            </Button>
           </CarouselItem>
         ))}
       </CarouselContent>
