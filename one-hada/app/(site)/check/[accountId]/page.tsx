@@ -107,7 +107,15 @@ export default function AccountDetailPage({
       if (periodList.length === 2) {
         const startDate: string = formatDateToISO(periodList[0].trim());
         const endDate: string = formatDateToISO(periodList[1].trim());
-        await getTransactions(startDate, endDate, transferType, searchWord);
+        const startDateObj = new Date(startDate);
+        const endDateObj = new Date(endDate);
+
+        if (startDateObj > endDateObj) {
+          alert('시작일이 종료일보다 클 수 없습니다');
+          return false;
+        } else {
+          await getTransactions(startDate, endDate, transferType, searchWord);
+        }
       } else {
         const { startDate, endDate } = await changePeriod(period);
         await getTransactions(startDate, endDate, transferType, searchWord);
