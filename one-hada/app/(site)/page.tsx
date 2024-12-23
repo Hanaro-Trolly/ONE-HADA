@@ -33,39 +33,42 @@ export default function Home() {
   const buttonClassName = 'w-full h-full text-[#635666] text-lg flex flex-col';
 
   useEffect(() => {
-    if (!session?.accessToken) return;
+    const fetchData = async () => {
+      if (!session?.accessToken) return;
 
-    const getUserName = async () => {
-      const response = await fetchUser(`/api/user`, {
-        method: 'GET',
-        token: session?.accessToken,
-      });
+      try {
+        const userResponse = await fetchUser(`/api/user`, {
+          method: 'GET',
+          token: session?.accessToken,
+        });
 
-      if (response.code == 200) {
-        setUserName(response.data.userName);
+        if (userResponse.code == 200) {
+          setUserName(userResponse.data.userName);
+        }
+
+        const favoriteResponse = await fetchFavorite(`/api/shortcut/favorite`, {
+          method: 'GET',
+          token: session?.accessToken,
+        });
+        setFavoriteList(favoriteResponse.data.shortcuts);
+
+        const recommendResponse = await fetchRecommend(
+          `/api/product/recommend`,
+          {
+            method: 'GET',
+            token: session?.accessToken,
+          }
+        );
+        setRecommendList(
+          recommendResponse.data.map(({ name }: { name: string }) => name)
+        );
+      } catch (error) {
+        console.error('Fetch error:', error);
       }
     };
 
-    const getFavoriteList = async () => {
-      const response = await fetchFavorite(`/api/shortcut/favorite`, {
-        method: 'GET',
-        token: session?.accessToken,
-      });
-      setFavoriteList(response.data.shortcuts);
-    };
-
-    const getRecommend = async () => {
-      const response = await fetchRecommend(`/api/product/recommend`, {
-        method: 'GET',
-        token: session?.accessToken,
-      });
-      setRecommendList(response.data.map(({ name }: { name: string }) => name));
-    };
-
-    getUserName();
-    getFavoriteList();
-    getRecommend();
-  }, [fetchUser, fetchFavorite, session?.accessToken, fetchRecommend]);
+    fetchData();
+  }, [fetchUser, fetchFavorite, fetchRecommend, session?.accessToken]);
 
   useEffect(() => {
     if (userError) {
@@ -185,7 +188,7 @@ export default function Home() {
 
       <div className='flex-grow'></div>
       <footer>
-        <div className='h-14 w-full'>
+        <div className='h-14 w-full mb-4'>
           {/* <Link href='tel:010-2905-5905'> */}
           <Button
             id='homeButtonCall'

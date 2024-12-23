@@ -1,3 +1,5 @@
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
 interface FetchOptions<TBody> {
@@ -43,6 +45,42 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
   const [data, setData] = useState<ApiResponse<T> | undefined>();
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<ErrorWithMessage | undefined>();
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const refreshToken = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cert/refresh`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            refreshToken: session?.refreshToken,
+          }),
+        }
+      );
+
+      if (response.status === 401) {
+        signOut();
+        alert('재로그인이 필요합니다');
+      }
+
+      if (!response.ok) {
+        throw new Error('토큰 갱신 실패');
+      }
+
+      const result = await response.json();
+      const newAccessToken = result.data.accessToken;
+      const newRefreshToken = result.data.refreshToken;
+      console.log(newAccessToken, newRefreshToken);
+      return { newAccessToken, newRefreshToken };
+    } catch (err) {
+      throw new Error('토큰 갱신 중 오류 발생');
+    }
+  };
 
   const fetchData = useCallback(
     async (url: string, options: FetchOptions<TBody>) => {
@@ -77,6 +115,19 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
           }
         );
 
+        if (response.status === 401) {
+          const { newAccessToken, newRefreshToken } = await refreshToken();
+          const currentPath = window.location.pathname;
+          const searchParams = new URLSearchParams({
+            route: currentPath,
+            newAccessToken,
+            newRefreshToken,
+          });
+          console.log(searchParams);
+          router.push(`/api/auth/checkPassword?${searchParams.toString()}`);
+          throw new Error('토큰이 만료되었습니다.');
+        }
+
         if (!response.ok) {
           throw new Error(`${response.status} ${response.statusText}`);
         }
@@ -102,7 +153,7 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
         controller.abort(ABORT_REASON);
       };
     },
-    []
+    [router, session]
   );
 
   return { data, isLoading, error, fetchData };

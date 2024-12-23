@@ -7,27 +7,23 @@ import { Button } from '../ui/button';
 
 export default function LoginButton() {
   const { data: session } = useSession();
-  const { error } = useFetch();
+  const { fetchData, error } = useFetch();
 
   const handleSignIn = () => {
     signIn();
   };
 
-  // const handleSignOut = async () => {
-  //   const response = await fetchData(`/api/cert/logout`, {
-  //     method: 'POST',
-  //     token: session?.accessToken,
-  //   });
-
-  //   if (response.code == 200) {
-  //     signOut();
-  //   } else {
-  //     console.log('로그아웃 실패');
-  //   }
-  // };
-
   const handleSignOut = async () => {
-    signOut();
+    const response = await fetchData(`/api/cert/logout`, {
+      method: 'POST',
+      token: session?.accessToken,
+    });
+
+    if (response.code == 200) {
+      signOut();
+    } else {
+      console.log('로그아웃 실패');
+    }
   };
 
   useEffect(() => {
