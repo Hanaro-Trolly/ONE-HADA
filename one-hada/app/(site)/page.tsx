@@ -136,7 +136,7 @@ export default function Home() {
       <div className='h-1/2 mb-4 flex flex-col'>
         <div className='w-full h-1/2 p-2'>
           <Button
-            id='activityBtn'
+            id='homeButtonActivity'
             onClick={() => routerPage('/activity')}
             className={`bg-[#D2DAE0] hover:bg-[#AAB8C1] ${buttonClassName}`}
           >
@@ -146,7 +146,7 @@ export default function Home() {
         <div className='flex h-1/2'>
           <div className='w-1/2 p-2'>
             <Button
-              id='checkBtn'
+              id='homeButtonCheck'
               onClick={() => routerPage('/check')}
               className={`bg-[#D3EBCD] hover:bg-[#B8E3C7] ${buttonClassName}`}
             >
@@ -155,7 +155,7 @@ export default function Home() {
           </div>
           <div className='w-1/2 p-2'>
             <Button
-              id='transferBtn'
+              id='homeButtonTransfer'
               onClick={() => routerPage('/transfer/my')}
               className={`bg-[#AEDBCE] hover:bg-[#8CCFC2] ${buttonClassName}`}
             >
@@ -188,7 +188,7 @@ export default function Home() {
         <div className='h-14 w-full'>
           {/* <Link href='tel:010-2905-5905'> */}
           <Button
-            id='callBtn'
+            id='homeButtonCall'
             variant='ghost'
             className='w-full h-full text-[#635666] text-xl'
             onClick={handleCallClick}

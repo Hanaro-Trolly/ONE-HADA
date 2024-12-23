@@ -32,7 +32,9 @@ export default function HistoryModalPage({
   const [historyElements, setHistoryElements] = useState<HistoryElementType>({
     type: '',
   });
-  const [redisElements, setRedisElements] = useState<RedisElementType>();
+  const [redisElements, setRedisElements] = useState<RedisElementType>({
+    senderAccountId: '',
+  });
   const { data: session } = useSession();
   const { fetchData } = useFetch();
 
@@ -67,13 +69,34 @@ export default function HistoryModalPage({
       { type: shortcutElements.type } as Record<string, unknown>
     );
 
+    const filteredRedisElements = Object.keys(redisElements).reduce(
+      (acc, key) => {
+        if (
+          [
+            'senderAccountId',
+            'senderAccountName',
+            'senderName',
+            'receiverAccountId',
+            'receiverAccountBank',
+            'receiverAccountName',
+            'receiverName',
+          ].includes(key)
+        ) {
+          acc[key as keyof RedisElementType] =
+            redisElements[key as keyof RedisElementType];
+        }
+        return acc;
+      },
+      {} as RedisElementType
+    );
+
     try {
       await fetchData(`/api/shortcut`, {
         method: 'POST',
         token: session?.accessToken,
         body: {
           shortcutName: inputRef.current.value,
-          shortcutElements: { ...checkedElements, ...redisElements },
+          shortcutElements: { ...checkedElements, ...filteredRedisElements },
         },
       });
 
