@@ -39,7 +39,7 @@ export default function LoginButton() {
   return session?.isLogin ? (
     <div className='flex items-center space-x-4'>
       <Button
-        id='lo'
+        id='headerButtonLogout'
         variant='ghost'
         className='rounded-none hover:bg-main-background'
         onClick={handleSignOut}
@@ -49,7 +49,7 @@ export default function LoginButton() {
     </div>
   ) : (
     <Button
-      id='li'
+      id='headerButtonLogin'
       variant='ghost'
       className='rounded-none hover:bg-main-background'
       onClick={handleSignIn}

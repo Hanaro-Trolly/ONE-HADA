@@ -25,6 +25,7 @@ export default function Header() {
             <LoginButton />
           ) : (
             <Button
+              id='headerButtonBack'
               variant='ghost'
               className='rounded-none hover:bg-main-background'
               onClick={handleBack}
@@ -35,6 +36,7 @@ export default function Header() {
         </div>
         <div>
           <Button
+            id='headerButtonMenu'
             variant='ghost'
             className='rounded-none hover:bg-main-background'
             onClick={() => router.push('/menu')}
@@ -43,6 +45,7 @@ export default function Header() {
           </Button>
           {pathname === '/' ? (
             <Button
+              id='headerButtonMyInfo'
               variant='ghost'
               className='rounded-none hover:bg-main-background w-14'
               onClick={() => router.push('/myInfo')}
@@ -51,6 +54,7 @@ export default function Header() {
             </Button>
           ) : (
             <Button
+              id='headerButtonHome'
               variant='ghost'
               className='rounded-none hover:bg-main-background w-14'
               onClick={() => router.push('/')}
