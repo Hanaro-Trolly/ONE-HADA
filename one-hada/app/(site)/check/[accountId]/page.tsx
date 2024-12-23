@@ -129,6 +129,7 @@ export default function AccountDetailPage({
           historyName: `${period} 동안 ${transferType} 내역 ${searchWord} 조회하기`,
           historyElements: {
             type: 'inquiry',
+            senderAccountId: accountId,
             myAccount: account?.accountNumber,
             period: period,
             transferType: transferType,

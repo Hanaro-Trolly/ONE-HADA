@@ -68,6 +68,9 @@ export default function Save() {
         receiverAccountNumber,
         receiverName,
         amount,
+        senderAccountId,
+        senderName,
+        receiverAccountId,
       } = historyData;
 
       if (
@@ -86,6 +89,12 @@ export default function Save() {
               myAccount: senderAccountNumber,
               receiverAccount: receiverAccountNumber,
               amount: amount,
+              senderName: senderName,
+              senderAccountId: senderAccountId,
+              senderAccountNumber: senderAccountNumber,
+              receiverAccountNumber: receiverAccountNumber,
+              receiverName: receiverName,
+              receiverAccountId: receiverAccountId,
             },
           },
         });
