@@ -24,7 +24,10 @@ export default function ShortCutCard({
   onButtonClick,
 }: ShortCutCardProps) {
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (e.target === e.currentTarget) {
+    if (
+      e.target === e.currentTarget ||
+      (e.target as HTMLElement).tagName.toLowerCase() === 'label'
+    ) {
       onButtonClick(shortcutElements);
     }
   };
