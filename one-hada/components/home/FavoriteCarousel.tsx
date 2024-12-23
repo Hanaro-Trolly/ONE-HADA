@@ -20,7 +20,11 @@ const FavoriteCarousel = ({
       opts={{ align: 'start', loop: true }}
       className='h-16 w-full flex justify-between items-center'
     >
-      <CarouselPrevious variant='ghost' size='xl' className='mb-[14px]' />
+      {favoriteList.length === 1 ? (
+        <></>
+      ) : (
+        <CarouselPrevious variant='ghost' size='xl' className='mb-[14px]' />
+      )}
       <CarouselContent>
         {favoriteList.map((item, idx) => (
           <CarouselItem key={idx}>
@@ -37,7 +41,11 @@ const FavoriteCarousel = ({
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselNext variant='ghost' size='xl' className='mb-[14px]' />
+      {favoriteList.length === 1 ? (
+        <></>
+      ) : (
+        <CarouselNext variant='ghost' size='xl' className='mb-[14px]' />
+      )}
     </Carousel>
   </div>
 );

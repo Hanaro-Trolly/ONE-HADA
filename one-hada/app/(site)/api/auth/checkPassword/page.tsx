@@ -30,10 +30,10 @@ export default function CheckPassword() {
       },
     });
 
-    if (response.code == 200) {
+    if (response.code == 200 && response.status == 'OK') {
       alert('인증에 성공하였습니다');
       router.push(`${route}`);
-    } else if (response.code == 401) {
+    } else if (response.code == 200 && response.status == 'UNAUTHORIZED') {
       setPassword([]);
       alert('비밀번호가 일치하지 않습니다.');
     } else if (response.code == 404) {
