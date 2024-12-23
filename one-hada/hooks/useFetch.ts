@@ -82,7 +82,7 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
       console.log(error);
       throw new Error('토큰 갱신 중 오류 발생');
     }
-  }, [session?.refreshToken]); // 필요한 의존성만 포함
+  }, [sessionData?.refreshToken]); // 필요한 의존성만 포함
 
   const fetchData = useCallback(
     async (url: string, options: FetchOptions<TBody>) => {
