@@ -56,9 +56,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const { data: session } = useSession();
 
     const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (onClick) {
+        onClick(event);
+      }
       if (id) {
         console.log(`Button ID: ${id}`);
-        sendButtonClick(id);
+        setTimeout(() => {
+          sendButtonClick(id);
+        }, 1000);
         try {
           await fetchData(`/api/button/${id}`, {
             method: 'POST',
@@ -67,9 +72,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         } catch (error) {
           console.error('Error posting button click:', error);
         }
-      }
-      if (onClick) {
-        onClick(event);
       }
     };
 

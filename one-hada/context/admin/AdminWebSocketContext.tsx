@@ -14,6 +14,7 @@ import {
 import { useAdminSession } from './SessionContext';
 
 interface WebSocketContextType {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   stompClient: any;
   connected: boolean;
   buttonLogs: ButtonLog[];
@@ -23,6 +24,7 @@ interface WebSocketContextType {
 interface ButtonLog {
   customerId: string;
   buttonId: string;
+  screenshot: string;
   timestamp: string;
 }
 
@@ -36,7 +38,7 @@ export const AdminWebSocketProvider = ({
   const { session } = useAdminSession();
   const [buttonLogs, setButtonLogs] = useState<ButtonLog[]>([]);
   const [subscription, setSubscription] = useState<StompSubscription>();
-  const [shouldConnect, setShouldConnect] = useState<Boolean>(false);
+  const [shouldConnect, setShouldConnect] = useState<boolean>(false);
   const { stompClient, connected, connectWebSocket } = useWebSocket({
     role: 'consultant',
   });

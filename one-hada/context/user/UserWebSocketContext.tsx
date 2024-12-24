@@ -10,6 +10,8 @@ import React, {
   useState,
   useEffect,
 } from 'react';
+import { compressImage } from '@/lib/imageCompression';
+import { captureScreenshot } from '@/lib/screenshot';
 
 interface WebSocketContextType {
   stompClient: Client | null;
@@ -116,22 +118,28 @@ export const WebSocketProvider: React.FC<{
     }
   }, [stompClient?.connected]);
 
-  const sendButtonClick = (buttonId: string) => {
+  const sendButtonClick = async (buttonId: string) => {
     if (!stompClient?.connected) {
       console.log('STOMP 연결이 없습니다');
       return;
     }
-
-    console.log('버튼로그전송');
-    stompClient.publish({
-      destination: '/app/button.click',
-      body: JSON.stringify({
-        type: 'BUTTON_CLICK',
-        customerId,
-        buttonId,
-        timestamp: new Date().toISOString(),
-      }),
-    });
+    try {
+      const rawScreenshot = await captureScreenshot();
+      const screenshot = compressImage(rawScreenshot || '');
+      console.log('버튼로그전송');
+      stompClient.publish({
+        destination: '/app/button.click',
+        body: JSON.stringify({
+          type: 'BUTTON_CLICK',
+          customerId,
+          buttonId,
+          screenshot,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+    } catch (error) {
+      console.error('스크린샷 캡처 실패:', error);
+    }
   };
 
   return (
