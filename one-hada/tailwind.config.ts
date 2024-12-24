@@ -61,8 +61,44 @@ const config: Config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      keyframes: {
+        'bounce-slow': {
+          '0%, 100%': {
+            transform: 'translateY(-10%)',
+            animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)',
+          },
+          '50%': {
+            transform: 'translateY(0)',
+            animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+          },
+        },
+        'scale-pulse': {
+          '0%, 100%': {
+            transform: 'scale(1)',
+            filter:
+              'brightness(0.8) sepia(0.4) saturate(200%) hue-rotate(120deg)',
+          },
+          '50%': {
+            transform: 'scale(1.1)',
+            filter:
+              'brightness(0.8) sepia(0.4) saturate(200%) hue-rotate(120deg)',
+          },
+        },
+        'ping-small': {
+          '75%, 100%': {
+            transform: 'scale(1.2)',
+            opacity: '0',
+          },
+        },
+      },
+      animation: {
+        'bounce-slow': 'bounce-slow 1.5s infinite',
+        'scale-pulse': 'scale-pulse 1.5s ease-in-out infinite',
+        'ping-small': 'ping-small 1s cubic-bezier(0, 0, 0.2, 1) infinite',
+      },
     },
   },
   plugins: [animate],
 };
+
 export default config;

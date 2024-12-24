@@ -1,6 +1,7 @@
 'use client';
 
 import { useAdminSession } from '@/context/admin/SessionContext';
+import { IoWarningOutline } from 'react-icons/io5';
 import Image from 'next/image';
 import { useState, useRef, FormEvent } from 'react';
 
@@ -30,7 +31,7 @@ export default function Login() {
       setMessage({
         text: success
           ? '로그인 성공'
-          : '로그인 실패, 이메일 또는 비밀번호를 확인해주세요.',
+          : '로그인 실패\n이메일 또는 비밀번호를 확인해주세요.',
         isSuccess: success,
       });
     } catch (error) {
@@ -119,17 +120,26 @@ export default function Login() {
             로그인
           </button>
         </form>
-
         {message && (
           <div
-            className={`mt-4 p-3 rounded-lg text-sm text-center ${
+            className={`mt-4 p-3 rounded-lg text-sm text-center break-words w-[120%] -ml-[10%] ${
               message.isSuccess
                 ? 'bg-green-50 text-green-800'
                 : 'bg-red-50 text-red-800'
             }`}
             role='alert'
           >
-            {message.text}
+            {message.isSuccess ? (
+              message.text
+            ) : (
+              <>
+                <div className='flex justify-center text-2xl mb-3'>
+                  <IoWarningOutline />
+                </div>
+                <div>로그인 실패</div>
+                <div>이메일 또는 비밀번호를 확인해주세요.</div>
+              </>
+            )}
           </div>
         )}
       </div>

@@ -8,7 +8,7 @@ interface UseWebSocketProps {
   role: 'customer' | 'consultant';
 }
 
-export const useWebSocket = ({ customerId, role }: UseWebSocketProps) => {
+export const useWebSocket = ({}: UseWebSocketProps) => {
   const [stompClient, setStompClient] = useState<Client | null>(null);
   const [connected, setConnected] = useState(false);
 
@@ -35,6 +35,7 @@ export const useWebSocket = ({ customerId, role }: UseWebSocketProps) => {
 
     client.activate();
     setStompClient(client);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // 외부 의존성이 없으므로 빈 배열 사용
 
   const disconnectWebSocket = useCallback(() => {
