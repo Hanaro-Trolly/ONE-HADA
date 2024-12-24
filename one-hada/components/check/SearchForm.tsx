@@ -113,6 +113,13 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
     } else {
       console.error('레디스 저장 실패');
     }
+    setFormState({
+      period: '전체',
+      type: '전체',
+      startDate: '',
+      endDate: '',
+      searchKeyword: '',
+    });
   };
 
   useEffect(() => {

@@ -44,13 +44,7 @@ export default function RecipientPage() {
     if (!Boolean(response.status)) {
       return;
     }
-    console.log(
-      senderName,
-      response.data.userName,
-      response.data.accountId,
-      response.data.bank,
-      accountNumber
-    );
+
     // 계좌가 존재하면 레디스에 저장
     const result = await fetchData('/api/redis', {
       method: 'POST',
@@ -86,7 +80,7 @@ export default function RecipientPage() {
 
   useEffect(() => {
     if (error) {
-      console.error('Fetch 에러 발생:', error);
+      console.error(error);
     }
   }, [error]);
 
@@ -95,7 +89,7 @@ export default function RecipientPage() {
       style={{ height: 'calc(100vh - 56px)' }}
       className='flex flex-col justify-between items-center px-6 pb-6'
     >
-      <div>
+      <div className='flex-grow'>
         <div className='tossface-icon text-[4rem] pt-10 text-center'>✉️</div>
         <h1 className='text-center font-medium text-xl pt-4 mb-10'>
           누구에게 보낼까요?

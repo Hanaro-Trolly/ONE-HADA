@@ -113,7 +113,7 @@ export default function SetPassword({
       return;
     }
 
-    if (!userData || currentPassword !== firstPassword) {
+    if (currentPassword !== firstPassword || !userData) {
       alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요');
       setIsfirst(true);
       return;

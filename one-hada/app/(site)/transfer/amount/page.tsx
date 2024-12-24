@@ -113,7 +113,7 @@ export default function AmountInput() {
       style={{ height: 'calc(100vh - 56px)' }}
       className='flex flex-col justify-between items-center px-6 pb-6'
     >
-      <div className=' w-full rounded-lg mb-2 text-center'>
+      <div className='w-full rounded-lg mb-2 text-center'>
         <div className='mb-5'>
           <div className='border-b-2 py-2'>
             <span className='font-medium text-lg text-gray-700 mt-2'>
