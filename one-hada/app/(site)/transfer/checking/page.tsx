@@ -81,7 +81,13 @@ export default function Checking() {
       style={{ height: 'calc(100vh - 56px)' }}
       className='flex flex-col justify-between items-center px-6 pb-6'
     >
-      <div className='tossface-icon text-[3rem] pt-10 text-center'>✅</div>
+      <div className='relative flex justify-center pt-10'>
+        <span className='absolute inline-flex text-[3rem] opacity-75 animate-ping-small '>
+          ✅
+        </span>
+        <span className='relative inline-flex text-[3rem]'>✅</span>
+      </div>
+
       <h2 className='text-center font-medium text-lg mb-12'>
         <span className='text-[#479E86]'>{receiverName}</span>
         <span className='font-medium'> 님께 </span>

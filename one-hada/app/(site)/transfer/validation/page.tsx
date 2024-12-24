@@ -80,7 +80,9 @@ export default function TransferConfirmation() {
       style={{ height: 'calc(100vh - 56px)' }}
       className='flex flex-col justify-between items-center px-6 pb-6'
     >
-      <div className='tossface-icon text-[4rem] pt-10 text-center'>❔</div>
+      <div className='animate-scale-pulse tossface-icon text-[4rem] pt-10 text-center'>
+        ❔
+      </div>
       <h2 className='text-center font-medium text-xl mb-12'>
         <span className='text-[#479E86]'>{receiverName}</span>
         <span className='font-medium'>님께 </span>

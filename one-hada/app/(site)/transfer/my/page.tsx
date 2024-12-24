@@ -73,7 +73,9 @@ export default function TransferPage() {
       className='flex flex-col justify-between items-center px-6 pb-6'
     >
       <div>
-        <div className='tossface-icon text-[4rem] pt-10 text-center'>💴</div>
+        <div className='animate-bounce-slow tossface-icon text-[4rem] pt-10 text-center'>
+          💴
+        </div>
         <h1 className='text-center font-medium text-xl pt-4 mb-10'>
           어떤 계좌로 보낼까요?
         </h1>
