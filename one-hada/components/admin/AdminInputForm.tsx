@@ -72,10 +72,7 @@ export default function AdminInputForm({ userId }: AdminInputFormProps) {
         // 상담 데이터 즉시 갱신
         await refetchCounselData(userId);
 
-        alert('1번 상담 정보가 등록되었습니다.');
-
         if (stompClient?.connected) {
-          console.log('야야');
           try {
             await stompClient.publish({
               destination: `/topic/customer/${userId}/end-consultation`,
@@ -96,7 +93,7 @@ export default function AdminInputForm({ userId }: AdminInputFormProps) {
           console.error('웹소켓 연결이 없습니다');
         }
 
-        alert('2번 상담 정보가 등록되었습니다.');
+        alert('상담 정보가 등록되었습니다.');
       } else {
         throw new Error('상담 데이터 추가 실패');
       }
