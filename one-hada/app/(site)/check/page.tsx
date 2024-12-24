@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Account } from '@/lib/datatypes';
 
-const ACCOUNT_TYPES = ['입출금', '예적금', '대출', '펀드'] as const;
+const ACCOUNT_TYPES = ['전체', '입출금', '예적금', '대출'] as const;
 type AccountType = (typeof ACCOUNT_TYPES)[number];
 
 export default function CheckPage() {
@@ -18,7 +18,7 @@ export default function CheckPage() {
   const { fetchData, error } = useFetch<Account[]>();
 
   const [accountData, setAccountData] = useState<Account[]>([]);
-  const [selectedType, setSelectedType] = useState<AccountType | null>(null);
+  const [selectedType, setSelectedType] = useState<AccountType>('전체');
 
   const totalBalance = useMemo(
     () => accountData.reduce((total, account) => total + account.balance, 0),
@@ -27,9 +27,9 @@ export default function CheckPage() {
 
   const filteredAccounts = useMemo(
     () =>
-      selectedType
-        ? accountData.filter((account) => account.accountType === selectedType)
-        : accountData,
+      selectedType === '전체'
+        ? accountData
+        : accountData.filter((account) => account.accountType === selectedType),
     [accountData, selectedType]
   );
 
@@ -87,7 +87,7 @@ export default function CheckPage() {
       </div>
 
       {/* 계좌 유형 필터 버튼 */}
-      <div className='flex justify-center space-x-4 mb-4'>
+      <div className='flex justify-center space-x-2 mb-4'>
         {ACCOUNT_TYPES.map((type) => (
           <AccountTypeButton
             key={type}
@@ -110,7 +110,7 @@ export default function CheckPage() {
             <AccountCard
               accountId={account.accountId}
               accountNumber={account.accountNumber}
-              accountType={account.accountType}
+              accountName={account.accountName}
               balance={account.balance}
               bank={account.bank}
             />

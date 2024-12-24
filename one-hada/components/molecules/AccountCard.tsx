@@ -6,7 +6,7 @@ type AccountCardProps = {
   accountId: string;
   accountNumber: number;
   balance?: number; // balance를 선택적 속성으로 정의
-  accountType: string;
+  accountName: string;
   bank: string;
 };
 
@@ -14,7 +14,7 @@ export default function AccountCard({
   accountId,
   accountNumber,
   balance,
-  accountType,
+  accountName,
   bank,
 }: AccountCardProps) {
   return (
@@ -26,7 +26,7 @@ export default function AccountCard({
         {/* Bank icon */}
         <BankIcon bankId={bank} />
         <div className='flex flex-col'>
-          <h1 className='font-medium text-left text-lg'>{accountType}</h1>
+          <h1 className='font-medium text-left text-lg'>{accountName}</h1>
           <label className='font-light text-gray-500 text-left text-sm'>
             {`${bank} • ${accountNumber}`}
           </label>

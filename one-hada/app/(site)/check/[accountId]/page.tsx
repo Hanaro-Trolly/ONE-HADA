@@ -5,6 +5,7 @@ import SearchForm from '@/components/check/SearchForm';
 import TransactionList from '@/components/check/TransactionList';
 import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
+import { PulseLoader } from 'react-spinners';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Account, Transaction } from '@/lib/datatypes';
 
@@ -206,7 +207,16 @@ export default function AccountDetailPage({
     return groups;
   }, [transactions]);
 
-  if (!account) return <div>계좌 조회 중...</div>;
+  if (!account)
+    return (
+      <div
+        style={{ height: 'calc(100vh - 56px)' }}
+        className='flex flex-col justify-center items-center'
+      >
+        <PulseLoader color='#61B89F'></PulseLoader>
+        <div className='mt-4'>계좌 조회 중입니다</div>
+      </div>
+    );
 
   return (
     <div className='w-full min-h-screen flex flex-col'>

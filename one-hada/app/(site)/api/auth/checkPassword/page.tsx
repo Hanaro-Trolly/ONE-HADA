@@ -71,7 +71,10 @@ export default function CheckPassword() {
   }, [error]);
 
   return (
-    <div className='py-8 px-10 w-full flex flex-col items-center justify-center'>
+    <div
+      style={{ height: 'calc(100vh - 56px)' }}
+      className='py-8 px-10 w-full flex flex-col items-center justify-center'
+    >
       <h2 className='text-xl font-medium text-[#635666] text-center mb-6'>
         간편 비밀번호를 입력하세요
       </h2>

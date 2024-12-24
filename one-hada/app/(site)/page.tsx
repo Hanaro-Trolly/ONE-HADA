@@ -5,7 +5,6 @@ import FavoriteCarousel from '@/components/home/FavoriteCarousel';
 import { Button } from '@/components/ui/button';
 import { useFetch } from '@/hooks/useFetch';
 import { signIn, useSession } from 'next-auth/react';
-import { FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -117,15 +116,15 @@ export default function Home() {
   return (
     <div
       style={{ height: 'calc(100vh - 56px)' }}
-      className='flex flex-col pt-2 px-6'
+      className='flex flex-col justify-around pt-2 px-6'
     >
       <div className='h-[18%] pt-3 mb-2'>
         {session?.isLogin ? (
           <div>
-            <span className='text-sm pl-3'>
-              <span className='tossface-icon text-lg'>✨</span>
-              <span className='text-lg'>{userName} </span>
-              님을 위한 추천!{' '}
+            <span className='text-sm pl-3 '>
+              <span className='tossface-icon text-lg'>✨ </span>
+              <span className='text-xl font-medium'>{userName} </span>
+              님과 비슷한 사용자들의 선택!
             </span>
             <div>
               <AutoMessageCarousel recommendProductList={recommendList} />
@@ -133,17 +132,17 @@ export default function Home() {
           </div>
         ) : (
           <div className='h-full flex items-center justify-center'>
-            <div className='text-center'>로그인 후 이용해주세요</div>
+            로그인 후 이용해주세요
           </div>
         )}
       </div>
 
-      <div className='h-1/2 mb-4 flex flex-col'>
+      <div className='h-1/2 mb-2 flex flex-col'>
         <div className='w-full h-1/2 p-2'>
           <Button
             id='homeButtonActivity'
             onClick={() => routerPage('/activity')}
-            className={`bg-[#D2DAE0] hover:bg-[#AAB8C1] ${buttonClassName}`}
+            className={`bg-[#D3EBCD] hover:bg-[#B8E3C7] ${buttonClassName}`}
           >
             <p className='tossface-icon text-4xl'>📥</p>내 활동 보기
           </Button>
@@ -153,7 +152,7 @@ export default function Home() {
             <Button
               id='homeButtonCheck'
               onClick={() => routerPage('/check')}
-              className={`bg-[#D3EBCD] hover:bg-[#B8E3C7] ${buttonClassName}`}
+              className={` bg-[#D2DAE0] hover:bg-[#AAB8C1] ${buttonClassName}`}
             >
               <p className='tossface-icon text-4xl'>💰</p>조회하기
             </Button>
@@ -170,25 +169,28 @@ export default function Home() {
         </div>
       </div>
 
-      <div className='h-1/4 p-2'>
-        <div className='text-lg text-[#635666] flex gap-1 items-stretch mb-6 font-medium'>
-          <FaStar className='text-yellow-400 text-2xl' /> 즐겨찾기
-        </div>
+      <div className='h-1/4 px-2'>
         {session?.isLogin ? (
           favoriteList.length > 0 ? (
-            <FavoriteCarousel
-              favoriteList={favoriteList}
-              handleButtonClick={handleButtonClick}
-            />
+            <div>
+              <div className='text-lg text-[#635666] flex gap-1 items-stretch mb-4 font-medium'>
+                <p className='tossface-icon text-lg'>⭐</p> 즐겨찾기
+              </div>
+              <FavoriteCarousel
+                favoriteList={favoriteList}
+                handleButtonClick={handleButtonClick}
+              />
+            </div>
           ) : (
             <div className='text-center'>즐겨찾기를 설정해주세요</div>
           )
         ) : (
-          <div className='text-center'>로그인 후 이용해주세요</div>
+          <div className='w-full h-full flex items-center justify-center'>
+            <div className='text-center'></div>
+          </div>
         )}
       </div>
 
-      <div className='flex-grow'></div>
       <footer>
         <div className='h-14 w-full pb-2'>
           <Link href='tel:010-2905-5905'>

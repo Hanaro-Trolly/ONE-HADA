@@ -2,6 +2,7 @@
 
 import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
+import { BeatLoader } from 'react-spinners';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef } from 'react';
 
@@ -154,5 +155,13 @@ export default function Save() {
     }
   }, [error]);
 
-  return <div>이체 처리 중...</div>;
+  return (
+    <div
+      className='w-full flex flex-col justify-center items-center'
+      style={{ height: 'calc(100vh - 56px)' }}
+    >
+      <BeatLoader color='#61B89F'></BeatLoader>
+      <div className='mt-4'>이체 중입니다</div>
+    </div>
+  );
 }
