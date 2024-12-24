@@ -8,8 +8,7 @@ import {
   ReactNode,
   useState,
   useEffect,
-  Dispatch,
-  SetStateAction,
+  useRef,
 } from 'react';
 import { useAdminSession } from './SessionContext';
 
@@ -17,7 +16,7 @@ interface WebSocketContextType {
   stompClient: Client | null;
   connected: boolean;
   buttonLogs: ButtonLog[];
-  setButtonLogs: Dispatch<SetStateAction<ButtonLog[]>>;
+  setButtonLogs: React.Dispatch<React.SetStateAction<ButtonLog[]>>;
 }
 
 interface ButtonLog {
@@ -35,50 +34,66 @@ export const AdminWebSocketProvider = ({
 }) => {
   const { session } = useAdminSession();
   const [buttonLogs, setButtonLogs] = useState<ButtonLog[]>([]);
-  const [subscription, setSubscription] = useState<StompSubscription>();
-  const [shouldConnect, setShouldConnect] = useState<boolean>(false);
-  const { stompClient, connected, connectWebSocket } = useWebSocket({
-    role: 'consultant',
-  });
+  const connectionAttempted = useRef(false);
 
+  const { stompClient, connected, connectWebSocket, disconnectWebSocket } =
+    useWebSocket({
+      role: 'consultant',
+    });
+
+  // 웹소켓 연결 관리
   useEffect(() => {
-    sessionStorage.setItem('wsConnected', 'true');
-    setShouldConnect(Boolean(sessionStorage.getItem('wsConnected')));
+    if (session.loginUser && !connectionAttempted.current) {
+      connectionAttempted.current = true;
+      connectWebSocket();
+    }
+
+    return () => {
+      if (stompClient) {
+        disconnectWebSocket();
+        connectionAttempted.current = false;
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session.loginUser]);
 
+  // 구독 로직
   useEffect(() => {
-    if (shouldConnect) {
-      connectWebSocket();
-      console.log('웹소켓 연결 성공');
-    }
+    let subscription: StompSubscription | null = null;
+
+    const subscribe = () => {
+      if (stompClient && connected && !subscription) {
+        try {
+          subscription = stompClient.subscribe(
+            '/topic/consultant/button-logs',
+            (message) => {
+              const log = JSON.parse(message.body);
+              setButtonLogs((prev) => [...prev, log]);
+            }
+          );
+        } catch (error) {
+          console.error('구독 오류:', error);
+        }
+      }
+    };
+
+    subscribe();
 
     return () => {
       if (subscription) {
         subscription.unsubscribe();
       }
     };
-  }, [shouldConnect, connectWebSocket, subscription]);
-
-  useEffect(() => {
-    if (stompClient && connected) {
-      const buttonSub = stompClient.subscribe(
-        '/topic/consultant/button-logs',
-        (message) => {
-          const log = JSON.parse(message.body);
-          setButtonLogs((prev) => [...prev, log]);
-        }
-      );
-      setSubscription(buttonSub);
-
-      return () => {
-        buttonSub.unsubscribe();
-      };
-    }
   }, [stompClient, connected]);
 
   return (
     <WebSocketContext.Provider
-      value={{ stompClient, connected, buttonLogs, setButtonLogs }}
+      value={{
+        stompClient,
+        connected,
+        buttonLogs,
+        setButtonLogs,
+      }}
     >
       {children}
     </WebSocketContext.Provider>
