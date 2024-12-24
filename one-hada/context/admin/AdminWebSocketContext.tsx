@@ -1,7 +1,7 @@
 'use client';
 
 import { useWebSocket } from '@/hooks/useWebsocket';
-import { StompSubscription } from '@stomp/stompjs';
+import { StompSubscription, Client } from '@stomp/stompjs';
 import {
   createContext,
   useContext,
@@ -14,7 +14,7 @@ import {
 import { useAdminSession } from './SessionContext';
 
 interface WebSocketContextType {
-  stompClient: any;
+  stompClient: Client | null;
   connected: boolean;
   buttonLogs: ButtonLog[];
   setButtonLogs: Dispatch<SetStateAction<ButtonLog[]>>;
@@ -36,7 +36,7 @@ export const AdminWebSocketProvider = ({
   const { session } = useAdminSession();
   const [buttonLogs, setButtonLogs] = useState<ButtonLog[]>([]);
   const [subscription, setSubscription] = useState<StompSubscription>();
-  const [shouldConnect, setShouldConnect] = useState<Boolean>(false);
+  const [shouldConnect, setShouldConnect] = useState<boolean>(false);
   const { stompClient, connected, connectWebSocket } = useWebSocket({
     role: 'consultant',
   });
@@ -57,7 +57,7 @@ export const AdminWebSocketProvider = ({
         subscription.unsubscribe();
       }
     };
-  }, [shouldConnect]);
+  }, [shouldConnect, connectWebSocket, subscription]);
 
   useEffect(() => {
     if (stompClient && connected) {

@@ -4,6 +4,7 @@ import AdminHeader from '@/components/admin/AdminHeader';
 import { AdminWebSocketProvider } from '@/context/admin/AdminWebSocketContext';
 import { CounselProvider } from '@/context/admin/CounselContext';
 import { AdminSessionProvider } from '@/context/admin/SessionContext';
+import { SessionProvider } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import '../globals.css';
 
@@ -51,14 +52,16 @@ export default function AdminLayout({
   }, []);
 
   return (
-    <AdminSessionProvider>
-      {mounted && <AdminContent mounted={mounted}>{children}</AdminContent>}
-      {!mounted && (
-        <div className='flex min-h-screen'>
-          <div className='w-1/5 min-h-screen bg-gray-100 border-r'></div>
-          <main className='flex-1 p-4'></main>
-        </div>
-      )}
-    </AdminSessionProvider>
+    <SessionProvider>
+      <AdminSessionProvider>
+        {mounted && <AdminContent mounted={mounted}>{children}</AdminContent>}
+        {!mounted && (
+          <div className='flex min-h-screen'>
+            <div className='w-1/5 min-h-screen bg-gray-100 border-r'></div>
+            <main className='flex-1 p-4'></main>
+          </div>
+        )}
+      </AdminSessionProvider>
+    </SessionProvider>
   );
 }
