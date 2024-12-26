@@ -2,6 +2,7 @@
 
 import AutoMessageCarousel from '@/components/home/AutoRecommendCarousel';
 import FavoriteCarousel from '@/components/home/FavoriteCarousel';
+import NonLoginProductShowcase from '@/components/home/NonLoginProductShowcase';
 import { Button } from '@/components/ui/button';
 import { useFetch } from '@/hooks/useFetch';
 import { signIn, useSession } from 'next-auth/react';
@@ -187,10 +188,8 @@ export default function Home() {
             <AutoMessageCarousel recommendProductList={recommendList} />
           </div>
         ) : (
-          <div className='h-full flex flex-col items-center justify-center gap-2'>
-            <p className='text-lg font-medium'>
-              맞춤 금융 서비스를 경험해보세요
-            </p>
+          <div className='h-full w-full flex items-center'>
+            <NonLoginProductShowcase />
           </div>
         )}
       </div>
