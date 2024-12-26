@@ -11,14 +11,17 @@ import Image from 'next/image';
 const NonLoginProductShowcase = () => {
   const messages = [
     {
+      image: '/images/one-hada.png',
       title: '원,하다로 한번에!',
       description: '맞춤 금융 서비스를 경험하세요',
     },
     {
+      image: '/images/smartphone_icon.gif',
       title: '쉽고 빠른 금융생활',
       description: '원하다와 함께 시작하세요',
     },
     {
+      image: '/images/global_icon.gif',
       title: '당신의 금융 파트너',
       description: '원하다가 함께합니다',
     },
@@ -55,7 +58,7 @@ const NonLoginProductShowcase = () => {
               </div>
               <div className='relative'>
                 <Image
-                  src='/images/one-hada.png'
+                  src={`${message.image}`}
                   alt={`${message} ${index}`}
                   width={60}
                   height={60}
