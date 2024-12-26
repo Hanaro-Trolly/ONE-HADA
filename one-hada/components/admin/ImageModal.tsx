@@ -2,12 +2,17 @@ import { FaImage } from 'react-icons/fa6';
 import Image from 'next/image';
 import { useState } from 'react';
 import { decompressImage } from '@/lib/imageCompression';
+import { cn } from '@/lib/utils';
 
 interface ImageModalProps {
   screenshot: string;
+  banned?: boolean;
 }
 
-export default function ImageModal({ screenshot }: ImageModalProps) {
+export default function ImageModal({
+  screenshot,
+  banned = false,
+}: ImageModalProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleModal = () => {
@@ -18,7 +23,11 @@ export default function ImageModal({ screenshot }: ImageModalProps) {
     <>
       <button
         onClick={toggleModal}
-        className='px-2 py-1 text-sm text-main-green'
+        className={cn(
+          'px-2 py-1 text-sm text-main-green',
+          banned && 'opacity-50 cursor-not-allowed'
+        )}
+        disabled={banned}
       >
         <FaImage className='text-xl' />
       </button>

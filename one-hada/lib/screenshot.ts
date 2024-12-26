@@ -27,7 +27,7 @@ export const captureScreenshot = async ({
       scale,
     });
 
-    return canvas.toDataURL('image/jpeg', quality);
+    return canvas.toDataURL('image/webp', quality);
   } catch (error) {
     console.error('스크린샷 캡처 중 오류:', error);
     return null;

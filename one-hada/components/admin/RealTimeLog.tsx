@@ -12,7 +12,12 @@ interface RealTimeLogProps {
   userName: string;
 }
 
-const SERVICE_URL = 'http://localhost:3000';
+const SERVICE_URL = 'https://onehada.site';
+const BANNED_BTN_ID = [
+  'transferButtonToAmount',
+  'checkButtonSearchSubmit',
+  'homeButtonCheck',
+];
 
 export default function RealTimeLog({ userId, userName }: RealTimeLogProps) {
   const { buttonLogs } = useAdminWebSocket();
@@ -71,7 +76,10 @@ export default function RealTimeLog({ userId, userName }: RealTimeLogProps) {
                   {formatDate(log.timestamp)}
                 </span>
               </div>
-              <ImageModal screenshot={log.screenshot} />
+              <ImageModal
+                screenshot={log.screenshot}
+                banned={BANNED_BTN_ID.includes(log.buttonId)}
+              />
             </div>
           ))
         ) : (
