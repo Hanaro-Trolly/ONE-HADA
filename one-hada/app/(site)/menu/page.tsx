@@ -48,7 +48,7 @@ export default function MenuPage() {
       saveHistory(title, id);
       router.push(link);
     },
-    [saveHistory]
+    [saveHistory, router]
   );
 
   useEffect(() => {

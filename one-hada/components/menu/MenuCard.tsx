@@ -1,5 +1,4 @@
 import { ChevronRightIcon } from 'lucide-react';
-import Link from 'next/link';
 import { Button } from '../ui/button';
 
 type MenuCardProps = {

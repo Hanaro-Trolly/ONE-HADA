@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import { PRODUCT_LIST } from '@/data/productData';
-import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -22,7 +21,7 @@ export default function MenuPage({ params }: { params: { menuId: string } }) {
     if (!menus) {
       router.push('/not-found');
     }
-  }, [menus]);
+  }, [menus, router]);
 
   useEffect(() => {
     const currentProductIdx = Number(searchParams.get('productIdx') || '0');
