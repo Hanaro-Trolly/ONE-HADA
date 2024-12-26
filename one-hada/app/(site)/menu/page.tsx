@@ -9,7 +9,8 @@ import { useFetch } from '@/hooks/useFetch';
 import useScrollToTopButton from '@/hooks/useScrollToTopButton ';
 import { ChevronUp } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import { User } from '@/lib/datatypes';
 import { buttons, menuData } from '@/lib/menuData';
 
@@ -17,6 +18,38 @@ export default function MenuPage() {
   const { data: session } = useSession();
   const [userProfile, setUserProfile] = useState<User | null>(null);
   const { fetchData } = useFetch<User>();
+  const { fetchData: fetchHistory } = useFetch<History>();
+  const router = useRouter();
+
+  const saveHistory = useCallback(
+    async (title: string, id: string) => {
+      const response = await fetchHistory('/api/history', {
+        method: 'POST',
+        token: session?.accessToken,
+        body: {
+          historyName: `${title} 메뉴`,
+          historyElements: {
+            type: id,
+          },
+        },
+      });
+
+      if (response.code == 200) {
+        console.log('활동내역 저장 성공');
+      } else {
+        console.error('활동내역 저장 실패');
+      }
+    },
+    [fetchHistory, session?.accessToken]
+  );
+
+  const menuClickHandler = useCallback(
+    (id: string, title: string, link: string) => {
+      saveHistory(title, id);
+      router.push(link);
+    },
+    [saveHistory]
+  );
 
   useEffect(() => {
     const loadUser = async () => {
@@ -57,6 +90,7 @@ export default function MenuPage() {
                 title={item.title}
                 link={item.link}
                 id={item.id}
+                onClick={() => menuClickHandler(item.id, item.title, item.link)}
               />
             ))}
           </MenuSection>

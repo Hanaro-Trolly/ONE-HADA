@@ -5,7 +5,7 @@ import FavoriteCarousel from '@/components/home/FavoriteCarousel';
 import { Button } from '@/components/ui/button';
 import { useFetch } from '@/hooks/useFetch';
 import { signIn, useSession } from 'next-auth/react';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import JSONtoUrl from '@/lib/JSONtoUrl';
@@ -193,16 +193,16 @@ export default function Home() {
 
       <footer>
         <div className='h-14 w-full pb-2'>
-          <Link href='tel:010-2905-5905'>
-            <Button
-              id='homeButtonCall'
-              variant='ghost'
-              className='w-full h-full text-[#635666] text-xl'
-              onClick={handleCallClick}
-            >
-              <div className='tossface-icon'>📞</div>전화상담
-            </Button>
-          </Link>
+          {/* <Link href='tel:010-2905-5905'> */}
+          <Button
+            id='homeButtonCall'
+            variant='ghost'
+            className='w-full h-full text-[#635666] text-xl'
+            onClick={handleCallClick}
+          >
+            <div className='tossface-icon'>📞</div>전화상담
+          </Button>
+          {/* </Link> */}
         </div>
       </footer>
     </div>

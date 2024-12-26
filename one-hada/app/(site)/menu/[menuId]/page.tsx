@@ -2,20 +2,35 @@
 
 import { Button } from '@/components/ui/button';
 import { PRODUCT_LIST } from '@/data/productData';
-import { useSearchParams } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function MenuPage({ params }: { params: { menuId: string } }) {
   const searchParams = useSearchParams();
   const [selectedButtonIdx, setSelectedButtonIdx] = useState<number>(0);
+  const router = useRouter();
   const { menuId } = params;
   const menus = PRODUCT_LIST[menuId];
+
+  const productClickHandler = (productName: string) => {
+    alert(`${productName}이 신청되었습니다.`);
+    router.push('/');
+  };
+
+  useEffect(() => {
+    if (!menus) {
+      router.push('/not-found');
+    }
+  }, [menus]);
 
   useEffect(() => {
     const currentProductIdx = Number(searchParams.get('productIdx') || '0');
     setSelectedButtonIdx(currentProductIdx);
   }, [searchParams]);
-
+  if (!menus) {
+    return null;
+  }
   return (
     <div className='bg-[#DCEFEA] min-h-[calc(100vh-64px)] overflow-y-scroll mt-3 shadow-sm flex justify-center'>
       <div className='m-3 p-2 bg-white w-full flex flex-col gap-2'>
@@ -48,6 +63,9 @@ export default function MenuPage({ params }: { params: { menuId: string } }) {
               variant='ghost'
               className='w-full'
               id={'product' + menuId + selectedButtonIdx}
+              onClick={() =>
+                productClickHandler(menus.products[selectedButtonIdx])
+              }
             >
               상품 신청
             </Button>
