@@ -41,7 +41,14 @@ export default function RecipientPage() {
       token: session?.accessToken,
     });
 
-    if (!Boolean(response.status)) {
+    if (response.code !== 200) return;
+
+    if (response.status === 'false') {
+      alert('존재하지 않는 계좌입니다. \n 다시 입력해주세요');
+      setSelectedBank('');
+      if (accountInputRef.current) {
+        accountInputRef.current.value = '';
+      }
       return;
     }
 

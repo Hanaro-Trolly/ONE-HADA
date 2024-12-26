@@ -2,10 +2,12 @@
 
 import AutoMessageCarousel from '@/components/home/AutoRecommendCarousel';
 import FavoriteCarousel from '@/components/home/FavoriteCarousel';
+import Modal from '@/components/layout/Modal';
 import { Button } from '@/components/ui/button';
 import { useFetch } from '@/hooks/useFetch';
 import { signIn, useSession } from 'next-auth/react';
-// import Link from 'next/link';
+import { ScaleLoader } from 'react-spinners';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import JSONtoUrl from '@/lib/JSONtoUrl';
@@ -21,8 +23,10 @@ export default function Home() {
   const router = useRouter();
   const [userName, setUserName] = useState<string>('');
   const [favoriteList, setFavoriteList] = useState<Shortcut[]>([]);
-
   const [recommendList, setRecommendList] = useState<string[]>([]);
+  const [isAgreeOpen, setIsAgreeOpen] = useState<boolean>(false);
+  const [isConnectOpen, setIsConnectOpen] = useState<boolean>(false);
+
   const { fetchData } = useFetch();
   const { fetchData: fetchUser, error: userError } = useFetch<User>();
   const { fetchData: fetchFavorite, error: favoriteError } =
@@ -104,13 +108,14 @@ export default function Home() {
   const handleCallClick = () => {
     if (typeof window !== 'undefined') {
       sessionStorage.setItem('consultationState', 'true');
-      window.dispatchEvent(new Event('storage'));
       window.dispatchEvent(
         new CustomEvent('consultationStateChange', {
           detail: { state: true },
         })
       );
     }
+    setIsAgreeOpen(false);
+    setIsConnectOpen(true);
   };
 
   return (
@@ -193,18 +198,57 @@ export default function Home() {
 
       <footer>
         <div className='h-14 w-full pb-2'>
-          {/* <Link href='tel:010-2905-5905'> */}
-          <Button
-            id='homeButtonCall'
-            variant='ghost'
-            className='w-full h-full text-[#635666] text-xl'
-            onClick={handleCallClick}
-          >
-            <div className='tossface-icon'>📞</div>전화상담
-          </Button>
-          {/* </Link> */}
+          <Link href='tel:010-2905-5905'>
+            <Button
+              id='homeButtonCall'
+              variant='ghost'
+              className='w-full h-full text-[#635666] text-xl'
+              onClick={() => setIsAgreeOpen(true)}
+            >
+              <div className='tossface-icon'>📞</div>전화상담
+            </Button>
+          </Link>
         </div>
       </footer>
+
+      {isAgreeOpen && (
+        <Modal>
+          <div className='text-center text-md'>
+            <div className='flex flex-col space-y-2 my-4'>
+              <p>전화 상담시 앱 사용 정보가</p>
+              <p>상담원에게 전송됩니다.</p>
+              <p>동의 하시겠습니까?</p>
+            </div>
+            <div className='flex justify-center space-x-4'>
+              <Button className='bg-main-green' onClick={handleCallClick}>
+                동의
+              </Button>
+              <Button
+                className='bg-slate-500'
+                onClick={() => setIsAgreeOpen(false)}
+              >
+                취소
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {isConnectOpen && (
+        <Modal>
+          <div className='flex flex-col justify-around items-center'>
+            <div>원활한 연결을 위해</div>
+            <div className='my-2'>확인 버튼을 눌러주세요!</div>
+            <ScaleLoader color='#61B89F' className='my-4'></ScaleLoader>
+            <Button
+              className='bg-main-green mt-2'
+              onClick={() => setIsConnectOpen(false)}
+            >
+              확인
+            </Button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

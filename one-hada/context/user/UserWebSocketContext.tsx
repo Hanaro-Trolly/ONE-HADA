@@ -27,7 +27,12 @@ export const WebSocketProvider: React.FC<{
 }> = ({ children }) => {
   const { data: session } = useSession();
   const [customerId, setCustomerId] = useState<string | undefined>(undefined);
-  const [isConsultation, setIsConsultation] = useState<boolean | null>(false);
+  const [isConsultation, setIsConsultation] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('consultationState') === 'true';
+    }
+    return false;
+  });
   const { stompClient, connected, connectWebSocket, disconnectWebSocket } =
     useWebSocket({
       role: 'customer',
@@ -36,7 +41,9 @@ export const WebSocketProvider: React.FC<{
 
   useEffect(() => {
     const handleStateChange = (event: CustomEvent) => {
+      console.log(event.detail.state);
       setIsConsultation(event.detail.state);
+      sessionStorage.setItem('consultationState', String(event.detail.state));
     };
 
     if (typeof window !== 'undefined') {
@@ -55,6 +62,7 @@ export const WebSocketProvider: React.FC<{
   }, []);
 
   useEffect(() => {
+    console.log('isConsultation', isConsultation, stompClient);
     if (isConsultation && session?.user.id) {
       setCustomerId(session.user.id);
       // 연결 시도 전 상태 초기화

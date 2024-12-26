@@ -1,4 +1,4 @@
-import { signOut, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
@@ -66,6 +66,7 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
 
       if (response.status === 401) {
         signOut();
+        signIn();
         alert('재로그인이 필요합니다');
       }
 
