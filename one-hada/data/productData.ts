@@ -4,6 +4,7 @@ type menuDetail = {
   products: string[];
   details: string[];
   oneline: string[];
+  images: string[];
 };
 
 export const PRODUCT_LIST: Record<string, menuDetail> = {
@@ -13,6 +14,7 @@ export const PRODUCT_LIST: Record<string, menuDetail> = {
     products: [],
     details: [],
     oneline: [],
+    images: [],
   },
   deposit: {
     title: '예금',
@@ -36,6 +38,11 @@ export const PRODUCT_LIST: Record<string, menuDetail> = {
       '노후와 생활자금을 한번에 설계하는 연금',
       '이자 지급방식을 자유롭게 선택하는 예금',
     ],
+    images: [
+      '/detail/365_deposit.png',
+      '/detail/happy_knownknown.png',
+      '/detail/plus.png',
+    ],
   },
   loan: {
     title: '대출',
@@ -50,6 +57,11 @@ export const PRODUCT_LIST: Record<string, menuDetail> = {
       '전세보증금 안전 반환 보장 대출',
       '서민을 위한 저금리 징검다리 대출',
       '청년 맞춤형 90% 전월세 대출',
+    ],
+    images: [
+      '/detail/hana_ansim.png',
+      '/detail/hana_dari.png',
+      '/detail/hana_youth.png',
     ],
   },
   insurance: {
@@ -73,6 +85,11 @@ export const PRODUCT_LIST: Record<string, menuDetail> = {
       '오늘은 홀인원 예감! 출발전에 간편 가입!',
       '고령화 시대에 꼭 필요!',
       '갖고싶은 보장만 골라담는 암보험!',
+    ],
+    images: [
+      '/detail/hana_golf.png',
+      '/detail/hana_vip.png',
+      '/detail/hana_cancer.png',
     ],
   },
 };

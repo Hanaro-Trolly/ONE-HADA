@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { PRODUCT_LIST } from '@/data/productData';
+import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -51,16 +52,28 @@ export default function MenuPage({ params }: { params: { menuId: string } }) {
           ))}
         </div>
         <div className='w-full h-full border-2 items-center justify-center flex'>
-          <div className='w-full h-full flex flex-col gap-2 items-center justify-center'>
-            <div className='text-center text-xl font-semibold'>
+          <div className='w-full h-full flex flex-col gap-1 items-center justify-between p-4'>
+            <div className='text-center text-xl font-semibold mb-1'>
               {menus.products[selectedButtonIdx]}
             </div>
-            <div className='text-center'>
+            {menus.images && menus.images[selectedButtonIdx] && (
+              <div className='relative w-full h-[200px]'>
+                <div className='relative w-full h-[200px] my-1'>
+                  <Image
+                    src={menus.images[selectedButtonIdx]}
+                    alt={menus.products[selectedButtonIdx]}
+                    fill
+                    className='object-contain'
+                  />
+                </div>
+              </div>
+            )}
+            <div className='text-sm text-center mt-1'>
               {menus.details && menus.details[selectedButtonIdx]}
             </div>
             <Button
               variant='ghost'
-              className='w-full'
+              className='w-40 mt-1 bg-main-green text-white'
               id={'product' + menuId + selectedButtonIdx}
               onClick={() =>
                 productClickHandler(menus.products[selectedButtonIdx])
