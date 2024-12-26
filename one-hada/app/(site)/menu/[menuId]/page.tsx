@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { PRODUCT_LIST } from '@/data/productData';
+import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
