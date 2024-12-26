@@ -125,9 +125,10 @@ export const useFetch = <T = unknown, TBody = unknown>() => {
             newAccessToken,
             newRefreshToken,
           });
-          console.log(searchParams);
+          alert(
+            '세션이 만료되었습니다.\n서비스 이용을 계속하시려면 간편비밀번호를 입력해주세요.'
+          );
           router.push(`/api/auth/checkPassword?${searchParams.toString()}`);
-          throw new Error('토큰이 만료되었습니다.');
         }
 
         if (!response.ok) {
