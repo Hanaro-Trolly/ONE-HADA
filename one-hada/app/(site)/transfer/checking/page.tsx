@@ -72,7 +72,7 @@ export default function Checking() {
     };
 
     getRedis();
-  }, [fetchData]);
+  }, [fetchData, session?.accessToken]);
 
   useEffect(() => {
     if (error) {

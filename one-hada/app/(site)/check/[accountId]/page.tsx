@@ -130,7 +130,7 @@ export default function AccountDetailPage({
       console.log('레디스 정보 가져오기 실패');
       return undefined;
     }
-  }, [fetchData, getTransactions]);
+  }, [fetchData, getTransactions, session?.accessToken]);
 
   const saveHistory = useCallback(
     async (period: string, transferType: string, searchWord: string) => {

@@ -71,7 +71,7 @@ export default function TransferConfirmation() {
     };
 
     getRedisValues();
-  }, [fetchData]);
+  }, [fetchData, session?.accessToken]);
 
   useEffect(() => {
     if (error) {
