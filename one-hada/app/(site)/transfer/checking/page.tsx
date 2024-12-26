@@ -86,7 +86,7 @@ export default function Checking() {
       className='flex flex-col justify-between items-center px-6 pb-6'
     >
       <div className='relative flex justify-center pt-10'>
-        <span className='absolute inline-flex text-[3rem] opacity-75 animate-ping-small '>
+        <span className='tossface-icon absolute inline-flex text-[3rem] opacity-75 animate-ping-small '>
           ✅
         </span>
         <span className='relative inline-flex text-[3rem]'>✅</span>
