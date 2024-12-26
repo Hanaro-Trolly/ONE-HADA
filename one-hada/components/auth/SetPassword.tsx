@@ -114,7 +114,7 @@ export default function SetPassword({
     }
 
     if (currentPassword !== firstPassword || !userData) {
-      alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요');
+      alert('비밀번호가 일치하지 않습니다. \n다시 입력해주세요');
       setIsfirst(true);
       return;
     }

@@ -7,7 +7,6 @@ import Modal from '@/components/layout/Modal';
 import { Button } from '@/components/ui/button';
 import { useFetch } from '@/hooks/useFetch';
 import { signIn, useSession } from 'next-auth/react';
-import { ScaleLoader } from 'react-spinners';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -25,8 +24,7 @@ export default function Home() {
   const [userName, setUserName] = useState<string>('');
   const [favoriteList, setFavoriteList] = useState<Shortcut[]>([]);
   const [recommendList, setRecommendList] = useState<string[]>([]);
-  const [isAgreeOpen, setIsAgreeOpen] = useState<boolean>(false);
-  const [isConnectOpen, setIsConnectOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { fetchData } = useFetch();
   const { fetchData: fetchUser, error: userError } = useFetch<User>();
@@ -115,8 +113,8 @@ export default function Home() {
         })
       );
     }
-    setIsAgreeOpen(false);
-    setIsConnectOpen(true);
+    setIsOpen(false);
+    router.push('/socketTest');
   };
 
   const FavoriteSection = () => {
@@ -241,7 +239,7 @@ export default function Home() {
               id='homeButtonCall'
               variant='ghost'
               className='w-full h-full text-[#635666] text-xl'
-              onClick={() => setIsAgreeOpen(true)}
+              onClick={() => setIsOpen(true)}
             >
               <div className='tossface-icon'>📞</div>전화상담
             </Button>
@@ -249,7 +247,7 @@ export default function Home() {
         </div>
       </footer>
 
-      {isAgreeOpen && (
+      {isOpen && (
         <Modal>
           <div className='text-center text-md'>
             <div className='flex flex-col space-y-2 my-4'>
@@ -261,29 +259,10 @@ export default function Home() {
               <Button className='bg-main-green' onClick={handleCallClick}>
                 동의
               </Button>
-              <Button
-                className='bg-slate-500'
-                onClick={() => setIsAgreeOpen(false)}
-              >
+              <Button className='bg-slate-500' onClick={() => setIsOpen(false)}>
                 취소
               </Button>
             </div>
-          </div>
-        </Modal>
-      )}
-
-      {isConnectOpen && (
-        <Modal>
-          <div className='flex flex-col justify-around items-center'>
-            <div>원활한 연결을 위해</div>
-            <div className='my-2'>확인 버튼을 눌러주세요!</div>
-            <ScaleLoader color='#61B89F' className='my-4'></ScaleLoader>
-            <Button
-              className='bg-main-green mt-2'
-              onClick={() => setIsConnectOpen(false)}
-            >
-              확인
-            </Button>
           </div>
         </Modal>
       )}

@@ -99,7 +99,6 @@ export default function AdminInputForm({ userId }: AdminInputFormProps) {
       }
     } catch (error) {
       console.error('Error submitting data:', error);
-      alert('데이터 등록 중 오류가 발생했습니다.');
     }
   };
 

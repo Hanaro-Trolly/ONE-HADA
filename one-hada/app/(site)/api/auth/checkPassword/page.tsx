@@ -44,8 +44,6 @@ export default function CheckPassword() {
               refreshToken: newRefreshToken,
               isLogin: true,
             });
-            console.log('Session updated:', session);
-            alert('토큰갱신 성공');
             router.back();
           } else {
             router.push(route);
