@@ -6,6 +6,7 @@ import TransactionList from '@/components/check/TransactionList';
 import { useFetch } from '@/hooks/useFetch';
 import { useSession } from 'next-auth/react';
 import { PulseLoader } from 'react-spinners';
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Account, Transaction } from '@/lib/datatypes';
 
@@ -19,6 +20,7 @@ export default function AccountDetailPage({
   const { fetchData, error } = useFetch<Account>();
   const [account, setAccount] = useState<Account>();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const router = useRouter();
 
   const fetchAccountData = useCallback(async () => {
     const response = await fetchData(`/api/accounts/${accountId}`, {
@@ -206,6 +208,16 @@ export default function AccountDetailPage({
     console.log('Grouped result:', groups);
     return groups;
   }, [transactions]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!account) {
+        router.push('/error');
+      }
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [account, router]);
 
   if (!account)
     return (

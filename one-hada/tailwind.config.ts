@@ -90,11 +90,16 @@ const config: Config = {
             opacity: '0',
           },
         },
+        'error-bounce': {
+          '0%, 100%': { transform: 'translateY(0) scale(1)' },
+          '50%': { transform: 'translateY(-5px) scale(1.1)' },
+        },
       },
       animation: {
         'bounce-slow': 'bounce-slow 1.5s infinite',
         'scale-pulse': 'scale-pulse 1.5s ease-in-out infinite',
         'ping-small': 'ping-small 1s cubic-bezier(0, 0, 0.2, 1) infinite',
+        'error-icon': 'error-bounce 2s ease-in-out infinite',
       },
     },
   },
