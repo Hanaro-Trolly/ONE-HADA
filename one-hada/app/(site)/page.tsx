@@ -2,6 +2,7 @@
 
 import AutoMessageCarousel from '@/components/home/AutoRecommendCarousel';
 import FavoriteCarousel from '@/components/home/FavoriteCarousel';
+import NonLoginProductShowcase from '@/components/home/NonLoginProductShowcase';
 import Modal from '@/components/layout/Modal';
 import { Button } from '@/components/ui/button';
 import { useFetch } from '@/hooks/useFetch';
@@ -118,6 +119,64 @@ export default function Home() {
     setIsConnectOpen(true);
   };
 
+  const FavoriteSection = () => {
+    const renderContent = () => {
+      if (!session?.isLogin) {
+        return (
+          <Button
+            variant='home'
+            className='h-16 w-full mx-2 font-medium rounded-x bg-white hover:bg-[#F0F0F0] relative flex items-center'
+            onClick={() => signIn()}
+          >
+            <div className='flex items-center w-full'>
+              <div className='flex flex-col flex-grow justify-center text-center'>
+                <p className='text-sm leading-tight'>자주 쓰는 기능을</p>
+                <p className='text-sm leading-tight'>즐겨찾기로 등록해보세요</p>
+              </div>
+            </div>
+          </Button>
+        );
+      }
+
+      if (favoriteList.length === 0) {
+        return (
+          <Button
+            variant='home'
+            className='h-16 w-full mx-2 font-medium rounded-x bg-white hover:bg-[#F0F0F0] relative flex items-center'
+            onClick={() => router.push('/settings/favorite')}
+          >
+            <div className='flex items-center w-full'>
+              <div className='flex flex-col flex-grow justify-center text-center'>
+                <p className='text-sm leading-tight'>자주 쓰는 기능을</p>
+                <p className='text-sm leading-tight'>즐겨찾기로 등록해보세요</p>
+              </div>
+            </div>
+          </Button>
+        );
+      }
+
+      return (
+        <FavoriteCarousel
+          favoriteList={favoriteList}
+          handleButtonClick={handleButtonClick}
+        />
+      );
+    };
+
+    return (
+      <div>
+        <div className='text-lg text-[#635666] flex gap-1 items-stretch mb-4 font-medium'>
+          <p className='tossface-icon text-lg'>⭐</p> 즐겨찾기
+        </div>
+        <div className='flex justify-center'>
+          <div className='h-16 w-full flex justify-between items-center'>
+            {renderContent()}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div
       style={{ height: 'calc(100vh - 56px)' }}
@@ -126,18 +185,16 @@ export default function Home() {
       <div className='h-[18%] pt-3 mb-2'>
         {session?.isLogin ? (
           <div>
-            <span className='text-sm pl-3 '>
+            <span className='text-sm pl-3'>
               <span className='tossface-icon text-lg'>✨ </span>
               <span className='text-xl font-medium'>{userName} </span>
               님과 비슷한 사용자들의 선택!
             </span>
-            <div>
-              <AutoMessageCarousel recommendProductList={recommendList} />
-            </div>
+            <AutoMessageCarousel recommendProductList={recommendList} />
           </div>
         ) : (
-          <div className='h-full flex items-center justify-center'>
-            로그인 후 이용해주세요
+          <div className='h-full w-full flex items-center'>
+            <NonLoginProductShowcase />
           </div>
         )}
       </div>
@@ -174,27 +231,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className='h-1/4 px-2'>
-        {session?.isLogin ? (
-          favoriteList.length > 0 ? (
-            <div>
-              <div className='text-lg text-[#635666] flex gap-1 items-stretch mb-4 font-medium'>
-                <p className='tossface-icon text-lg'>⭐</p> 즐겨찾기
-              </div>
-              <FavoriteCarousel
-                favoriteList={favoriteList}
-                handleButtonClick={handleButtonClick}
-              />
-            </div>
-          ) : (
-            <div className='text-center'>즐겨찾기를 설정해주세요</div>
-          )
-        ) : (
-          <div className='w-full h-full flex items-center justify-center'>
-            <div className='text-center'></div>
-          </div>
-        )}
-      </div>
+      <div className='h-1/4 px-2'>{<FavoriteSection />}</div>
 
       <footer>
         <div className='h-14 w-full pb-2'>
