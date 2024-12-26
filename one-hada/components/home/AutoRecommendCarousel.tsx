@@ -24,7 +24,7 @@ export default function AutoRecommendCarousel({
 
   const formatMenu = (productId: string) => {
     const matches = productId.match(/product(\w+)(\d+)/);
-    const [, menuType, idx] = matches!;
+    const [, , idx] = matches!;
     return Number(idx) || 0;
   };
 
