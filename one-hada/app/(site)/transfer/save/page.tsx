@@ -86,7 +86,7 @@ export default function Save() {
           method: 'POST',
           token: session?.accessToken,
           body: {
-            historyName: `${receiverName}에게 ${amount} 이체`,
+            historyName: `${receiverName}에게 ${amount.toLocaleString()}원 이체`,
             historyElements: {
               type: 'transfer',
               myAccount: senderAccountNumber,

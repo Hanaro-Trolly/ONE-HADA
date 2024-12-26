@@ -22,12 +22,10 @@ export default function AutoRecommendCarousel({
 }: AutoRecommendCarouselProps) {
   const [menuType, setMenuType] = useState('none');
 
-  const formatMenuUrl = (productId: string) => {
+  const formatMenu = (productId: string) => {
     const matches = productId.match(/product(\w+)(\d+)/);
-
-    if (!matches) return '/menu';
-    const [, menuType, idx] = matches;
-    return `/menu/${menuType}?productIdx=${idx}`;
+    const [, menuType, idx] = matches!;
+    return Number(idx) || 0;
   };
 
   useEffect(() => {
@@ -57,7 +55,13 @@ export default function AutoRecommendCarousel({
           <CarouselContent showDots={false}>
             {recommendProductList.map((productId, index) => (
               <CarouselItem key={index}>
-                <Link href={formatMenuUrl(productId)}>
+                <Link
+                  href={
+                    menuType != 'none'
+                      ? `/menu/${menuType}?productIdx=${formatMenu(productId)}`
+                      : `/menu`
+                  }
+                >
                   <Button
                     id={'homeButton' + productId}
                     variant='ghost'
@@ -65,16 +69,16 @@ export default function AutoRecommendCarousel({
                   >
                     <div className='flex flex-col text-lg'>
                       <label className='text-black'>
-                        {PRODUCT_LIST[menuType].products[index]}
+                        {PRODUCT_LIST[menuType].products[formatMenu(productId)]}
                       </label>
                       <label className='text-xs text-slate-600'>
-                        {PRODUCT_LIST[menuType].oneline[index]}
+                        {PRODUCT_LIST[menuType].oneline[formatMenu(productId)]}
                       </label>
                     </div>
                     <div>
                       <Image
-                        src={`/products/${menuType}${index}.png`}
-                        alt={`${menuType} ${index}`}
+                        src={`/products/${menuType}${formatMenu(productId)}.png`}
+                        alt={`${menuType} ${formatMenu(productId)}`}
                         width={40}
                         height={40}
                         priority
