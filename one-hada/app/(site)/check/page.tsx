@@ -46,6 +46,7 @@ export default function CheckPage() {
 
   const setRedis = async () => {
     return await fetchData(`/api/redis`, {
+      token: session?.accessToken,
       method: 'POST',
       body: {
         period: '전체',

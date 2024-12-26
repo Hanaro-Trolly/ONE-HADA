@@ -57,6 +57,7 @@ export default function AmountInput() {
     }
 
     const response = await fetchData(`/api/redis`, {
+      token: session?.accessToken,
       method: 'POST',
       body: {
         amount: amount,
@@ -71,6 +72,7 @@ export default function AmountInput() {
   useEffect(() => {
     const getRedisValues = async () => {
       const response = await fetchData('/api/redis/get', {
+        token: session?.accessToken,
         method: 'POST',
         body: [
           'senderAccountId',

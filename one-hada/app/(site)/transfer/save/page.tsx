@@ -119,6 +119,7 @@ export default function Save() {
 
     try {
       const response = await fetchData('/api/redis/get', {
+        token: session?.accessToken,
         method: 'POST',
         body: [
           'amount',

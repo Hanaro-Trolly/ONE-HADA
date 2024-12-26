@@ -99,6 +99,7 @@ export default function AccountDetailPage({
 
   const fetchTransactionData = useCallback(async () => {
     const response = await fetchData('/api/redis/get', {
+      token: session?.accessToken,
       method: 'POST',
       body: ['period', 'transferType', 'searchWord'],
     });

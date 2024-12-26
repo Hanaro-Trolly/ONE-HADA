@@ -54,6 +54,7 @@ export default function RecipientPage() {
 
     // 계좌가 존재하면 레디스에 저장
     const result = await fetchData('/api/redis', {
+      token: session?.accessToken,
       method: 'POST',
       body: {
         senderName: senderName,

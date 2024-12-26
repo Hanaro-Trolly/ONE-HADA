@@ -30,6 +30,7 @@ export default function TransferPage() {
     );
 
     await fetchData(`/api/redis`, {
+      token: session?.accessToken,
       method: 'POST',
       body: {
         senderAccountId: selectedAccount?.accountId,

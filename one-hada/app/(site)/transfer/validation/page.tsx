@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { useFetch } from '@/hooks/useFetch';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -15,6 +16,7 @@ interface GetRedisData {
 
 export default function TransferConfirmation() {
   const { fetchData, error } = useFetch<GetRedisData>();
+  const { data: session } = useSession();
   const router = useRouter();
 
   const senderNameRef = useRef<HTMLInputElement>(null);
@@ -30,6 +32,7 @@ export default function TransferConfirmation() {
   const handleClick = async () => {
     if (senderNameRef.current && receiverNameRef.current) {
       const response = await fetchData('/api/redis', {
+        token: session?.accessToken,
         method: 'PATCH',
         body: {
           senderName: senderNameRef.current.value,
@@ -47,6 +50,7 @@ export default function TransferConfirmation() {
   useEffect(() => {
     const getRedisValues = async () => {
       const response = await fetchData('/api/redis/get', {
+        token: session?.accessToken,
         method: 'POST',
         body: [
           'amount',

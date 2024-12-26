@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { useFetch } from '@/hooks/useFetch';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -15,6 +16,7 @@ interface RedisData {
 
 export default function Checking() {
   const { fetchData, error } = useFetch<RedisData>();
+  const { data: session } = useSession();
   const router = useRouter();
 
   const [senderName, setSenderName] = useState<string>('');
@@ -26,6 +28,7 @@ export default function Checking() {
 
   const handleClick = async () => {
     const response = await fetchData('/api/redis/delete', {
+      token: session?.accessToken,
       method: 'POST',
       body: [
         'senderName',
@@ -48,6 +51,7 @@ export default function Checking() {
   useEffect(() => {
     const getRedis = async () => {
       const response = await fetchData('/api/redis/get', {
+        token: session?.accessToken,
         method: 'POST',
         body: [
           'senderName',

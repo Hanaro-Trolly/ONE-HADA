@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/drawer';
 import { useFetch } from '@/hooks/useFetch';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+import { useSession } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react';
 import { formatDate } from '@/lib/formatDate';
 import { Button } from '../ui/button';
@@ -25,6 +26,7 @@ const TRANSACTION_TYPES = ['전체', '입금', '출금'] as const;
 
 export default function SearchForm({ onSearch }: SearchFormProps) {
   const { fetchData, error } = useFetch();
+  const { data: session } = useSession();
   const [formState, setFormState] = useState({
     period: '전체',
     type: '전체',
@@ -95,6 +97,7 @@ export default function SearchForm({ onSearch }: SearchFormProps) {
   const setRedis = async () => {
     const periodText = createPeriodText(formState);
     const response = await fetchData(`/api/redis`, {
+      token: session?.accessToken,
       method: 'POST',
       body: {
         period: periodText,

@@ -44,8 +44,9 @@ export const AdminWebSocketProvider = ({
 
   // 웹소켓 연결 관리
   useEffect(() => {
-    if (session.loginUser && !connectionAttempted.current) {
+    if (session.loginUser) {
       connectionAttempted.current = true;
+      console.log('웹소켓 연결');
       connectWebSocket();
     }
 
