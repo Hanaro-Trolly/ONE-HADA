@@ -168,11 +168,12 @@ export default function Home() {
         <div className='text-lg text-[#635666] flex gap-1 items-stretch mb-4 font-medium'>
           <p className='tossface-icon text-lg'>⭐</p> 즐겨찾기
         </div>
-        <div className='flex justify-center'>
+        {/* <div className='flex justify-center'>
           <div className='h-16 w-full flex justify-between items-center'>
             {renderContent()}
           </div>
-        </div>
+        </div> */}
+        {renderContent()}
       </div>
     );
   };
