@@ -17,6 +17,8 @@ const BANNED_BTN_ID = [
   'transferButtonToAmount',
   'checkButtonSearchSubmit',
   'homeButtonCheck',
+  'checkButtonSearchType',
+  'checkButtonSearch',
 ];
 
 export default function RealTimeLog({ userId, userName }: RealTimeLogProps) {

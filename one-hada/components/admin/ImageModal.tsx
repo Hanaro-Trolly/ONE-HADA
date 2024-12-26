@@ -25,7 +25,7 @@ export default function ImageModal({
         onClick={toggleModal}
         className={cn(
           'px-2 py-1 text-sm text-main-green',
-          banned && 'opacity-50 cursor-not-allowed'
+          banned && 'text-gray-500 cursor-not-allowed'
         )}
         disabled={banned}
       >
