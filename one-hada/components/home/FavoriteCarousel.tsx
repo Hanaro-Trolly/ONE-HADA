@@ -29,7 +29,7 @@ const FavoriteCarousel = ({
         {favoriteList.map((item, idx) => (
           <CarouselItem key={idx}>
             <Button
-              id={'homeButtonFavorite' + item.shortcutId}
+              id={'homeButtonFavorite' + idx}
               variant='home'
               className='h-16 w-full mx-2 font-medium rounded-x bg-white hover:bg-[#F0F0F0]'
               onClick={() => handleButtonClick(item.shortcutElements)}
