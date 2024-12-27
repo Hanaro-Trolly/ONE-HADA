@@ -1,5 +1,6 @@
 'use client';
 
+import { signOut } from 'next-auth/react';
 import { useEffect } from 'react';
 
 export default function Error({
@@ -36,6 +37,12 @@ export default function Error({
             홈으로 가기
           </button>
         </div>
+        <button
+          onClick={() => signOut()}
+          className='mx-2 rounded-md px-4 py-2 bg-main-green text-white hover:bg-[#479e86]'
+        >
+          로그아웃
+        </button>
       </div>
     </div>
   );
